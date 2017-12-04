@@ -1,16 +1,25 @@
 # This file is formatted without line wrapping. Turn LINE WRAPPING OFF for optimal viewing.
 
 
+## TODO: Re-write rdfCreator.py as an object oriented module
 ## TODO: Use different domain names and prefixes for ontology, instances ,datasets, etc...
 ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to script
 
-from step_1_bibtex_parser_ascii import bibDictionary
 from pprint import pprint
-from x_common_functions import *
+
+from biblio2rdf.rdfCreator import *
+from step_1_bibtex_parser import pure_bibliography
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
 #################################################################################
+
+# Legend:
+# c_ = class
+# p_ = property
+# i_ = instance
+# b_ = Bibliography class object field/value
+
 
 ###### NAMESPACE PREFIX DEFINITIONS ######
 sr   = "http://clokman.com/ontologies/scientific-research#"  # assign long domain  name to short variable.
@@ -134,20 +143,12 @@ add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
 #                     DYNAMIC TRIPLES: INSTANCES AND TYPES                      #
 #################################################################################
 
-for each_entry in bibDictionary.items():
-
-    #######  GENERAL VARIABLES  #######
-    # These fields exist for each entry:
-    current_identifier             = each_entry[0]                               # identifier
-    current_fields                 = each_entry[1]                               # fields that contain bibliographic information
-    current_authors                = current_fields["b_authors"]                 # authors
-    current_author_labels          = current_fields["b_author_labels"]
-    current_document_instance_name = current_fields["b_document"]  # document instance
-    current_type                   = current_fields["b_type"]                    # type
-    # Other fields do not exist for each entry. These fields will be treated individually.
-
+for each_entry_id, each_entry in pure_bibliography.entries.items():
 
     #######  URIs  #######
+    current_document_instance_name = each_entry["b_document"]  # document instance
+    current_type = each_entry["b_type"]  # type
+
     # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_class values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
     c_document_class      = construct_uri(pvu, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
     i_document_instance   = construct_uri(pvu, current_document_instance_name)  # assign current document instance to an instance variable (denoted by i_), and give it an URI
@@ -161,10 +162,14 @@ for each_entry in bibDictionary.items():
 
     #######  DOCUMENT LABEL  #######
 
-    add_triple(i_document_instance, p_label, construct_string_literal(current_fields["b_document_label"], "@en"))
+    add_triple(i_document_instance, p_label, construct_string_literal(each_entry["b_document_label"], "@en"))
 
 
     #######  AUTHOR  ########
+    current_authors                = each_entry["b_authors"]                 # authors
+    current_author_labels          = each_entry["b_author_labels"]
+
+
     for each_current_author, each_current_author_label in zip(current_authors, current_author_labels):
 
         # Assign author to instance
@@ -172,7 +177,7 @@ for each_entry in bibDictionary.items():
 
         # Bind the instances to each other and define their types
         add_triple(i_author,      p_is_author_of,     i_document_instance)  # the current author is the author of the current document
-        add_triple(i_author,      p_rdf_type,         c_named_individual)  # the current author is an an instance
+        add_triple(i_author,      p_rdf_type,         c_named_individual)   # the current author is an an instance
 
         # Add author label
         add_triple(i_author,      p_label,            construct_string_literal(each_current_author_label, "@en"))
@@ -182,7 +187,7 @@ for each_entry in bibDictionary.items():
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     # This property applies journal articles (but not to books and journals)
     try:
-        current_journal = current_fields["b_journal"]         # extract current publication instance
+        current_journal = each_entry["b_journal"]         # extract current publication instance
         i_journal       = construct_uri(pvu, current_journal)  # create  URI from publication instance
 
         # Bind the instances to each other and define their types
@@ -197,7 +202,7 @@ for each_entry in bibDictionary.items():
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     # This property applies to books and journals (but not to journal articles)
     try:
-        current_publisher = current_fields["b_publisher"]          # extract current publisher instance
+        current_publisher = each_entry["b_publisher"]          # extract current publisher instance
         i_publisher       = construct_uri(pvu, current_publisher)  # create  URI from publisher instance
 
         # Bind the instances to each other and define their types
@@ -211,8 +216,8 @@ for each_entry in bibDictionary.items():
     #######  YEAR + MONTH + DATE #######
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
-        current_year  = current_fields["b_publication_year"]    # extract current publication year
-        current_month = current_fields["b_publication_month"]   # extract current publication month
+        current_year  = each_entry["b_publication_year"]    # extract current publication year
+        current_month = each_entry["b_publication_month"]   # extract current publication month
         current_date  = current_year + "." + current_month      # extract current publication combine them into a date
 
         # Bind the instances to each other and define their types
@@ -225,7 +230,7 @@ for each_entry in bibDictionary.items():
 
     except:
         try: # In case "month" is missing, just process "year".
-            current_year = current_fields["b_publication_year"]  # extract current publication year
+            current_year = each_entry["b_publication_year"]  # extract current publication year
             add_triple(i_document_instance,   p_is_published_on_year,  construct_string_literal(current_year)) # the current document is published by the current publisher
 
         except: # In case there is neither year or month
@@ -237,7 +242,7 @@ for each_entry in bibDictionary.items():
     try:
 
         # Extract current doi
-        current_doi = current_fields["b_doi"]
+        current_doi = each_entry["b_doi"]
 
         # Bind the values to instances, and define their types
         add_triple(i_document_instance,   p_has_doi,   construct_string_literal(current_doi))   # the current document is published by the current publisher
@@ -250,7 +255,7 @@ for each_entry in bibDictionary.items():
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
         # Extract current issn
-        current_issn = current_fields["b_issn"]
+        current_issn = each_entry["b_issn"]
 
         # Bind the values to instances, and define their types
         add_triple(i_document_instance,   p_has_issn,  construct_string_literal(current_issn))  # the current document is published by the current publisher
@@ -263,7 +268,7 @@ for each_entry in bibDictionary.items():
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
         # Extract current isbn
-        current_isbn = current_fields["b_isbn"]
+        current_isbn = each_entry["b_isbn"]
 
         # Bind the values to instances, and define their types
         add_triple(i_document_instance,   p_has_isbn,  construct_string_literal(current_isbn))  # the current document is published by the current publisher
@@ -278,7 +283,7 @@ for each_entry in bibDictionary.items():
     # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
         # Extract current book title
-        current_parent_book = current_fields["b_parent_book"]
+        current_parent_book = each_entry["b_parent_book"]
 
         # Bind the values to instances, and define their types
         i_current_parent_book = construct_uri(pvu, current_parent_book)
@@ -295,7 +300,7 @@ for each_entry in bibDictionary.items():
 #    # Also infer parent book instance.
 #    # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
-        current_topics           = current_fields["b_topics"]
+        current_topics           = each_entry["b_topics"]
         list_of_topics_to_ignore = ["Journal_Article"]  # ignore these topics
         for each_topic in current_topics:
             if each_topic not in list_of_topics_to_ignore: # if the topic is not in the ignore list...
@@ -310,4 +315,4 @@ for each_entry in bibDictionary.items():
     except:
         pass
 
-pprint(triples_list)  # 'triples list' variable resides in x_common_functions.py
+pprint(triples_list)  # 'triples list' variable resides in rdfCreator.py
