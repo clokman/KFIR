@@ -1,51 +1,9 @@
 from __future__ import print_function
 
-
 ###################################################################
-#                   PARSER FUNCTIONS                              #
+#                      TRIPLE FUNCTIONS                           #
 ###################################################################
-# These functions are mainly used in bibtex_parser_ascii.py
-
-def constuct_instance_name(input_title_string):
-    """
-    Formats a given string into instance title format. Title format is chosen instead of an all-lowercase format,
-    in order to avoid using a dictionary of words for demarcating regular words and special names which must be
-    capitalized.
-
-    :param input_title_string: The title string to be formatted.
-    :return: A modified string.
-
-    :example:
-        formatted_title = Constuct_instance_name(current_title)
-
-    """
-    import re
-
-    # Convert to ASCII to remove uncommon unicode characters
-    input_title_string = input_title_string.encode("ascii", errors="ignore")
-
-    # Remove punctuation
-    characters_to_omit = "[\{\}\.,;:\\\#\'\"\(\)\>\<\+\-\*\[\]\|]"  # these characters will be omitted from title names
-    input_title_string = re.sub(characters_to_omit, "", input_title_string)  # omit the given characters
-
-    # Convert to title case
-    # NOTE: .title() method does not work well with apostrophes. Therefore, it is necessary for aposthropes to be removed before .title() is called.
-    # (If .title() needs to be used with apostrophes, then check the code at https://docs.python.org/2/library/stdtypes.html)
-    # WARNING: Think well before changing to all-lowercase; the current title-case setting allows avoiding the
-    # complexity of capitalizing first letter of names by capitalizing every first letter.
-    input_title_string = input_title_string.title()
-
-    # Compress: Substitute spaces and dashes with underscores.
-    input_title_string = re.sub(" ", "_", input_title_string)
-    input_title_string = re.sub("-", "_", input_title_string)
-
-    return input_title_string
-
-
-###################################################################
-#                   AND TRIPLE FUNCTIONS                          #
-###################################################################
-# These functions are mainly used in b_ttl_triple_creator.py
+# TODO: Re-write as an OO module.
 
 def construct_uri(prefix, name):  # universal function
     """
