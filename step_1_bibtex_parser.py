@@ -1,7 +1,7 @@
 # TODO: Database enrichment (see frederik's article at 'Diigo to read', see Ali meetings & Skype links)
 # TODO: Check citations in "Pybtex_import("biblio2rdf//test.bib").data.citations" (by using another bib file)
 # TODO: Testing for all keyword capitalization scenarios for formatValues function
-
+# TODO: Adding citations and references (see: http://145.100.59.37:3500/blazegraph/#explore:kb:bibResource:15088)
 
 # DONE: Documentation
 # DONE: Tests
@@ -38,7 +38,7 @@ from biblio2rdf.bibliographyInstantiator import Bibliography
 from biblio2rdf.bibliographyInstantiator import formatValues
 
 # import input data
-pybtex_import_instance = Pybtex_import("Input//pure_bib_head_small.bib")
+pybtex_import_instance = Pybtex_import("Input//pure_bib_head_100K.bib")
 pybtex_data = pybtex_import_instance.data
 print("External .bib file imported into the input variable: '.pybtex_data'.")
 

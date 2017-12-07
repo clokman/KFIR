@@ -150,6 +150,24 @@ class Bibliography:
 
         # if the current field does not exist for the current entry
 
+    # TODO: Enhance and clarify this function
+    def enrich(instance, other_bibliography_object_to_use, field_to_match_in_bibliographies):
+        other_bib = other_bibliography_object_to_use
+        for each_other_id, each_other_entry_data in other_bib.entries.items():
+            #print (each_entry_data[field_to_match_in_bibliographies])
+            try:
+                returned_entry = instance.getEntriesByField(field_name=field_to_match_in_bibliographies, field_value=each_other_entry_data[field_to_match_in_bibliographies])
+
+                # if a field and value(e.g., doi) from other dataset is found in the current one
+                for each_other_field, each_other_field_value in each_other_entry_data.items():
+                    if each_other_field not in returned_entry.keys():
+                        instance.entries[list(returned_entry.keys())[0]][each_other_field] = each_other_field_value
+                        print("ENRICHED")
+            except:
+                for each_other_field, each_other_field_value in each_other_entry_data.items():
+                    instance.setEntry(each_other_id, each_other_field, each_other_field_value)
+                    print("ADDED")
+
     ###################################################################################################################
     ################################################# QUERY FUNCTIONS #################################################
     ###################################################################################################################
@@ -288,6 +306,8 @@ class Bibliography:
         # function must be able to accept a list of items, as this is sometimes the case (e.g., multiple authors
         # ...for author field).
         # Therefore, strings inputs are converted to lists to be compatible with the list processing facilities
+        field_value_list = []
+
         if type(field_value) == str:
             field_value_list = [field_value]
 
@@ -303,84 +323,86 @@ class Bibliography:
             # print("input is this list:")
             # print(field_value_list)
 
+        elif type(field_value) == None:
+            pass
 
-        else:
-            raise Exception("field_value' must be string or list.")
+        #else:
+        #    #raise Exception("'field_value' must be string or list. It is currently: " + str(field_value))
 
-
-        for each_field_value in field_value_list:
-            # if field_name (e.g., author) has never been added to the registry
-            if field_name not in instance._field_values_registry:
-
-                # Debugger
-                #print("SCENARIO 1")
-                #print("field_values_registry is currently:")
-                #print(instance._field_values_registry)
-
-                # Add dictionary entry for the field name-value pair and the entry id (e.g., {author:{"john x":[124515152])}
-                # NOTE: Below line can instead use instance._field_type_registry for more efficient search. This has to be tested
-                instance._field_values_registry[field_name] = {each_field_value: [entry_id]}
-
-                # Debugger
-                #print("field_name '" + str(field_name) + "' is not in registry")
-                #print("the current field value is: '" + each_field_value + "' (and it is not in registry).")
-                #print("field name and current field value is now added to registry with the following command:")
-                #print("instance._field_values_registry[field_name] = {each_field_value: [entry_id]}")
-                #print("the field_values_registry has now become:")
-                #print(instance._field_values_registry)
-
-            # if field name (e.g., 'author' field) is previously added to the registry...
-            elif field_name in instance._field_values_registry:
-
-                # Debugger
-                #print("SCENARIO 2")
-                #print("field_values_registry is currently:")
-                #print(instance._field_values_registry)
-
-                # ...but if field_value (e.g., author's name) has never been added to the registry
-                if each_field_value not in instance._field_values_registry[field_name]:
-                    # add this field value (e.g., author) and set its value to a LIST that contains current entry_id 
-                    # so that this list can later be appended with other entry_ids.
-                    # an example operation performed by the line below would be equivalent to:
-                    # instance._field_values_registry[author] = {"John x": ["14578436002"]}
-                    # which creates this dictionary entry:
-                    # _field_values_registry:{ author:{ "John x": ["14578436002"] } }
-                    instance._field_values_registry[field_name][each_field_value] = [entry_id]
+        if field_value_list != []:
+            for each_field_value in field_value_list:
+                # if field_name (e.g., author) has never been added to the registry
+                if field_name not in instance._field_values_registry:
 
                     # Debugger
-                    #print("field_name '" + str(field_name) + "' has been found in the registry")
-                    #print("current field value '" + each_field_value + "' has NOT been found in the registry")
-                    #print("field name and current field value is now added to registry with the following command:")
-                    #print("instance._field_values_registry[field_name] = {each_field_value: [entry_id]}")
-                    #print("the field_values_registry has now become:")
-                    #print(instance._field_values_registry)
-
-                # if field_value (e.g., author's name) is previously added to the registry
-                elif each_field_value in instance._field_values_registry[field_name]:
-                    # Debugger
-                    #print("SCENARIO 3")
+                    #print("SCENARIO 1")
                     #print("field_values_registry is currently:")
                     #print(instance._field_values_registry)
 
-                    # append entry id to corresponding field value (e.g.,add entry_id to author name)
-                    # an example operation performed by the line below would be equivalent to:
-                    # instance._field_values_registry[author]["John x"].append["14578436002"]
-                    # which creates this dictionary entry:
-                    # _field_values_registry:{ author:{ "John x": ["some_previous_id", "14578436002"] } }
-                    instance._field_values_registry[field_name][each_field_value].append(entry_id)
+                    # Add dictionary entry for the field name-value pair and the entry id (e.g., {author:{"john x":[124515152])}
+                    # NOTE: Below line can instead use instance._field_type_registry for more efficient search. This has to be tested
+                    instance._field_values_registry[field_name] = {each_field_value: [entry_id]}
 
                     # Debugger
-                    #print("field_name '" + str(field_name) + "' has been found in the registry")
-                    #print("current field value '" + each_field_value + "' HAS been found in the registry")
+                    #print("field_name '" + str(field_name) + "' is not in registry")
+                    #print("the current field value is: '" + each_field_value + "' (and it is not in registry).")
                     #print("field name and current field value is now added to registry with the following command:")
                     #print("instance._field_values_registry[field_name] = {each_field_value: [entry_id]}")
                     #print("the field_values_registry has now become:")
                     #print(instance._field_values_registry)
 
-            # Debugger
-            #print("instance._field_values_registry is")
-            #print(instance._field_values_registry)
-            #print("")
+                # if field name (e.g., 'author' field) is previously added to the registry...
+                elif field_name in instance._field_values_registry:
+
+                    # Debugger
+                    #print("SCENARIO 2")
+                    #print("field_values_registry is currently:")
+                    #print(instance._field_values_registry)
+
+                    # ...but if field_value (e.g., author's name) has never been added to the registry
+                    if each_field_value not in instance._field_values_registry[field_name]:
+                        # add this field value (e.g., author) and set its value to a LIST that contains current entry_id
+                        # so that this list can later be appended with other entry_ids.
+                        # an example operation performed by the line below would be equivalent to:
+                        # instance._field_values_registry[author] = {"John x": ["14578436002"]}
+                        # which creates this dictionary entry:
+                        # _field_values_registry:{ author:{ "John x": ["14578436002"] } }
+                        instance._field_values_registry[field_name][each_field_value] = [entry_id]
+
+                        # Debugger
+                        #print("field_name '" + str(field_name) + "' has been found in the registry")
+                        #print("current field value '" + each_field_value + "' has NOT been found in the registry")
+                        #print("field name and current field value is now added to registry with the following command:")
+                        #print("instance._field_values_registry[field_name] = {each_field_value: [entry_id]}")
+                        #print("the field_values_registry has now become:")
+                        #print(instance._field_values_registry)
+
+                    # if field_value (e.g., author's name) is previously added to the registry
+                    elif each_field_value in instance._field_values_registry[field_name]:
+                        # Debugger
+                        #print("SCENARIO 3")
+                        #print("field_values_registry is currently:")
+                        #print(instance._field_values_registry)
+
+                        # append entry id to corresponding field value (e.g.,add entry_id to author name)
+                        # an example operation performed by the line below would be equivalent to:
+                        # instance._field_values_registry[author]["John x"].append["14578436002"]
+                        # which creates this dictionary entry:
+                        # _field_values_registry:{ author:{ "John x": ["some_previous_id", "14578436002"] } }
+                        instance._field_values_registry[field_name][each_field_value].append(entry_id)
+
+                        # Debugger
+                        #print("field_name '" + str(field_name) + "' has been found in the registry")
+                        #print("current field value '" + each_field_value + "' HAS been found in the registry")
+                        #print("field name and current field value is now added to registry with the following command:")
+                        #print("instance._field_values_registry[field_name] = {each_field_value: [entry_id]}")
+                        #print("the field_values_registry has now become:")
+                        #print(instance._field_values_registry)
+
+                # Debugger
+                #print("instance._field_values_registry is")
+                #print(instance._field_values_registry)
+                #print("")
 
     def updateFieldTypesRegistry(instance, entry_id, field_name, field_value):
         if field_name not in instance._field_type_registry:
@@ -647,10 +669,14 @@ def formatValues(target_field, algorithm):
                                "pybtex_document_label",
                                "pybtex_topic_instance_name",
                                "pybtex_topic_label",
+                               "open_citations_author_instance_name",
+                               "open_citations_author_label"
                                "none"]
 
-    if algorithm not in algorithm_keywords_list:
-        raise Exception ('Unknown algorithm parameter: "' + algorithm + '". Please enter a valid capitalization algorithm.')
+   # if algorithm not in algorithm_keywords_list:
+    #    raise Exception ('Unknown algorithm parameter: "' + algorithm + '". Please enter a valid algorithm.')
+
+
     #-------------------------------------------------------------------#
     #              FORMAT: AUTHOR INSTANCE NAME AND LABEL               #
     #-------------------------------------------------------------------#
@@ -664,6 +690,9 @@ def formatValues(target_field, algorithm):
         # two container variables for author (instance) names and author labels (which will later be needed by RDF format)
         each_formatted_author_instance_list = []
         each_formatted_author_label_list = []
+
+        # TODO: Remove this line; its a workaround
+        each_abbreviated_first_names_string = ""
 
         # for each "author" field value (which can hold multiple authors as a list) in the pybtex bib data
         for each_author in inputted_author_field_value_list:
@@ -720,6 +749,77 @@ def formatValues(target_field, algorithm):
         if algorithm is "pybtex_author_instance_name":
             return each_formatted_author_instance_list
         elif algorithm is "pybtex_author_label":
+            return each_formatted_author_label_list
+
+    #-----------------------------------------------------------------------------------------------#
+    #              FORMAT: OPEN CITATIONS AUTHOR INSTANCE NAME AND LABEL PREPROCESSOR               #
+    #-----------------------------------------------------------------------------------------------#
+    if algorithm is "open_citations_author_instance_name" or algorithm is "open_citations_author_label":
+        authors_list = target_field
+        each_formatted_author_instance_list = []
+        each_formatted_author_label_list = []
+
+        each_last_name_formatted = ""
+        each_abbreviated_first_names_string = ""
+
+        for each_author_full_name in authors_list:
+            try:
+                each_author_split_names_list = each_author_full_name.split(' - ')
+                each_last_name = each_author_split_names_list[0]
+                each_first_names_string = each_author_split_names_list[1]
+
+                each_last_name_formatted = re.sub(pattern_of_characters_to_omit, "", each_last_name)
+                each_last_name_formatted = re.sub(" ", "_", each_last_name_formatted)
+
+                # extract and format each FIRST NAME (if available)
+                try:
+                    # omit unwanted characters
+                    each_first_names_string = re.sub(pattern_of_characters_to_omit, "", each_first_names_string)
+                    # placeholder for output
+                    each_abbreviated_first_names_string = ""
+
+                    # for the first name's letters (e.g., "John", but "{John Some Middle Name}" is also possible)
+                    for i, each_letter in enumerate(each_first_names_string):
+                        # always add the first letter of a first name to abbreviated first name (i.e., the output)
+                        if i == 0:
+                            each_abbreviated_first_names_string = each_abbreviated_first_names_string + \
+                                                                  each_first_names_string[i]
+                        # for the other letters that may be present in the first name string
+                        else:
+                            # if there are spaces or uppercase letter in the first name string
+                            if " " in each_first_names_string or any(
+                                    letter.isupper() for letter in each_first_names_string):
+                                # add the character after space, or the capital letter, to the first name
+                                if each_first_names_string[i - 1] == " " or each_first_names_string[
+                                    i].isupper() == True:
+                                    each_abbreviated_first_names_string = each_abbreviated_first_names_string + \
+                                                                          each_first_names_string[i]
+                                # otherwise, don't do anything
+                                else:
+                                    pass
+                            # if there are no spaces of uppercase letters in the first name string, don't do anything additional
+                            else:
+                                pass
+                # if a first name is not available, don't do anything
+                except:
+                    pass
+            except:
+                pass
+
+            # add extracted last and first names to the output variables (as author instance names or as labels, ...
+            # ...depending on the 'algorithm' parameter)
+            if algorithm is "open_citations_author_instance_name":
+                each_formatted_author_instance_list.append(
+                    each_last_name_formatted + "_" + each_abbreviated_first_names_string)
+            elif algorithm is "open_citations_author_label":
+                each_formatted_author_label_list.append(
+                    each_last_name_formatted + ", " + each_abbreviated_first_names_string)
+                # each_formatted_author_label_list.append(each_last_name_formatted + ", " + each_first_name_formatted)
+
+        # return either author instance names or author labels depending on which 'algorithm' parameter is entered
+        if algorithm is "open_citations_author_instance_name":
+            return each_formatted_author_instance_list
+        elif algorithm is "open_citations_author_label":
             return each_formatted_author_label_list
 
 
@@ -780,6 +880,31 @@ def formatValues(target_field, algorithm):
 
         return formatted_topics_list
 
+
+    # ---------------------------------------------------------------------------#
+    #               NO FORMATTING: MINIMIZE LISTS (FOR NOW)                      #
+    # ---------------------------------------------------------------------------#
+    # TODO: Remove these function. This is a temporary workaround.
+    elif algorithm is "open_citations_list_minimizer":
+        if type(target_field) is list:
+            inputted_list = target_field
+            return inputted_list[0]
+        else:
+            return target_field
+
+    elif algorithm is "open_citations_list_minimizer_2":
+        if type(target_field) is list:
+            inputted_list = target_field
+            try:
+                return inputted_list[1]
+            except:
+                return inputted_list[0]
+        else:
+            return target_field
+
+    # ---------------------------------------------------------------------------#
+    #               NO FORMATTING: MINIMIZE LISTS (FOR NOW)                      #
+    # ---------------------------------------------------------------------------#
     elif algorithm is "none":
         # if no formatting is wanted, the target field values are returned as they are.
         return target_field

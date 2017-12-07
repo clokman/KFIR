@@ -8,7 +8,8 @@
 from pprint import pprint
 
 from biblio2rdf.rdfCreator import *
-from step_1_bibtex_parser import pure_bibliography
+#from step_1_bibtex_parser import pure_bibliography
+from step_1b_open_citations_parser import pure_bibliography
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
@@ -144,10 +145,14 @@ add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
 #################################################################################
 
 for each_entry_id, each_entry in pure_bibliography.entries.items():
+    #TODO: this try-except block is a workaround. remove it.
+    try:
+        #######  URIs  #######
+        current_document_instance_name = each_entry["b_document"]  # document instance
+        current_type = each_entry["b_type"]  # type
 
-    #######  URIs  #######
-    current_document_instance_name = each_entry["b_document"]  # document instance
-    current_type = each_entry["b_type"]  # type
+    except:
+        pass
 
     # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_class values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
     c_document_class      = construct_uri(pvu, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
@@ -161,14 +166,19 @@ for each_entry_id, each_entry in pure_bibliography.entries.items():
 
 
     #######  DOCUMENT LABEL  #######
-
-    add_triple(i_document_instance, p_label, construct_string_literal(each_entry["b_document_label"], "@en"))
-
+    #TODO: this try-except block is a workaround. remove it.
+    try:
+        add_triple(i_document_instance, p_label, construct_string_literal(each_entry["b_document_label"], "@en"))
+    except:
+        pass
 
     #######  AUTHOR  ########
-    current_authors                = each_entry["b_authors"]                 # authors
-    current_author_labels          = each_entry["b_author_labels"]
-
+    #TODO: this try-except block is a workaround. remove it.
+    try:
+        current_authors                = each_entry["b_authors"]                 # authors
+        current_author_labels          = each_entry["b_author_labels"]
+    except:
+        pass
 
     for each_current_author, each_current_author_label in zip(current_authors, current_author_labels):
 
