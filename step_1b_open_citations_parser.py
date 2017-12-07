@@ -6,7 +6,7 @@ from preprocessor.select_column import select_column
 from biblio2rdf.bibliographyInstantiator import Bibliography
 #### Clean  Open Citations CSV file from double quotes ###########
 
-current_file_path = "open_citations_single_row_FULL.csv"
+current_file_path = "input//open_citations_single_row_FULL.csv"
 open_citations_raw_file = open(current_file_path, mode="r", encoding="utf8")
 open_citations_raw_string = open_citations_raw_file.read()
 
