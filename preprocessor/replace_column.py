@@ -8,10 +8,10 @@ def replace_column(replacement_column, target_column_header, dataset):
     something else. (For instance, after converting likert scale responses from strings to integers).
 
     :example:
-    >>> sample_data = [['day', 'month'], ['1', 'June'], ['3', 'May'], ['4', 'Jun']]
+    >>> example_data = [['day', 'month'], ['1', 'June'], ['3', 'May'], ['4', 'Jun']]
     >>> replacement_column = [10,20,30]
 
-    >>> new_data = replace_column(replacement_column, "day", sample_data)
+    >>> new_data = replace_column(replacement_column, "day", example_data)
     >>> print(new_data)
     [[10, 'June'], [20, 'May'], [30, 'Jun']]
     """

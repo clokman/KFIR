@@ -1,1 +1,0 @@
-Preprocesor is a Python package for data manipulation and preprocessing. Preprocessor package allows datasets to be stored as nested lists and contains various dataset modification functions. Due to its list-based approach, it offers an alternative approach to numpy.

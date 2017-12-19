@@ -11,13 +11,13 @@ def print_columns(column_names, dataset):
         __column_name1__ is: __column1_values__
         __column_name2__ is: __column2_values__
     :example:
-        >>> sample_data = [['day', 'month'], ['1', 'June'], ['3', 'May'], ['4', 'Jun']]
-        >>> #print_columns(["day", "month"], sample_data)  # print multiple column names
+        >>> example_data = [['day', 'month'], ['1', 'June'], ['3', 'May'], ['4', 'Jun']]
+        >>> #print_columns(["day", "month"], example_data)  # print multiple column names
         <BLANKLINE>
         day is: ['1', '3', '4']
         <BLANKLINE>
         month is: ['June', 'May', 'Jun']
-        >>> print_columns("day", sample_data)             # print a single column name
+        >>> print_columns("day", example_data)             # print a single column name
         <BLANKLINE>
         day is: ['1', '3', '4']
     """

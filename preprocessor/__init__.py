@@ -9,15 +9,12 @@ from preprocessor.print_column_vertically import print_column_vertically
 from preprocessor.print_columns import print_columns
 from preprocessor.preview_data import preview_data
 from preprocessor.column_summary import column_summary
-from preprocessor.replace_headers import replace_headers
 from preprocessor.transform_column_substring import transform_column_substring
 from preprocessor.transform_column_type import transform_column_type
 from preprocessor.missingval_return_replaced import missingval_return_replaced
 from preprocessor.missingval_return_without import missingval_return_without
 from preprocessor.parse_hour_minute import parse_hour_minute
-from preprocessor.append_column import append_column
 from preprocessor.calculate_scores import calculate_scores
 from preprocessor.divide_column_by_criteria import divide_column_by_criteria
 from preprocessor.history_nback import history_nback
 from preprocessor.history_cumulative import history_cumulative
-from preprocessor.remove_columns import remove_columns

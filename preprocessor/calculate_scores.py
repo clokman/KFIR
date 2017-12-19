@@ -11,18 +11,18 @@ def calculate_scores(scale_columns_list, dataset, count_values=None, include_val
     :exception ValueError [1]: All values in the target rows (except the headers) must be either integers or strings that are convertible to strings.
 
     :example - simple score summation over columns:
-        >>> sample_data = [['participant_id', 'question_1', 'question_2', 'question_3'], ['#1', '0', '-2', '1'], ['#2', '2', '-3', '0'], ['#3', '4', '-1', '1'], ['#4', '1', '0', '2']]
-        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], sample_data)
+        >>> example_data = [['participant_id', 'question_1', 'question_2', 'question_3'], ['#1', '0', '-2', '1'], ['#2', '2', '-3', '0'], ['#3', '4', '-1', '1'], ['#4', '1', '0', '2']]
+        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], example_data)
         >>> print("scores of four participants (row sums of given columns):" + str(scores))
         scores of four participants (row sums of given columns):[-1.0, -1.0, 4.0, 3.0]
 
     :example - include only certain values in score calculation:
-        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], sample_data, include_values_only=[1])
+        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], example_data, include_values_only=[1])
         >>> print("filtered scores of four participants (filtered row sums of given columns):" + str(scores))
         filtered scores of four participants (filtered row sums of given columns):[1.0, 0, 1.0, 1.0]
 
     :example - count number of occurences of a value over columns:
-        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], sample_data, count_values=[0,1])
+        >>> scores = calculate_scores(["question_1", "question_2", "question_3"], example_data, count_values=[0,1])
         >>> print("counts of scores for four participants:" + str(scores))
         counts of scores for four participants:[2, 1, 1, 2]
 
