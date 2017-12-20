@@ -49,7 +49,7 @@ Although short samples may be provided, bibliographic databases from VU and UvA 
 - Unicode character support added
 
 # TODO
-- Adding citations and references (see: http://145.100.59.37:3500/blazegraph/#explore:kb:bibResource:15088)
+- Adding citations and references (see: open citations => bibResource:15088)
 - Database enrichment (see frederik's article at 'Diigo to read', see Ali meetings & Skype links)
 - Check citations in "Pybtex_import("biblio2rdf//test.bib").data.citations" (by using another bib file)
 - Testing for all keyword capitalization scenarios for formatValues function
