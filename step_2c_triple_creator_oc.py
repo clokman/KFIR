@@ -9,7 +9,7 @@ from pprint import pprint
 
 from triplicator.rdfCreator import *
 #from step_1_bibtex_parser import pure_bibliography
-from main import oc_bibliography
+from step_1_parser import oc_bibliography
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #

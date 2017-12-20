@@ -4,9 +4,12 @@ Repository of the [Knowledge Flows in Interdisciplinary Research](http://www.net
 Is also the main repository for the packages 'triplicator' and 'preprocessor'. For descriptions of these individual modules, please see their directory. 
  
 
-Requirements: 
+## Requirements: 
 - Pyhon 3.x
 - pybtex
+
+## Legal:
+Although short samples may be provided, bibliographic databases from VU and UvA are not included in this directory due to copyright reasons related to their respective owners. Data gathered from OpenCitations, however, are made fully available.
 
 # Change Log
 ## v1.2
