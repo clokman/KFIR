@@ -112,3 +112,40 @@ class Pybtex_import:
 
         # Parse input file
         self.data = parser.parse_file(bib_file_path)
+
+    # def cleanUnbalanced(self):
+    #     # Turn each entry (and not just each line) in the .bib file into a string
+    #     # (i.e., one string per entry, which contains multiple fields and their values)
+    #     # This can be done via appending each line in-betweeen @ signs in the bib file to a variable
+    #
+    #     # Afterwards...
+    #     for each_entry_string in XXX
+    #         if balanced(each_entry_string):
+    #             pass
+    #             # if unbalanced
+    #         else:
+    #             # Delete string
+    #
+    #     balanced()
+    #
+    #     iparens = iter('(){}[]<>')
+    #     parens = dict(zip(iparens, iparens))
+    #     closing = parens.values()
+    #
+    #     def balanced(astr):
+    #         """
+    #          Code for balanced() by pillmuncher https://stackoverflow.com/questions/6701853/parentheses-pairing-issue
+    #
+    #         Returns:
+    #             True if balanced, False if unbalanced.
+    #         """
+    #         stack = []
+    #         for c in astr:
+    #             d = parens.get(c, None)
+    #             if d:
+    #                 stack.append(d)
+    #             elif c in closing:
+    #                 if not stack or c != stack.pop():
+    #                     return False
+    #         return not stack
+    #
