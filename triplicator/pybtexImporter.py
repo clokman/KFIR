@@ -113,7 +113,7 @@ class Pybtex_import:
         # Parse input file
         self.data = parser.parse_file(bib_file_path)
 
-    # def cleanUnbalanced(self):
+    # def removeUnbalancedEntries(self):
     #     # Turn each entry (and not just each line) in the .bib file into a string
     #     # (i.e., one string per entry, which contains multiple fields and their values)
     #     # This can be done via appending each line in-betweeen @ signs in the bib file to a variable

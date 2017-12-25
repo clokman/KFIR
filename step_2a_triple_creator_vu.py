@@ -4,12 +4,13 @@
 ## TODO: Re-write rdfCreator.py as an object oriented module
 ## TODO: Use different domain names and prefixes for ontology, instances ,datasets, etc...
 ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to script
+## TODO: Link rdfCreator output to existing URIs on VU research portal, etc
 
 from pprint import pprint
 
 from triplicator.rdfCreator import *
 #from step_1_bibtex_parser import vu_bibliography
-from step_1_parser import vu_bibliography
+from step_1a_parser_vu import vu_bibliography
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
@@ -49,21 +50,22 @@ c_object_property  = construct_uri(owl,  "ObjectProperty"    )
 
 
 ###### STATIC PROPERTY DEFINITIONS (p_) ######
-p_subclass_of            = construct_uri(rdfs,"subClassOf"        )  # assign URI to subclass of
-p_is_author_of           = construct_uri(sr,  "isAuthorOf"        )  # assign URI to is author of
-p_is_published_on        = construct_uri(sr,  "isPublishedOn"     )
-p_is_published_by        = construct_uri(sr,  "isPublishedBy"     )
-p_is_published_on_year   = construct_uri(sr,  "isPublishedOnYear" )
-p_is_published_on_month  = construct_uri(sr,  "isPublishedOnMonth")
-p_is_published_on_date   = construct_uri(sr,  "isPublishedOnDate" )
-p_has_doi                = construct_uri(sr,  "hasDOI"            )
-p_has_issn               = construct_uri(sr,  "hasISSN"           )
-p_has_isbn               = construct_uri(sr,  "hasISBN"           )
-p_is_chapter_of          = construct_uri(sr,  "isChapterOf"       )
-p_rdf_type               = construct_uri(rdf, "type"              )
-p_label                  = construct_uri(rdfs,"label"             )
-p_is_about               = construct_uri(sr,  "isAbout"           )
-p_equivalent_class       = construct_uri(owl, "equivalentClass"   )
+p_subclass_of             = construct_uri(rdfs,"subClassOf"        )  # assign URI to subclass of
+p_is_author_of            = construct_uri(sr,  "isAuthorOf"        )  # assign URI to is author of
+p_is_published_on         = construct_uri(sr,  "isPublishedOn"     )
+p_is_published_by         = construct_uri(sr,  "isPublishedBy"     )
+p_is_published_on_year    = construct_uri(sr,  "isPublishedOnYear" )
+p_is_published_on_month   = construct_uri(sr,  "isPublishedOnMonth")
+p_is_published_on_date    = construct_uri(sr,  "isPublishedOnDate" )
+p_has_doi                 = construct_uri(sr,  "hasDOI"            )
+p_has_issn                = construct_uri(sr,  "hasISSN"           )
+p_has_isbn                = construct_uri(sr,  "hasISBN"           )
+p_is_chapter_of           = construct_uri(sr,  "isChapterOf"       )
+p_rdf_type                = construct_uri(rdf, "type"              )
+p_label                   = construct_uri(rdfs,"label"             )
+p_is_about                = construct_uri(sr,  "isAbout"           )
+p_equivalent_class        = construct_uri(owl, "equivalentClass"   )
+p_has_origin_bibliography = construct_uri(pvu, "hasOriginBibliography")
 
 add_triple(p_subclass_of,              p_rdf_type,     c_object_property)  # is author of is a property
 add_triple(p_is_author_of,             p_rdf_type,     c_object_property)  # is author of is a property
@@ -80,6 +82,7 @@ add_triple(p_rdf_type,                 p_rdf_type,     c_object_property)
 add_triple(p_label,                    p_rdf_type,     c_object_property)
 add_triple(p_is_about,                 p_rdf_type,     c_object_property)
 add_triple(p_equivalent_class,         p_rdf_type,     c_object_property)
+add_triple(p_has_origin_bibliography,  p_rdf_type,     c_object_property)
 
 
 #################################################################################
@@ -93,6 +96,10 @@ c_topic            = construct_uri(sr,   "Topic"             )
 c_named_individual = construct_uri(owl,  "NamedIndividual"   )
 #'c_object_property' is provided before property definitions and assertions, as it is needed by them.
 c_class            = construct_uri(rdfs, "Class"             )
+c_vu_pure          = construct_uri(pvu,  "VUPure")
+c_uva_pure         = construct_uri(pvu,  "UVAPure")
+c_oc               = construct_uri(pvu,  "OC")
+c_bibliography     = construct_uri(pvu,  "Bibliography")
 
 # TODO: TRY TO ADD THESE AND SEE WHAT HAPPENS IN PROTEGE:
 # add_triple(c_document, p_rdf_type, c_class)
@@ -102,10 +109,19 @@ add_triple(c_topic, p_rdf_type, c_class)
 # add_triple(c_object_property, p_rdf_type, c_class)
 # add_triple(c_class, p_rdf_type, c_class)
 
+# Bibliography origin class definitions
+add_triple(c_vu_pure,  p_rdf_type, c_class)
+add_triple(c_uva_pure, p_rdf_type, c_class)
+add_triple(c_oc,       p_rdf_type, c_class)
+
+add_triple(c_vu_pure,  p_subclass_of, c_bibliography)
+add_triple(c_uva_pure, p_subclass_of, c_bibliography)
+add_triple(c_oc,       p_subclass_of, c_bibliography)
 
 # SR document type definitions
-# These are not used to categorize instances in the document directly, but necessary for the class equivalencies with Pure-VU document types.
-# As these are the document classes in the main ontology, their variable names are not suffixed as in other cases (e.g., c_article_pvu).
+# These are not used to categorize instances in the document directly, but necessary for the class equivalencies with
+# Pure-VU document types. As these are the document classes in the main ontology, their variable names are not suffixed
+# as in other cases (e.g., c_article_pvu).
 c_journal_article = construct_uri(sr, "JournalArticle")
 c_book            = construct_uri(sr, "Book")
 c_book_chapter    = construct_uri(sr, "BookChapter")
@@ -145,7 +161,8 @@ add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
 #################################################################################
 
 for each_entry_id, each_entry in vu_bibliography.entries.items():
-    #TODO: this try-except block is a workaround. remove it.
+
+    #TODO: this try-except block is a workaround [001]. remove it.
     try:
         #######  URIs  #######
         current_document_instance_name = each_entry["b_document"]  # document instance
@@ -153,8 +170,8 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
 
     except:
         pass
-
     # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_class values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
+
     c_document_class      = construct_uri(pvu, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
     i_document_instance   = construct_uri(pvu, current_document_instance_name)  # assign current document instance to an instance variable (denoted by i_), and give it an URI
 
@@ -163,6 +180,10 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
     add_triple(c_document_class,     p_subclass_of,    c_document        )  # make current document's class a subclass of the superclass "Document".
     add_triple(i_document_instance,  p_rdf_type,       c_named_individual)  # the current document is an an instance
     add_triple(i_document_instance,  p_rdf_type,       c_document_class  )  # bind the extracted document classes to the document instances (the latter was extracted previously in this loop)
+
+
+    ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
+    add_triple(i_document_instance,  p_has_origin_bibliography,  c_vu_pure)  # the document comes from the given bibliography
 
 
     #######  DOCUMENT LABEL  #######
