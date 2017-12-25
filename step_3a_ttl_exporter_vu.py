@@ -4,8 +4,8 @@ from step_2a_triple_creator_vu import triples_list
 
 # IMPORTANT: CHANGE FILE NAME WITH EACH NEW VERSION IF THE FILE IS TO BE IMPORTED TO PROTEGE.
 # Protege does not always understand that this is a new file if the file name is the same with a previously imported file.
-#output_file_path = "Output//vu-1.01.ttl"
-output_file_path = "Output//vu-1k.01.ttl"
+output_file_path = "Output//vu-1.10.ttl"
+#output_file_path = "Output//vu-1k.01.ttl"
 # output_file_path = "Output//problematic_characters_test-0.1.ttl"
 file_obj = open(output_file_path, "w")
 
