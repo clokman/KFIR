@@ -49,7 +49,8 @@ Although short samples may be provided, bibliographic databases from VU and UvA 
 - Unicode character support added
 
 # TODO
-- Adding citations and references (see: open citations => bibResource:15088)
-- Database enrichment (see frederik's article at 'Diigo to read', see Ali meetings & Skype links)
+- [MUST] Adding citations and references (see: open citations => bibResource:15088)
+- [MUST] Database enrichment (see frederik's article at 'Diigo to read', see Ali meetings & Skype links)
 - Check citations in "Pybtex_import("biblio2rdf//test.bib").data.citations" (by using another bib file)
-- Testing for all keyword capitalization scenarios for formatValues function
+- [SHOULD] Testing for all keyword capitalization scenarios for formatValues function
+- [COULD] Add entry order number to verbose input entry headers, so progress can be seen in terminal.
