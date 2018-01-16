@@ -96,6 +96,185 @@ class ListData():
                 current_field_name_header_index = get_header_index(each_field_name, instance.dataset)
                 current_row[current_field_name_header_index] = each_field_value
 
+    def get_column_at_index(instance, index):
+        '''
+        Allows columns to be selected (i.e., returned) by entering their index position.
+        
+        :return: A list vector that contains values from the queried column
+        
+        :example:
+            >>> my_listdata = ListData()
+            >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['jane', 2054]]
+            >>> my_listdata.get_column_at_index(1)
+            ['birth_date', 2084, 2054]
+        '''
+
+        #############################################################################################################
+
+        # assign the column matching the current_index to a variable
+        column = [each_row[index] for each_row in instance.dataset]
+        return column
+
+    def get_row_length(instance):
+        """
+        Gets the length of a sample row from the dataset.
+
+        Returns:
+            Integer
+
+        Examples:
+        >>> my_listdata = ListData()
+        >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['jane', 2054]]
+        >>> my_listdata.get_row_length()
+        2
+        """
+
+        probe_index = 0
+        row_length = 0
+
+        try:
+            row_length = len(instance.dataset[probe_index])
+        except IndexError:
+            raise ('Not possible to probe row at index %s. Nothing found at this index position.' % probe_index)
+
+        return row_length
+
+    def transpose_dataset(instance):
+        """
+
+        >>> my_listdata = ListData()
+        >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['jane', 2054]]
+        >>> my_listdata.transpose_dataset().dataset
+        [['name', 'john', 'jane'], ['birth_date', 2084, 2054]]
+        >>> my_listdata.transpose_dataset().dataset
+        [['name', 'birth_date'], ['john', 2084], ['jane', 2054]]
+
+        >>> my_listdata.transpose_dataset().dataset == my_listdata.transpose_dataset().transpose_dataset().dataset
+        True
+        """
+        row_length = instance.get_row_length()
+        columns = [instance.get_column_at_index(i) for i in range(0, row_length)]
+
+        instance.dataset = columns
+        return instance
+
+    def merge_all_rows_to_one(instance, value_separator_pattern=' | '):
+        """
+        >>> my_listdata = ListData()
+        >>> my_listdata.dataset = [['john', 2054], ['john', 3254], ['john', 2672]]
+        >>> my_listdata.merge_all_rows_to_one().dataset
+        ['john', '2054 | 3254 | 2672']
+
+        # method does not deal with headers
+        >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['john', 2054]]
+        >>> my_listdata.merge_all_rows_to_one().dataset
+        ['name | john', 'birth_date | 2084 | 2054']
+
+        # but headers can be easily managed
+        >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['john', 2054]]
+        >>> my_listdata.dataset = my_listdata.dataset[1:]
+        >>> my_listdata.merge_all_rows_to_one().dataset
+        ['john', '2084 | 2054']
+
+        # different separator pattern (and a transpose-like operation)
+        >>> my_listdata.dataset = [['name', 'birth_date'], ['john', 2084], ['john', 2054], ['jane', 2054]]
+        >>> my_listdata.merge_all_rows_to_one('; ').dataset
+        ['name; john; jane', 'birth_date; 2084; 2054']
+
+        >>> type(my_listdata.dataset)
+        <class 'list'>
+
+        >>> from preprocessor.csv_tools import CSV_Line, CSV_Row, Row_Merge_Buffer
+        >>> line_1 = CSV_Line(' "Journal Article" , "https://w3id.org/oc/corpus/br/45174" , "An inventory for measuring clinical anxiety: Psychometric properties." , "1988" , "Steer - Robert A." , "Journal of Consulting and Clinical Psychology" , "6" , "56" , "893--897" , "American Psychological Association (APA)" , "10.1037//0022-006x.56.6.893" ,')
+        >>> line_2 = CSV_Line(' "Journal Article" , "https://w3id.org/oc/corpus/br/45174" , "An inventory for measuring clinical anxiety: Psychometric properties." , "1988" , "John - Doe B." , "Journal of Consulting and Clinical Psychology" , "6" , "56" , "893--897" , "American Psychological Association (APA)" , "https://doi.org/10.1037//0022-006x.56.6.893" ,')
+        >>> line_1.clean_head_and_tail_from_patterns(' ,', location='tail').clean_head_and_tail_from_patterns(' ', location='head')
+        '"Journal Article" , "https://w3id.org/oc/corpus/br/45174" , "An inventory for measuring clinical anxiety: Psychometric properties." , "1988" , "Steer - Robert A." , "Journal of Consulting and Clinical Psychology" , "6" , "56" , "893--897" , "American Psychological Association (APA)" , "10.1037//0022-006x.56.6.893"'
+        >>> line_2.clean_head_and_tail_from_patterns(' ,', location='tail').clean_head_and_tail_from_patterns(' ', location='head')
+        '"Journal Article" , "https://w3id.org/oc/corpus/br/45174" , "An inventory for measuring clinical anxiety: Psychometric properties." , "1988" , "John - Doe B." , "Journal of Consulting and Clinical Psychology" , "6" , "56" , "893--897" , "American Psychological Association (APA)" , "https://doi.org/10.1037//0022-006x.56.6.893"'
+        >>> row_1 = line_1.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+        >>> row_2 = line_2.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+        >>> buffer = Row_Merge_Buffer(1)
+        >>> buffer.append_as_first_row_and_reset_buffer(row_1)
+        "https://w3id.org/oc/corpus/br/45174: [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893']]"
+        >>> buffer.append_row(row_2)
+        "https://w3id.org/oc/corpus/br/45174: [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893'], ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', 'https://doi.org/10.1037//0022-006x.56.6.893']]"
+        >>> buffer.merge_all_rows_to_one(' | ')
+        "https://w3id.org/oc/corpus/br/45174: ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A. | John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893 | https://doi.org/10.1037//0022-006x.56.6.893']"
+
+        # List conversion with actual rows
+        >>> a = ListData()
+        >>> a.dataset = [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893'], ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', 'https://doi.org/10.1037//0022-006x.56.6.893']]
+        >>> a.merge_all_rows_to_one(' | ').dataset
+        ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A. | John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893 | https://doi.org/10.1037//0022-006x.56.6.893']
+
+        # Row_Merge_Buffer class conversion with actual rows
+        >>> a = Row_Merge_Buffer(1)
+        >>> a.dataset = [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893'], ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', 'https://doi.org/10.1037//0022-006x.56.6.893']]
+        >>> a.merge_all_rows_to_one(' | ').dataset
+        ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A. | John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893 | https://doi.org/10.1037//0022-006x.56.6.893']
+        """
+
+        dataset = instance.dataset
+        # initiate merged_row with the first row of the dataset
+        merged_row   = dataset[0]
+
+        for each_row in dataset:
+            current_row = each_row
+            current_cell_position = 0
+            for each_current_cell, each_merged_cell in zip(current_row, merged_row):
+                if str(each_current_cell) not in str(each_merged_cell): # str conversion needed for 'in' comparison
+                    merged_cell = str(each_merged_cell) + value_separator_pattern + str(each_current_cell)
+                    merged_row[current_cell_position] = merged_cell
+                current_cell_position += 1
+
+                # no need to specify an else scenario, as if compared cells are the same, merged row can stay as is
+
+        instance.dataset = merged_row
+        return instance
+
+
+    def append_row(instance, new_row):
+        """
+        Appends a row the ListData object's dataset variable.
+
+        Returns:
+            ListData object (instance)
+
+        Examples:
+            >>> my_listdata = ListData()
+            >>> my_listdata.append_row([1,2,3])
+            >>> my_listdata.dataset
+            [[1, 2, 3]]
+            >>> my_listdata.append_row(['a','b','c'])
+            >>> my_listdata.dataset
+            [[1, 2, 3], ['a', 'b', 'c']]
+
+            >>> my_listdata.append_row(['x', 'y']).append_row(['z', 't']).append_row(['m', 'n']).dataset
+            [[1, 2, 3], ['a', 'b', 'c'], ['x', 'y'], ['z', 't'], ['m', 'n']]
+
+        """
+        instance.dataset.append(new_row)
+        return instance
+
+    def clear_all(instance):
+        """
+        Resets ListData object's dataset variable to its empty state.
+
+        Returns:
+            ListData object
+
+        Examples:
+            >>> my_listdata = ListData()
+            >>> my_listdata.append_row([1,2,3])
+            >>> my_listdata.dataset
+            [[1, 2, 3]]
+            >>> my_listdata.clear_all())
+            >>> my_listdata.dataset
+            [[1, 2, 3], ['a', 'b', 'c']]
+        """
+        instance.dataset = []
+        return instance
+
     def append_column(instance, new_column_values, new_column_name):
         """
 
@@ -223,3 +402,5 @@ class ListData():
 
         for i, each_header in enumerate(header_replacements_list):
             instance.dataset[0][i] = each_header
+
+
