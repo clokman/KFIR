@@ -9,7 +9,7 @@ class Pybtex_import:
 
             >>> # extract entries (i.e., dictionaries that has ids as keys and a sub-dictionary that contains fields
             >>> # and their values as values)
-            >>> pybtex_entries = Pybtex_import("test.bib").data.entries
+            >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
 
             >>> # parse different field names and values
             >>> for each_entry_id, each_entry in pybtex_entries.items():
@@ -22,6 +22,8 @@ class Pybtex_import:
             Article with 5 authors with 'and' notation
             Article with 3 authors with mixed notation
             Tax compliance, Auditing, Tax enforcement
+            Article with non-uri safe characters:<>{}()[] @% to WW ∗→eνμν with the ATLAS detector at √s=8 TeV
+            Bad keywords, @, #@^&, ν, ∗→eνμν
 
         # Example 2
             >>> # parse author names (they are stored in a different object than field names and values)
@@ -30,7 +32,8 @@ class Pybtex_import:
             ...     print(each_entry.persons["author"])
             [Person('Jaschke, A.C.')]
             [Person('Lohr, Ansje'), Person('Beunen, R.'), Person('Savelli, Heidi'), Person('Kalz, Marco'), Person('Ragas, Ad'), Person('{Van Belleghem}, Frank')]
-            [Person('{Mendoza Rodriguez}, J.P.'), Person('Wielhouwer, J.L.'), Person('Kirchler, Erich')]
+            [Person('{Mendoza Rodriguez}, J.P.'), Person('Wielhouwer, J.L.'), Person('Kirchler, {Erich Some Middle Name}')]
+            [Person('@uthor, {ννith bad name}'), Person('Aaboud, M.'), Person('Bentvelsen, S.'), Person('Berge, David'), Person('Colijn, A.P.'), Person('{de Jong}, Paul'), Person('Koffeman, E.'), Person('Sabato, G.'), Person('Salek, D.'), Person('{van Vulpen}, I.'), Person('Vermeulen, J.C.'), Person('Vreeswijk, Marcel')]
 
         # Example 3
             >>> for each_entry_id, each_entry in pybtex_entries.items():
@@ -47,6 +50,18 @@ class Pybtex_import:
             {Mendoza Rodriguez}
             Wielhouwer
             Kirchler
+            @uthor
+            Aaboud
+            Bentvelsen
+            Berge
+            Colijn
+            {de Jong}
+            Koffeman
+            Sabato
+            Salek
+            {van Vulpen}
+            Vermeulen
+            Vreeswijk
     """
 
     def __init__(self, bib_file_path):
@@ -66,7 +81,7 @@ class Pybtex_import:
 
             >>> # extract entries (i.e., dictionaries that has ids as keys and a sub-dictionary that contains fields
             >>> # and their values as values)
-            >>> pybtex_entries = Pybtex_import("test.bib").data.entries
+            >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
 
             >>> # parse different field names and values
             >>> for each_entry_id, each_entry in pybtex_entries.items():
@@ -79,6 +94,8 @@ class Pybtex_import:
             Article with 5 authors with 'and' notation
             Article with 3 authors with mixed notation
             Tax compliance, Auditing, Tax enforcement
+            Article with non-uri safe characters:<>{}()[] @% to WW ∗→eνμν with the ATLAS detector at √s=8 TeV
+            Bad keywords, @, #@^&, ν, ∗→eνμν
 
             >>> # Example 2
             >>> # parse author names (they are stored in a different object than field names and values)
@@ -87,7 +104,8 @@ class Pybtex_import:
             ...     print(each_entry.persons["author"])
             [Person('Jaschke, A.C.')]
             [Person('Lohr, Ansje'), Person('Beunen, R.'), Person('Savelli, Heidi'), Person('Kalz, Marco'), Person('Ragas, Ad'), Person('{Van Belleghem}, Frank')]
-            [Person('{Mendoza Rodriguez}, J.P.'), Person('Wielhouwer, J.L.'), Person('Kirchler, Erich')]
+            [Person('{Mendoza Rodriguez}, J.P.'), Person('Wielhouwer, J.L.'), Person('Kirchler, {Erich Some Middle Name}')]
+            [Person('@uthor, {ννith bad name}'), Person('Aaboud, M.'), Person('Bentvelsen, S.'), Person('Berge, David'), Person('Colijn, A.P.'), Person('{de Jong}, Paul'), Person('Koffeman, E.'), Person('Sabato, G.'), Person('Salek, D.'), Person('{van Vulpen}, I.'), Person('Vermeulen, J.C.'), Person('Vreeswijk, Marcel')]
 
             >>> # Example 3
             >>> for each_entry_id, each_entry in pybtex_entries.items():
@@ -104,6 +122,18 @@ class Pybtex_import:
             {Mendoza Rodriguez}
             Wielhouwer
             Kirchler
+            @uthor
+            Aaboud
+            Bentvelsen
+            Berge
+            Colijn
+            {de Jong}
+            Koffeman
+            Sabato
+            Salek
+            {van Vulpen}
+            Vermeulen
+            Vreeswijk
         """
 
         # import and shorten bibtex parser function
@@ -120,21 +150,21 @@ class Pybtex_import:
     #
     #     # Afterwards...
     #     for each_entry_string in XXX
-    #         if balanced(each_entry_string):
+    #         if is_balanced(each_entry_string):
     #             pass
     #             # if unbalanced
     #         else:
     #             # Delete string
     #
-    #     balanced()
+    #     is_balanced()
     #
     #     iparens = iter('(){}[]<>')
     #     parens = dict(zip(iparens, iparens))
     #     closing = parens.values()
     #
-    #     def balanced(astr):
+    #     def is_balanced(astr):
     #         """
-    #          Code for balanced() by pillmuncher https://stackoverflow.com/questions/6701853/parentheses-pairing-issue
+    #          Code for is_balanced() by pillmuncher https://stackoverflow.com/questions/6701853/parentheses-pairing-issue
     #
     #         Returns:
     #             True if balanced, False if unbalanced.

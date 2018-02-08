@@ -133,20 +133,13 @@ class CSV_container(Bibliography):
                         # (entry ids were empty sub-dictionary keys of my_bibliography.entries dictionary
                         # until this point).
                         instance.setEntry(each_id_cell_value,each_header_name,each_tokenized_targeted_cell_value)
-                        # A manual method instead of the .setEntry method could have been as following
-                        # (note that the below version would not add anything to instance registry, etc.):
-                        #instance.entries[each_id_cell_value][each_header_name] = \
-                        #    each_tokenized_targeted_cell_value
 
                     # if there is no aggregation in the cell
                     else:
-                        # simply add field_name-field_value pairs to my_bibliograpgy.entries dictionary, as
+                        # simply add field_name-field_value pairs to my_bibliography.entries dictionary, as
                         # subdictionaries to entry ids.
                         instance.setEntry(each_id_cell_value,each_header_name,each_targeted_cell_value)
-                        # A manual method instead of the .setEntry method could have been as following
-                        # (note that the below version would not add anything to instance registry, etc.):
-                        #instance.entries[each_id_cell_value][each_header_name] = \
-                        #    each_targeted_cell_value
+
 
                 # if there is no value in a row that corresponds to the current field name in the loop, do nothing
                 except IndexError:

@@ -15,8 +15,6 @@ def divide_column_by_criteria(row_grouping_criteria_header, target_column_name, 
 
     :example - divide column/group rows by id (and output a list):
         >>> from preprocessor.print_columns import print_columns
-        <BLANKLINE>
-        >>>
         >>> from preprocessor.demo_daily_data import demo_daily_data
         >>> print_columns("id", demo_daily_data)
         <BLANKLINE>

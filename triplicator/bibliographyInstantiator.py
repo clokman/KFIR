@@ -83,23 +83,24 @@ class Bibliography:
             <BLANKLINE>
             Fields added added to bibliography:
             {'b_abstract': 2,
-             'b_author_labels': 3,
-             'b_authors': 3,
-             'b_document': 3,
-             'b_document_label': 3,
-             'b_doi': 1,
-             'b_issn': 2,
-             'b_journal': 2,
-             'b_journal_label': 2,
+             'b_author_labels': 4,
+             'b_authors': 4,
+             'b_document': 4,
+             'b_document_label': 4,
+             'b_doi': 2,
+             'b_issn': 3,
+             'b_issue_number': 1,
+             'b_journal': 3,
+             'b_journal_label': 3,
              'b_pages': 2,
-             'b_publication_month': 3,
-             'b_publication_year': 3,
-             'b_publisher': 3,
-             'b_publisher_label': 3,
-             'b_topic_labels': 1,
-             'b_topics': 1,
-             'b_type': 3,
-             'b_volume': 2}
+             'b_publication_month': 4,
+             'b_publication_year': 4,
+             'b_publisher': 4,
+             'b_publisher_label': 4,
+             'b_topic_labels': 2,
+             'b_topics': 2,
+             'b_type': 4,
+             'b_volume': 3}
         """
         from builtins import KeyError
         from triplicator.pybtexImporter import Pybtex_import
@@ -160,7 +161,7 @@ class Bibliography:
             pass
         # if conversion_arguments_list is neither hardcoded nor provided, return error.
         else:
-            raise ValueError("Conversion_arguments_list parameter should be either left blank or be a list that "
+            raise ValueError("Conversion_arguments_list parameter should be either 'bib_default' or be a list that "
                               "contains at least one list of arguments.")
 
 
@@ -321,7 +322,7 @@ class Bibliography:
         """
         from triplicator.csvImporter import CSV_container
 
-        # pas functions to CSV container and create an instance of CSV_container class
+        # pass functions to CSV container and create an instance of CSV_container class
         csv_container = CSV_container(csv_file_path=path_of_file_to_import,
                                       id_column_header=id_column_header,
                                       field_value_list_separator=field_value_list_separator,
@@ -346,9 +347,31 @@ class Bibliography:
                 ['each_entry_data["publishers"]', 'pybtex_document_instance_name', 'b_publisher'],
                 ['each_entry_data["publishers"]', 'pybtex_document_label', 'b_publisher_label']
             ]
+
+        elif conversion_arguments_list == 'open citations with citations':
+        # "publication_type" , "journal_article" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "cited_by_article"
+            conversion_arguments_list = [
+                # [target_field_value in existing data,  formatting_algorithm,                   desired_field_name in new object]
+                ['each_entry_data["publication_type"]',  'open_citations_list_minimizer_2',     'b_type'],
+                ['each_entry_data["title"]',             'pybtex_document_instance_name',       'b_document'],
+                ['each_entry_data["title"]',             'pybtex_document_label',               'b_document_label'],
+                ['each_entry_data["doi"]',               'open_citations_list_minimizer',       'b_doi'],
+                ['each_entry_data["author_name"]',       'open_citations_author_instance_name', 'b_authors'],
+                ['each_entry_data["author_name"]',       'open_citations_author_label',         'b_author_labels'],
+                ['each_entry_data["journal_name"]',      'pybtex_document_instance_name',       'b_publication'],
+                ['each_entry_data["journal_name"]',      'pybtex_document_label',               'b_publication_label'],
+                ['each_entry_data["publication_type"]',  'open_citations_list_minimizer_2',     'b_publication_type'],
+                ['each_entry_data["publication_year"]',  'open_citations_list_minimizer',       'b_publication_year'],
+                ['each_entry_data["publisher_name"]',    'pybtex_document_instance_name',       'b_publisher'],
+                ['each_entry_data["publisher_name"]',    'pybtex_document_label',               'b_publisher_label'],
+                ['each_entry_data["cited_by_article"]',  'none',                                'b_cited_by'],
+                ['each_entry_data["cited_the_article"]', 'none',                                'b_cited']
+            ]
+
         # if a custom conversion_arguments_list is provided, proceed without modifying the provided list
         elif type(conversion_arguments_list) is list:
             pass
+
         else:
             raise ValueError("Conversion_arguments_list parameter should be either left blank or be a list that "
                              "contains sublists of arguments.")
@@ -690,7 +713,8 @@ class Bibliography:
             ...     except KeyError:
             ...         pass
             >>> print(my_bibliography.entries)
-            {'56fafbf2574947cc9cbbfae578a0a36d': {'x_document': 'Book_with_one_author', 'x_document_label': 'Book with one author', 'x_author': ['Jaschke_AC'], 'x_author_label': ['Jaschke, AC']}, 'd79d00c790984ab08240e997d077c332': {'x_document': 'Article_with_5_authors_with_and_notation', 'x_document_label': "Article with 5 authors with 'and' notation", 'x_author': ['Lohr_A', 'Beunen_R', 'Savelli_H', 'Kalz_M', 'Ragas_A', 'Van_Belleghem_F'], 'x_author_label': ['Lohr, A', 'Beunen, R', 'Savelli, H', 'Kalz, M', 'Ragas, A', 'Van_Belleghem, F'], 'x_journal': 'Current_Opinion_in_Environmental_Sustainability', 'x_journal_label': 'Current Opinion in Environmental Sustainability'}, 'a8781aa0eae047d1826a658f3545ce3f': {'x_document': 'Article_with_3_authors_with_mixed_notation', 'x_document_label': 'Article with 3 authors with mixed notation', 'x_author': ['Mendoza_Rodriguez_JP', 'Wielhouwer_JL', 'Kirchler_ESMN'], 'x_author_label': ['Mendoza_Rodriguez, JP', 'Wielhouwer, JL', 'Kirchler, ESMN'], 'x_journal': 'Journal_of_Economic_Psychology', 'x_journal_label': 'Journal of Economic Psychology'}}
+            {'56fafbf2574947cc9cbbfae578a0a36d': {'x_document': 'Book_with_one_author', 'x_document_label': 'Book with one author', 'x_author': ['Jaschke_AC'], 'x_author_label': ['Jaschke, AC']}, 'd79d00c790984ab08240e997d077c332': {'x_document': 'Article_with_5_authors_with_and_notation', 'x_document_label': "Article with 5 authors with 'and' notation", 'x_author': ['Lohr_A', 'Beunen_R', 'Savelli_H', 'Kalz_M', 'Ragas_A', 'Van_Belleghem_F'], 'x_author_label': ['Lohr, A', 'Beunen, R', 'Savelli, H', 'Kalz, M', 'Ragas, A', 'Van_Belleghem, F'], 'x_journal': 'Current_Opinion_in_Environmental_Sustainability', 'x_journal_label': 'Current Opinion in Environmental Sustainability'}, 'a8781aa0eae047d1826a658f3545ce3f': {'x_document': 'Article_with_3_authors_with_mixed_notation', 'x_document_label': 'Article with 3 authors with mixed notation', 'x_author': ['Mendoza_Rodriguez_JP', 'Wielhouwer_JL', 'Kirchler_ESMN'], 'x_author_label': ['Mendoza_Rodriguez, JP', 'Wielhouwer, JL', 'Kirchler, ESMN'], 'x_journal': 'Journal_of_Economic_Psychology', 'x_journal_label': 'Journal of Economic Psychology'}, '01b9c957875b4a96839c1bfd05ec6a31': {'x_document': 'Article_with_non-uri_safe_characters%3A%3C%3E%5B%5D_%40%25_to_WW_%E2%88%97%E2%86%92e%CE%BD%CE%BC%CE%BD_with_the_ATLAS_detector_at_%E2%88%9As%3D8_TeV', 'x_document_label': 'Article with non-uri safe characters:<>{}()[] @% to WW ∗→eνμν with the ATLAS detector at √s=8 TeV', 'x_author': ['%40uthor_%CE%BDbn', 'Aaboud_M', 'Bentvelsen_S', 'Berge_D', 'Colijn_AP', 'de_Jong_P', 'Koffeman_E', 'Sabato_G', 'Salek_D', 'van_Vulpen_I', 'Vermeulen_JC', 'Vreeswijk_M'], 'x_author_label': ['@uthor, νbn', 'Aaboud, M', 'Bentvelsen, S', 'Berge, D', 'Colijn, AP', 'de_Jong, P', 'Koffeman, E', 'Sabato, G', 'Salek, D', 'van_Vulpen, I', 'Vermeulen, JC', 'Vreeswijk, M'], 'x_journal': 'The_Journal_of_High_Energy_Physics', 'x_journal_label': 'The Journal of High Energy Physics'}}
+
         """
         # if the current field exists for the current entry
         # format the extracted value (which is a string or list [e.g., if it is the values from the 'author' field])
@@ -701,24 +725,284 @@ class Bibliography:
 
         # if the current field does not exist for the current entry
 
+
+
+
     # TODO: Enhance and clarify this function
-    def enrich(instance, other_bibliography_object_to_use, field_to_match_in_bibliographies):
+    def enrich(instance, other_bibliography_object_to_use, field_to_match_in_bibliographies, method='left join'):
+        """
+        Left joins two bibliographies.
+
+        Args:
+            other_bibliography_object_to_use: The target bibliography that will be used to enrich the current
+                bibliography.
+            field_to_match_in_bibliographies: The field name that will be used to match entries between bibliographies
+                (e.g., doi)
+
+        Returns:
+
+        Examples:
+            >>> # initiaton
+            >>> bib_one = Bibliography()
+            >>> bib_one.setEntry(entry_id='01', field_name='doi', field_value='6226')
+            >>> bib_one.setEntry(entry_id='01', field_name='title', field_value='This is a title')
+            >>> bib_one.preview()
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('01', {'doi': '6226', 'title': 'This is a title'})
+            >>> bib_two = Bibliography()
+            >>> bib_two.setEntry(entry_id='05', field_name='doi', field_value='6226')
+            >>> bib_two.setEntry(entry_id='05', field_name='author', field_value='John Doe')
+            >>> bib_two.preview()
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('05', {'author': 'John Doe', 'doi': '6226'})
+
+            >>> # enrichment
+            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi')
+            1 entries enriched and 0 entries appended to bibliography.
+            >>> bib_one.preview()
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('01', {'author': 'John Doe', 'doi': '6226', 'title': 'This is a title'})
+
+            >>> # no entries appended in 'left join' mode
+            >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')
+            >>> bib_two.setEntry(entry_id='100', field_name='note', field_value='This is a note')
+            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi')
+            0 entries enriched and 0 entries appended to bibliography.
+
+            >>> # entries enriched and appended in 'merge' mode
+            >>> bib_two.setEntry(entry_id='41124', field_name='doi', field_value='6226')
+            >>> bib_two.setEntry(entry_id='41124', field_name='publisher', field_value='Some publisher')
+            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi'
+            ...         , method='merge')
+            1 entries enriched and 2 entries appended to bibliography.
+            >>> bib_one.preview()
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('01',
+             {'author': 'John Doe',
+              'doi': '6226',
+              'publisher': 'Some publisher',
+              'title': 'This is a title'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('100', {'doi': '5000', 'note': 'This is a note'})
+
+            >>> # actual bib import and merge
+            >>> bib_poor = Bibliography()
+            >>> bib_poor.importBib('example_data/merge_test_file_poor.bib')
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data/merge_test_file_poor.bib imported.
+            <BLANKLINE>
+            Fields added added to bibliography:
+            {'b_author_labels': 2,
+             'b_authors': 2,
+             'b_document': 2,
+             'b_document_label': 2,
+             'b_doi': 2,
+             'b_publication_month': 1,
+             'b_publication_year': 2,
+             'b_type': 2}
+            >>> bib_poor.preview(100)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('b56e503067994b389d4eced98fae2206',
+             {'b_author_labels': ['Koning, R', 'Buraglio, N', 'de_Laat, CTAM', 'Grosso, P'],
+              'b_authors': ['Koning_R', 'Buraglio_N', 'de_Laat_CTAM', 'Grosso_P'],
+              'b_document': 'CoreFlow-Enriching_Bro_security_events_using_network_traffic_monitoring_data',
+              'b_document_label': 'CoreFlow-Enriching Bro security events using network '
+                                  'traffic monitoring data',
+              'b_doi': '10.1016--j.future.2017.04.017',
+              'b_publication_month': '2',
+              'b_publication_year': '2018',
+              'b_type': 'article'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('d0e972a611e44a80b8014f1069bfad88',
+             {'b_author_labels': ['van_Spanje, J'],
+              'b_authors': ['van_Spanje_J'],
+              'b_document': 'Controlling_the_Electoral_Marketplace-How_Established_Parties_Ward_Off_Competition',
+              'b_document_label': 'Controlling the Electoral Marketplace-How Established '
+                                  'Parties Ward Off Competition',
+              'b_doi': '10.1007--978-3-319-58202-3',
+              'b_publication_year': '2018',
+              'b_type': 'book'})
+
+
+            >>> bib_rich = Bibliography()
+            >>> bib_rich.importBib('example_data/merge_test_file_rich.bib')
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data/merge_test_file_rich.bib imported.
+            <BLANKLINE>
+            Fields added added to bibliography:
+            {'b_abstract': 1,
+             'b_author_labels': 2,
+             'b_authors': 2,
+             'b_document': 2,
+             'b_document_label': 2,
+             'b_doi': 2,
+             'b_isbn': 1,
+             'b_issn': 1,
+             'b_issue_number': 1,
+             'b_journal': 1,
+             'b_journal_label': 1,
+             'b_pages': 1,
+             'b_publication_month': 1,
+             'b_publication_year': 2,
+             'b_publisher': 2,
+             'b_publisher_label': 2,
+             'b_type': 2,
+             'b_volume': 1}
+
+            >>> bib_rich.preview(100)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('b56e503067994b389d4eced98fae2206',
+             {'b_abstract': 'Attacks against network infrastructures can be detected by '
+                            'Intrusion Detection Systems (IDS). Still reaction to these '
+                            'events are often limited by the lack of larger contextual '
+                            'information in which they occurred. In this paper we present '
+                            'CoreFlow, a framework for the correlation and enrichment of '
+                            'IDS data with network flow information. CoreFlow ingests data '
+                            'from the Bro IDS and augments this with flow data from the '
+                            'devices in the network. By doing this the network providers '
+                            'are able to reconstruct more precisely the route followed by '
+                            'the malicious flows. This enables them to devise tailored '
+                            'countermeasures, e.g. blocking close to the source of the '
+                            'attack. We tested the initial CoreFlow prototype in the ESnet '
+                            'network, using inputs from 3 Bro systems and more than 50 '
+                            'routers.',
+              'b_author_labels': ['Koning, R', 'Buraglio, N', 'de_Laat, CTAM', 'Grosso, P'],
+              'b_authors': ['Koning_R', 'Buraglio_N', 'de_Laat_CTAM', 'Grosso_P'],
+              'b_document': 'CoreFlow-Enriching_Bro_security_events_using_network_traffic_monitoring_data',
+              'b_document_label': 'CoreFlow-Enriching Bro security events using network '
+                                  'traffic monitoring data',
+              'b_doi': '10.1016--j.future.2017.04.017',
+              'b_issn': '0167-739X',
+              'b_issue_number': '1',
+              'b_journal': 'Future_Generation_Computer_Systems',
+              'b_journal_label': 'Future Generation Computer Systems',
+              'b_pages': '235',
+              'b_publication_month': '2',
+              'b_publication_year': '2018',
+              'b_publisher': 'Elsevier',
+              'b_publisher_label': 'Elsevier',
+              'b_type': 'article',
+              'b_volume': '79'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('d0e972a611e44a80b8014f1069bfad88',
+             {'b_author_labels': ['van_Spanje, J'],
+              'b_authors': ['van_Spanje_J'],
+              'b_document': 'Controlling_the_Electoral_Marketplace-How_Established_Parties_Ward_Off_Competition',
+              'b_document_label': 'Controlling the Electoral Marketplace-How Established '
+                                  'Parties Ward Off Competition',
+              'b_doi': '10.1007--978-3-319-58202-3',
+              'b_isbn': '9783319582016',
+              'b_publication_year': '2018',
+              'b_publisher': 'Palgrave_Macmillan',
+              'b_publisher_label': 'Palgrave Macmillan',
+              'b_type': 'book'})
+
+            >>> bib_poor.enrich(other_bibliography_object_to_use=bib_rich, field_to_match_in_bibliographies='b_doi')
+            12 entries enriched and 0 entries appended to bibliography.
+
+            >>> bib_poor.preview(100)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('b56e503067994b389d4eced98fae2206',
+             {'b_abstract': 'Attacks against network infrastructures can be detected by '
+                            'Intrusion Detection Systems (IDS). Still reaction to these '
+                            'events are often limited by the lack of larger contextual '
+                            'information in which they occurred. In this paper we present '
+                            'CoreFlow, a framework for the correlation and enrichment of '
+                            'IDS data with network flow information. CoreFlow ingests data '
+                            'from the Bro IDS and augments this with flow data from the '
+                            'devices in the network. By doing this the network providers '
+                            'are able to reconstruct more precisely the route followed by '
+                            'the malicious flows. This enables them to devise tailored '
+                            'countermeasures, e.g. blocking close to the source of the '
+                            'attack. We tested the initial CoreFlow prototype in the ESnet '
+                            'network, using inputs from 3 Bro systems and more than 50 '
+                            'routers.',
+              'b_author_labels': ['Koning, R', 'Buraglio, N', 'de_Laat, CTAM', 'Grosso, P'],
+              'b_authors': ['Koning_R', 'Buraglio_N', 'de_Laat_CTAM', 'Grosso_P'],
+              'b_document': 'CoreFlow-Enriching_Bro_security_events_using_network_traffic_monitoring_data',
+              'b_document_label': 'CoreFlow-Enriching Bro security events using network '
+                                  'traffic monitoring data',
+              'b_doi': '10.1016--j.future.2017.04.017',
+              'b_issn': '0167-739X',
+              'b_issue_number': '1',
+              'b_journal': 'Future_Generation_Computer_Systems',
+              'b_journal_label': 'Future Generation Computer Systems',
+              'b_pages': '235',
+              'b_publication_month': '2',
+              'b_publication_year': '2018',
+              'b_publisher': 'Elsevier',
+              'b_publisher_label': 'Elsevier',
+              'b_type': 'article',
+              'b_volume': '79'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('d0e972a611e44a80b8014f1069bfad88',
+             {'b_author_labels': ['van_Spanje, J'],
+              'b_authors': ['van_Spanje_J'],
+              'b_document': 'Controlling_the_Electoral_Marketplace-How_Established_Parties_Ward_Off_Competition',
+              'b_document_label': 'Controlling the Electoral Marketplace-How Established '
+                                  'Parties Ward Off Competition',
+              'b_doi': '10.1007--978-3-319-58202-3',
+              'b_isbn': '9783319582016',
+              'b_publication_year': '2018',
+              'b_publisher': 'Palgrave_Macmillan',
+              'b_publisher_label': 'Palgrave Macmillan',
+              'b_type': 'book'})
+        """
         other_bib = other_bibliography_object_to_use
+
+        enrichment_count = 0
+        addition_count = 0
+
         for each_other_id, each_other_entry_data in other_bib.entries.items():
-            # print (each_entry_data[field_to_match_in_bibliographies])
+            target_field_name_in_other_bib = field_to_match_in_bibliographies
+            target_value_in_other_bib = each_other_entry_data[target_field_name_in_other_bib]
+
+            # if a field name and value(e.g., doi) from other bibliography is found in the current one, enrich
+            # the corresponding entry in the current dataset with this field name and value
+            # TODO: This try-except block should either be made more specific or replaced with an if-else block
             try:
-                returned_entry = instance.getEntriesByField(field_name=field_to_match_in_bibliographies, field_value=each_other_entry_data[field_to_match_in_bibliographies])
 
-                # if a field and value(e.g., doi) from other dataset is found in the current one
-                for each_other_field, each_other_field_value in each_other_entry_data.items():
-                    if each_other_field not in returned_entry.keys():
-                        instance.entries[list(returned_entry.keys())[0]][each_other_field] = each_other_field_value
-                        print("ENRICHED")
+                returned_entry = instance.getEntriesByField(field_name=target_field_name_in_other_bib, field_value=target_value_in_other_bib)
+                matching_ids_list = instance._field_values_registry[target_field_name_in_other_bib][target_value_in_other_bib]
+                if len(matching_ids_list) > 1:
+                    raise ValueError("More than one ID (%s) returned with the field name '%s' and value '%s'."
+                                    % (matching_ids_list, target_field_name_in_other_bib, target_value_in_other_bib))
+                else:
+                    matching_id = matching_ids_list[0]
+
+                field_names_of_current_bib = list(returned_entry[0].keys())
+                for each_field_name_in_other_bib, each_field_value_in_other_bib in each_other_entry_data.items():
+
+                    if each_field_name_in_other_bib not in field_names_of_current_bib:
+                        instance.entries[matching_id][each_field_name_in_other_bib] = each_field_value_in_other_bib
+                        enrichment_count += 1
+            # TODO: Below part is not tested
+            # TODO: Add kwargs to documentation
+            # if the field name and value from the other bib is not found
             except:
-                for each_other_field, each_other_field_value in each_other_entry_data.items():
-                    instance.setEntry(each_other_id, each_other_field, each_other_field_value)
-                    print("ADDED")
+               if method == 'merge':
+                   for each_other_field, each_other_field_value in each_other_entry_data.items():
+                       instance.setEntry(each_other_id, each_other_field, each_other_field_value)
+                       addition_count += 1
+               else:
+                   pass
 
+        print('%d entries enriched and %d entries appended to bibliography.' % (enrichment_count, addition_count))
     ###################################################################################################################
     ################################################# QUERY FUNCTIONS #################################################
     ###################################################################################################################
@@ -804,6 +1088,7 @@ class Bibliography:
                 2017
                 2017
                 2017
+                2016
 
         """
         # Get matching ids from registry based on field name-value combination
@@ -1036,7 +1321,9 @@ class Bibliography:
 
         list_data_bibliography = ListData()
         list_data_bibliography.importBibliography(instance)
+        #if columns_to_ignore != None:
         list_data_bibliography.remove_columns(columns_to_ignore)
+        #if new_header_names != None:
         list_data_bibliography.replace_headers(new_header_names)
 
         #print(list_data_bibliography.headers_row)
@@ -1230,7 +1517,7 @@ def cleanAndFormatValues(target_field, algorithm):
         >>> from triplicator.bibliographyInstantiator import cleanAndFormatValues
 
         >>> # import a bib file with pybtex and and extract entries (i.e., {entry_id:entries} pairs)
-        >>> pybtex_entries = Pybtex_import("test.bib").data.entries
+        >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
 
         >>> # AUTHOR FORMATTING
         >>> # format all values (i.e., author names) in each entry's 'author' field
@@ -1243,6 +1530,8 @@ def cleanAndFormatValues(target_field, algorithm):
         ['Lohr, A', 'Beunen, R', 'Savelli, H', 'Kalz, M', 'Ragas, A', 'Van_Belleghem, F']
         ['Mendoza_Rodriguez_JP', 'Wielhouwer_JL', 'Kirchler_ESMN']
         ['Mendoza_Rodriguez, JP', 'Wielhouwer, JL', 'Kirchler, ESMN']
+        ['%40uthor_%CE%BDbn', 'Aaboud_M', 'Bentvelsen_S', 'Berge_D', 'Colijn_AP', 'de_Jong_P', 'Koffeman_E', 'Sabato_G', 'Salek_D', 'van_Vulpen_I', 'Vermeulen_JC', 'Vreeswijk_M']
+        ['@uthor, νbn', 'Aaboud, M', 'Bentvelsen, S', 'Berge, D', 'Colijn, AP', 'de_Jong, P', 'Koffeman, E', 'Sabato, G', 'Salek, D', 'van_Vulpen, I', 'Vermeulen, JC', 'Vreeswijk, M']
 
         >>> # AUTHOR FORMATTING + ADDING TO BIBLIOGRAPHY
         >>> # format all values (i.e., author names) in each entry's 'author' field...
@@ -1262,23 +1551,23 @@ def cleanAndFormatValues(target_field, algorithm):
         >>>
         >>> # print the now-populated Bibliography object
         >>> my_bibliography.entries
-        {'56fafbf2574947cc9cbbfae578a0a36d': {'b_author': ['Jaschke_AC'], 'b_author_labels': ['Jaschke, AC']}, 'd79d00c790984ab08240e997d077c332': {'b_author': ['Lohr_A', 'Beunen_R', 'Savelli_H', 'Kalz_M', 'Ragas_A', 'Van_Belleghem_F'], 'b_author_labels': ['Lohr, A', 'Beunen, R', 'Savelli, H', 'Kalz, M', 'Ragas, A', 'Van_Belleghem, F']}, 'a8781aa0eae047d1826a658f3545ce3f': {'b_author': ['Mendoza_Rodriguez_JP', 'Wielhouwer_JL', 'Kirchler_ESMN'], 'b_author_labels': ['Mendoza_Rodriguez, JP', 'Wielhouwer, JL', 'Kirchler, ESMN']}}
+        {'56fafbf2574947cc9cbbfae578a0a36d': {'b_author': ['Jaschke_AC'], 'b_author_labels': ['Jaschke, AC']}, 'd79d00c790984ab08240e997d077c332': {'b_author': ['Lohr_A', 'Beunen_R', 'Savelli_H', 'Kalz_M', 'Ragas_A', 'Van_Belleghem_F'], 'b_author_labels': ['Lohr, A', 'Beunen, R', 'Savelli, H', 'Kalz, M', 'Ragas, A', 'Van_Belleghem, F']}, 'a8781aa0eae047d1826a658f3545ce3f': {'b_author': ['Mendoza_Rodriguez_JP', 'Wielhouwer_JL', 'Kirchler_ESMN'], 'b_author_labels': ['Mendoza_Rodriguez, JP', 'Wielhouwer, JL', 'Kirchler, ESMN']}, '01b9c957875b4a96839c1bfd05ec6a31': {'b_author': ['%40uthor_%CE%BDbn', 'Aaboud_M', 'Bentvelsen_S', 'Berge_D', 'Colijn_AP', 'de_Jong_P', 'Koffeman_E', 'Sabato_G', 'Salek_D', 'van_Vulpen_I', 'Vermeulen_JC', 'Vreeswijk_M'], 'b_author_labels': ['@uthor, νbn', 'Aaboud, M', 'Bentvelsen, S', 'Berge, D', 'Colijn, AP', 'de_Jong, P', 'Koffeman, E', 'Sabato, G', 'Salek, D', 'van_Vulpen, I', 'Vermeulen, JC', 'Vreeswijk, M']}}
 
         >>> # DOCUMENT INSTANCE NAME FORMATTING
         >>> # Transform pybtex title string to document_instance_name:
-        >>> pybtex_entries = Pybtex_import("test.bib").data.entries
+        >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
         >>> my_bibliography = Bibliography()
         >>>
         >>> for each_entry_id, each_entry_data in pybtex_entries.items():
         ...     each_document_instance_name = cleanAndFormatValues(each_entry_data.fields["title"], "pybtex_document_instance_name")
         ...     my_bibliography.setEntry(each_entry_id, "document_instance_name", each_document_instance_name)
         >>> my_bibliography.entries
-        {'56fafbf2574947cc9cbbfae578a0a36d': {'document_instance_name': 'Book_with_one_author'}, 'd79d00c790984ab08240e997d077c332': {'document_instance_name': 'Article_with_5_authors_with_and_notation'}, 'a8781aa0eae047d1826a658f3545ce3f': {'document_instance_name': 'Article_with_3_authors_with_mixed_notation'}}
+        {'56fafbf2574947cc9cbbfae578a0a36d': {'document_instance_name': 'Book_with_one_author'}, 'd79d00c790984ab08240e997d077c332': {'document_instance_name': 'Article_with_5_authors_with_and_notation'}, 'a8781aa0eae047d1826a658f3545ce3f': {'document_instance_name': 'Article_with_3_authors_with_mixed_notation'}, '01b9c957875b4a96839c1bfd05ec6a31': {'document_instance_name': 'Article_with_non-uri_safe_characters%3A%3C%3E%5B%5D_%40%25_to_WW_%E2%88%97%E2%86%92e%CE%BD%CE%BC%CE%BD_with_the_ATLAS_detector_at_%E2%88%9As%3D8_TeV'}}
 
         >>> # TOPIC FORMATTING
         >>> # transform pybtex keywords string to list of topics
         >>> # (this example depends on imports made in previous examples)
-        >>> pybtex_entries = Pybtex_import("test.bib").data.entries
+        >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
         >>> # test diagnostic. necessary because try-except block would succeed even if the code does nothing
         >>> no_of_keywords_processed = 0
         >>>
@@ -1302,6 +1591,8 @@ def cleanAndFormatValues(target_field, algorithm):
         ...     raise Exception ("Test failed: No keywords processed inside the try-except block.")
     """
     import re
+    from urllib.parse import quote
+
     # special characters to omit from strings
     # NOTE: currently, same characters are omitted for both labels and author names.
     # ...for richer labels, this can be changed in a future revision.
@@ -1352,7 +1643,6 @@ def cleanAndFormatValues(target_field, algorithm):
         each_formatted_author_instance_list = []
         each_formatted_author_label_list = []
 
-        # TODO: Remove this line; its a workaround
         each_abbreviated_first_names_string = ""
 
         # for each "author" field value (which can hold multiple authors as a list) in the pybtex bib data
@@ -1401,9 +1691,14 @@ def cleanAndFormatValues(target_field, algorithm):
             # add extracted last and first names to the output variables (as author instance names or as labels, ...
             # ...depending on the 'algorithm' parameter)
             if algorithm is "pybtex_author_instance_name":
-                each_formatted_author_instance_list.append(each_last_name_formatted + "_" + each_abbreviated_first_names_string)
+                each_formatted_fullname = each_last_name_formatted + "_" + each_abbreviated_first_names_string
+                each_formatted_fullname = quote(each_formatted_fullname)  # make safe to use as URI
+                each_formatted_author_instance_list.append(each_formatted_fullname)
+
             elif algorithm is "pybtex_author_label":
-                each_formatted_author_label_list.append(each_last_name_formatted + ", " + each_abbreviated_first_names_string)
+                each_formatted_fullname = each_last_name_formatted + ", " + each_abbreviated_first_names_string
+
+                each_formatted_author_label_list.append(each_formatted_fullname)
                 #each_formatted_author_label_list.append(each_last_name_formatted + ", " + each_first_name_formatted)
 
         # return either author instance names or author labels depending on which 'algorithm' parameter is entered
@@ -1451,8 +1746,8 @@ def cleanAndFormatValues(target_field, algorithm):
                             if " " in each_first_names_string or any(
                                     letter.isupper() for letter in each_first_names_string):
                                 # add the character after space, or the capital letter, to the first name
-                                if each_first_names_string[i - 1] == " " or each_first_names_string[
-                                    i].isupper() == True:
+                                if each_first_names_string[i - 1] == " " \
+                                        or each_first_names_string[i].isupper() == True:
                                     each_abbreviated_first_names_string = each_abbreviated_first_names_string + \
                                                                           each_first_names_string[i]
                                 # otherwise, don't do anything
@@ -1470,11 +1765,13 @@ def cleanAndFormatValues(target_field, algorithm):
             # add extracted last and first names to the output variables (as author instance names or as labels, ...
             # ...depending on the 'algorithm' parameter)
             if algorithm is "open_citations_author_instance_name":
-                each_formatted_author_instance_list.append(
-                    each_last_name_formatted + "_" + each_abbreviated_first_names_string)
+                each_formatted_fullname = each_last_name_formatted + "_" + each_abbreviated_first_names_string
+                each_formatted_fullname = quote(each_formatted_fullname)  # convert to uri-safe string
+                each_formatted_author_instance_list.append(each_formatted_fullname)
+
             elif algorithm is "open_citations_author_label":
-                each_formatted_author_label_list.append(
-                    each_last_name_formatted + ", " + each_abbreviated_first_names_string)
+                each_formatted_fullname = each_last_name_formatted + ", " + each_abbreviated_first_names_string
+                each_formatted_author_label_list.append(each_formatted_fullname)
                 # each_formatted_author_label_list.append(each_last_name_formatted + ", " + each_first_name_formatted)
 
         # return either author instance names or author labels depending on which 'algorithm' parameter is entered
@@ -1506,6 +1803,9 @@ def cleanAndFormatValues(target_field, algorithm):
             # replace spaces with underscores
             document_instance_name = re.sub(" ", "_", document_instance_name)
 
+            # convert to uri-safe string
+            document_instance_name = quote(document_instance_name)
+
         return document_instance_name
 
 
@@ -1535,6 +1835,10 @@ def cleanAndFormatValues(target_field, algorithm):
                                                                       dictionary_of_patterns_to_replace)
                 # replace spaces with underscores
                 each_formatted_topic = re.sub(" ", "_", each_formatted_topic)
+
+                # convert to uri-safe string
+                each_formatted_topic = quote(each_formatted_topic)
+
             # if the task is to format as a topic label
             elif algorithm is "pybtex_topic_label":
                 # keep the spaces (i.e., " " character) in topic strings

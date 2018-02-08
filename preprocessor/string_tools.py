@@ -1,10 +1,15 @@
 class String(str):
 
-    def __init__(self, input_string):
+    """
+    >>> isinstance(String('a'), str)
+    True
 
-        str.__init__(self)
+    >>> isinstance(String('a'), String)
+    True
+    """
 
-        self.content = input_string
+    def __init__(self, content): # TODO: Replace __init__ with __new__. This is currently not done completely.
+        self.content = content
         self.split_to_list = []
 
     def __repr__(self):
@@ -224,8 +229,6 @@ class String(str):
             >>> my_string.slice_with_pattern_and_CONVERT_to_list(';')
             ['value', 'value', '', 'value', 'value', '', 'value', '', '']
         """
-        from preprocessor.csv_tools import CSV_Row
-
         input_string = self.content
         if target_pattern not in input_string:
             raise ValueError('Inputted target_pattern "%s" not found in string "%s".' % (target_pattern, input_string))
@@ -248,7 +251,84 @@ class String(str):
     #         string.
 
 
-    def clean_head_and_tail_from_patterns(self, patterns_to_remove, location='both'):
+
+    def replace_patterns(self, pattern_conversions_dictionary):
+        """
+        Replaces given patterns with their replacements provided in the parameter pattern_conversions_dictionary.
+
+        Args:
+            pattern_conversions_dictionary(dict): A dictionary in the format of {target:replacement}. Targets and
+            replacements can be longer than single characters, and can contain regex expressions.
+
+        Returns:
+            A modified String object (self)
+
+        Examples:
+            >>> # replace single pattern
+            >>> my_problematic_string = String('an {"}example{"} string')
+            >>> my_problematic_string.replace_patterns({'\{"\}':"'"})
+            "an 'example' string"
+
+            >>> # empty input
+            >>> my_problematic_string = String('an example string')
+            >>> my_problematic_string.replace_patterns({'':''})
+            'an example string'
+
+            >>> # replace single pattern
+            >>> my_problematic_string = String('a2n 6ex6ample4 stri1ng125')
+            >>> my_problematic_string.replace_patterns({'[0-9]':"_"})
+            'a_n _ex_ample_ stri_ng___'
+
+            # replace multiple patterns
+            >>> my_complex_problematic_string = String('<--an {"}example{"} *string*-->')
+            >>> my_complex_problematic_string.replace_patterns({
+            ...    '\{"\}': "'",
+            ...    '\>': '',
+            ...    '\<': '',
+            ...    '\*': '',
+            ...    '-': ''
+            ...    })
+            "an 'example' string"
+
+            >>> # erroneous target parameter
+            >>> my_problematic_string_2 = String('an example *string*')
+            >>> try:
+            ...     my_problematic_string_2.replace_patterns({'*': ''})
+            ... except ValueError as error_message:
+            ...     print(error_message)
+            pattern_conversions_dictionary keys likely contain an unescaped character that is wrongly interpreted as a regex expression. (e.g., '*' instead of '\*').Please check your pattern_conversions_dictionary
+
+            >>> # a different error
+            >>> my_problematic_string_2 = String('an example *string*')
+            >>> try:
+            ...     my_problematic_string_2.replace_patterns({1: ''})
+            ... except Exception as error_message:
+            ...     print(error_message)
+            first argument must be string or compiled pattern
+        """
+        import re
+        Parameter_Value(pattern_conversions_dictionary).force_type(dict)
+
+        # pass target:replacement couples to re.sub
+        for each_target_pattern in pattern_conversions_dictionary.keys():
+            each_replacement_pattern = pattern_conversions_dictionary[each_target_pattern]
+            try:
+                self.content = re.sub(each_target_pattern, each_replacement_pattern, self.content)
+
+        ### ERROR HANDLING ###
+        # handle incorrect input dictionary
+            except Exception as exception_message:
+                if str(exception_message) == 'nothing to repeat at position 0':
+                    raise ValueError("pattern_conversions_dictionary keys likely contain an unescaped character that "
+                                     "is wrongly interpreted as a regex expression. (e.g., '*' instead of '\*')."
+                                     "Please check your pattern_conversions_dictionary")
+                else:
+                    raise Exception(exception_message)
+        #######################
+
+        return self
+
+    def clean_head_and_tail_from_patterns(self, patterns_to_remove, location='both', clean_newline_characters=False):
         """
         Cleans head and tail of a String object from the specified patterns. This operation is simple, but it may not
         be efficient when used for parsing large datasets.
@@ -275,9 +355,16 @@ class String(str):
             >>> my_string = String('my string--mmm')
             >>> my_string.clean_head_and_tail_from_patterns('--mmm', location='tail')
             'my string'
+
+            >>> my_string = String('my string--mmm')
+            >>> my_string.clean_head_and_tail_from_patterns('', location='tail', clean_newline_characters=True)
+            'my string--mmm'
         """
         Parameter_Value(location).force_keyword_parameters(['head', 'tail', 'both'])
         patterns_to_remove = Parameter_Value(patterns_to_remove).convert_to_single_item_list_if_not_list()
+        if patterns_to_remove == ['']:
+            return self
+
 
         for each_pattern in patterns_to_remove:
             pattern_found_at_head = self.is_pattern_there(each_pattern, location='head')
@@ -290,6 +377,9 @@ class String(str):
             elif location == 'both' and pattern_found_at_head and pattern_found_at_tail:
                 self.clip_at_index(divide_at=len(each_pattern), remove='head')
                 self.clip_at_index(divide_at=-len(each_pattern), remove='tail')
+
+            if clean_newline_characters:
+                self.clean_from_newline_characters()
 
         return self
 
@@ -334,7 +424,7 @@ class String(str):
         # >>> # a line with newline characters in the end
         # >>> from preprocessor.csv_tools import CSV_File, CSV_Line
         # >>> my_csv = CSV_File('test_data//yasgui_output_100.csv', ' , ', ' | ')
-        # >>> my_csv.print_line(1)
+        # >>> my_csv.print_lines(1)
         # >>> with open(my_csv.input_file_path,encoding='utf8') as input_file:
         # ...     for each_line in input_file:
         # ...         each_line = CSV_Line(each_line)
@@ -378,29 +468,37 @@ class String(str):
 
     def clean_from_newline_characters(self):
         """
-        # # THIS TEST SHOULD BE RAN MANUALLY BY UNCOMMENTING, AS THE PRESENCE OF '\n' CHARACTER IN THE OUTPUT LEADS TO AN ERROR
-        # # When ran manually, newline characters can be seen at the end of each line in the output
-        # >>> from preprocessor.csv_tools import CSV_File, CSV_Line
-        # >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern=',', cell_delimiter_pattern=' | ')
-        # >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
-        # ...     for i, each_line in enumerate(input_file):
-        # ...         if i < 2:
-        # ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head')
-        # ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
-        # ...             print(row)
+        Cleans the String from newline characters using str.strip() method.
 
-        >>> from preprocessor.csv_tools import CSV_File, CSV_Line
-        >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern=',', cell_delimiter_pattern=' | ')
-        >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
-        ...     for i, each_line in enumerate(input_file):
-        ...         if i < 2:
-        ...             # the clean_from_newline_characters method in the end of statement clears the string from newline characters
-        ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head').clean_from_newline_characters()
-        ...
-        ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
-        ...             print(row)
-        ['publication_type', 'journal_article', 'title', 'publication_year', 'author_name', 'journal_name', 'journal_issue_number', 'journal_volume_number', 'startEndPages', 'publisher_name', 'doi" ,']
-        ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893" ,']
+        Returns:
+            - Modifies self.content
+            - Returns the modified self
+
+        Examples:
+
+            # # THIS TEST SHOULD BE RAN MANUALLY BY UNCOMMENTING, AS THE PRESENCE OF '\n' CHARACTER IN THE OUTPUT LEADS TO AN ERROR
+            # # When ran manually, newline characters can be seen at the end of each line in the output
+            # >>> from preprocessor.csv_tools import CSV_File, CSV_Line
+            # >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern=',', cell_delimiter_pattern=' | ')
+            # >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
+            # ...     for i, each_line in enumerate(input_file):
+            # ...         if i < 2:
+            # ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head')
+            # ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+            # ...             print(row)
+
+            >>> from preprocessor.csv_tools import CSV_File, CSV_Line
+            >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern_in_input_file=',')
+            >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
+            ...     for i, each_line in enumerate(input_file):
+            ...         if i < 2:
+            ...             # the clean_from_newline_characters method in the end of statement clears the string from newline characters
+            ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head').clean_from_newline_characters()
+            ...
+            ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+            ...             print(row)
+            ['publication_type', 'journal_article', 'title', 'publication_year', 'author_name', 'journal_name', 'journal_issue_number', 'journal_volume_number', 'startEndPages', 'publisher_name', 'doi" ,']
+            ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893" ,']
 
         """
         self.content = self.content.strip()
@@ -426,6 +524,91 @@ class String(str):
         else:
             return False
 
+    def is_balanced(self):
+        """
+        Checks whether String has balanced parantheses, brackets, etc.
+
+        Returns:
+            Boolean. True if balanced, False if unbalanced.
+
+        Examples:
+
+            >>> String("<{[my string]}>").is_balanced()
+            True
+
+            >>> # missing '>'
+            >>> String("<{[my string]}").is_balanced()
+            False
+
+            >>> # '>' at wrong place
+            >>> String("<{[my string]>}").is_balanced()
+            False
+
+            >>> # missing '{'
+            >>> String("<[my string]}>").is_balanced()
+            False
+
+            >>> # missing ']'
+            >>> String("<{[my string}>").is_balanced()
+            False
+
+            >>> line = 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",'
+            >>> String(line).is_balanced()
+            False
+
+            >>> entry_lines = [
+            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
+            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",',
+            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
+            ...     'year      = "2015",',
+            ...     'doi       = "10.1007/978-3-319-26585-8",',
+            ...     'isbn      = "9783319265841",',
+            ...     'series    = "LNAI",',
+            ...     'publisher = "Springer",',
+            ...     'number    = "9485",',
+            ...     '}'
+            ... ]
+            >>> String(str(entry_lines)).is_balanced()
+            False
+
+            >>> entry_lines = [
+            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
+            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)}",',
+            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
+            ...     'year      = "2015",',
+            ...     'doi       = "10.1007/978-3-319-26585-8",',
+            ...     'isbn      = "9783319265841",',
+            ...     'series    = "LNAI",',
+            ...     'publisher = "Springer",',
+            ...     'number    = "9485",',
+            ...     '}'
+            ... ]
+            >>> String(str(entry_lines)).is_balanced()
+            True
+
+            >>> String(str(['@book{a82caf00e1a143759c7f5543b6c84ea5,', 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",', 'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",', 'year      = "2015",', 'doi       = "10.1007/978-3-319-26585-8",', 'isbn      = "9783319265841",', 'series    = "LNAI",', 'publisher = "Springer",', 'number    = "9485",', '}', ''])).is_balanced()
+            False
+        """
+        test_items = iter('(){}[]<>')
+        # create a dictionary from iter('(){}[]<>') such as: {'(': ')', '{': '}', '[': ']', '<': '>'}
+        test_dictionary = dict(zip(test_items, test_items))
+        closing_characters = test_dictionary.values()
+
+        comparison_stack = []
+
+        for each_character in self.content:
+            # if the current character is an opening character, add it to comparison_stack
+            each_character_that_has_a_closing_counterpart_in_test_dictionary = test_dictionary.get(each_character, None)
+            if each_character_that_has_a_closing_counterpart_in_test_dictionary:
+                comparison_stack.append(each_character_that_has_a_closing_counterpart_in_test_dictionary)
+
+            # if the current character is a closing character,
+            # and it has no counterpart (i.e., opening character) in comparison_stack, return false
+            elif each_character in closing_characters:
+                if not comparison_stack or each_character != comparison_stack.pop():
+                    return False
+        # if comparison_stack was never added an item (i.e., test characters are not found in string), return true
+        return not comparison_stack
 
     def clip_at_index(self, divide_at, remove):
         """
@@ -445,6 +628,88 @@ class String(str):
         self.content = self.content[slice_value]
 
         return self
+
+
+    def is_line_type(self, syntax, query):
+        """
+        Checks the type of the current String against the query parameter and returns either True or False
+
+        Args:
+            syntax(str): the syntax that string being queried is written in
+            query(str): the query to check the string against
+
+        Keyword Args:
+            - bibtex(syntax):
+
+            - comment:
+            - start of entry:
+            - end of entry:
+
+        Returns:
+            boolean
+
+        Examples:
+            >>> # start of entry
+            >>> String('@article{79948f66cc82409a8978d14c9131346a,').is_line_type('bibtex', 'start of entry')
+            True
+            >>> String('@article{79948f66cc82409a8978d14c9131346a,').is_line_type('bibtex', 'end of entry')
+            False
+            >>> String('@article{79948f66cc82409a8978d14c9131346a,').is_line_type('bibtex', 'comment')
+            False
+
+            >>> # end of entry
+            >>> my_end_of_entry = String('}')
+            >>> my_end_of_entry.is_line_type('bibtex', 'end of entry')
+            True
+            >>> my_end_of_entry.is_line_type('bibtex', 'start of entry')
+            False
+            >>> my_end_of_entry.is_line_type('bibtex', 'comment')
+            False
+
+            >>> # comment
+            >>> my_comment = String('% This is a comment line.')
+            >>> my_comment.is_line_type('bibtex', 'comment')
+            True
+            >>> my_comment.is_line_type('bibtex', 'start of entry')
+            False
+            >>> my_comment.is_line_type('bibtex', 'end of entry')
+            False
+
+            >>> # regular line
+            >>> my_regular_string = String('  author    = "M. Acciarri and O. Adriani and M. Aguilar-Benitez and S.P. Ahlen and J. Alcaraz and G. Alemanni and J. Allaby and A. Aloisio and F.L. Linde",')
+            >>> my_regular_string.is_line_type ('bibtex', 'start of entry')
+            False
+            >>> my_regular_string.is_line_type ('bibtex', 'end of entry')
+            False
+            >>> my_regular_string.is_line_type ('bibtex', 'comment')
+            False
+
+            >>> # regular line with '@' symbol
+            >>> my_regular_string_with_at_symbol = String('  abstract  = "We report here the Einstein@Home discovery of PSR J1913+1102, a 27.3 ms pulsar found in data from the ongoing Arecibo PALFA pulsar survey. The pulsar is in a 4.95 hr double neutron star (DNS) system with an eccentricity of 0.089. From radio timing with the Arecibo 305 m telescope, we measure the rate of advance of periastron to be \dot{ω }=5.632(18)° yr-1. Assuming general relativity accurately models the orbital motion, this corresponds to a total system mass of M tot = 2.875(14) {M}⊙ , similar to the mass of the most massive DNS known to date, B1913+16, but with a much smaller eccentricity. The small eccentricity indicates that the second-formed neutron star (NS) (the companion of PSR J1913+1102) was born in a supernova with a very small associated kick and mass loss. In that case, this companion is likely, by analogy with other systems, to be a light (˜1.2 {M}⊙ ) NS; the system would then be highly asymmetric. A search for radio pulsations from the companion yielded no plausible detections, so we cannot yet confirm this mass asymmetry. By the end of 2016, timing observations should permit the detection of two additional post-Keplerian parameters: the Einstein delay (γ), which will enable precise mass measurements and a verification of the possible mass asymmetry of the system, and the orbital decay due to the emission of gravitational waves ({\dot{P}}b), which will allow another test of the radiative properties of gravity. The latter effect will cause the system to coalesce in ˜0.5 Gyr.",')
+            >>> my_regular_string_with_at_symbol.is_line_type('bibtex', 'start of entry')
+            False
+        """
+        string = self.content
+
+        if syntax == 'bibtex':
+            comment_pattern = '%'
+            pattern_that_signals_beginning_of_entry = '@'
+            pattern_that_signals_end_of_entry = '}'
+
+            try:
+                if string[0] == comment_pattern and query == 'comment':
+                    return True
+
+                elif string[0] == pattern_that_signals_beginning_of_entry and query == 'start of entry':
+                    return True
+
+                elif string == pattern_that_signals_end_of_entry and query == 'end of entry':
+                    return True
+                else:
+                    return False
+            except IndexError:
+                return False
+
 
 class File_Path(String, str):
     def __init__(self, path_string):
@@ -675,16 +940,16 @@ class File_Path(String, str):
 
 class Parameter_Value():
     """
-    # object call
+    >>> # object call
     >>> my_parameter = Parameter_Value('parameter value')
     >>> my_parameter
     'parameter value'
 
-    # string call
+    >>> # string call
     >>> str(my_parameter)
     'parameter value'
 
-    # modify content
+    >>> # modify content
     >>> my_parameter.content = 'modified parameter value'
     >>> my_parameter
     'modified parameter value'
@@ -711,19 +976,19 @@ class Parameter_Value():
             Nothing if parameter types are a match, otherwise, exception.
 
         Examples:
-        >>> # single requirement
-        >>> my_parameter = Parameter_Value('parameter value')
-        >>> my_parameter.force_type(str)
+            >>> # single requirement
+            >>> my_parameter = Parameter_Value('parameter value')
+            >>> my_parameter.force_type(str)
 
-        >>> # multiple requirement
-        >>> my_parameter.force_type([str, int])
+            >>> # multiple requirement
+            >>> my_parameter.force_type([str, int])
 
-        >>> # requirement mismatch
-        >>> try:
-        ...     my_parameter.force_type([int, bool])
-        ... except Exception as exception_message:
-        ...      print('Exception caught:', exception_message)
-        Exception caught: Parameter "parameter value" must be of type <class 'int'>, <class 'bool'>, but is currently of type <class 'str'>
+            >>> # requirement mismatch
+            >>> try:
+            ...     my_parameter.force_type([int, bool])
+            ... except Exception as exception_message:
+            ...      print('Exception caught:', exception_message)
+            Exception caught: Parameter "parameter value" must be of type <class 'int'>, <class 'bool'>, but is currently of type <class 'str'>
         """
         desired_types = Parameter_Value(desired_types).convert_to_single_item_list_if_not_list()
 
@@ -761,6 +1026,9 @@ class Parameter_Value():
 
     def convert_to_single_item_list_if_not_list(self):
         """
+        Converts a parameter to a list (if it is not already a list). If the parameters is already a list, it is
+        returned as it is.
+
         Returns:
             List (and NOT a Parameter class object)
 

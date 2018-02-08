@@ -19,7 +19,19 @@ def preview_data(dataset, depth=0):
     :example:
         >>> my_dataset = [["id", "number"],["John", 0], ["John", 12], ["Someone else", 7]]
         >>> preview_data(my_dataset)
+        Transposed Table (Columns in original data => Rows in output)
+        Displaying up to 4 values per column.
+        =============================================================
+        <BLANKLINE>
+        id: 'John' 'John' 'Someone else'
+        number: 0 12 7
         >>> preview_data(my_dataset, 5) # displays all columns 5 rows deep
+        Transposed Table (Columns in original data => Rows in output)
+        Displaying up to 5 values per column.
+        =============================================================
+        <BLANKLINE>
+        id: 'John' 'John' 'Someone else'
+        number: 0 12 7
     """
 
     #############################################################################################################

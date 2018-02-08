@@ -18,7 +18,7 @@ PREFIX agentRole: <https://w3id.org/oc/corpus/ar/>
 PREFIX responsibleAgent: <https://w3id.org/oc/corpus/ra/>
 PREFIX id: <https://w3id.org/oc/corpus/id/>
 
-SELECT ?publication_type ?journal_article ?title ?publication_year ?author_name ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?cited_by_article
+SELECT DISTINCT ?publication_type ?journal_article ?title ?publication_year ?author_name ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?cited_by_article ?cited_the_article
     # The output names are in a different format than the camelCase, because they are intended for a Python script where underscore naming is the convention.
 
 WHERE{
@@ -104,10 +104,13 @@ WHERE{
       AS ?startEndPages
     ) #/BIND
 
-    ### Cites ###
+    ### Cited by ###
     # ?cited_by_article is the articles that cites the ?journal article
     ?cited_by_article cito:cites ?journal_article;
     				  rdf:type fabio:JournalArticle .
 
+  	### Cited ###
+	?journal_article cito:cites ?cited_the_article;
+                  rdf:type fabio:JournalArticle .
 } # /WHERE
 LIMIT 100

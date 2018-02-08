@@ -160,6 +160,10 @@ class ListData():
 
     def merge_all_rows_to_one(instance, value_separator_pattern=' | '):
         """
+        >>> my_listdata = ListData().append_row(['john', 2054]).append_row(['john', 3254])
+        >>> my_listdata.merge_all_rows_to_one().dataset
+        ['john', '2054 | 3254']
+
         >>> my_listdata = ListData()
         >>> my_listdata.dataset = [['john', 2054], ['john', 3254], ['john', 2672]]
         >>> my_listdata.merge_all_rows_to_one().dataset
@@ -196,7 +200,7 @@ class ListData():
         >>> buffer = Row_Merge_Buffer(1)
         >>> buffer.append_as_first_row_and_reset_buffer(row_1)
         "https://w3id.org/oc/corpus/br/45174: [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893']]"
-        >>> buffer.append_row(row_2)
+        >>> buffer.append_row_if_ids_match(row_2)
         "https://w3id.org/oc/corpus/br/45174: [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893'], ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', 'https://doi.org/10.1037//0022-006x.56.6.893']]"
         >>> buffer.merge_all_rows_to_one(' | ')
         "https://w3id.org/oc/corpus/br/45174: ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A. | John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893 | https://doi.org/10.1037//0022-006x.56.6.893']"
@@ -212,7 +216,23 @@ class ListData():
         >>> a.dataset = [['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893'], ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', 'https://doi.org/10.1037//0022-006x.56.6.893']]
         >>> a.merge_all_rows_to_one(' | ').dataset
         ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A. | John - Doe B.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893 | https://doi.org/10.1037//0022-006x.56.6.893']
+
+        # Error from empty dataset
+        >>> a = ListData()
+        >>>
+        >>> try:
+        ...     a.merge_all_rows_to_one(' | ') #  no item to index in empty dataset
+        ... except Exception as error_message:
+        ...     print('Exception: ' + str(error_message))
+        Exception: Dataset to be merged is either empty or not indexable (no item at index [0]).
+        The input dataset is:
+        []
         """
+        try:
+            instance.dataset[0]
+        except IndexError:
+            raise IndexError('Dataset to be merged is either empty or not indexable (no item at index [0]).\nThe input dataset is:\n%s' % str(instance.dataset))
+
 
         dataset = instance.dataset
         # initiate merged_row with the first row of the dataset
@@ -242,10 +262,14 @@ class ListData():
 
         Examples:
             >>> my_listdata = ListData()
-            >>> my_listdata.append_row([1,2,3])
+            >>> my_listdata.append_row([1,2,3]).dataset
+            [[1, 2, 3]]
+
             >>> my_listdata.dataset
             [[1, 2, 3]]
-            >>> my_listdata.append_row(['a','b','c'])
+            >>> my_listdata.append_row(['a','b','c']).dataset
+            [[1, 2, 3], ['a', 'b', 'c']]
+
             >>> my_listdata.dataset
             [[1, 2, 3], ['a', 'b', 'c']]
 
@@ -265,12 +289,14 @@ class ListData():
 
         Examples:
             >>> my_listdata = ListData()
-            >>> my_listdata.append_row([1,2,3])
+            >>> my_listdata.append_row([1,2,3]).dataset
+            [[1, 2, 3]]
             >>> my_listdata.dataset
             [[1, 2, 3]]
-            >>> my_listdata.clear_all())
+            >>> my_listdata.clear_all().dataset
+            []
             >>> my_listdata.dataset
-            [[1, 2, 3], ['a', 'b', 'c']]
+            []
         """
         instance.dataset = []
         return instance
@@ -402,5 +428,143 @@ class ListData():
 
         for i, each_header in enumerate(header_replacements_list):
             instance.dataset[0][i] = each_header
+
+
+class ListBuffer(ListData):
+    def __init__(self):
+        ListData.__init__(self)
+
+        # states
+        self.is_empty = True
+
+    def append_row(self, new_row):
+        """
+        Overrides the ListData method of the same name to change buffer state to 'not empty' after adding something to
+        the buffer
+
+        Args:
+            new_row(list, bool, str, int): The object to be added as a new row to buffer
+
+        Returns:
+            ListData object (self)
+
+        Examples:
+            # initiate
+            >>> my_buffer = ListBuffer()
+
+            # empty?
+            >>> my_buffer.is_empty
+            True
+
+            # simple add
+            >>> a = my_buffer.append_row(['item 1', 'item 2', 'item 3']) # variable assignment is to suppress output
+
+            # fluent interface
+            >>> my_buffer.append_row(['item 4', 'item 5', 'item 6']). \
+                    append_row(['item 7', 'item 8', 'item 9']).dataset
+            [['item 1', 'item 2', 'item 3'], ['item 4', 'item 5', 'item 6'], ['item 7', 'item 8', 'item 9']]
+
+            # empty now?
+            >>> my_buffer.is_empty
+            False
+
+        """
+        ListData.append_row(self, new_row)
+        self.is_empty = False
+        return self
+
+    def is_each_row_balanced(self, exclude_special_rows_of_syntax=None):
+        """
+        Checks whether each row in buffer is balanced (i.e., does not have unmatched parantheses, brackets, etc). Can
+        exclude special row types (e.g., comment) from evaluation.
+
+        Args:
+            exclude_special_rows_of_syntax(str): specifies what type of rows to exclude from evaluation
+                (e.g., comment rows). Uses predefined syntax settings per specified syntax (e.g., 'bibtex').
+
+        Keyword Args:
+            - bibtex (exclude_special_rows_of_syntax): sets evaluation exclusion criteria for bibtex syntax
+
+        Returns:
+            boolean
+
+        Examples:
+            >>> # an unbalanced row is present
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.append_row(['a', 'b', 'c']).append_row(['d', 'e', 'f']).dataset
+            [['a', 'b', 'c'], ['d', 'e', 'f']]
+            >>> my_buffer.append_row(['g', 'h' , '>'])\
+                    .is_each_row_balanced()
+            False
+
+            >>> # single row from a bib file
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.append_row('            year      = "2017",')\
+                .is_each_row_balanced()
+            True
+
+            >>> # bibtex entry start (no exception vs. exception)
+            >>> my_buffer.append_row('@article{96d9add3e2f44e8abbf030170689bc30,')\
+                .is_each_row_balanced()
+            False
+            >>> my_buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex')
+            True
+
+            >>> # bibtex comment (no exception vs. exception)
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.append_row('% This is a comment with an unbalanced characters }]>')\
+                .is_each_row_balanced()
+            False
+            >>> my_buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex')
+            True
+
+            >>> # a full bibtex entry with an unbalanced curly bracket at title field
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.dataset = ['@book{a82caf00e1a143759c7f5543b6c84ea5,', 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",', 'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",', 'year      = "2015",', 'doi       = "10.1007/978-3-319-26585-8",', 'isbn      = "9783319265841",', 'series    = "LNAI",', 'publisher = "Springer",', 'number    = "9485",', '}', '']
+            >>> my_buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex')  # error
+            False
+            >>> # the same entry with unbalanced curly bracket removed
+            >>> my_buffer.dataset = ['@book{a82caf00e1a143759c7f5543b6c84ea5,', 'title     = "Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",', 'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",', 'year      = "2015",', 'doi       = "10.1007/978-3-319-26585-8",', 'isbn      = "9783319265841",', 'series    = "LNAI",', 'publisher = "Springer",', 'number    = "9485",', '}', '']
+            >>> my_buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex')
+            True
+
+        """
+
+        from preprocessor.string_tools import String
+
+        buffer = self.dataset
+
+        is_balanced_log = []
+
+        for each_row in buffer:
+            each_row = String(str(each_row))
+
+            if not each_row.is_balanced():
+                    # print('row is not balanced: ', each_row)
+                    ### EXCLUSIONS FOR BIBTEX ###########################################
+                    if exclude_special_rows_of_syntax == 'bibtex':
+                            # print('special syntax = bibtex recognized')
+                            # forgive these row types
+                            if each_row.is_line_type('bibtex', 'start of entry') \
+                                    or each_row.is_line_type('bibtex', 'end of entry') \
+                                    or each_row.is_line_type('bibtex', 'comment'):
+                                is_balanced_log.append(True)
+                                # print("01: appended True to log, because the row is unbalanced but it passed exclusion rules", "the current row (each_row) is: ", "(", type(each_row) ,")",  each_row)
+                            else:
+                                is_balanced_log.append(False)
+
+                    ######################################################################
+                    else:
+                        is_balanced_log.append(False)
+                        # print("02: appended False to log because row is unbalanced (no exclusion keyword specified) ", "the current row (each_row) is: ", "(", type(each_row) ,")",  each_row)
+
+            else:
+                is_balanced_log.append(True)
+                # print("03: appended True to log because row is balanced ", "the current row (each_row) is: ", "(", type(each_row) ,")",  each_row)
+
+        if False in is_balanced_log:
+            return False
+        else:
+            return True
 
 

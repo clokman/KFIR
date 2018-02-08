@@ -17,7 +17,6 @@ def history_cumulative(target_column_name, n_back, dataset, row_grouping_criteri
 
     :example - Cumulative two-day histories for a value (per id):
         >>> from preprocessor.print_columns import print_columns
-        <BLANKLINE>
         >>> my_data = [["id",  "value"], ["john", 1], ["JOHN", 2], ["John", 3], ["john", 4],   ["michael", -1], ["michael", -2], ["michael", -3], ["michael", -4], ["james", 10], ["james", 11], ["james", 12], ["james", 13]]
         >>> # Note the capitalization differences above (they are no problem)
 

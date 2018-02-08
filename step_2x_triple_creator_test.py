@@ -9,7 +9,8 @@
 from pprint import pprint
 
 from triplicator.rdfCreator import *
-from step_1c_parser_oc import oc_bibliography
+#from step_1_bibtex_parser import vu_bibliography
+from step_1x_parser_test import test_bibliography
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
@@ -24,12 +25,11 @@ from step_1c_parser_oc import oc_bibliography
 
 ###### NAMESPACE PREFIX DEFINITIONS ######
 sr   = "http://clokman.com/ontologies/scientific-research#"  # assign long domain  name to short variable.
-pvu  = "http://clokman.com/ontologies/open-citations#"              # assign long domain  name to short variable.
+pvu  = "http://clokman.com/ontologies/test-bibliography#"    # assign long domain  name to short variable.
 rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 rdfs = "http://www.w3.org/2000/01/rdf-schema#"
 owl  = "http://www.w3.org/2002/07/owl#"
 xsd  = "http://www.w3.org/2001/XMLSchema#"
-#oc   = "https://w3id.org/oc/corpus/br/"
 
 #add_prefix_triple("",    sr)
 #add_prefix_triple("pvu",  pvu)
@@ -66,8 +66,6 @@ p_label                   = construct_uri(rdfs,"label"             )
 p_is_about                = construct_uri(sr,  "isAbout"           )
 p_equivalent_class        = construct_uri(owl, "equivalentClass"   )
 p_has_origin_bibliography = construct_uri(pvu, "hasOriginBibliography")
-#p_has_cited               = construct_uri(oc,  "hasCited")
-#p_is_cited_by             = construct_uri(oc,  "isCitedBy")
 
 add_triple(p_subclass_of,              p_rdf_type,     c_object_property)  # is author of is a property
 add_triple(p_is_author_of,             p_rdf_type,     c_object_property)  # is author of is a property
@@ -162,7 +160,7 @@ add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
 #                     DYNAMIC TRIPLES: INSTANCES AND TYPES                      #
 #################################################################################
 
-for each_entry_id, each_entry in oc_bibliography.entries.items():
+for each_entry_id, each_entry in test_bibliography.entries.items():
 
     #TODO: this try-except block is a workaround [001]. remove it.
     try:
@@ -185,7 +183,7 @@ for each_entry_id, each_entry in oc_bibliography.entries.items():
 
 
     ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
-    add_triple(i_document_instance,  p_has_origin_bibliography,  c_oc)  # the document comes from the given bibliography
+    add_triple(i_document_instance,  p_has_origin_bibliography,  c_vu_pure)  # the document comes from the given bibliography
 
 
     #######  DOCUMENT LABEL  #######

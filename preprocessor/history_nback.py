@@ -14,7 +14,6 @@ def history_nback(target_column_name_or_target_var, n_back, input="list", datase
     :example - using nback for a list:
         >>> my_list = [1, 2, 3, 4, 7]
         >>> my_list_one_back = history_nback(my_list, 1)
-        <BLANKLINE>
         >>> my_list_two_back = history_nback(my_list, 2)
         >>> my_list_three_back = history_nback(my_list, 3)
         >>> print(my_list_one_back)
