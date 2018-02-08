@@ -39,16 +39,16 @@ vu_bibliography.importBib('Input//vu_100k_feb_cleaned.bib', verbose_import=True)
 print('vu bib parsed')
 
 
-print('parsing cleaned uva bib')
-uva_bibliography = Bibliography()
-#uva_bibliography.importBib('Input//UvA_Pure_research_output-41217_cleaned.bib', verbose_import=False)
-uva_bibliography.importBib('Input//uva_100k_feb_cleaned.bib', verbose_import=True)
-print('uva bib parsed')
+# print('parsing cleaned uva bib')
+# uva_bibliography = Bibliography()
+# #uva_bibliography.importBib('Input//UvA_Pure_research_output-41217_cleaned.bib', verbose_import=False)
+# uva_bibliography.importBib('Input//uva_100k_feb_cleaned.bib', verbose_import=True)
+# print('uva bib parsed')
 
 
-print('enriching vu with uva')
-vu_bibliography.enrich(uva_bibliography, field_to_match_in_bibliographies='b_doi', method='merge')
-print('enrichment completed')
+# print('enriching vu with uva')
+# vu_bibliography.enrich(uva_bibliography, field_to_match_in_bibliographies='b_doi', method='merge')
+# print('enrichment completed')
 
 # Simple (only VU, no-merge) version on 8 Feb 2018:
 # from triplicator.bibliographyInstantiator import Bibliography
