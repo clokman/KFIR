@@ -40,6 +40,9 @@ class Text_File():
         self.output_file_path = self.directory_path + '//' + self.input_file_name + '_cleaned.' \
                                 + self.input_file_extension
 
+        self.no_of_nonparsable_entries_due_to_unknown_reason = 0
+        self.no_of_unbalanced_entries_skipped = 0
+
     def preview(self, number_of_lines=2, print_separators_between_lines=False):
         """
         Examples:
@@ -146,7 +149,7 @@ class Text_File():
 
             return line
 
-    def clean_bibtex_file_and_output_cleaned_file(self, remove_unbalanced_entries = True, convert_to_ascii = True, patterns_to_replace={'': ''}):
+    def clean_bibtex_file_and_output_cleaned_file(self, convert_to_ascii = True, patterns_to_replace={'': ''}):
         """
 
         Args:
@@ -163,8 +166,7 @@ class Text_File():
             >>> my_unclean_file.print_lines(32)
             title     = "Test of CP invariance in Z ---> mu+ mu- gamma decay",
             >>> #remove unbalanced entries and clean specified patterns
-            >>> my_unclean_file.clean_bibtex_file_and_output_cleaned_file(remove_unbalanced_entries=True,
-            ...                                                           patterns_to_replace={'\{"\}': "'",
+            >>> my_unclean_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={'\{"\}': "'",
             ...                                                                '>': '',
             ...                                                                '<': ''})
             >>> # view results
@@ -179,16 +181,17 @@ class Text_File():
             >>> my_unclean_file.print_lines(32)
             title     = "Test of CP invariance in Z ---> mu+ mu- gamma decay",
 
-            >>> #do NOT remove unbalanced entries but clean specified patterns
-            >>> my_unclean_file.clean_bibtex_file_and_output_cleaned_file(remove_unbalanced_entries=False,
-            ...                                                           patterns_to_replace={'\{"\}': "'",
-            ...                                                                '>': '',
-            ...                                                                '<': ''})
+            >>> # This test disabled because currently all unbalanced entries are being cleaned
+            >>> ##do NOT remove unbalanced entries but clean specified patterns
+            >>> #my_unclean_file.clean_bibtex_file_and_output_cleaned_file(remove_unbalanced_entries=False,
+            #...                                                           patterns_to_replace={'\{"\}': "'",
+            #...                                                                '>': '',
+            #...                                                                '<': ''})
             >>> # view results
-            >>> my_cleaned_file = Text_File('test_data//problematic_characters_test_cleaned.bib')
-            >>> my_cleaned_file.print_lines(46) # line 46 is still in same place because unbalanced entries not excluded
+            >>> #my_cleaned_file = Text_File('test_data//problematic_characters_test_cleaned.bib')
+            >>> #my_cleaned_file.print_lines(46) # line 46 is still in same place because unbalanced entries not excluded
             title  = "Contribution to 'Multimedia as bridges for language and literacy for young children', SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
-            >>> my_cleaned_file.print_lines(32)  # line 32 is still in same plac because unbalanced entries not excluded
+            >>> #my_cleaned_file.print_lines(32)  # line 32 is still in same plac because unbalanced entries not excluded
             title     = "Test of CP invariance in Z --- mu+ mu- gamma decay",
 
             ### BALANCING ##############################################################################################
@@ -296,38 +299,38 @@ class Text_File():
                     if convert_to_ascii:
                         current_line = String(unidecode(current_line.content))
 
-                        # TODO: add character decode and perhaps also uridecode here
+                    # new entry line
+                    if current_line.is_line_type('bibtex', 'start of entry'):
 
-                    if remove_unbalanced_entries:
-                        # new entry line
-                        if current_line.is_line_type('bibtex', 'start of entry'):
+                        # this is the first entry ever (just append to buffer)
+                        if buffer.is_empty:
+                            buffer.append_row(current_line.content)
 
-                            # this is the first entry ever (just append to buffer)
-                            if buffer.is_empty:
-                                buffer.append_row(current_line.content)
-
-                            # this is NOT the first entry ever (write buffer to output if balanced, then re-initiate)
-                            else:
-                                if buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex'):
+                        # this is NOT the first entry ever (write buffer to output if balanced, then re-initiate)
+                        else:
+                            if buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex'):
+                                if buffer.is_parsable('bibtex'):
                                     for each_buffer_line in buffer.dataset:
                                         print(each_buffer_line, file=output_file)
                                 else:
-                                    # currently, when an unbalanced row is detected, the entry it belongs to is simply
-                                    # not written to the output file. If a more precise procedure (e.g., an unbalanced
-                                    # character removal algorithm) is to be added, it should be added under this 'else'.
-                                    pass
-                                buffer.clear_all().\
-                                    append_row(current_line.content)
+                                    self.no_of_nonparsable_entries_due_to_unknown_reason += 1
+                            else:
+                                # currently, when an unbalanced row is detected, the entry it belongs to is simply
+                                # not written to the output file. If a more precise procedure (e.g., an unbalanced
+                                # character removal algorithm) is to be added, it should be added under this 'else'.
+                                self.no_of_unbalanced_entries_skipped += 1
 
-                        # regular line (just append to buffer)
-                        elif not current_line.is_line_type('bibtex', 'start of entry') \
-                                and not current_line.is_line_type('bibtex', 'comment'):
-                            buffer.append_row(current_line.content)
+                            buffer.clear_all().\
+                                append_row(current_line.content)
 
-                    else:  # if no balancing is being done
-                        print(current_line, file=output_file)
+                    # regular line (just append to buffer)
+                    elif not current_line.is_line_type('bibtex', 'start of entry') \
+                            and not current_line.is_line_type('bibtex', 'comment'):
+                        buffer.append_row(current_line.content)
 
-    # def clean(self, patterns_to_replace={'': ''}):
+
+
+                            # def clean(self, patterns_to_replace={'': ''}):
     #     """
     #
     #     Args:

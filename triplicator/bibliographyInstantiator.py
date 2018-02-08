@@ -50,6 +50,9 @@ class Bibliography:
         # dictionary that holds all entries. this is where the bibliography data is held, including ids & field values.
         instance.entries = {}
 
+        instance.no_of_enrichments_made_in_last_operation = 0
+        instance.no_of_additions_made_in_last_operation = 0
+
     ###################################################################################################################
     ############################################### IMPORT FUNCTIONS ##################################################
     ###################################################################################################################
@@ -965,8 +968,8 @@ class Bibliography:
         """
         other_bib = other_bibliography_object_to_use
 
-        enrichment_count = 0
-        addition_count = 0
+        instance.no_of_enrichments_made_in_last_operation = 0
+        instance.no_of_additions_made_in_last_operation = 0
 
         for each_other_id, each_other_entry_data in other_bib.entries.items():
             target_field_name_in_other_bib = field_to_match_in_bibliographies
@@ -990,7 +993,7 @@ class Bibliography:
 
                     if each_field_name_in_other_bib not in field_names_of_current_bib:
                         instance.entries[matching_id][each_field_name_in_other_bib] = each_field_value_in_other_bib
-                        enrichment_count += 1
+                        instance.no_of_enrichments_made_in_last_operation += 1
             # TODO: Below part is not tested
             # TODO: Add kwargs to documentation
             # if the field name and value from the other bib is not found
@@ -998,11 +1001,13 @@ class Bibliography:
                if method == 'merge':
                    for each_other_field, each_other_field_value in each_other_entry_data.items():
                        instance.setEntry(each_other_id, each_other_field, each_other_field_value)
-                       addition_count += 1
+                       instance.no_of_additions_made_in_last_operation += 1
                else:
                    pass
 
-        print('%d entries enriched and %d entries appended to bibliography.' % (enrichment_count, addition_count))
+        print('%d entries enriched and %d entries appended to bibliography.'
+              % (instance.no_of_enrichments_made_in_last_operation,
+                 instance.no_of_additions_made_in_last_operation))
     ###################################################################################################################
     ################################################# QUERY FUNCTIONS #################################################
     ###################################################################################################################

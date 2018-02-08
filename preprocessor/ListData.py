@@ -568,3 +568,56 @@ class ListBuffer(ListData):
             return True
 
 
+    def is_parsable(self, syntax_to_parse_by='bibtex'):
+        """
+
+        Args:
+            syntax_to_parse_by:
+
+        Returns:
+            boolean
+
+        Examples:
+            # bibtex entry with no issues
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.dataset = ['@article{5f3ed8a5037f4837be0c7e8e5a1f0948,',
+            ...    'title   = "New Horizons biedt eindelijk goede blik op Pluto",',
+            ...    'author  = "B. Andeweg",',
+            ...    'year    = "2015",',
+            ...    'month   = "7",',
+            ...    'journal = "Volkskrant",',
+            ...    '}']
+            >>> my_buffer.is_parsable()
+            True
+
+            # unmatched " in author field
+            >>> my_buffer = ListBuffer()
+            >>> my_buffer.dataset = ['@article{5f3ed8a5037f4837be0c7e8e5a1f0948,',
+            ...    'title   = "New Horizons biedt eindelijk goede blik op Pluto",',
+            ...    'author  = "B. "Andeweg",',
+            ...    'year    = "2015",',
+            ...    'month   = "7",',
+            ...    'journal = "Volkskrant",',
+            ...    '}']
+            >>> my_buffer.is_parsable()
+            False
+        """
+        if syntax_to_parse_by == 'bibtex':
+            # import and shorten bibtex parser function
+            # import and shorten bibtex parser function
+            from pybtex.database.input import bibtex
+            parser = bibtex.Parser()
+
+            # TODO: test can be made in memory instead of via temporary file (could use 'parser.parse_bytes')
+            with open('temp_buffer_dump.bib', 'w', encoding='utf8') as temp_buffer_dump_file:
+                for each_buffer_row in self.dataset:
+                    print(each_buffer_row, file=temp_buffer_dump_file)
+
+            with open('temp_buffer_dump.bib', encoding='utf8') as temp_buffer_dump_file:
+                try:
+                    parsed_file = parser.parse_file(temp_buffer_dump_file)
+                    return True
+                except:
+                    return False
+
+
