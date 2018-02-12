@@ -352,8 +352,6 @@ class Text_File():
             >>> my_file = Text_File('test_data//empty_file.txt')
             >>> my_file.get_no_of_lines_in_file()
             0
-
-
         """
         with open(self.input_file_path, encoding='utf8') as file:
             i = -1  # for handling empty files
