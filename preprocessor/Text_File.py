@@ -328,6 +328,38 @@ class Text_File():
                             and not current_line.is_line_type('bibtex', 'comment'):
                         buffer.append_row(current_line.content)
 
+    def get_no_of_lines_in_file(self):
+        """
+        Returns the number of lines in the file.
+
+        Returns:
+            int
+
+        Examples:
+            # takes a long time (5-10 secs) to run
+            # >>> my_file = Text_File('test_data//big_test.ttl')
+            # >>> my_file.get_no_of_lines_in_file()
+            # 3667384
+
+            >>> my_file = Text_File('test_data//blazegraph_output_1000.csv')
+            >>> my_file.get_no_of_lines_in_file()
+            1001
+
+            >>> my_file = Text_File('test_data//demo_data.py')
+            >>> my_file.get_no_of_lines_in_file()
+            1
+
+            >>> my_file = Text_File('test_data//empty_file.txt')
+            >>> my_file.get_no_of_lines_in_file()
+            0
+
+
+        """
+        with open(self.input_file_path, encoding='utf8') as file:
+            i = -1  # for handling empty files
+            for i, l in enumerate(file):
+                pass
+        return i + 1
 
 
                             # def clean(self, patterns_to_replace={'': ''}):
