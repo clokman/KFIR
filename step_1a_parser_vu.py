@@ -8,8 +8,7 @@ vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
     '<': '--',
     '>': '--',
     '\{"\}': "'",  # to replace {"} with '
-    '\\\\': '--',    # to remove '\' in expressions such as '\sqrt{s}' unsure why '\\' does not work
-    '/': '--',
+    '\\\\': '--',    # to remove '\' in expressions such as '\sqrt{s}' and rogue '\'s.  unsure why '\\' does not work
     '“': "'",
     '”': "'",
     '’': "'"
@@ -24,7 +23,7 @@ uva_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
     '<': '--',
     '>': '--',
     '\{"\}': "'",  # to replace {"} with '
-    '\\\\': '--',    # to remove '\' in expressions such as '\sqrt{s}' unsure why '\\' does not work
+    '\\\\': '--',    # to remove '\' in expressions such as '\sqrt{s}' and rogue '\'s. unsure why '\\' does not work
     '“': "'",
     '”': "'",
     '’': "'"
