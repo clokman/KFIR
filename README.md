@@ -12,6 +12,12 @@ Is also the main repository for the packages 'triplicator' and 'preprocessor'. F
 Although short samples may be provided, bibliographic databases from VU and UvA are not included in this directory due to copyright reasons related to their respective owners. Data gathered from OpenCitations, however, are made fully available.
 
 # Change Log
+# v1.3
+2017.08.2018
+
+- bibtex cleaning script added
+- CSV parser added
+
 ## v1.2
 2017.12.10
 - Package name changed from 'bib2rdf' to 'triplicator'.
