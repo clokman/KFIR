@@ -288,7 +288,7 @@ class Text_File():
         from preprocessor.string_tools import String
         from preprocessor.ListData import ListBuffer
         from unidecode import unidecode
-        from preprocessor.meta import print_current_progress_to_console
+        from meta.consoleOutput import ConsoleOutput
 
         current_progress = 0
         maximum_progress = self.get_no_of_lines_in_file()
@@ -296,6 +296,7 @@ class Text_File():
         with open(self.input_file_path, encoding="utf8") as input_file:
             with open(self.output_file_path, mode='w', encoding="utf8") as output_file:
 
+                console = ConsoleOutput()
                 buffer = ListBuffer()
 
                 for current_line in input_file:
@@ -335,10 +336,14 @@ class Text_File():
                             and not current_line.is_line_type('bibtex', 'comment'):
                         buffer.append_row(current_line.content)
 
+                    # reporting
                     if show_progress_bar:  # show_progress_bar is False by default to prevent overly long test outputs
-                        print_current_progress_to_console(current_progress, maximum_progress,
+                        console.print_current_progress(current_progress, maximum_progress,
                                                           'Cleaning %s' % self.input_file_path)
                         current_progress += 1
+
+
+
 
     def get_no_of_lines_in_file(self):
         """
@@ -417,6 +422,10 @@ class Text_File():
 class Log_File(Text_File):
 
     def __init__(self, log_file_path):
+        """
+        Examples:
+            >>> my_log_file = Log_File('test_data//log_file_test.txt')
+        """
         Text_File.__init__(self, log_file_path)
 
     def add_entry(self, log_message, timestamp=False):

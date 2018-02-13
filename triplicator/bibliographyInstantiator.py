@@ -57,7 +57,7 @@ class Bibliography:
     ############################################### IMPORT FUNCTIONS ##################################################
     ###################################################################################################################
 
-    def importBib(instance, path_of_file_to_import, conversion_arguments_list='bib_default', verbose_import=False):
+    def importBib(instance, path_of_file_to_import, conversion_arguments_list='bib_default', verbose_import=False, show_progress_bar=False):
         """
         Parses a Bibliography class object from a .bib file. During parsing, field names in the bib file is converted
         to names (i.e., strings) specified in conversation_conversion_arguments_list.
@@ -167,6 +167,12 @@ class Bibliography:
             raise ValueError("Conversion_arguments_list parameter should be either 'bib_default' or be a list that "
                               "contains at least one list of arguments.")
 
+        from meta.consoleOutput import ConsoleOutput
+
+        # variables for progress bar
+        console = ConsoleOutput()
+        current_progress = 0
+        maximum_progress = len(pybtex_data.entries.items())
 
         # loop through individual reference entries in the parsed pybtex bib file
         for each_pybtex_entry_id, each_pybtex_entry in pybtex_data.entries.items():
@@ -179,6 +185,12 @@ class Bibliography:
                                                each_argument_list[1], each_argument_list[2])
                 except KeyError:
                     pass
+
+            if show_progress_bar:  # default is false to prevent very long test outputs
+                console.print_current_progress(current_progress, maximum_progress,
+                                               'Parsing file "%s"' % path_of_file_to_import)
+                current_progress += 1
+
             # if process should be printed to terminal
             if verbose_import:
                 # print each imported entry to console in {entry_id:entry_data} format
@@ -795,11 +807,11 @@ class Bibliography:
 
             >>> # actual bib import and merge
             >>> bib_poor = Bibliography()
-            >>> bib_poor.importBib('example_data/merge_test_file_poor.bib')
+            >>> bib_poor.importBib('example_data//merge_test_file_poor.bib')
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data/merge_test_file_poor.bib imported.
+            example_data//merge_test_file_poor.bib imported.
             <BLANKLINE>
             Fields added added to bibliography:
             {'b_author_labels': 2,
@@ -837,11 +849,11 @@ class Bibliography:
 
 
             >>> bib_rich = Bibliography()
-            >>> bib_rich.importBib('example_data/merge_test_file_rich.bib')
+            >>> bib_rich.importBib('example_data//merge_test_file_rich.bib')
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data/merge_test_file_rich.bib imported.
+            example_data//merge_test_file_rich.bib imported.
             <BLANKLINE>
             Fields added added to bibliography:
             {'b_abstract': 1,
