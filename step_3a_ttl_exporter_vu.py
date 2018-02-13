@@ -16,6 +16,7 @@ for each_triple in triples_list:
     except:
         pass
 
+
 print('Success: The triples are written to the file "' + output_file_path + '".' )
 
 # NOTE: Check the integrity of the produced .ttl file in command line

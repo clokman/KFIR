@@ -429,7 +429,7 @@ class Text_File():
 
 class Log_File(Text_File):
 
-    def __init__(self, log_file_path):
+    def __init__(self, log_file_path='log.txt'):
         """
         Examples:
             >>> my_log_file = Log_File('test_data//log_file_test.txt')

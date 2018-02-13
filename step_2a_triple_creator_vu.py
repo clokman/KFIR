@@ -11,6 +11,14 @@ from pprint import pprint
 from triplicator.rdfCreator import *
 #from step_1_bibtex_parser import vu_bibliography
 from step_1a_parser_vu import vu_bibliography
+from preprocessor.Text_File import Log_File
+from meta.consoleOutput import ConsoleOutput
+
+# for logging
+console = ConsoleOutput()
+log_file = Log_File('log.txt')
+current_progress = 0
+maximum_progress = len(vu_bibliography.entries.items())
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
@@ -346,4 +354,8 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
     except:
         pass
 
-pprint(triples_list)  # 'triples list' variable resides in rdfCreator.py
+
+    console.print_current_progress(current_progress, maximum_progress, 'Converting Bibliography object to .ttl file')
+    current_progress += 1
+
+#pprint(triples_list)  # 'triples list' variable resides in rdfCreator.py

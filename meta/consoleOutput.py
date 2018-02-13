@@ -44,7 +44,7 @@ class ConsoleOutput():
             >>> from preprocessor.Text_File import Text_File
             >>> import time
 
-            # print progress
+            >>> # print progress
             >>> my_file = Text_File('C://Users//Clokman//Google Drive//__Projects__//Code//KFIR//preprocessor//test_data//blazegraph_output_1000.csv')
             >>> my_console_output = ConsoleOutput()
             >>> with open(my_file.input_file_path, encoding='utf8') as file:
