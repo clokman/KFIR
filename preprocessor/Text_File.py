@@ -54,10 +54,17 @@ class Text_File():
             <BLANKLINE>
             Journal Article,<https://w3id.org/oc/corpus/br/44074>,Improving the Blood Pressure Control With the ProActive Attitude of Hypertensive Patients Seeking Follow-up Services,2016,Fang - Haiqing,Medicine,14,95,e3233--e3233,Ovid Technologies (Wolters Kluwer Health),10.1097/md.0000000000003233
         """
-        for i in range(1, number_of_lines + 1):
-            if print_separators_between_lines:
-                print('----------------------------------LINE %s----------------------------------' % i)
-            self.print_lines(i)
+        file_length = self.get_no_of_lines_in_file()
+
+        if file_length == 0:
+            print('The file "%s" has 0 lines (it is empty).' % self.input_file_path)
+
+        else:
+            for i in range(1, number_of_lines + 1):
+                if print_separators_between_lines:
+                    print('----------------------------------LINE %s----------------------------------' % i)
+                self.print_lines(i)
+
 
 
     def print_lines(self, start, end=None):
@@ -406,3 +413,50 @@ class Text_File():
     #                 print(each_line.content, file=output_file)
     #
     #
+
+class Log_File(Text_File):
+
+    def __init__(self, log_file_path):
+        Text_File.__init__(self, log_file_path)
+
+    def add_entry(self, log_message, timestamp=False):
+        """
+        Enters a line at the end of the Log_File.
+
+        Examples:
+            >>> # create a new log file and append lines to it (and clear contents if the file is not new)
+            >>> my_log_file = Log_File('test_data//log_file_test.txt')
+            >>> my_log_file.clear_contents()
+            >>> my_log_file.add_entry('1st log message')
+            >>> my_log_file.add_entry('2nd log message')
+            >>> my_log_file.print_lines(1, 2)
+            1st log message
+            2nd log message
+
+            # append a timestamped log entry
+            # Timestamp output is dynamic; it should not be included in automatic tests
+            # >>> my_log_file.add_entry('3rd log message', timestamp=True)
+            # >>> my_log_file.print_lines(1, 3)
+            # Tue Feb 14 11:25:52 2018  -  3rd log message
+        """
+        import time
+
+        with open(self.input_file_path, mode='a', encoding='utf8') as log_file:
+            if timestamp:
+                time_stamp_and_separator = time.ctime() + '  -  '
+            else:
+                time_stamp_and_separator = ''
+
+            log_file.write(time_stamp_and_separator + log_message + '\n')
+
+    def clear_contents(self):
+        """
+        Examples:
+            >>> my_log_file = Log_File('test_data//log_file_test.txt')
+            >>> my_log_file.add_entry('last log message')  # in case the file is already empty
+            >>> my_log_file.clear_contents()
+            >>> my_log_file.preview()
+            The file "test_data//log_file_test.txt" has 0 lines (it is empty).
+        """
+        with open(self.input_file_path, mode='w', encoding='utf8') as log_file:
+            log_file.write('')

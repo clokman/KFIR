@@ -1,34 +1,9 @@
-
-import sys
-
-
 def print_current_progress_to_console(current_progress, maximum_progress, status_message=''):
     """
-    # Source from:
-    # https://gist.github.com/vladignatyev/06860ec2040cb497f0f3#file-progress-py-L18
-    #
+    # Adapted from https://gist.github.com/vladignatyev/06860ec2040cb497f0f3#file-progress-py-L18
+    # For the original code:
     # The MIT License (MIT)
     # Copyright (c) 2016 Vladimir Ignatev
-    #
-    # Permission is hereby granted, free of charge, to any person obtaining
-    # a copy of this software and associated documentation files (the "Software"),
-    # to deal in the Software without restriction, including without limitation
-    # the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    # and/or sell copies of the Software, and to permit persons to whom the Software
-    # is furnished to do so, subject to the following conditions:
-    #
-    # The above copyright notice and this permission notice shall be included
-    # in all copies or substantial portions of the Software.
-    #
-    # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    # INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-    # PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-    # FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
-    # OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-    # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-    Returns:
-        terminal output
 
     Examples:
         >>> from preprocessor.Text_File import Text_File
@@ -1046,6 +1021,7 @@ def print_current_progress_to_console(current_progress, maximum_progress, status
         [============================================================] 99.8% ...Iterating
         [============================================================] 99.9% ...Iterating
     """
+    import sys
 
     bar_length = 60
     filled_len = int(round(bar_length * current_progress / float(maximum_progress)))
