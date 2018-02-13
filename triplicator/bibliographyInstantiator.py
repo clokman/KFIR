@@ -53,6 +53,8 @@ class Bibliography:
         instance.no_of_enrichments_made_in_last_operation = 0
         instance.no_of_additions_made_in_last_operation = 0
 
+        instance.log_file_path = 'log.txt'
+
     ###################################################################################################################
     ############################################### IMPORT FUNCTIONS ##################################################
     ###################################################################################################################
@@ -82,9 +84,9 @@ class Bibliography:
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data//test.bib imported.
+            example_data//test.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to bibliography:
+            Fields added added to the Bibliography object:
             {'b_abstract': 2,
              'b_author_labels': 4,
              'b_authors': 4,
@@ -106,7 +108,12 @@ class Bibliography:
              'b_volume': 3}
         """
         from builtins import KeyError
+        from pprint import pprint
         from triplicator.pybtexImporter import Pybtex_import
+        from meta.consoleOutput import ConsoleOutput
+        from preprocessor.Text_File import Log_File
+
+        log_file = Log_File(instance.log_file_path)
 
         # import input data into pybtex_data variable
         pybtex_import_instance = Pybtex_import(path_of_file_to_import)
@@ -167,7 +174,6 @@ class Bibliography:
             raise ValueError("Conversion_arguments_list parameter should be either 'bib_default' or be a list that "
                               "contains at least one list of arguments.")
 
-        from meta.consoleOutput import ConsoleOutput
 
         # variables for progress bar
         console = ConsoleOutput()
@@ -194,7 +200,6 @@ class Bibliography:
             # if process should be printed to terminal
             if verbose_import:
                 # print each imported entry to console in {entry_id:entry_data} format
-                from pprint import pprint
                 pprint({each_pybtex_entry_id: instance.getEntryById(each_pybtex_entry_id)}, compact=True)
                 print(
                     "=============================================================================================="
@@ -226,15 +231,20 @@ class Bibliography:
         # Print statistics about the import operation to console
 
         # display path and name of the imported file
+        import_complete_message = path_of_file_to_import + ' ' + 'parsed and imported as Bibliography object.'
         print('\n\n-----------------------------------------------------------------------------------------------'
               '----')
-        print(path_of_file_to_import + ' ' + 'imported.')
+        print(import_complete_message)
+        log_file.add_entry(import_complete_message, timestamp=True)
+
 
         # TODO: print total number of imported entries
-
         # print how many times each field is imported
-        print("\nFields added added to bibliography:")
+        console.print_and_log("\nFields added added to the Bibliography object:", log_file_path=instance.log_file_path)
         instance.summarize()
+
+        for each_key, each_value in instance._field_type_registry.items():
+            log_file.add_entry(str(each_key) + ': ' + str(each_value))
 
 
 
@@ -811,9 +821,9 @@ class Bibliography:
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data//merge_test_file_poor.bib imported.
+            example_data//merge_test_file_poor.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to bibliography:
+            Fields added added to the Bibliography object:
             {'b_author_labels': 2,
              'b_authors': 2,
              'b_document': 2,
@@ -853,9 +863,9 @@ class Bibliography:
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data//merge_test_file_rich.bib imported.
+            example_data//merge_test_file_rich.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to bibliography:
+            Fields added added to the Bibliography object:
             {'b_abstract': 1,
              'b_author_labels': 2,
              'b_authors': 2,

@@ -7,6 +7,34 @@ class ConsoleOutput():
         """
         self.last_output_line = ''
 
+    def print_and_log(self, message, log_file_path):
+        """
+        Examples:
+            >>> # prep
+            >>> from preprocessor.Text_File import Log_File
+            >>> my_log_file = Log_File('test_data//log_test.txt')
+            >>> my_log_file.clear_contents()
+
+            >>> # print and log
+            >>> my_console_output = ConsoleOutput()
+            >>> my_console_output.print_and_log('printed and logged message', 'test_data//log_test.txt')
+            printed and logged message
+
+            >>> my_log_file.print_lines(1)
+            printed and logged message
+        """
+
+        from preprocessor.Text_File import Log_File
+
+        log_file = Log_File(log_file_path)
+
+        messsage = str(message)
+
+        print(message)
+        log_file.add_entry(message)
+
+
+
     def print_current_progress(self, current_progress, maximum_progress, status_message='', print_decimals=False):
         """
         # Adapted from https://gist.github.com/vladignatyev/06860ec2040cb497f0f3#file-progress-py-L18

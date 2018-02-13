@@ -1,7 +1,7 @@
 from triplicator.bibliographyInstantiator import Bibliography
 from preprocessor.Text_File import Text_File, Log_File
 
-log_file = Log_File('last_operation.log')
+log_file = Log_File('log.txt')
 log_file.clear_contents()
 
 #vu_bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
