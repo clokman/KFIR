@@ -172,6 +172,8 @@ class Text_File():
             >>> my_unclean_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={'\{"\}': "'",
             ...                                                                '>': '',
             ...                                                                '<': ''})
+            Cleaning of "test_data//problematic_characters_test.bib" started
+            Cleaning of "test_data//problematic_characters_test.bib" finished
             >>> # view results
             >>> my_cleaned_file = Text_File('test_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(22) # line 46 is now line 22 because unbalanced entries excluded in output
@@ -232,6 +234,8 @@ class Text_File():
 
             >>> # faulty entry is not included in the cleaned file. Now there is another entry in its place.
             >>> my_file.clean_bibtex_file_and_output_cleaned_file()
+            Cleaning of "test_data//problematic_characters_test.bib" started
+            Cleaning of "test_data//problematic_characters_test.bib" finished
             >>> my_cleaned_file = Text_File('test_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(1,7)
             @book{a350c3826d05484cb863e77166d6e17b,
@@ -274,6 +278,8 @@ class Text_File():
             title     = "Measurement of the CP-violating phase ϕsand the Bs0meson decay width difference with Bs0→ J/ψϕ decays in ATLAS",
 
             >>> my_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={'>': '', '<': ''})
+            Cleaning of "test_data//problematic_characters_test.bib" started
+            Cleaning of "test_data//problematic_characters_test.bib" finished
             >>> my_cleaned_file = Text_File('test_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(95)
             title     = "Networks of * / G/ [?] queues with shot-noise-driven arrival intensities",
@@ -293,10 +299,13 @@ class Text_File():
         current_progress = 0
         maximum_progress = self.get_no_of_lines_in_file()
 
+        console = ConsoleOutput()
+        console.print_and_log(('Cleaning of "%s" started' % self.input_file_path), timestamp_in_file=True)
+
+
         with open(self.input_file_path, encoding="utf8") as input_file:
             with open(self.output_file_path, mode='w', encoding="utf8") as output_file:
 
-                console = ConsoleOutput()
                 buffer = ListBuffer()
 
                 for current_line in input_file:
@@ -342,8 +351,7 @@ class Text_File():
                                                           'Cleaning %s' % self.input_file_path)
                         current_progress += 1
 
-
-
+        console.print_and_log(('Cleaning of "%s" finished' % self.input_file_path), timestamp_in_file=True)
 
     def get_no_of_lines_in_file(self):
         """
@@ -428,7 +436,7 @@ class Log_File(Text_File):
         """
         Text_File.__init__(self, log_file_path)
 
-    def add_entry(self, log_message, timestamp=False):
+    def append_line(self, log_message, timestamp=False):
         """
         Enters a line at the end of the Log_File.
 
@@ -436,19 +444,21 @@ class Log_File(Text_File):
             >>> # create a new log file and append lines to it (and clear contents if the file is not new)
             >>> my_log_file = Log_File('test_data//log_file_test.txt')
             >>> my_log_file.clear_contents()
-            >>> my_log_file.add_entry('1st log message')
-            >>> my_log_file.add_entry('2nd log message')
+            >>> my_log_file.append_line('1st log message')
+            >>> my_log_file.append_line('2nd log message')
             >>> my_log_file.print_lines(1, 2)
             1st log message
             2nd log message
 
             # append a timestamped log entry
             # Timestamp output is dynamic; it should not be included in automatic tests
-            # >>> my_log_file.add_entry('3rd log message', timestamp=True)
+            # >>> my_log_file.append_line('3rd log message', timestamp=True)
             # >>> my_log_file.print_lines(1, 3)
             # Tue Feb 14 11:25:52 2018  -  3rd log message
         """
         import time
+
+        log_message = str(log_message)
 
         with open(self.input_file_path, mode='a', encoding='utf8') as log_file:
             if timestamp:
@@ -462,7 +472,7 @@ class Log_File(Text_File):
         """
         Examples:
             >>> my_log_file = Log_File('test_data//log_file_test.txt')
-            >>> my_log_file.add_entry('last log message')  # in case the file is already empty
+            >>> my_log_file.append_line('last log message')  # in case the file is already empty
             >>> my_log_file.clear_contents()
             >>> my_log_file.preview()
             The file "test_data//log_file_test.txt" has 0 lines (it is empty).

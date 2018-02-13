@@ -81,12 +81,13 @@ class Bibliography:
             >>> # Import a .bib object as Bibliography object
             >>> my_bib = Bibliography()
             >>> my_bib.importBib('example_data//test.bib')
+            Parsing of example_data//test.bib started.
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
             example_data//test.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to the Bibliography object:
+            Fields added to the parsed the Bibliography object:
             {'b_abstract': 2,
              'b_author_labels': 4,
              'b_authors': 4,
@@ -116,6 +117,10 @@ class Bibliography:
         from preprocessor.Text_File import Log_File
 
         log_file = Log_File(instance.log_file_path)
+
+        console = ConsoleOutput()
+        console.print_and_log('Parsing of %s started.' % path_of_file_to_import)
+
 
         # import input data into pybtex_data variable
         pybtex_import_instance = Pybtex_import(path_of_file_to_import)
@@ -178,7 +183,6 @@ class Bibliography:
 
 
         # variables for progress bar
-        console = ConsoleOutput()
         current_progress = 0
         maximum_progress = len(pybtex_data.entries.items())
 
@@ -230,25 +234,23 @@ class Bibliography:
         ########################
         #  OPERATION SUMMARY   #
         ########################
-        # Print statistics about the import operation to console
 
-        # display path and name of the imported file
+        # Print and log success message
         import_complete_message = path_of_file_to_import + ' ' + 'parsed and imported as Bibliography object.'
         print('\n\n-----------------------------------------------------------------------------------------------'
               '----')
-        print(import_complete_message)
-        log_file.add_entry(import_complete_message, timestamp=True)
+        console.print_and_log(import_complete_message, timestamp_in_file=True)
 
-
+        # Print and log statistics about the import operation
         # TODO: print total number of imported entries
-        # print how many times each field is imported
-        console.print_and_log("\nFields added added to the Bibliography object:")
+        console.print_and_log("\nFields added to the parsed the Bibliography object:")
         instance.summarize()
-
         for each_key, each_value in instance._field_type_registry.items():
-            log_file.add_entry(str(each_key) + ': ' + str(each_value))
+            log_file.append_line(str(each_key) + ': ' + str(each_value))
 
+        # Print and log a sample from parsed entries
         console.print_and_log("\n")
+        instance.write_preview_to_log(number_of_entries_to_preview=3)
 
 
     def importCsv(instance,
@@ -304,7 +306,7 @@ class Bibliography:
             ---------------------------------------------------------------------------------------------------
             example_data//test.csv imported.
             <BLANKLINE>
-            Fields added added to bibliography:
+            Fields added to the parsed bibliography:
             {'b_author_labels': 7,
              'b_authors': 7,
              'b_document': 7,
@@ -337,7 +339,7 @@ class Bibliography:
             ---------------------------------------------------------------------------------------------------
             example_data//test.csv imported.
             <BLANKLINE>
-            Fields added added to bibliography:
+            Fields added to the parsed bibliography:
             {'x_document': 7, 'x_document_label': 7}
             >>> my_custom_bibliography.preview(1)
             <BLANKLINE>
@@ -432,7 +434,7 @@ class Bibliography:
         print('\n\n---------------------------------------------------------------------------------------------------')
         print(path_of_file_to_import + ' ' + 'imported.')
 
-        print("\nFields added added to bibliography:")
+        print("\nFields added to the parsed bibliography:")
         instance.summarize()
 
     # def import_data(instance, path_of_file_to_import, conversion_arguments_list='defaults',
@@ -558,7 +560,7 @@ class Bibliography:
     #         # TODO: print total number of imported entries
     #
     #         # print how many times each field is imported
-    #         print("\nFields added added to bibliography:")
+    #         print("\nFields added to the parsed bibliography:")
     #         instance.summarize()
     #
     #
@@ -639,7 +641,7 @@ class Bibliography:
     #         print('\n\n---------------------------------------------------------------------------------------------------')
     #         print(path_of_file_to_import + ' ' + 'imported.')
     #
-    #         print("\nFields added added to bibliography:")
+    #         print("\nFields added to the parsed bibliography:")
     #         instance.summarize()
 
 
@@ -821,12 +823,13 @@ class Bibliography:
             >>> # actual bib import and merge
             >>> bib_poor = Bibliography()
             >>> bib_poor.importBib('example_data//merge_test_file_poor.bib')
+            Parsing of example_data//merge_test_file_poor.bib started.
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
             example_data//merge_test_file_poor.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to the Bibliography object:
+            Fields added to the parsed the Bibliography object:
             {'b_author_labels': 2,
              'b_authors': 2,
              'b_document': 2,
@@ -866,12 +869,13 @@ class Bibliography:
 
             >>> bib_rich = Bibliography()
             >>> bib_rich.importBib('example_data//merge_test_file_rich.bib')
+            Parsing of example_data//merge_test_file_rich.bib started.
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
             example_data//merge_test_file_rich.bib parsed and imported as Bibliography object.
             <BLANKLINE>
-            Fields added added to the Bibliography object:
+            Fields added to the parsed the Bibliography object:
             {'b_abstract': 1,
              'b_author_labels': 2,
              'b_authors': 2,
@@ -1141,8 +1145,8 @@ class Bibliography:
         Prints summary statistsics of the bibliograpghy.
 
         Args:
-            print_header_text(bool): If true, prints a line before the start of summary, such as "Fields added added
-                to bibliography:"
+            print_header_text(bool): If true, prints a line before the start of summary, such as "Fields added
+   the parsed              to bibliography:"
 
         Returns:
             Printed string on console
@@ -1162,8 +1166,8 @@ class Bibliography:
 
         Args:
             number_of_entries_to_preview (int): The number of entities to be printed.
-            print_header_text: If true, prints a line before the start of summary, such as "Fields added added
-                to bibliography:"
+            print_header_text: If true, prints a line before the start of summary, such as "Fields added
+   the parsed              to bibliography:"
 
         Returns:
             Printed string on console
@@ -1171,12 +1175,29 @@ class Bibliography:
         from pprint import pprint
         if print_header_text:
             print('\n\n---------------------------------------------------------------------------------------------------')
-            print("\nPreview of bibliography:")
+            print("\nPreview the parsed Bibliography object:")
 
         for i, each_entry in enumerate(instance.entries.items()):
             if i < number_of_entries_to_preview:
                 print('\n----------------------------------ENTRY ' + str(i+1) + '----------------------------------')
                 pprint(each_entry, compact=True)
+            else:
+                break
+
+    def write_preview_to_log(instance, number_of_entries_to_preview=5, log_file_path='log.txt'):
+        """
+        Prints a sample of entries from the bibliography to the specified log file.
+        """
+        from preprocessor.Text_File import Log_File
+        log_file = Log_File(log_file_path)
+
+        log_file.append_line('Preview the parsed Bibliography object:')
+
+        for i, each_entry_id_entry_content_pair in enumerate(instance.entries.items()):
+            if i < number_of_entries_to_preview:
+                log_file.append_line('\n----------------------------------ENTRY ' + str(i+1) + '----------------------------------')
+                for each_key_value_pair in each_entry_id_entry_content_pair[1].items():
+                        log_file.append_line(each_key_value_pair)
             else:
                 break
 

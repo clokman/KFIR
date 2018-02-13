@@ -7,7 +7,7 @@ class ConsoleOutput():
         """
         self.last_outputted_line = ''
 
-    def print_and_log(self, message, log_file_path='log.txt'):
+    def print_and_log(self, message, timestamp_in_file=False, log_file_path='log.txt'):
         """
         Examples:
             >>> # prep
@@ -17,7 +17,7 @@ class ConsoleOutput():
 
             >>> # print and log
             >>> my_console_output = ConsoleOutput()
-            >>> my_console_output.print_and_log('printed and logged message', 'test_data//log_test.txt')
+            >>> my_console_output.print_and_log('printed and logged message', log_file_path = 'test_data//log_test.txt')
             printed and logged message
 
             >>> my_log_file.print_lines(1)
@@ -30,7 +30,7 @@ class ConsoleOutput():
         messsage = str(message)
 
         print(message)
-        log_file.add_entry(message)
+        log_file.append_line(message, timestamp=timestamp_in_file)
 
 
     def print_current_progress(self, current_progress, maximum_progress, status_message='', print_decimals=False):
