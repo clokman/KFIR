@@ -106,6 +106,8 @@ class Bibliography:
              'b_topics': 2,
              'b_type': 4,
              'b_volume': 3}
+            <BLANKLINE>
+            <BLANKLINE>
         """
         from builtins import KeyError
         from pprint import pprint
@@ -240,12 +242,13 @@ class Bibliography:
 
         # TODO: print total number of imported entries
         # print how many times each field is imported
-        console.print_and_log("\nFields added added to the Bibliography object:", log_file_path=instance.log_file_path)
+        console.print_and_log("\nFields added added to the Bibliography object:")
         instance.summarize()
 
         for each_key, each_value in instance._field_type_registry.items():
             log_file.add_entry(str(each_key) + ': ' + str(each_value))
 
+        console.print_and_log("\n")
 
 
     def importCsv(instance,
@@ -832,6 +835,9 @@ class Bibliography:
              'b_publication_month': 1,
              'b_publication_year': 2,
              'b_type': 2}
+            <BLANKLINE>
+            <BLANKLINE>
+
             >>> bib_poor.preview(100)
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
@@ -884,6 +890,8 @@ class Bibliography:
              'b_publisher_label': 2,
              'b_type': 2,
              'b_volume': 1}
+            <BLANKLINE>
+            <BLANKLINE>
 
             >>> bib_rich.preview(100)
             <BLANKLINE>

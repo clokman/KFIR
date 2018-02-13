@@ -3,11 +3,11 @@ class ConsoleOutput():
     def __init__(self):
         """
         Examples:
-            >>> console = ConsoleOutput
+            >>> console = ConsoleOutput()
         """
-        self.last_output_line = ''
+        self.last_outputted_line = ''
 
-    def print_and_log(self, message, log_file_path):
+    def print_and_log(self, message, log_file_path='log.txt'):
         """
         Examples:
             >>> # prep
@@ -23,7 +23,6 @@ class ConsoleOutput():
             >>> my_log_file.print_lines(1)
             printed and logged message
         """
-
         from preprocessor.Text_File import Log_File
 
         log_file = Log_File(log_file_path)
@@ -32,7 +31,6 @@ class ConsoleOutput():
 
         print(message)
         log_file.add_entry(message)
-
 
 
     def print_current_progress(self, current_progress, maximum_progress, status_message='', print_decimals=False):
@@ -1245,11 +1243,11 @@ class ConsoleOutput():
 
         output = '[%s] %s%s ...%s\n' % (bar, percentage, '%', status_message)
 
-        if output != self.last_output_line:
+        if output != self.last_outputted_line:
 
             sys.stdout.write(output)
             sys.stdout.flush()
 
-            self.last_output_line = output
+            self.last_outputted_line = output
         else:
             pass
