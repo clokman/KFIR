@@ -12,7 +12,7 @@ vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
     '“': "'",
     '”': "'",
     '’': "'"
-    })
+    }, show_progress_bar=True)
 print('cleaned vu bib')
 
 
@@ -27,7 +27,7 @@ print('cleaned vu bib')
 #     '“': "'",
 #     '”': "'",
 #     '’': "'"
-#     })
+#     }, show_progress_bar=True)
 # print('cleaned uva bib')
 
 print('parsing cleaned vu bib')

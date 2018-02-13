@@ -149,12 +149,8 @@ class Text_File():
 
             return line
 
-    def clean_bibtex_file_and_output_cleaned_file(self, convert_to_ascii = True, patterns_to_replace={'': ''}):
+    def clean_bibtex_file_and_output_cleaned_file(self, convert_to_ascii = True, patterns_to_replace={'': ''}, show_progress_bar=False):
         """
-
-        Args:
-            input_file_path:
-            output_file_path:
 
         Examples:
             ### CLEANING ###############################################################################################
@@ -285,6 +281,10 @@ class Text_File():
         from preprocessor.string_tools import String
         from preprocessor.ListData import ListBuffer
         from unidecode import unidecode
+        from preprocessor.meta import print_current_progress_to_console
+
+        current_progress = 0
+        maximum_progress = self.get_no_of_lines_in_file()
 
         with open(self.input_file_path, encoding="utf8") as input_file:
             with open(self.output_file_path, mode='w', encoding="utf8") as output_file:
@@ -327,6 +327,11 @@ class Text_File():
                     elif not current_line.is_line_type('bibtex', 'start of entry') \
                             and not current_line.is_line_type('bibtex', 'comment'):
                         buffer.append_row(current_line.content)
+
+                    if show_progress_bar:  # show_progress_bar is False by default to prevent overly long test outputs
+                        print_current_progress_to_console(current_progress, maximum_progress,
+                                                          'Cleaning %s' % self.input_file_path)
+                        current_progress += 1
 
     def get_no_of_lines_in_file(self):
         """
