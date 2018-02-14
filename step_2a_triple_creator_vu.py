@@ -33,9 +33,9 @@ maximum_progress = len(vu_bibliography.entries.items())
 
 ###### NAMESPACE PREFIX DEFINITIONS ######
 sr   = "http://clokman.com/ontologies/scientific-research#"  # assign long domain  name to short variable.
-pvu  = "http://clokman.com/ontologies/pure-vu#"              # assign long domain  name to short variable.
-puva = "http://clokman.com/ontologies/pure-uva#"
-oc  = "http://clokman.com/ontologies/open-citations#"
+pvu  = "http://clokman.com/ontologies/scientific-research#"              # assign long domain  name to short variable.
+puva = "http://clokman.com/ontologies/scientific-research#"
+oc   = "http://clokman.com/ontologies/scientific-research#"
 rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 rdfs = "http://www.w3.org/2000/01/rdf-schema#"
 owl  = "http://www.w3.org/2002/07/owl#"
