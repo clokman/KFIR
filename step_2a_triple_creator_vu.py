@@ -34,6 +34,8 @@ maximum_progress = len(vu_bibliography.entries.items())
 ###### NAMESPACE PREFIX DEFINITIONS ######
 sr   = "http://clokman.com/ontologies/scientific-research#"  # assign long domain  name to short variable.
 pvu  = "http://clokman.com/ontologies/pure-vu#"              # assign long domain  name to short variable.
+puva = "http://clokman.com/ontologies/pure-uva#"
+oc  = "http://clokman.com/ontologies/open-citations#"
 rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 rdfs = "http://www.w3.org/2000/01/rdf-schema#"
 owl  = "http://www.w3.org/2002/07/owl#"
@@ -44,7 +46,7 @@ xsd  = "http://www.w3.org/2001/XMLSchema#"
 #add_prefix_triple("rdf",  rdf)
 #add_prefix_triple("rdfs", rdfs)
 #add_prefix_triple("owl",  owl)
-add_prefix_triple("xsd",  xsd)
+#add_prefix_triple("xsd",  xsd)
 
 
 ###### ONTOLOGY DEFINITIONS ######
@@ -105,8 +107,8 @@ c_named_individual = construct_uri(owl,  "NamedIndividual"   )
 #'c_object_property' is provided before property definitions and assertions, as it is needed by them.
 c_class            = construct_uri(rdfs, "Class"             )
 c_vu_pure          = construct_uri(pvu,  "VUPure")
-c_uva_pure         = construct_uri(pvu,  "UVAPure")
-c_oc               = construct_uri(pvu,  "OC")
+c_uva_pure         = construct_uri(puva, "UVAPure")
+c_oc               = construct_uri(oc,   "OC")
 c_bibliography     = construct_uri(pvu,  "Bibliography")
 
 # TODO: TRY TO ADD THESE AND SEE WHAT HAPPENS IN PROTEGE:
@@ -140,29 +142,31 @@ add_triple(c_book,             p_rdf_type, c_class)
 add_triple(c_book_chapter,     p_rdf_type, c_class)
 add_triple(c_miscellaneous,    p_rdf_type, c_class)
 
-
-# Pure-VU document type definitions
-# These are necessary for class equivalency assertions between Pure-VU and SR document classes
-# These pure VU class names (e.g., 'article', 'book', 'inbook') are not coded anywhere in these scripts, but they are parsed with the below names by pybtex package.
-# These classes are *automatically* (hence no explicit usage anywhere) used to assign types to instances in the code below.
-# As these are NOT the document classes in the main ontology, their variable names are suffixed (e.g., c_article_pvu).
-c_article_pvu = construct_uri(pvu, "article")
-c_book_pvu    = construct_uri(pvu, "book")
-c_inbook_pvu  = construct_uri(pvu, "inbook")
-c_misc_pvu    = construct_uri(pvu, "misc")
-
-add_triple(c_article_pvu,    p_rdf_type, c_class)
-add_triple(c_book_pvu,       p_rdf_type, c_class)
-add_triple(c_inbook_pvu,     p_rdf_type, c_class)
-add_triple(c_misc_pvu,       p_rdf_type, c_class)
-
-
-# Class equivalency assertions
-add_triple(c_article_pvu, p_equivalent_class, c_journal_article)
-add_triple(c_book_pvu,    p_equivalent_class, c_book)
-add_triple(c_inbook_pvu,  p_equivalent_class, c_book_chapter)
-add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
-
+############################################################################################################
+# SECTION COMMENTED OUT (ON 14th OF FEB) TO PREVENT DUPLICATE CLASSES SUCH AS 'BOOK'(sr) and 'BOOK'(vu)
+# IF LEADS TO A PROBLEM WITH SR ONTOLOGY, IT SHOULD BE TURNED BACK ON OR ADAPTED IN A DIFFERENT WAY
+# # Pure-VU document type definitions
+# # These are necessary for class equivalency assertions between Pure-VU and SR document classes
+# # These pure VU class names (e.g., 'article', 'book', 'inbook') are not coded anywhere in these scripts, but they are parsed with the below names by pybtex package.
+# # These classes are *automatically* (hence no explicit usage anywhere) used to assign types to instances in the code below.
+# # As these are NOT the document classes in the main ontology, their variable names are suffixed (e.g., c_article_pvu).
+# c_article_pvu = construct_uri(pvu, "article")
+# c_book_pvu    = construct_uri(pvu, "book")
+# c_inbook_pvu  = construct_uri(pvu, "inbook")
+# c_misc_pvu    = construct_uri(pvu, "misc")
+#
+# add_triple(c_article_pvu,    p_rdf_type, c_class)
+# add_triple(c_book_pvu,       p_rdf_type, c_class)
+# add_triple(c_inbook_pvu,     p_rdf_type, c_class)
+# add_triple(c_misc_pvu,       p_rdf_type, c_class)
+#
+#
+# # Class equivalency assertions
+# add_triple(c_article_pvu, p_equivalent_class, c_journal_article)
+# add_triple(c_book_pvu,    p_equivalent_class, c_book)
+# add_triple(c_inbook_pvu,  p_equivalent_class, c_book_chapter)
+# add_triple(c_misc_pvu,    p_equivalent_class, c_miscellaneous)
+############################################################################################################
 
 #################################################################################
 #                     DYNAMIC TRIPLES: INSTANCES AND TYPES                      #
