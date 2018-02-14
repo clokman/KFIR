@@ -8,6 +8,7 @@
 
 from triplicator.rdfCreator import *
 from step_1a_parser_vu import vu_bibliography
+from preprocessor.string_tools import String
 from preprocessor.Text_File import Log_File
 from meta.consoleOutput import ConsoleOutput
 
@@ -175,12 +176,13 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
         #######  URIs  #######
         current_document_instance_name = each_entry["b_document"]  # document instance
         current_type = each_entry["b_type"]  # type
+        current_type = String(current_type).capitalize_first_letter().content
 
     except:
         pass
     # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_class values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
 
-    c_document_class      = construct_uri(res, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
+    c_document_class      = construct_uri(ont, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
     i_document_instance   = construct_uri(res, current_document_instance_name)  # assign current document instance to an instance variable (denoted by i_), and give it an URI
 
 

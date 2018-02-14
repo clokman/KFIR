@@ -710,6 +710,22 @@ class String(str):
             except IndexError:
                 return False
 
+    def capitalize_first_letter(self):
+        """
+        Returns:
+            modified String object (self)
+
+        Examples:
+            >>> String('my string').capitalize_first_letter()
+            'My string'
+
+        """
+        string = self.content
+
+        string = string[0].upper() + string[1:]
+
+        self.content = string
+        return self
 
 class File_Path(String, str):
     def __init__(self, path_string):
@@ -1045,3 +1061,4 @@ class Parameter_Value():
             self.content = [self.content]
 
         return self.content
+
