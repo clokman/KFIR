@@ -125,6 +125,7 @@ class Bibliography:
         # import input data into pybtex_data variable
         pybtex_import_instance = Pybtex_import(path_of_file_to_import)
         pybtex_data = pybtex_import_instance.data
+        console.print_and_log('[DEBUG][finished] pybtex_data = pybtex_import_instance.data' % path_of_file_to_import)
 
         ########################################################################
         #  Transfer items from pybtex parsed dictionary to output dictionary   #
@@ -174,12 +175,14 @@ class Bibliography:
             ]
 
         # if conversion_arguments_list is provided, proceed without modifying the provided arguments list
-        elif type(conversion_arguments_list) is list:
+        elif type(conversion_arguments_list):
             pass
         # if conversion_arguments_list is neither hardcoded nor provided, return error.
         else:
             raise ValueError("Conversion_arguments_list parameter should be either 'bib_default' or be a list that "
                               "contains at least one list of arguments.")
+
+        console.print_and_log('[DEBUG][finished] conversion arguments list is bib_default' % path_of_file_to_import)
 
 
         # variables for progress bar
