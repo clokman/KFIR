@@ -58,6 +58,7 @@ c_object_property  = construct_uri(owl,  "ObjectProperty"    )
 ###### STATIC PROPERTY DEFINITIONS (p_) ######
 p_subclass_of             = construct_uri(rdfs, "subClassOf"        )  # assign URI to subclass of
 p_is_author_of            = construct_uri(ont,  "isAuthorOf"        )  # assign URI to is author of
+p_has_author              = construct_uri(ont,  "hasAuthor"         )  # ...
 p_is_published_on         = construct_uri(ont,  "isPublishedOn"     )
 p_is_published_by         = construct_uri(ont,  "isPublishedBy"     )
 p_is_published_on_year    = construct_uri(ont,  "isPublishedOnYear" )
@@ -68,15 +69,17 @@ p_has_issn                = construct_uri(ont,  "hasISSN"           )
 p_has_isbn                = construct_uri(ont,  "hasISBN"           )
 p_is_chapter_of           = construct_uri(ont,  "isChapterOf"       )
 p_is_about                = construct_uri(ont,  "isAbout"           )
+p_has_abstract            = construct_uri(ont,  "hasAbstract"           )
 p_has_origin_bibliography = construct_uri(ont,  "hasOriginBibliography")
 p_rdf_type                = construct_uri(rdf,  "type"              )
 p_label                   = construct_uri(rdfs, "label"             )
 p_equivalent_class        = construct_uri(owl,  "equivalentClass"   )
 
-add_triple(p_subclass_of,              p_rdf_type,     c_object_property)  # is author of is a property
-add_triple(p_is_author_of,             p_rdf_type,     c_object_property)  # is author of is a property
-add_triple(p_is_published_on,          p_rdf_type,     c_object_property)  # is published on is a property
-add_triple(p_is_published_by,          p_rdf_type,     c_object_property)  # is published bu is a property
+add_triple(p_subclass_of,              p_rdf_type,     c_object_property)
+add_triple(p_is_author_of,             p_rdf_type,     c_object_property)  # x (e.g., p_is_author_of) is a property
+add_triple(p_has_author,               p_rdf_type,     c_object_property)
+add_triple(p_is_published_on,          p_rdf_type,     c_object_property)
+add_triple(p_is_published_by,          p_rdf_type,     c_object_property)
 add_triple(p_is_published_on_year,     p_rdf_type,     c_object_property)
 add_triple(p_is_published_on_month,    p_rdf_type,     c_object_property)
 add_triple(p_is_published_on_date,     p_rdf_type,     c_object_property)
@@ -87,6 +90,7 @@ add_triple(p_is_chapter_of,            p_rdf_type,     c_object_property)
 add_triple(p_rdf_type,                 p_rdf_type,     c_object_property)
 add_triple(p_label,                    p_rdf_type,     c_object_property)
 add_triple(p_is_about,                 p_rdf_type,     c_object_property)
+add_triple(p_has_abstract,             p_rdf_type,     c_object_property)
 add_triple(p_equivalent_class,         p_rdf_type,     c_object_property)
 add_triple(p_has_origin_bibliography,  p_rdf_type,     c_object_property)
 
@@ -217,8 +221,9 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
         i_author = construct_uri(res, each_current_author)  # assign this author to an instance variable (denoted by i_), and give it an URI
 
         # Bind the instances to each other and define their types
-        add_triple(i_author,      p_is_author_of,     i_document_instance)  # the current author is the author of the current document
-        add_triple(i_author,      p_rdf_type,         c_named_individual)   # the current author is an an instance
+        add_triple(i_author,             p_is_author_of,    i_document_instance)  # the current author is the author of the current document
+        add_triple(i_document_instance,  p_has_author,      i_author)
+        add_triple(i_author,             p_rdf_type,        c_named_individual)   # the current author is an an instance
 
         # Add author label
         add_triple(i_author,      p_label,            construct_string_literal(each_current_author_label, "@en"))
@@ -336,15 +341,14 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
         pass
 
 
-#   #######  KEYWORDS --> ABOUT #######
-#    # Assign parent book to the current document if available (i.e., if the current document is a book chapter).
-#    # Also infer parent book instance.
-#    # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
+    #######  KEYWORDS --> ABOUT  #######
+    # Assign keywords to the current document if available and the keyword is not in ignore list.
+    # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
     try:
         current_topics           = each_entry["b_topics"]
-        list_of_topics_to_ignore = ["Journal_Article"]  # ignore these topics
+        list_of_topics_to_ignore = ["Journal_Article", "journal_article"]  # ignore these topics
         for each_topic in current_topics:
-            if each_topic not in list_of_topics_to_ignore: # if the topic is not in the ignore list...
+            if each_topic not in list_of_topics_to_ignore:  # if the topic is not in the ignore list...
                 # Construct current topic uri dynamically for each topic
                 c_current_topic = construct_uri(res, each_topic)
 
@@ -357,6 +361,24 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
         pass
 
 
+    #######  ABSTRACT  #######
+    # Assign abstract to the current document if available and the keyword is not in ignore list.
+    # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields except these ones may not always be present.
+    try:
+        current_abstract = each_entry["b_abstract"]
+        list_of_values_to_ignore = []  # ignore these values if they are found in the abstract field
+
+        if current_abstract not in list_of_values_to_ignore:  # if the abstract is not in the ignore list...
+            # Construct string literal for current abstract dynamically for each abstract
+            c_current_abstract = construct_string_literal(current_abstract, '@en')
+
+            # Connect document instance to each of the abstracts
+            add_triple(i_document_instance, p_has_abstract, c_current_abstract)
+    except:
+        pass
+
+
+    # Progress bar update
     console.print_current_progress(current_progress, maximum_progress, 'Converting Bibliography object to .ttl file')
     current_progress += 1
 
