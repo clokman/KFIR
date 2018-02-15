@@ -5,10 +5,12 @@ from meta.consoleOutput import ConsoleOutput
 log_file = Log_File('log.txt')
 log_file.clear_contents()
 
+################# VU ####################
+
 
 #vu_bib_file = Text_File('Input//vu_100k_feb.bib')
-vu_bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
-
+#vu_bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
+vu_bib_file = Text_File('Input//UvA_Pure_research_output-41217.bib')
 
 vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
     '<': '--',
@@ -21,6 +23,13 @@ vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
     }, show_progress_bar=True)
 
 
+vu_bibliography = Bibliography()
+#vu_bibliography.importBib('Input//vu_100k_feb_cleaned.bib', show_progress_bar=True)
+# vu_bibliography.importBib('Input//VU_Pure_research_output-51017_cleaned.bib', verbose_import=False)
+vu_bibliography.importBib('Input/UvA_Pure_research_output-41217_cleaned.bib', verbose_import=False)
+
+
+################# UVA ####################
 # print('cleaning uva bib')
 # #uva_bib_file = Text_File('Input//UvA_Pure_research_output-41217.bib')
 # uva_bib_file = Text_File('Input//uva_100k_feb.bib')
@@ -35,9 +44,7 @@ vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
 #     }, show_progress_bar=True)
 # print('cleaned uva bib')
 
-vu_bibliography = Bibliography()
-#vu_bibliography.importBib('Input//vu_100k_feb_cleaned.bib', show_progress_bar=True)
-vu_bibliography.importBib('Input//VU_Pure_research_output-51017_cleaned.bib', verbose_import=False)
+
 
 # print('parsing cleaned uva bib')
 # uva_bibliography = Bibliography()
