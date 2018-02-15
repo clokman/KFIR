@@ -10,6 +10,8 @@ class Pybtex_import:
             >>> # extract entries (i.e., dictionaries that has ids as keys and a sub-dictionary that contains fields
             >>> # and their values as values)
             >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
 
             >>> # parse different field names and values
             >>> for each_entry_id, each_entry in pybtex_entries.items():
@@ -82,6 +84,8 @@ class Pybtex_import:
             >>> # extract entries (i.e., dictionaries that has ids as keys and a sub-dictionary that contains fields
             >>> # and their values as values)
             >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
 
             >>> # parse different field names and values
             >>> for each_entry_id, each_entry in pybtex_entries.items():

@@ -81,7 +81,10 @@ class Bibliography:
             >>> # Import a .bib object as Bibliography object
             >>> my_bib = Bibliography()
             >>> my_bib.importBib('example_data//test.bib')
-            Parsing of example_data//test.bib started.
+            Parsing of example_data//test.bib started
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
+            Calculating file length...
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
@@ -125,7 +128,6 @@ class Bibliography:
         # import input data into pybtex_data variable
         pybtex_import_instance = Pybtex_import(path_of_file_to_import)
         pybtex_data = pybtex_import_instance.data
-        console.print_and_log('[DEBUG][finished] pybtex_data = pybtex_import_instance.data')
 
         ########################################################################
         #  Transfer items from pybtex parsed dictionary to output dictionary   #
@@ -181,9 +183,6 @@ class Bibliography:
         else:
             raise ValueError("Conversion_arguments_list parameter should be either 'bib_default' or be a list that "
                               "contains at least one list of arguments.")
-
-        console.print_and_log('[DEBUG][finished] conversion arguments list is bib_default')
-
 
         # variables for progress bar
         current_progress = 0
@@ -722,6 +721,8 @@ class Bibliography:
             >>> # import a sample .bib file and assign it to a variable
             >>> from triplicator.pybtexImporter import Pybtex_import
             >>> pybtex_entries = Pybtex_import('example_data//test.bib').data.entries
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
 
             >>> # extract fields and their values (from pybtex object), format them,
             >>> # ... and add them to the Bibliography class object.
@@ -827,7 +828,10 @@ class Bibliography:
             >>> # actual bib import and merge
             >>> bib_poor = Bibliography()
             >>> bib_poor.importBib('example_data//merge_test_file_poor.bib')
-            Parsing of example_data//merge_test_file_poor.bib started.
+            Parsing of example_data//merge_test_file_poor.bib started
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
+            Calculating file length...
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
@@ -873,7 +877,10 @@ class Bibliography:
 
             >>> bib_rich = Bibliography()
             >>> bib_rich.importBib('example_data//merge_test_file_rich.bib')
-            Parsing of example_data//merge_test_file_rich.bib started.
+            Parsing of example_data//merge_test_file_rich.bib started
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
+            Calculating file length...
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
@@ -1116,6 +1123,8 @@ class Bibliography:
                 >>> # preparation:
                 >>> from triplicator.pybtexImporter import Pybtex_import
                 >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+                pybtex package is parsing using bibtex.Parser()...
+                pybtex package finished parsing
                 >>> biby = Bibliography()
                 >>> for each_entry_id, each_entry in pybtex_entries.items():
                 ...     each_year = each_entry.fields["year"]
@@ -1578,6 +1587,8 @@ def cleanAndFormatValues(target_field, algorithm):
 
         >>> # import a bib file with pybtex and and extract entries (i.e., {entry_id:entries} pairs)
         >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+        pybtex package is parsing using bibtex.Parser()...
+        pybtex package finished parsing
 
         >>> # AUTHOR FORMATTING
         >>> # format all values (i.e., author names) in each entry's 'author' field
@@ -1616,6 +1627,8 @@ def cleanAndFormatValues(target_field, algorithm):
         >>> # DOCUMENT INSTANCE NAME FORMATTING
         >>> # Transform pybtex title string to document_instance_name:
         >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+        pybtex package is parsing using bibtex.Parser()...
+        pybtex package finished parsing
         >>> my_bibliography = Bibliography()
         >>>
         >>> for each_entry_id, each_entry_data in pybtex_entries.items():
@@ -1628,6 +1641,8 @@ def cleanAndFormatValues(target_field, algorithm):
         >>> # transform pybtex keywords string to list of topics
         >>> # (this example depends on imports made in previous examples)
         >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries
+        pybtex package is parsing using bibtex.Parser()...
+        pybtex package finished parsing
         >>> # test diagnostic. necessary because try-except block would succeed even if the code does nothing
         >>> no_of_keywords_processed = 0
         >>>
