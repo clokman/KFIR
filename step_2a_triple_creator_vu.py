@@ -197,7 +197,7 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
 
 
     ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
-    add_triple(i_document_instance,  p_has_origin_bibliography,  c_uva_pure)  # the document comes from the given bibliography
+    add_triple(i_document_instance,  p_has_origin_bibliography,  c_vu_pure)  # the document comes from the given bibliography
 
 
     #######  DOCUMENT LABEL  #######
