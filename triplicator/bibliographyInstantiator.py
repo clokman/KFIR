@@ -184,6 +184,7 @@ class Bibliography:
 
         # variables for progress bar
         current_progress = 0
+        console.print_and_log('Calculating file length...')
         maximum_progress = len(pybtex_data.entries.items())
 
         # loop through individual reference entries in the parsed pybtex bib file
