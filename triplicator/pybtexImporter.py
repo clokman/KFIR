@@ -135,13 +135,20 @@ class Pybtex_import:
             Vermeulen
             Vreeswijk
         """
-
-        # import and shorten bibtex parser function
+        from meta.consoleOutput import ConsoleOutput
         from pybtex.database.input import bibtex
+
+        console = ConsoleOutput()
         parser = bibtex.Parser()
+
+
+
+        console.print_and_log('pybtex package is parsing using bibtex.Parser()...', timestamp_in_file=True)
 
         # Parse input file
         self.data = parser.parse_file(bib_file_path)
+
+        console.print_and_log('pybtex package finished parsing', timestamp_in_file=True)
 
     # def removeUnbalancedEntries(self):
     #     # Turn each entry (and not just each line) in the .bib file into a string
