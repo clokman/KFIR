@@ -68,7 +68,7 @@ p_has_doi                 = construct_uri(ont,  "hasDOI"            )
 p_has_issn                = construct_uri(ont,  "hasISSN"           )
 p_has_isbn                = construct_uri(ont,  "hasISBN"           )
 p_is_chapter_of           = construct_uri(ont,  "isChapterOf"       )
-p_is_about                = construct_uri(ont,  "isAbout"           )
+p_has_topic               = construct_uri(ont,  "hasTopic")
 p_has_abstract            = construct_uri(ont,  "hasAbstract"           )
 p_has_origin_bibliography = construct_uri(ont,  "hasOriginBibliography")
 p_rdf_type                = construct_uri(rdf,  "type"              )
@@ -89,7 +89,7 @@ add_triple(p_has_isbn,                 p_rdf_type,     c_object_property)
 add_triple(p_is_chapter_of,            p_rdf_type,     c_object_property)
 add_triple(p_rdf_type,                 p_rdf_type,     c_object_property)
 add_triple(p_label,                    p_rdf_type,     c_object_property)
-add_triple(p_is_about,                 p_rdf_type,     c_object_property)
+add_triple(p_has_topic,                p_rdf_type,     c_object_property)
 add_triple(p_has_abstract,             p_rdf_type,     c_object_property)
 add_triple(p_equivalent_class,         p_rdf_type,     c_object_property)
 add_triple(p_has_origin_bibliography,  p_rdf_type,     c_object_property)
@@ -353,7 +353,7 @@ for each_entry_id, each_entry in vu_bibliography.entries.items():
                 c_current_topic = construct_uri(res, each_topic)
 
                 # Connect document instance to each of these topics
-                add_triple(i_document_instance, p_is_about, c_current_topic)
+                add_triple(i_document_instance, p_has_topic, c_current_topic)
 
                 # And clarify that the 'current topic' is a subclass of 'topic'
                 add_triple(c_current_topic, p_subclass_of, c_topic)
