@@ -6,8 +6,13 @@
 ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to script
 ## TODO: Link rdfCreator output to existing URIs on VU research portal, etc
 
-from triplicator.rdfCreator import *
+#Parameters
 from step_1a_parser_vu import vu_bibliography
+source_bibliography = vu_bibliography
+origin_bibliography = 'vu'
+
+
+from triplicator.rdfCreator import *
 from preprocessor.string_tools import String
 from preprocessor.Text_File import Log_File
 from meta.consoleOutput import ConsoleOutput
@@ -16,7 +21,7 @@ from meta.consoleOutput import ConsoleOutput
 console = ConsoleOutput()
 log_file = Log_File('log.txt')
 current_progress = 0
-maximum_progress = len(vu_bibliography.entries.items())
+maximum_progress = len(source_bibliography.entries.items())
 
 #################################################################################
 #                   STATIC DEFINITIONS: PROPERTIES, CLASSES                     #
@@ -107,10 +112,21 @@ c_named_individual = construct_uri(owl,  "NamedIndividual"   )
 #'c_object_property' is not defined here as is in other similar cases, but is defined previously,
 # before property definitions and assertions, as it is needed by them.
 c_class            = construct_uri(rdfs, "Class"             )
+c_bibliography     = construct_uri(res,  "Bibliography")
 c_vu_pure          = construct_uri(res,  "VUPure")
 c_uva_pure         = construct_uri(res,  "UVAPure")
 c_oc               = construct_uri(res,  "OpenCitations")
-c_bibliography     = construct_uri(res,  "Bibliography")
+
+# Select origin bibliography based on keyword parameter
+if origin_bibliography == 'vu':
+    current_origin_bibliography = c_vu_pure
+elif origin_bibliography == 'uva':
+    current_origin_bibliography = c_uva_pure
+elif origin_bibliography == 'oc':
+    current_origin_bibliography = c_oc
+else:
+    raise ValueError('Keyword argument "%s" for parameter "origin_bibliography" is unknown.' % origin_bibliography)
+
 
 # TODO: TRY TO ADD THESE AND SEE WHAT HAPPENS IN PROTEGE:
 # add_triple(c_document, p_rdf_type, c_class)
@@ -173,7 +189,7 @@ add_triple(c_miscellaneous,    p_rdf_type, c_class)
 #                     DYNAMIC TRIPLES: INSTANCES AND TYPES                      #
 #################################################################################
 
-for each_entry_id, each_entry in vu_bibliography.entries.items():
+for each_entry_id, each_entry in source_bibliography.entries.items():
 
     #TODO: this try-except block is a workaround [001]. remove it.
     try:
