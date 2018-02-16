@@ -122,7 +122,7 @@ class Bibliography:
         log_file = Log_File(instance.log_file_path)
 
         console = ConsoleOutput()
-        console.print_and_log('Parsing of %s started' % path_of_file_to_import)
+        console.print_and_log('Parsing of %s started' % path_of_file_to_import, timestamp_in_file=True)
 
 
         # import input data into pybtex_data variable
