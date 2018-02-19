@@ -1,6 +1,5 @@
 from triplicator.bibliographyInstantiator import Bibliography
 from preprocessor.Text_File import Text_File, Log_File
-from meta.consoleOutput import ConsoleOutput
 
 log_file = Log_File('log.txt')
 log_file.clear_contents()

@@ -3,13 +3,14 @@
 from step_2a_triple_creator_vu import triples_list
 from step_1a_parser_vu import log_file
 from meta.consoleOutput import ConsoleOutput
+
 console = ConsoleOutput()
 
 # IMPORTANT: CHANGE FILE NAME WITH EACH NEW VERSION IF THE FILE IS TO BE IMPORTED TO PROTEGE.
 # Protege does not always understand that this is a new file if the file name is the same with a previously imported file.
-output_file_path = "Output//vu_uva_merged_100k_v2.0r.ttl"
-#output_file_path = "Output//uva_full_v2.0.ttl"
-#output_file_path = "Output//vu_full_v2.0.ttl"
+output_file_path = "Output//vu_uva_merged_100k_v2.1.ttl"
+#output_file_path = "Output//uva_full_v2.1.ttl"
+#output_file_path = "Output//vu_full_v2.1.ttl"
 file_obj = open(output_file_path, "w")
 
 for each_triple in triples_list:

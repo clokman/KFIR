@@ -200,16 +200,17 @@ for each_entry_id, each_entry in source_bibliography.entries.items():
 
     except:
         pass
-    # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_class values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
+    # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the script. c_document_type values need to be dynamically assigned within this for loop, as the document classes (e.g., Article, Book) are extracted from the resource file.
 
-    c_document_class      = construct_uri(ont, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_class variable
+    c_document_type      = construct_uri(ont, current_type                  )  # extract the class of the current document (e.g., Article, Book) and assign it to the current iteration of the c_document_type variable
     i_document_instance   = construct_uri(res, current_document_instance_name)  # assign current document instance to an instance variable (denoted by i_), and give it an URI
 
 
-    #######  DOCUMENT INSTANCE + DOCUMENT CLASS  #######
-    add_triple(c_document_class,     p_subclass_of,    c_document        )  # make current document's class a subclass of the superclass "Document".
+    #######  DOCUMENT INSTANCE + DOCUMENT TYPE + DOCUMENT #######
     add_triple(i_document_instance,  p_rdf_type,       c_named_individual)  # the current document is an an instance
-    add_triple(i_document_instance,  p_rdf_type,       c_document_class  )  # bind the extracted document classes to the document instances (the latter was extracted previously in this loop)
+    add_triple(c_document_type,      p_subclass_of,    c_document        )  # make current document's class a subclass of the superclass "Document".
+    add_triple(i_document_instance,  p_rdf_type,       c_document_type   )  # bind the extracted document classes to the document instances (the latter was extracted previously in this loop)
+    add_triple(i_document_instance,  p_rdf_type,       c_document        )  # make current document an instance of class "Document".
 
 
     ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
