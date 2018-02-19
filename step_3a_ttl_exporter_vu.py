@@ -8,9 +8,9 @@ console = ConsoleOutput()
 
 # IMPORTANT: CHANGE FILE NAME WITH EACH NEW VERSION IF THE FILE IS TO BE IMPORTED TO PROTEGE.
 # Protege does not always understand that this is a new file if the file name is the same with a previously imported file.
-output_file_path = "Output//vu_uva_merged_100k_v2.1.ttl"
+#output_file_path = "Output//vu_uva_merged_100k_v2.1.ttl"
 #output_file_path = "Output//uva_full_v2.1.ttl"
-#output_file_path = "Output//vu_full_v2.1.ttl"
+output_file_path = "Output//vu_full_v2.1.ttl"
 file_obj = open(output_file_path, "w")
 
 for each_triple in triples_list:
@@ -24,6 +24,7 @@ for each_triple in triples_list:
 
 console.print_and_log('Success: The triples are written to "%s"' % output_file_path, timestamp_in_file=True)
 console.print_and_log('A log of the operation is kept in "%s"' % log_file.input_file_path, timestamp_in_file=True)
+
 
 # NOTE: Check the integrity of the produced .ttl file in command line
 # > ttl <path to file>
