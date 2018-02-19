@@ -7,8 +7,8 @@
 ## TODO: Link rdfCreator output to existing URIs on VU research portal, etc
 
 #Parameters
-from step_1b_parser_uva import vu_bibliography
-source_bibliography = vu_bibliography
+from step_1b_parser_uva import uva_bibliography
+source_bibliography = uva_bibliography
 origin_bibliography = 'uva'
 
 

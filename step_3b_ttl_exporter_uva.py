@@ -1,7 +1,5 @@
-#### VU ################################################################################################################
-
-from step_2a_triple_creator_vu import triples_list
-from step_1a_parser_vu import log_file
+from step_2b_triple_creator_uva import triples_list
+from step_1b_parser_uva import log_file
 from meta.consoleOutput import ConsoleOutput
 
 console = ConsoleOutput()
