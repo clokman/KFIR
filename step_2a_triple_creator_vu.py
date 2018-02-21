@@ -210,7 +210,6 @@ for each_entry_id, each_entry in source_bibliography.entries.items():
     add_triple(i_document_instance,  p_rdf_type,       c_named_individual)  # the current document is an an instance
     add_triple(c_document_type,      p_subclass_of,    c_document        )  # make current document's class a subclass of the superclass "Document".
     add_triple(i_document_instance,  p_rdf_type,       c_document_type   )  # bind the extracted document classes to the document instances (the latter was extracted previously in this loop)
-    add_triple(i_document_instance,  p_rdf_type,       c_document        )  # make current document an instance of class "Document".
 
 
     ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
