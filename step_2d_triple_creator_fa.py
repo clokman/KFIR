@@ -1,13 +1,13 @@
 # This file is formatted without line wrapping. Turn LINE WRAPPING OFF for optimal viewing.
 
 
-## TODO: Re-write rdfCreator.py as an object oriented module
+## TODO: Re-write rdfTools.py as an object oriented module
 ## TODO: Use different domain names and prefixes for ontology, instances ,datasets, etc...
 ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to script
 
 from pprint import pprint
 
-from triplicator.rdfCreator import *
+from triplicator.rdfTools import *
 #from step_1_bibtex_parser import pure_bibliography
 from step_1d_parser_fa import fa_bibliography
 
@@ -326,4 +326,4 @@ for each_entry_id, each_entry in fa_bibliography.entries.items():
     except:
         pass
 
-pprint(triples_list)  # 'triples list' variable resides in rdfCreator.py
+pprint(triples_list)  # 'triples list' variable resides in rdfTools.py

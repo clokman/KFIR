@@ -1,7 +1,7 @@
 # This file is formatted without line wrapping. Turn LINE WRAPPING OFF for optimal viewing.
 
 
-## TODO: Re-write rdfCreator.py as an object oriented module
+## TODO: Re-write rdfTools.py as an object oriented module
 ## TODO: Use different domain names and prefixes for ontology, instances ,datasets, etc...
 ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to script
 ## TODO: Link rdfCreator output to existing URIs on VU research portal, etc
@@ -12,7 +12,7 @@ source_bibliography = uva_bibliography
 origin_bibliography = 'uva'
 
 
-from triplicator.rdfCreator import *
+from triplicator.rdfTools import *
 from preprocessor.string_tools import String
 from preprocessor.Text_File import Log_File
 from meta.consoleOutput import ConsoleOutput
@@ -400,4 +400,4 @@ for each_entry_id, each_entry in source_bibliography.entries.items():
     current_progress += 1
 
 # from pprint import pprint
-#pprint(triples_list)  # 'triples list' variable resides in rdfCreator.py
+#pprint(triples_list)  # 'triples list' variable resides in rdfTools.py
