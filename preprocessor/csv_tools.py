@@ -76,7 +76,7 @@ class CSV_File(Text_File):
             >>> # prep: a csv with artefacts (yasgui.org style)
             >>> my_csv_file = CSV_File('test_data//data_with_head_and_tail_artefacts.csv',
             ...                    column_delimiter_pattern_in_input_file=' , ')
-            >>> my_csv_file.preview(print_separators_between_lines=True)
+            >>> my_csv_file.preview(number_of_lines=2, print_separators_between_lines=True)
             ----------------------------------LINE 1----------------------------------
             head artefact "*publication_type*" , "journal_article" , "title" , "publication_year" , "author_name" , "journal_name" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "doi" , tail artefact
             ----------------------------------LINE 2----------------------------------
@@ -111,7 +111,7 @@ class CSV_File(Text_File):
             >>> # prep: another_csv
             >>> my_csv_file = CSV_File('test_data//data_for_formatting_test.csv',
             ...                    column_delimiter_pattern_in_input_file=',')
-            >>> my_csv_file.preview(print_separators_between_lines=True)
+            >>> my_csv_file.preview(number_of_lines=2, print_separators_between_lines=True)
             ----------------------------------LINE 1----------------------------------
             <BLANKLINE>
             ----------------------------------LINE 2----------------------------------
@@ -169,7 +169,7 @@ class CSV_File(Text_File):
             >>> # prep: a csv from blazegraph
             >>> my_csv_file = CSV_File('test_data//data_for_formatting_test.csv',
             ...                    column_delimiter_pattern_in_input_file=',')
-            >>> my_csv_file.preview(print_separators_between_lines=True)
+            >>> my_csv_file.preview(number_of_lines=2, print_separators_between_lines=True)
             ----------------------------------LINE 1----------------------------------
             <BLANKLINE>
             ----------------------------------LINE 2----------------------------------
@@ -211,7 +211,7 @@ class CSV_File(Text_File):
             >>> # prep: a csv with artefacts
             >>> my_csv_file = CSV_File('test_data//data_with_head_and_tail_artefacts.csv',
             ...                    column_delimiter_pattern_in_input_file=' , ')
-            >>> my_csv_file.preview(print_separators_between_lines=True)
+            >>> my_csv_file.preview(number_of_lines=2, print_separators_between_lines=True)
             ----------------------------------LINE 1----------------------------------
             head artefact "*publication_type*" , "journal_article" , "title" , "publication_year" , "author_name" , "journal_name" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "doi" , tail artefact
             ----------------------------------LINE 2----------------------------------
@@ -615,7 +615,7 @@ class CSV_File(Text_File):
             Cleaning/row-merging successful. The output is written to "test_data//yasgui_output_100_rows_merged.csv"
 
             >>> # also read and print from the file to make sure (in case the previews from preeding functions are faulty_
-            >>> my_csv_file.preview(print_separators_between_lines=True)
+            >>> my_csv_file.preview(number_of_lines=2, print_separators_between_lines=True)
             ----------------------------------LINE 1----------------------------------
             "publication_type" , "journal_article" , "title" , "publication_year" , "author_name" , "journal_name" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "doi" ,
             ----------------------------------LINE 2----------------------------------
