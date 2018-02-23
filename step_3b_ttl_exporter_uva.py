@@ -18,8 +18,8 @@ for each_triple in triples_list:
         pass
 
 
-console.print_and_log('Success: The triples are written to "%s"' % output_file_path, timestamp_in_file=True)
-console.print_and_log('A log of the operation is kept in "%s"' % log_file.input_file_path, timestamp_in_file=True)
+console.log_message('Success: The triples are written to "%s"' % output_file_path, add_timestamp_in_file=True)
+console.log_message('A log of the operation is kept in "%s"' % log_file.input_file_path, add_timestamp_in_file=True)
 
 
 # NOTE: Check the integrity of the produced .ttl file in command line

@@ -102,6 +102,22 @@ class Text_File():
             print(line)
 
 
+    def print_content(self):
+        """
+        Examples:
+            >>> my_file = Text_File('test_data//small_text_file.txt')
+            >>> my_file.print_content()
+            This is the first line of of the file
+            This is the second line of the file
+        """
+        file_length = self.get_no_of_lines_in_file()
+
+        if file_length == 0:
+            print('The file "%s" is empty (file length is "%s")' % (self.input_file_path, file_length))
+        else:
+            self.print_lines(1, file_length)
+
+
     def get_line_at_position_from_file(self, line_index):
         """
         Returns a specified line from the TextFile without reading the whole file into memory.
@@ -299,8 +315,9 @@ class Text_File():
         current_progress = 0
         maximum_progress = self.get_no_of_lines_in_file()
 
-        console = ConsoleOutput()
-        console.print_and_log(('Cleaning of "%s" started' % self.input_file_path), timestamp_in_file=True)
+        console = ConsoleOutput(log_file_path='log.txt')
+        console.log_message(('Cleaning of "%s" started' % self.input_file_path),
+                            add_timestamp_in_file=True)
 
 
         with open(self.input_file_path, encoding="utf8") as input_file:
@@ -351,7 +368,7 @@ class Text_File():
                                                           'Cleaning %s' % self.input_file_path)
                         current_progress += 1
 
-        console.print_and_log(('Cleaning of "%s" finished' % self.input_file_path), timestamp_in_file=True)
+        console.log_message(('Cleaning of "%s" finished' % self.input_file_path), add_timestamp_in_file=True)
 
     def get_no_of_lines_in_file(self):
         """

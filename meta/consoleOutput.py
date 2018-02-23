@@ -1,36 +1,235 @@
 class ConsoleOutput():
 
-    def __init__(self):
+    def __init__(self, log_file_path=None):
         """
         Examples:
-            >>> console = ConsoleOutput()
+            >>> console = ConsoleOutput(log_file_path='test_data//log_test.txt')
         """
         self.last_outputted_line = ''
+        self.log_file_path = log_file_path
+        self.logging_is_on = False
+        if self.log_file_path is not None:
+            self.logging_is_on = True
 
-    def print_and_log(self, message, timestamp_in_file=False, log_file_path='log.txt'):
+
+    def log_message(self, message, add_timestamp_in_file=False, print_to_console=True, print_to_file=True):
         """
+        Args:
+            message(str, int, bool, list)
+
+        Returns:
+            Nothing
+
+        Examples:
+            >>> # Prep
+            >>> my_console = ConsoleOutput(log_file_path='test_data//log_test.txt')
+            >>> my_console.clear_log_file()
+
+            >>> # Log to both CONSOLE and FILE
+            >>> my_console.log_message('[1] this is a message printed to both console and file')
+            [1] this is a message printed to both console and file
+            >>> my_console.print_log_file()
+            [1] this is a message printed to both console and file
+
+            >>> # Log only to CONSOLE
+            >>> my_console.log_message('[2] this is a console-only message', print_to_file=False)
+            [2] this is a console-only message
+            >>> my_console.print_log_file()
+            [1] this is a message printed to both console and file
+
+            >>> # Log only to FILE
+            >>> my_console.log_message('[3] this is a file-only message', print_to_console=False)
+            >>> my_console.print_log_file()
+            [1] this is a message printed to both console and file
+            [3] this is a file-only message
+
+            >>> # Log to neither file nor console
+            >>> my_console.log_message('[4] log me nowhere', print_to_console=False, print_to_file=False)
+            >>> my_console.print_log_file()
+            [1] this is a message printed to both console and file
+            [3] this is a file-only message
+
+
+            >>> # Log with add_timestamp_in_file
+            >>> # This test is commented out as add_timestamp_in_file output changes based on the current time, and its output
+            >>> # cannot be automatically tested
+            >>> #my_console.log_message('[5] log me with timestamp', add_timestamp_in_file=True)
+            >>> #my_console.print_log_file()
+
+        """
+        message = str(message)
+
+        if print_to_console:
+            print(message)
+            # no case where timestamp is printed to console is included,
+            # because timestamps make testing difficult due their ever-changing output
+
+        if print_to_file:
+            self.require_log_file()
+            from preprocessor.Text_File import Log_File
+
+            log_file = Log_File(self.log_file_path)
+
+            log_file.append_line(message, timestamp=add_timestamp_in_file)  # Log_File class has its own way of handling timestamps
+
+
+    def log_list_with_message(self, message, input_list, add_timestamp_in_file=False, print_to_console=True, print_to_file=True):
+        """
+        Args:
+            message(str, int, bool, list)
+            input_list(list)
+            print_to_console(bool)
+            print_to_file(bool)
+
+        Returns:
+            Nothing
+
         Examples:
             >>> # prep
-            >>> from preprocessor.Text_File import Log_File
-            >>> my_log_file = Log_File('test_data//log_test.txt')
-            >>> my_log_file.clear_contents()
+            >>> my_console = ConsoleOutput(log_file_path='test_data//log_test.txt')
+            >>> my_console.clear_log_file()
 
-            >>> # print and log
-            >>> my_console_output = ConsoleOutput()
-            >>> my_console_output.print_and_log('printed and logged message', log_file_path = 'test_data//log_test.txt')
-            printed and logged message
+            >>> # print to BOTH console and file
+            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 1', 'item 2'])
+            These items were skipped due to errors (2 items):
+            item 1
+            item 2
+            >>> my_console.print_log_file()
+            These items were skipped due to errors (2 items):
+            item 1
+            item 2
 
-            >>> my_log_file.print_lines(1)
-            printed and logged message
+            >>> # print only to CONSOLE
+            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 3', 'item 4'],
+            ...                                   print_to_file=False)
+            These items were skipped due to errors (2 items):
+            item 3
+            item 4
+            >>> my_console.print_log_file()
+            These items were skipped due to errors (2 items):
+            item 1
+            item 2
+
+            >>> # print only to FILE
+            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 5', 'item 6'], print_to_console=False)
+            >>> my_console.print_log_file()
+            These items were skipped due to errors (2 items):
+            item 1
+            item 2
+            These items were skipped due to errors (2 items):
+            item 5
+            item 6
+
+            >>> # empty list as input
+            >>> my_console.log_list_with_message('These items were skipped due to errors', [])
+            These items were skipped due to errors (0 items):
+            >>> my_console.print_log_file()
+            These items were skipped due to errors (2 items):
+            item 1
+            item 2
+            These items were skipped due to errors (2 items):
+            item 5
+            item 6
+            These items were skipped due to errors (0 items):
+
+            >>> # wrong format as input
+            >>> try:
+            ...     my_console.log_list_with_message('These items were skipped due to errors', 4) #  cannot be integer
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter "4" must be of type <class 'list'>, but is currently of type <class 'int'>
         """
+        from preprocessor.string_tools import Parameter_Value
+        Parameter_Value(input_list).force_type(list)
+
+        # Log the message
+        self.log_message(message + ' (%s items):' % str(len(input_list)),
+                         add_timestamp_in_file=add_timestamp_in_file, print_to_console=print_to_console, print_to_file=print_to_file)
+
+        # Log items of the list
+        for each_item in input_list:
+            self.log_message(each_item,
+                             add_timestamp_in_file=add_timestamp_in_file, print_to_console=print_to_console, print_to_file=print_to_file)
+
+
+    def print_log_file(self):
+        """
+        Examples:
+            >>> my_console_output = ConsoleOutput(log_file_path='test_data//log_test.txt')
+            >>> my_console_output.clear_log_file()
+            >>> my_console_output.log_message('printed and logged message')
+            printed and logged message
+            >>> my_console_output.log_message('printed and logged a second message')
+            printed and logged a second message
+
+            >>> my_console_output.print_log_file()
+            printed and logged message
+            printed and logged a second message
+        """
+        self.require_log_file()
+
         from preprocessor.Text_File import Log_File
 
-        log_file = Log_File(log_file_path)
+        log_file = Log_File(self.log_file_path)
+        log_file.print_content()
 
-        messsage = str(message)
 
-        print(message)
-        log_file.append_line(message, timestamp=timestamp_in_file)
+    def clear_log_file(self):
+        """
+        Examples:
+            >>> console = ConsoleOutput(log_file_path='test_data//log_test.txt')
+            >>> console.clear_log_file()
+            >>> console.log_message('test entry 1')
+            test entry 1
+            >>> console.log_message('test entry 2')
+            test entry 2
+            >>> console.print_log_file()
+            test entry 1
+            test entry 2
+            >>> console.clear_log_file()
+            >>> console.print_log_file()
+            The file "test_data//log_test.txt" is empty (file length is "0")
+        """
+        self.require_log_file()
+
+        from preprocessor.Text_File import Log_File
+        log_file = Log_File(self.log_file_path)
+        log_file.clear_contents()
+
+
+    def require_log_file(self):
+        """
+        Examples:
+            >>> my_console = ConsoleOutput()
+            >>> try:
+            ...     my_console.clear_log_file()  #  log file is not specified
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter requires by this method "log_file_path" is not specified.
+        """
+        if self.log_file_path is None:
+            raise Exception('Parameter requires by this method "log_file_path" is not specified.')
+
+    def get_log_file_path(self):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> console = ConsoleOutput(log_file_path='test_data//log_test.txt')
+            >>> console.get_log_file_path()
+            'test_data//log_test.txt'
+
+            >>> console_without_log_file = ConsoleOutput()
+            >>> try:
+            ...     console_without_log_file.get_log_file_path()  # cannot get log because log file parameter of
+            ...                                                   # ConsoleOutput is not specified
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter requires by this method "log_file_path" is not specified.
+        """
+        self.require_log_file()
+        return self.log_file_path
 
 
     def print_current_progress(self, current_progress, maximum_progress, status_message='', print_decimals=False):
@@ -42,11 +241,10 @@ class ConsoleOutput():
 
         Examples:
             >>> from preprocessor.Text_File import Text_File
-            >>> import time
 
             >>> # print progress
             >>> my_file = Text_File('C://Users//Clokman//Google Drive//__Projects__//Code//KFIR//preprocessor//test_data//blazegraph_output_1000.csv')
-            >>> my_console_output = ConsoleOutput()
+            >>> my_console_output = ConsoleOutput(log_file_path='log.txt')
             >>> with open(my_file.input_file_path, encoding='utf8') as file:
             ...    current_progress = 0
             ...    maximum_progress = my_file.get_no_of_lines_in_file()
@@ -220,7 +418,7 @@ class ConsoleOutput():
 
             # print progress with decimals
             >>> my_file = Text_File('C://Users//Clokman//Google Drive//__Projects__//Code//KFIR//preprocessor//test_data//blazegraph_output_1000.csv')
-            >>> my_console_output = ConsoleOutput()
+            >>> my_console_output = ConsoleOutput(log_file_path='log.txt')
             >>> with open(my_file.input_file_path, encoding='utf8') as file:
             ...    current_progress = 0
             ...    maximum_progress = my_file.get_no_of_lines_in_file()
