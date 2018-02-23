@@ -152,6 +152,7 @@ class Text_File():
             ...     print('Exception: ' + str(error_message))
             Exception: Requested line number '300' does not exist in file.
         """
+        # TODO: Increment line numbers by 1 to reflect file line numbers instead of index
         from preprocessor.string_tools import String
 
         with open(self.input_file_path, encoding='utf8') as input_file:

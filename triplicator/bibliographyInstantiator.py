@@ -121,8 +121,8 @@ class Bibliography:
 
         log_file = Log_File(instance.log_file_path)
 
-        console = ConsoleOutput()
-        console.print_and_log('Parsing of %s started' % path_of_file_to_import, timestamp_in_file=True)
+        console = ConsoleOutput(log_file_path='log.txt')
+        console.log_message('Parsing of %s started' % path_of_file_to_import, add_timestamp_in_file=True)
 
 
         # import input data into pybtex_data variable
@@ -186,7 +186,7 @@ class Bibliography:
 
         # variables for progress bar
         current_progress = 0
-        console.print_and_log('Calculating file length...', timestamp_in_file=True)
+        console.log_message('Calculating file length...', add_timestamp_in_file=True)
         maximum_progress = len(pybtex_data.entries.items())
 
         # loop through individual reference entries in the parsed pybtex bib file
@@ -242,17 +242,17 @@ class Bibliography:
         import_complete_message = path_of_file_to_import + ' ' + 'parsed and imported as Bibliography object.'
         print('\n\n-----------------------------------------------------------------------------------------------'
               '----')
-        console.print_and_log(import_complete_message, timestamp_in_file=True)
+        console.log_message(import_complete_message, add_timestamp_in_file=True)
 
         # Print and log statistics about the import operation
         # TODO: print total number of imported entries
-        console.print_and_log("\nFields added to the parsed the Bibliography object:")
+        console.log_message("\nFields added to the parsed the Bibliography object:")
         instance.summarize()
         for each_key, each_value in instance._field_type_registry.items():
             log_file.append_line(str(each_key) + ': ' + str(each_value))
 
         # Print and log a sample from parsed entries
-        console.print_and_log("\n")
+        console.log_message("\n")
         instance.write_preview_to_log(number_of_entries_to_preview=3)
 
 
