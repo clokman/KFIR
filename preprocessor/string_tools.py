@@ -992,14 +992,21 @@ class Parameter_Value():
             Nothing if parameter types are a match, otherwise, exception.
 
         Examples:
-            >>> # single requirement
+            >>> # single requirement (str)
             >>> my_parameter = Parameter_Value('parameter value')
             >>> my_parameter.force_type(str)
 
             >>> # multiple requirement
             >>> my_parameter.force_type([str, int])
 
-            >>> # requirement mismatch
+            >>> # requirement mismatch (does not match to the single requirement)
+            >>> try:
+            ...     my_parameter.force_type(int)
+            ... except Exception as exception_message:
+            ...      print('Exception caught:', exception_message)
+            Exception caught: Parameter "parameter value" must be of type <class 'int'>, but is currently of type <class 'str'>
+
+            >>> # requirement mismatch (none of the multiple)
             >>> try:
             ...     my_parameter.force_type([int, bool])
             ... except Exception as exception_message:
@@ -1039,6 +1046,36 @@ class Parameter_Value():
         if entered_parameter not in possible_parameter_values:
             raise ValueError('Invalid keyword argument "%s" for parameter. This parameter can only take values  "%s".'
                              % (self, string_version_of_possible_parameter_values_list))
+
+
+    def force_positive_integer(self):
+        """
+        Examples:
+            >>> # valid case
+            >>> my_parameter = Parameter_Value(1)
+
+            >>> # invalid case (not a positive integer)
+            >>> my_parameter = Parameter_Value(0)
+            >>> try:
+            ...     my_parameter.force_positive_integer()  # parameter cannot be a non-positive integer
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter value must be a positive integer but is "0" of <class 'int'>.
+
+            >>> # invalid case (not an integer)
+            >>> my_parameter = Parameter_Value('a')
+            >>> try:
+            ...     my_parameter.force_positive_integer() #  cannot be a string
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter "a" must be of type <class 'int'>, but is currently of type <class 'str'>
+        """
+        self.force_type(int)
+        entered_parameter_value = self.content
+        if entered_parameter_value < 1:
+            raise ValueError('Parameter value must be a positive integer but is "%s" of %s.'
+                             % (str(self), str(type(entered_parameter_value))))
+
 
     def convert_to_single_item_list_if_not_list(self):
         """

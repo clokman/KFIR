@@ -95,8 +95,7 @@ class Text_File():
         if not end:
             end = start
 
-        start = start - 1  # because file lines start at 1, not 0 (e.g., 5th position is 4th line in file)
-        length = end - start
+        length = end+1 - start  # adding +1 to end to make it include the specified value, instead including all before
         for i in range(0, length):
             line = self.get_line_at_position_from_file(start + i)
             print(line)
@@ -118,7 +117,7 @@ class Text_File():
             self.print_lines(1, file_length)
 
 
-    def get_line_at_position_from_file(self, line_index):
+    def get_line_at_position_from_file(self, line_number):
         """
         Returns a specified line from the TextFile without reading the whole file into memory.
 
@@ -134,38 +133,49 @@ class Text_File():
         Examples:
             >>> # return first line of file
             >>> my_file = Text_File('test_data//example_merged_yasgui_1000.csv')
-            >>> my_file.get_line_at_position_from_file(0)
+            >>> my_file.get_line_at_position_from_file(1)
             '"publication_type" , "journal_article" , "title" , "publication_year" , "author_name" , "journal_name" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "doi" , "cited_by_article" ,'
 
             >>> # return another line
-            >>> my_file.get_line_at_position_from_file(121)
+            >>> my_file.get_line_at_position_from_file(122)
             '"Journal Article" , "https://w3id.org/oc/corpus/br/3448" , "Perioperative Myocardial Infarction" , "2009" , "Beattie - W. S. | Mosseri - M. | Jaffe - A. S. | Alpert - J. S." , "Circulation" , "22" , "119" , "2936--2944" , "Ovid Technologies (Wolters Kluwer Health)" , "10.1161/circulationaha.108.828228" , "https://w3id.org/oc/corpus/br/3426" ,'
 
             >>> # return last line
-            >>> my_file.get_line_at_position_from_file(266)
+            >>> my_file.get_line_at_position_from_file(267)
             '"Journal Article" , "https://w3id.org/oc/corpus/br/3437" , "Myocardial Injury after Noncardiac Surgery" , "2014" , "Niebrzegowska - Edyta | Benton - Sally | Wragg - Andrew | Archbold - Andrew | Smith - Amanda | McAlees - Eleanor | Ramballi - Cheryl | MacDonald - Neil | Januszewska - Marta | Shariffuddin - Ina I. | Vasanthan - V. | Hashim - N. H. M. | Undok - A. Wahab | Ki - Ushananthini | Lai - Hou Yee | Ahmad - Wan Azman | Ackland - Gareth | Khan - Ahsun | Almeida - Smitha | Cherian - Joseph | Furruqh - Sultana | Abraham - Valsa | Paniagua - Pilar | Urrutia - Gerard | Maestre - Mari Luz | Santaló - Miquel | Gonzalez - Raúl | Font - Adrià | Martínez - Cecilia" , "Anesthesiology" , "3" , "120" , "564--578" , "Ovid Technologies (Wolters Kluwer Health)" , "10.1097/aln.0000000000000113" , "https://w3id.org/oc/corpus/br/3522 | https://w3id.org/oc/corpus/br/300243 | https://w3id.org/oc/corpus/br/3062326 | https://w3id.org/oc/corpus/br/3271454 | https://w3id.org/oc/corpus/br/3879533 | https://w3id.org/oc/corpus/br/4205354 | https://w3id.org/oc/corpus/br/5253819 | https://w3id.org/oc/corpus/br/6332120 | https://w3id.org/oc/corpus/br/7799424 | https://w3id.org/oc/corpus/br/8003885 | https://w3id.org/oc/corpus/br/8185544" ,'
 
-            >>> # erroneous index number entered
+            >>> # erroneous index number entered (0)
+            >>> # return first line of file
+            >>> my_file = Text_File('test_data//example_merged_yasgui_1000.csv')
+            >>> try:
+            ...     my_file.get_line_at_position_from_file(0) #  line_number cannot be 0
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter value must be a positive integer but is "0" of <class 'int'>.
+            
+
+            >>> # erroneous index number entered (too high)
             >>> try:
             ...     my_file.get_line_at_position_from_file(300) # there is no 300th line in the file
             ... except IndexError as error_message:
             ...     print('Exception: ' + str(error_message))
             Exception: Requested line number '300' does not exist in file.
         """
-        # TODO: Increment line numbers by 1 to reflect file line numbers instead of index
-        from preprocessor.string_tools import String
+        from preprocessor.string_tools import String, Parameter_Value
+        Parameter_Value(line_number).force_positive_integer()
 
         with open(self.input_file_path, encoding='utf8') as input_file:
             line = None
 
             for i, each_line in enumerate(input_file):
-                if i == line_index:
+                current_iteration_step = i+1  # to align index numbers (starting from 0) and line numbers (start from 1)
+                if current_iteration_step == line_number:
                     line = String(each_line)
-                elif i > line_index:
+                elif current_iteration_step > line_number:
                     break
 
             if line == None:
-                raise IndexError("Requested line number '%s' does not exist in file." % line_index)
+                raise IndexError("Requested line number '%s' does not exist in file." % line_number)
 
             # if not cleaned from '\n', comparisons and operations tend to be problematic
             # write to file with base print() function to get back the new line in the end

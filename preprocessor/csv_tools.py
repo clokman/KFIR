@@ -375,7 +375,7 @@ class CSV_File(Text_File):
             >>> my_csv_file.build_id_registry(1)
             ID registry "self.registry" is built successfully.
             >>> my_csv_file.registry.content
-            {'journal_article': [0], 'https://w3id.org/oc/corpus/br/45174': [1, 2], 'https://w3id.org/oc/corpus/br/46047': [3, 4, 5], 'https://w3id.org/oc/corpus/br/46375': [6, 7, 8, 9], 'https://w3id.org/oc/corpus/br/46408': [10, 11], 'https://w3id.org/oc/corpus/br/46641': [12, 13, 14, 15, 16, 17], 'https://w3id.org/oc/corpus/br/46650': [18, 19], 'https://w3id.org/oc/corpus/br/47542': [20, 93, 94, 95, 96], 'https://w3id.org/oc/corpus/br/14581': [21, 22, 23], 'https://w3id.org/oc/corpus/br/14585': [24, 25], 'https://w3id.org/oc/corpus/br/14610': [26, 27, 28, 29, 30], 'https://w3id.org/oc/corpus/br/14626': [31, 32, 33, 34, 35, 36, 37, 38], 'https://w3id.org/oc/corpus/br/14839': [39, 40], 'https://w3id.org/oc/corpus/br/14895': [41, 42, 43, 44], 'https://w3id.org/oc/corpus/br/14910': [45, 46, 47, 48], 'https://w3id.org/oc/corpus/br/14922': [49, 50], 'https://w3id.org/oc/corpus/br/14956': [51, 52, 53, 54], 'https://w3id.org/oc/corpus/br/14962': [55, 56, 57, 58], 'https://w3id.org/oc/corpus/br/15109': [59, 60, 61, 62, 63, 64], 'https://w3id.org/oc/corpus/br/15411': [65, 66, 67, 68], 'https://w3id.org/oc/corpus/br/15886': [69, 70, 71, 72, 73], 'https://w3id.org/oc/corpus/br/15895': [74], 'https://w3id.org/oc/corpus/br/15926': [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92], 'https://w3id.org/oc/corpus/br/11631': [97, 98], 'https://w3id.org/oc/corpus/br/11646': [99]}
+            {'journal_article': [1], 'https://w3id.org/oc/corpus/br/45174': [2, 3], 'https://w3id.org/oc/corpus/br/46047': [4, 5, 6], 'https://w3id.org/oc/corpus/br/46375': [7, 8, 9, 10], 'https://w3id.org/oc/corpus/br/46408': [11, 12], 'https://w3id.org/oc/corpus/br/46641': [13, 14, 15, 16, 17, 18], 'https://w3id.org/oc/corpus/br/46650': [19, 20], 'https://w3id.org/oc/corpus/br/47542': [21, 94, 95, 96, 97], 'https://w3id.org/oc/corpus/br/14581': [22, 23, 24], 'https://w3id.org/oc/corpus/br/14585': [25, 26], 'https://w3id.org/oc/corpus/br/14610': [27, 28, 29, 30, 31], 'https://w3id.org/oc/corpus/br/14626': [32, 33, 34, 35, 36, 37, 38, 39], 'https://w3id.org/oc/corpus/br/14839': [40, 41], 'https://w3id.org/oc/corpus/br/14895': [42, 43, 44, 45], 'https://w3id.org/oc/corpus/br/14910': [46, 47, 48, 49], 'https://w3id.org/oc/corpus/br/14922': [50, 51], 'https://w3id.org/oc/corpus/br/14956': [52, 53, 54, 55], 'https://w3id.org/oc/corpus/br/14962': [56, 57, 58, 59], 'https://w3id.org/oc/corpus/br/15109': [60, 61, 62, 63, 64, 65], 'https://w3id.org/oc/corpus/br/15411': [66, 67, 68, 69], 'https://w3id.org/oc/corpus/br/15886': [70, 71, 72, 73, 74], 'https://w3id.org/oc/corpus/br/15895': [75], 'https://w3id.org/oc/corpus/br/15926': [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93], 'https://w3id.org/oc/corpus/br/11631': [98, 99], 'https://w3id.org/oc/corpus/br/11646': [100]}
 
 
             >>> # a csv from blazegraph
@@ -393,7 +393,7 @@ class CSV_File(Text_File):
             >>> my_csv_file.build_id_registry(index_position_of_id_column=1)
             ID registry "self.registry" is built successfully.
             >>> my_csv_file.registry.content
-            {'https://w3id.org/oc/corpus/br/44074': [1, 2, 3, 4, 5, 6, 7], 'https://w3id.org/oc/corpus/br/44393': [8, 9, 10], 'https://w3id.org/oc/corpus/br/44409': [11, 12, 13, 14], 'https://w3id.org/oc/corpus/br/41995': [15], 'https://w3id.org/oc/corpus/br/42007': [16, 17, 18, 19, 20, 21], 'https://w3id.org/oc/corpus/br/42026': [22, 23, 24, 25, 26, 27], 'https://w3id.org/oc/corpus/br/42038': [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 'https://w3id.org/oc/corpus/br/42064': [48, 49, 50]}
+            {'https://w3id.org/oc/corpus/br/44074': [2, 3, 4, 5, 6, 7, 8], 'https://w3id.org/oc/corpus/br/44393': [9, 10, 11], 'https://w3id.org/oc/corpus/br/44409': [12, 13, 14, 15], 'https://w3id.org/oc/corpus/br/41995': [16], 'https://w3id.org/oc/corpus/br/42007': [17, 18, 19, 20, 21, 22], 'https://w3id.org/oc/corpus/br/42026': [23, 24, 25, 26, 27, 28], 'https://w3id.org/oc/corpus/br/42038': [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48], 'https://w3id.org/oc/corpus/br/42064': [49, 50, 51]}
 
         """
         from preprocessor.dict_tools import Registry
@@ -408,9 +408,11 @@ class CSV_File(Text_File):
                     # TODO: [REF4] Must make it possible to use CSV_Cell as dictionary keys. Instead of id_of_current_row,
                     # "str(id_of_current_row)" or "id_of_current_row.content" must be called. This is because CSV_Cell
                     # objects cannot be used in dictionary keys, possibly due to a missing override in CSV_Cell class.
-                    registry.add(key=id_of_current_row.content, value=i)  # .content or wrapping id_of_current_row in
-                    # str() is necessary as id_of_current_row is a CSV_Cell object, and when CSV_Cell objects are
-                    # extracted from CSV_Row objects they seem to cause comparison problems Also see: REF1, REF2, REF3, REF 4.
+                    registry.add(key=id_of_current_row.content, value=i+1)  # i is added +1 to reflect line numbers in
+                    # text files (starting from 0) instead of index numbers (starting from 0)
+                    # Also: instead of using .content or wrapping id_of_current_row in str() is necessary as
+                    # id_of_current_row is a CSV_Cell object, and when CSV_Cell objects are extracted from CSV_Row
+                    # objects they seem to cause comparison problems Also see: REF1, REF2, REF3, REF 4.
 
         self.registry = registry
         self.registry_is_built = True
@@ -442,11 +444,11 @@ class CSV_File(Text_File):
             >>> my_csv_file.build_id_registry(1)
             ID registry "self.registry" is built successfully.
             >>> my_csv_file.registry.content
-            {'journal_article': [0], 'https://w3id.org/oc/corpus/br/45174': [1, 2], 'https://w3id.org/oc/corpus/br/46047': [3, 4, 5], 'https://w3id.org/oc/corpus/br/46375': [6, 7, 8, 9], 'https://w3id.org/oc/corpus/br/46408': [10, 11], 'https://w3id.org/oc/corpus/br/46641': [12, 13, 14, 15, 16, 17], 'https://w3id.org/oc/corpus/br/46650': [18, 19], 'https://w3id.org/oc/corpus/br/47542': [20, 93, 94, 95, 96], 'https://w3id.org/oc/corpus/br/14581': [21, 22, 23], 'https://w3id.org/oc/corpus/br/14585': [24, 25], 'https://w3id.org/oc/corpus/br/14610': [26, 27, 28, 29, 30], 'https://w3id.org/oc/corpus/br/14626': [31, 32, 33, 34, 35, 36, 37, 38], 'https://w3id.org/oc/corpus/br/14839': [39, 40], 'https://w3id.org/oc/corpus/br/14895': [41, 42, 43, 44], 'https://w3id.org/oc/corpus/br/14910': [45, 46, 47, 48], 'https://w3id.org/oc/corpus/br/14922': [49, 50], 'https://w3id.org/oc/corpus/br/14956': [51, 52, 53, 54], 'https://w3id.org/oc/corpus/br/14962': [55, 56, 57, 58], 'https://w3id.org/oc/corpus/br/15109': [59, 60, 61, 62, 63, 64], 'https://w3id.org/oc/corpus/br/15411': [65, 66, 67, 68], 'https://w3id.org/oc/corpus/br/15886': [69, 70, 71, 72, 73], 'https://w3id.org/oc/corpus/br/15895': [74], 'https://w3id.org/oc/corpus/br/15926': [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92], 'https://w3id.org/oc/corpus/br/11631': [97, 98], 'https://w3id.org/oc/corpus/br/11646': [99]}
+            {'journal_article': [1], 'https://w3id.org/oc/corpus/br/45174': [2, 3], 'https://w3id.org/oc/corpus/br/46047': [4, 5, 6], 'https://w3id.org/oc/corpus/br/46375': [7, 8, 9, 10], 'https://w3id.org/oc/corpus/br/46408': [11, 12], 'https://w3id.org/oc/corpus/br/46641': [13, 14, 15, 16, 17, 18], 'https://w3id.org/oc/corpus/br/46650': [19, 20], 'https://w3id.org/oc/corpus/br/47542': [21, 94, 95, 96, 97], 'https://w3id.org/oc/corpus/br/14581': [22, 23, 24], 'https://w3id.org/oc/corpus/br/14585': [25, 26], 'https://w3id.org/oc/corpus/br/14610': [27, 28, 29, 30, 31], 'https://w3id.org/oc/corpus/br/14626': [32, 33, 34, 35, 36, 37, 38, 39], 'https://w3id.org/oc/corpus/br/14839': [40, 41], 'https://w3id.org/oc/corpus/br/14895': [42, 43, 44, 45], 'https://w3id.org/oc/corpus/br/14910': [46, 47, 48, 49], 'https://w3id.org/oc/corpus/br/14922': [50, 51], 'https://w3id.org/oc/corpus/br/14956': [52, 53, 54, 55], 'https://w3id.org/oc/corpus/br/14962': [56, 57, 58, 59], 'https://w3id.org/oc/corpus/br/15109': [60, 61, 62, 63, 64, 65], 'https://w3id.org/oc/corpus/br/15411': [66, 67, 68, 69], 'https://w3id.org/oc/corpus/br/15886': [70, 71, 72, 73, 74], 'https://w3id.org/oc/corpus/br/15895': [75], 'https://w3id.org/oc/corpus/br/15926': [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93], 'https://w3id.org/oc/corpus/br/11631': [98, 99], 'https://w3id.org/oc/corpus/br/11646': [100]}
 
             >>> # get line numbers from id
             >>> my_csv_file.get_line_numbers_where_id_occurs(target_id='https://w3id.org/oc/corpus/br/45174')
-            [1, 2]
+            [2, 3]
 
             >>> # prep: a csv from blazegraph
             >>> my_csv_file = CSV_File('test_data//blazegraph_output_50.csv',
@@ -463,11 +465,11 @@ class CSV_File(Text_File):
             >>> my_csv_file.build_id_registry(index_position_of_id_column=1)
             ID registry "self.registry" is built successfully.
             >>> my_csv_file.registry.content
-            {'https://w3id.org/oc/corpus/br/44074': [1, 2, 3, 4, 5, 6, 7], 'https://w3id.org/oc/corpus/br/44393': [8, 9, 10], 'https://w3id.org/oc/corpus/br/44409': [11, 12, 13, 14], 'https://w3id.org/oc/corpus/br/41995': [15], 'https://w3id.org/oc/corpus/br/42007': [16, 17, 18, 19, 20, 21], 'https://w3id.org/oc/corpus/br/42026': [22, 23, 24, 25, 26, 27], 'https://w3id.org/oc/corpus/br/42038': [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 'https://w3id.org/oc/corpus/br/42064': [48, 49, 50]}
+            {'https://w3id.org/oc/corpus/br/44074': [2, 3, 4, 5, 6, 7, 8], 'https://w3id.org/oc/corpus/br/44393': [9, 10, 11], 'https://w3id.org/oc/corpus/br/44409': [12, 13, 14, 15], 'https://w3id.org/oc/corpus/br/41995': [16], 'https://w3id.org/oc/corpus/br/42007': [17, 18, 19, 20, 21, 22], 'https://w3id.org/oc/corpus/br/42026': [23, 24, 25, 26, 27, 28], 'https://w3id.org/oc/corpus/br/42038': [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48], 'https://w3id.org/oc/corpus/br/42064': [49, 50, 51]}
 
             >>> # get line numbers from id
             >>> my_csv_file.get_line_numbers_where_id_occurs('https://w3id.org/oc/corpus/br/44074')
-            [1, 2, 3, 4, 5, 6, 7]
+            [2, 3, 4, 5, 6, 7, 8]
 
             >>> # type of line numbers
             >>> result_list = my_csv_file.get_line_numbers_where_id_occurs('https://w3id.org/oc/corpus/br/44074')
@@ -486,7 +488,7 @@ class CSV_File(Text_File):
         return registry.get_values_from_key(target_id)
 
 
-    def get_line_at_position_from_file(self, line_index):
+    def get_line_at_position_from_file(self, line_number):
         """
         Returns a specified line from the CSV file without reading the whole file into memory. Is an override
         of the method with the same name in the superclass 'Text_File'. The override reuses the superclass'
@@ -501,47 +503,37 @@ class CSV_File(Text_File):
         Examples:
             >>> # return first line of file
             >>> my_file = CSV_File('test_data//example_merged_yasgui_1000.csv', ' , ')
-            >>> my_file.get_line_at_position_from_file(0)
+            >>> my_file.get_line_at_position_from_file(1)
             '"publication_type" , "journal_article" , "title" , "publication_year" , "author_name" , "journal_name" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "doi" , "cited_by_article" ,'
 
             >>> # return another line
-            >>> my_file.get_line_at_position_from_file(121)
+            >>> my_file.get_line_at_position_from_file(122)
             '"Journal Article" , "https://w3id.org/oc/corpus/br/3448" , "Perioperative Myocardial Infarction" , "2009" , "Beattie - W. S. | Mosseri - M. | Jaffe - A. S. | Alpert - J. S." , "Circulation" , "22" , "119" , "2936--2944" , "Ovid Technologies (Wolters Kluwer Health)" , "10.1161/circulationaha.108.828228" , "https://w3id.org/oc/corpus/br/3426" ,'
 
             >>> # return last line
-            >>> my_file.get_line_at_position_from_file(266)
+            >>> my_file.get_line_at_position_from_file(267)
             '"Journal Article" , "https://w3id.org/oc/corpus/br/3437" , "Myocardial Injury after Noncardiac Surgery" , "2014" , "Niebrzegowska - Edyta | Benton - Sally | Wragg - Andrew | Archbold - Andrew | Smith - Amanda | McAlees - Eleanor | Ramballi - Cheryl | MacDonald - Neil | Januszewska - Marta | Shariffuddin - Ina I. | Vasanthan - V. | Hashim - N. H. M. | Undok - A. Wahab | Ki - Ushananthini | Lai - Hou Yee | Ahmad - Wan Azman | Ackland - Gareth | Khan - Ahsun | Almeida - Smitha | Cherian - Joseph | Furruqh - Sultana | Abraham - Valsa | Paniagua - Pilar | Urrutia - Gerard | Maestre - Mari Luz | Santaló - Miquel | Gonzalez - Raúl | Font - Adrià | Martínez - Cecilia" , "Anesthesiology" , "3" , "120" , "564--578" , "Ovid Technologies (Wolters Kluwer Health)" , "10.1097/aln.0000000000000113" , "https://w3id.org/oc/corpus/br/3522 | https://w3id.org/oc/corpus/br/300243 | https://w3id.org/oc/corpus/br/3062326 | https://w3id.org/oc/corpus/br/3271454 | https://w3id.org/oc/corpus/br/3879533 | https://w3id.org/oc/corpus/br/4205354 | https://w3id.org/oc/corpus/br/5253819 | https://w3id.org/oc/corpus/br/6332120 | https://w3id.org/oc/corpus/br/7799424 | https://w3id.org/oc/corpus/br/8003885 | https://w3id.org/oc/corpus/br/8185544" ,'
 
-            >>> # erroneous index number entered
+            >>> # erroneous line number entered (line number too great)
             >>> try:
             ...     my_file.get_line_at_position_from_file(300) # there is no 300th line in the file
             ... except IndexError as error_message:
             ...     print('Exception: ' + str(error_message))
             Exception: Requested line number '300' does not exist in file.
+
+            >>> # erroneous line number entered (non-positive integer)
+            >>> try:
+            ...     my_file.get_line_at_position_from_file(0) #  line_number cannot be 0
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Parameter value must be a positive integer but is "0" of <class 'int'>.
         """
         from preprocessor.Text_File import Text_File
         # use the same method from superclass but convert output to CSV_line
-        String_line = Text_File.get_line_at_position_from_file(self, line_index)
+        String_line = Text_File.get_line_at_position_from_file(self, line_number)
         csv_line = CSV_Line(String_line.content)
         return csv_line
 
-        # with open(self.input_file_path, encoding='utf8') as input_file:
-        #     line = None
-        #
-        #     for i, each_line in enumerate(input_file):
-        #         if i == line_index:
-        #             line = CSV_Line(each_line)
-        #         elif i > line_index:
-        #             break
-        #
-        #     if line == None:
-        #         raise IndexError("Requested line number '%s' does not exist in file." % line_index)
-        #
-        #     # if not cleaned from '\n', comparisons and operations tend to be problematic
-        #     # write to file with base print() function to get back the new line in the end
-        #     line.clean_from_newline_characters()
-        #
-        #     return line
 
     def live_clean_and_row_merge(self, index_position_of_id_column):
         """
@@ -587,31 +579,31 @@ class CSV_File(Text_File):
 
             >>> my_csv_file.live_clean_and_row_merge(1)
             ID registry "self.registry" is built successfully.
-            iteration 1   row id:  journal_article   merging lines:  [0]
-            iteration 2   row id:  https://w3id.org/oc/corpus/br/45174   merging lines:  [1, 2]
-            iteration 3   row id:  https://w3id.org/oc/corpus/br/46047   merging lines:  [3, 4, 5]
-            iteration 4   row id:  https://w3id.org/oc/corpus/br/46375   merging lines:  [6, 7, 8, 9]
-            iteration 5   row id:  https://w3id.org/oc/corpus/br/46408   merging lines:  [10, 11]
-            iteration 6   row id:  https://w3id.org/oc/corpus/br/46641   merging lines:  [12, 13, 14, 15, 16, 17]
-            iteration 7   row id:  https://w3id.org/oc/corpus/br/46650   merging lines:  [18, 19]
-            iteration 8   row id:  https://w3id.org/oc/corpus/br/47542   merging lines:  [20, 93, 94, 95, 96]
-            iteration 9   row id:  https://w3id.org/oc/corpus/br/14581   merging lines:  [21, 22, 23]
-            iteration 10   row id:  https://w3id.org/oc/corpus/br/14585   merging lines:  [24, 25]
-            iteration 11   row id:  https://w3id.org/oc/corpus/br/14610   merging lines:  [26, 27, 28, 29, 30]
-            iteration 12   row id:  https://w3id.org/oc/corpus/br/14626   merging lines:  [31, 32, 33, 34, 35, 36, 37, 38]
-            iteration 13   row id:  https://w3id.org/oc/corpus/br/14839   merging lines:  [39, 40]
-            iteration 14   row id:  https://w3id.org/oc/corpus/br/14895   merging lines:  [41, 42, 43, 44]
-            iteration 15   row id:  https://w3id.org/oc/corpus/br/14910   merging lines:  [45, 46, 47, 48]
-            iteration 16   row id:  https://w3id.org/oc/corpus/br/14922   merging lines:  [49, 50]
-            iteration 17   row id:  https://w3id.org/oc/corpus/br/14956   merging lines:  [51, 52, 53, 54]
-            iteration 18   row id:  https://w3id.org/oc/corpus/br/14962   merging lines:  [55, 56, 57, 58]
-            iteration 19   row id:  https://w3id.org/oc/corpus/br/15109   merging lines:  [59, 60, 61, 62, 63, 64]
-            iteration 20   row id:  https://w3id.org/oc/corpus/br/15411   merging lines:  [65, 66, 67, 68]
-            iteration 21   row id:  https://w3id.org/oc/corpus/br/15886   merging lines:  [69, 70, 71, 72, 73]
-            iteration 22   row id:  https://w3id.org/oc/corpus/br/15895   merging lines:  [74]
-            iteration 23   row id:  https://w3id.org/oc/corpus/br/15926   merging lines:  [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92]
-            iteration 24   row id:  https://w3id.org/oc/corpus/br/11631   merging lines:  [97, 98]
-            iteration 25   row id:  https://w3id.org/oc/corpus/br/11646   merging lines:  [99]
+            iteration 1   row id:  journal_article   merging lines:  [1]
+            iteration 2   row id:  https://w3id.org/oc/corpus/br/45174   merging lines:  [2, 3]
+            iteration 3   row id:  https://w3id.org/oc/corpus/br/46047   merging lines:  [4, 5, 6]
+            iteration 4   row id:  https://w3id.org/oc/corpus/br/46375   merging lines:  [7, 8, 9, 10]
+            iteration 5   row id:  https://w3id.org/oc/corpus/br/46408   merging lines:  [11, 12]
+            iteration 6   row id:  https://w3id.org/oc/corpus/br/46641   merging lines:  [13, 14, 15, 16, 17, 18]
+            iteration 7   row id:  https://w3id.org/oc/corpus/br/46650   merging lines:  [19, 20]
+            iteration 8   row id:  https://w3id.org/oc/corpus/br/47542   merging lines:  [21, 94, 95, 96, 97]
+            iteration 9   row id:  https://w3id.org/oc/corpus/br/14581   merging lines:  [22, 23, 24]
+            iteration 10   row id:  https://w3id.org/oc/corpus/br/14585   merging lines:  [25, 26]
+            iteration 11   row id:  https://w3id.org/oc/corpus/br/14610   merging lines:  [27, 28, 29, 30, 31]
+            iteration 12   row id:  https://w3id.org/oc/corpus/br/14626   merging lines:  [32, 33, 34, 35, 36, 37, 38, 39]
+            iteration 13   row id:  https://w3id.org/oc/corpus/br/14839   merging lines:  [40, 41]
+            iteration 14   row id:  https://w3id.org/oc/corpus/br/14895   merging lines:  [42, 43, 44, 45]
+            iteration 15   row id:  https://w3id.org/oc/corpus/br/14910   merging lines:  [46, 47, 48, 49]
+            iteration 16   row id:  https://w3id.org/oc/corpus/br/14922   merging lines:  [50, 51]
+            iteration 17   row id:  https://w3id.org/oc/corpus/br/14956   merging lines:  [52, 53, 54, 55]
+            iteration 18   row id:  https://w3id.org/oc/corpus/br/14962   merging lines:  [56, 57, 58, 59]
+            iteration 19   row id:  https://w3id.org/oc/corpus/br/15109   merging lines:  [60, 61, 62, 63, 64, 65]
+            iteration 20   row id:  https://w3id.org/oc/corpus/br/15411   merging lines:  [66, 67, 68, 69]
+            iteration 21   row id:  https://w3id.org/oc/corpus/br/15886   merging lines:  [70, 71, 72, 73, 74]
+            iteration 22   row id:  https://w3id.org/oc/corpus/br/15895   merging lines:  [75]
+            iteration 23   row id:  https://w3id.org/oc/corpus/br/15926   merging lines:  [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93]
+            iteration 24   row id:  https://w3id.org/oc/corpus/br/11631   merging lines:  [98, 99]
+            iteration 25   row id:  https://w3id.org/oc/corpus/br/11646   merging lines:  [100]
             Cleaning/row-merging successful. The output is written to "test_data//yasgui_output_100_rows_merged.csv"
 
             >>> # also read and print from the file to make sure (in case the previews from preeding functions are faulty_
