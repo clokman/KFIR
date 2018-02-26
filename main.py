@@ -1,5 +1,5 @@
 from triplicator.bibliographyInstantiator import Bibliography
-from triplicator.rdfTools import Triples
+from triplicator.rdfTools import Triples, RDF_File
 from preprocessor.Text_File import Text_File, Log_File
 
 log_file = Log_File('log.txt')
@@ -16,28 +16,25 @@ pattern_replacements_dictionary = {
     '’': "'"
     }
 
-
-##################### VU #####################
-
 ### Clean the bib file ###
+bib_file = Text_File('Input//vu_100k_feb.bib')
+# UvA_Pure_research_output-41217.bib / VU_Pure_research_output-51017.bib / vu_100k_feb.bib
+bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
+                                                   show_progress_bar=True)
 
-vu_bib_file = Text_File('Input//vu_100k_feb.bib')
-#vu_bib_file = Text_File('Input//UvA_Pure_research_output-41217.bib')
-#vu_bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
-
-vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary, show_progress_bar=True)
-
-
-### Parsing the bib file ###
-
-vu_bibliography = Bibliography()
-vu_bibliography.importBib('Input//vu_100k_feb_cleaned.bib', show_progress_bar=True)
-#vu_bibliography.importBib('Input/UvA_Pure_research_output-41217_cleaned.bib', show_progress_bar=True, verbose_import=False)
-#vu_bibliography.importBib('Input//VU_Pure_research_output-51017_cleaned.bib', show_progress_bar=True, verbose_import=False)
+### Parse the bib file ###
+bibliography = Bibliography()
+# UvA_Pure_research_output-41217_cleaned.bib / VU_Pure_research_output-51017_cleaned.bib / vu_100k_feb_cleaned.bib
+bibliography.importBib('Input//vu_100k_feb_cleaned.bib', show_progress_bar=True)
 
 ### Convert to n3 format ###
-vu_triples = Triples()
-vu_triples.import_bibliography_object(vu_bibliography, desired_source_label='vu')
+triples = Triples()
+triples.import_bibliography_object(bibliography, desired_source_label='vu')
+
+### Write to .ttl file
+# uva_full_v2.1.ttl / vu_full_v2.1.ttl / vu_100k_feb_v2.1.ttl
+ttl_file = RDF_File('Output//vu_100k_feb_v2.1.objtest.ttl')
+ttl_file.write_triples_to_file(triples)
 
 
 
@@ -66,7 +63,7 @@ vu_triples.import_bibliography_object(vu_bibliography, desired_source_label='vu'
 
 
 # print('enriching vu with uva')
-# vu_bibliography.enrich(uva_bibliography, field_to_match_in_bibliographies='b_doi', method='merge')
+# bibliography.enrich(uva_bibliography, field_to_match_in_bibliographies='b_doi', method='merge')
 # print('enrichment completed')
 
 
@@ -77,8 +74,8 @@ vu_triples.import_bibliography_object(vu_bibliography, desired_source_label='vu'
 # from preprocessor.Text_File import Text_File
 #
 #
-# vu_bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
-# vu_bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
+# bib_file = Text_File('Input//VU_Pure_research_output-51017.bib')
+# bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace={
 #     '<': '--',
 #     '>': '--',
 #     '\{"\}': "'",  # to replace {"} with '
@@ -86,14 +83,14 @@ vu_triples.import_bibliography_object(vu_bibliography, desired_source_label='vu'
 #     '/': '--',
 #     })
 #
-# vu_bibliography = Bibliography()
+# bibliography = Bibliography()
 # # a test bibliography that consists of many problematic entries gathered from source data
-# vu_bibliography.importBib('Input//VU_Pure_research_output-51017_cleaned.bib', verbose_import=True)
+# bibliography.importBib('Input//VU_Pure_research_output-51017_cleaned.bib', verbose_import=True)
 #
 
 # December 2017 import script:
 # from triplicator.bibliographyInstantiator import Bibliography
 #
 # # VU bibliography
-# vu_bibliography = Bibliography()
-# vu_bibliography.importBib('Input//VU_Pure_research_output-51017-edit.bib', verbose_import=True)
+# bibliography = Bibliography()
+# bibliography.importBib('Input//VU_Pure_research_output-51017-edit.bib', verbose_import=True)
