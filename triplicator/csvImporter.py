@@ -53,7 +53,7 @@ class CSV_container(Bibliography):
                         'http://purl.org/spar/fabio/ReferenceEntry'],
               'urls': 'http://dx.doi.org/10.1002/14651858.cd004667.pub3',
               'years': '2013'})
-
+            <BLANKLINE>
 
         """
         from preprocessor.get_headers import get_headers
@@ -95,6 +95,7 @@ class CSV_container(Bibliography):
         # a dictionary to hold parsed entities in a way compatible to Bibliography class
         instance.entries = {}
         instance.convertListDataToEntries()
+
 
     def convertListDataToEntries(instance):
         """
@@ -144,6 +145,7 @@ class CSV_container(Bibliography):
                 # if there is no value in a row that corresponds to the current field name in the loop, do nothing
                 except IndexError:
                     pass
+
 
     def cleanAndTokenizeCsv(instance):
         """

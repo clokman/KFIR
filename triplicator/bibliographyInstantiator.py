@@ -351,7 +351,7 @@ class Bibliography:
              {'x_document': 'Midwife-led_continuity_models_versus_other_models_of_care_for_childbearing_women',
               'x_document_label': 'Midwife-led continuity models versus other models of '
                                   'care for childbearing women'})
-
+            <BLANKLINE>
         """
         from triplicator.csvImporter import CSV_container
 
@@ -785,6 +785,7 @@ class Bibliography:
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
             ('01', {'doi': '6226', 'title': 'This is a title'})
+            <BLANKLINE>
             >>> bib_two = Bibliography()
             >>> bib_two.setEntry(entry_id='05', field_name='doi', field_value='6226')
             >>> bib_two.setEntry(entry_id='05', field_name='author', field_value='John Doe')
@@ -792,6 +793,8 @@ class Bibliography:
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
             ('05', {'author': 'John Doe', 'doi': '6226'})
+            <BLANKLINE>
+
 
             >>> # enrichment
             >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi')
@@ -800,6 +803,7 @@ class Bibliography:
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
             ('01', {'author': 'John Doe', 'doi': '6226', 'title': 'This is a title'})
+            <BLANKLINE>
 
             >>> # no entries appended in 'left join' mode
             >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')
@@ -824,6 +828,7 @@ class Bibliography:
             <BLANKLINE>
             ----------------------------------ENTRY 2----------------------------------
             ('100', {'doi': '5000', 'note': 'This is a note'})
+            <BLANKLINE>
 
             >>> # actual bib import and merge
             >>> bib_poor = Bibliography()
@@ -873,6 +878,7 @@ class Bibliography:
               'b_doi': '10.1007--978-3-319-58202-3',
               'b_publication_year': '2018',
               'b_type': 'book'})
+            <BLANKLINE>
 
 
             >>> bib_rich = Bibliography()
@@ -957,6 +963,7 @@ class Bibliography:
               'b_publisher': 'Palgrave_Macmillan',
               'b_publisher_label': 'Palgrave Macmillan',
               'b_type': 'book'})
+            <BLANKLINE>
 
             >>> bib_poor.enrich(other_bibliography_object_to_use=bib_rich, field_to_match_in_bibliographies='b_doi')
             12 entries enriched and 0 entries appended to bibliography.
@@ -1010,6 +1017,7 @@ class Bibliography:
               'b_publisher': 'Palgrave_Macmillan',
               'b_publisher_label': 'Palgrave Macmillan',
               'b_type': 'book'})
+            <BLANKLINE>
         """
         other_bib = other_bibliography_object_to_use
 
@@ -1196,6 +1204,7 @@ class Bibliography:
                 pprint(each_entry, compact=True)
             else:
                 break
+        print('')  # blank line (using an \n causes two blank lines)
 
     def write_preview_to_log(instance, number_of_entries_to_preview=5, log_file_path='log.txt'):
         """
