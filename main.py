@@ -16,11 +16,11 @@ pattern_replacements_dictionary = {
     '’': "'"
     }
 
-### Clean the bib file ###
-bib_file = Text_File('Input//vu_100k_feb.bib')
-# UvA_Pure_research_output-41217.bib / VU_Pure_research_output-51017.bib / vu_100k_feb.bib
-bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
-                                                   show_progress_bar=True)
+# ### Clean the bib file ###
+# bib_file = Text_File('Input//vu_100k_feb.bib')
+# # UvA_Pure_research_output-41217.bib / VU_Pure_research_output-51017.bib / vu_100k_feb.bib
+# bib_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
+#                                                    show_progress_bar=True)
 
 ### Parse the bib file ###
 bibliography = Bibliography()
