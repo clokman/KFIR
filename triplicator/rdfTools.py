@@ -21,7 +21,6 @@ class RDF_File(Text_File):
         """
         Args:
             triples_object(Triples)
-            output_file_path(str)
 
         Returns:
             Nothing

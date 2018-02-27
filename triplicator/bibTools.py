@@ -368,7 +368,7 @@ class Bibtex_File(Text_File):
 
         ### Parse the bib file ###
         bibliography = Bibliography()
-        bibliography.importBib(self.output_file_path, show_progress_bar=True)
+        bibliography.importBib(self.cleaned_file_path, show_progress_bar=True)
 
         ### Convert to n3 format ###
         triples = Triples()
