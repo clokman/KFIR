@@ -21,7 +21,7 @@ class Bibtex_File(Text_File):
 
     # TODO: The parameter 'desired_source_label' can not yet take any desired labels (only vu, oc, and uva keywords
     # TODO: ...allowed. This must be changed by modifying the related Triples method)
-    def convert_to_ttl(self, desired_version, desired_source_label, output_directory=''):
+    def convert_to_ttl(self, desired_version, desired_source_bibliography_name, output_directory=''):
         """
         Takes a bib file and outputs a .ttl file.
 
@@ -39,7 +39,7 @@ class Bibtex_File(Text_File):
 
         Examples:
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
-            >>> my_bibtex_file.convert_to_ttl(desired_version='0.0-test', desired_source_label='vu',
+            >>> my_bibtex_file.convert_to_ttl(desired_version='0.0.test', desired_source_bibliography_name='arbitrary_label',
             ...                               output_directory='example_data//example_output_dir')
             Cleaning of "example_data//vu_25_test.bib" started
             [------------------------------------------------------------] 0% ...Cleaning example_data//vu_25_test.bib
@@ -93,62 +93,58 @@ class Bibtex_File(Text_File):
             [------------------------------------------------------------] 0% ...Converting Bibliography object to Triples object.
             [==============================------------------------------] 50% ...Converting Bibliography object to Triples object.
             Calculating the length of the Triples object
-            Writing of the triples to file "example_data//example_output_dir//vu_25_test.ttl" has started
-            [------------------------------------------------------------] 0% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=-----------------------------------------------------------] 2% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==----------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [======------------------------------------------------------] 10% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=======-----------------------------------------------------] 12% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=========---------------------------------------------------] 14% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==========--------------------------------------------------] 16% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===========-------------------------------------------------] 18% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [============------------------------------------------------] 20% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=============-----------------------------------------------] 22% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===============---------------------------------------------] 24% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [================--------------------------------------------] 26% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=================-------------------------------------------] 28% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==================------------------------------------------] 30% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [====================----------------------------------------] 32% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=====================---------------------------------------] 34% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [======================--------------------------------------] 36% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=======================-------------------------------------] 38% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==========================----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=============================-------------------------------] 49% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==================================--------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [====================================------------------------] 59% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=====================================-----------------------] 61% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [======================================----------------------] 63% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=======================================---------------------] 65% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [========================================--------------------] 67% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==========================================------------------] 69% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===========================================-----------------] 71% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [============================================----------------] 73% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=============================================---------------] 75% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===============================================-------------] 77% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [================================================------------] 79% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=================================================-----------] 81% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==================================================----------] 83% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===================================================---------] 85% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=====================================================-------] 87% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [======================================================------] 89% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [==========================================================--] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            [===========================================================-] 98% ...Writing triples to "example_data//example_output_dir//vu_25_test.ttl"
-            Success: The triples were written to "example_data//example_output_dir//vu_25_test.ttl"
+            Writing of the triples to file "example_data//example_output_dir//vu_25_test_0.0.test.ttl" has started
+            [------------------------------------------------------------] 0% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=-----------------------------------------------------------] 2% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=======-----------------------------------------------------] 11% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [========----------------------------------------------------] 13% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=========---------------------------------------------------] 15% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========-------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [============------------------------------------------------] 20% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=============-----------------------------------------------] 22% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===============---------------------------------------------] 24% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [================--------------------------------------------] 26% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=================-------------------------------------------] 28% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================----------------------------------------] 33% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=====================---------------------------------------] 35% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=======================-------------------------------------] 37% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=========================-----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===================================-------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================================------------------------] 60% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=====================================-----------------------] 62% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=======================================---------------------] 64% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========================================-----------------] 71% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [============================================----------------] 73% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=============================================---------------] 75% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===============================================-------------] 77% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [================================================------------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=================================================-----------] 82% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===================================================---------] 84% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================================================--------] 86% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=====================================================-------] 88% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========================================================-] 97% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            Success: The triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
 
-            >>> my_ttl_file = Text_File('example_data//example_output_dir//vu_25_test.ttl')
+            >>> my_ttl_file = Text_File('example_data//example_output_dir//vu_25_test_0.0.test.ttl')
             >>> my_ttl_file.preview(50)
             <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
@@ -169,12 +165,8 @@ class Bibtex_File(Text_File):
             <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-            <http://clokman.com/kfir/resource#VUPure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-            <http://clokman.com/kfir/resource#UVAPure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-            <http://clokman.com/kfir/resource#OpenCitations> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-            <http://clokman.com/kfir/resource#VUPure> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
-            <http://clokman.com/kfir/resource#UVAPure> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
-            <http://clokman.com/kfir/resource#OpenCitations> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
+            <http://clokman.com/kfir/resource#arbitrary_label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+            <http://clokman.com/kfir/resource#arbitrary_label> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
             <http://clokman.com/kfir/ontology#JournalArticle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
             <http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
             <http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
@@ -182,7 +174,7 @@ class Bibtex_File(Text_File):
             <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
             <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
             <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
             <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
             <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> .
             <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
@@ -192,7 +184,7 @@ class Bibtex_File(Text_File):
             <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
             <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
             <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
             <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
             <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> .
             <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
@@ -200,28 +192,141 @@ class Bibtex_File(Text_File):
             <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/2000/01/rdf-schema#label> "Hartevelt, LDA"@en .
             <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
             <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#hasAuthor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#isPublishedOn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#isPublishedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
 
             >>> # Invalid formatting of output directory
-            >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
+            >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test_0.0.test.bib')
             >>> try:
             ...     #  output directory path cannot contain single slashes
-            ...     my_bibtex_file.convert_to_ttl(desired_version='0.0-test', desired_source_label='vu',
+            ...     my_bibtex_file.convert_to_ttl(desired_version='0.0-test', desired_source_bibliography_name='vu',
             ...                                   output_directory='example_data/example_output_dir')
             ... except Exception as error_message:
             ...     print('Exception: ' + str(error_message))
             Exception: Invalid path: Path contains "/" as directory separator, and should be replaced with "//".
 
+            >>> #  a string with spaces entered as value for desired_source_bibliography_name parameter
+            >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
+            >>> my_bibtex_file.convert_to_ttl(desired_version='v0.0.test2',
+            ...                               desired_source_bibliography_name='bib name with spaces',
+            ...                               output_directory='example_data//example_output_dir')
+            Cleaning of "example_data//vu_25_test.bib" started
+            [------------------------------------------------------------] 0% ...Cleaning example_data//vu_25_test.bib
+            [==----------------------------------------------------------] 3% ...Cleaning example_data//vu_25_test.bib
+            [=====-------------------------------------------------------] 7% ...Cleaning example_data//vu_25_test.bib
+            [=======-----------------------------------------------------] 11% ...Cleaning example_data//vu_25_test.bib
+            [=========---------------------------------------------------] 15% ...Cleaning example_data//vu_25_test.bib
+            [============------------------------------------------------] 19% ...Cleaning example_data//vu_25_test.bib
+            [==============----------------------------------------------] 23% ...Cleaning example_data//vu_25_test.bib
+            [================--------------------------------------------] 26% ...Cleaning example_data//vu_25_test.bib
+            [==================------------------------------------------] 30% ...Cleaning example_data//vu_25_test.bib
+            [=====================---------------------------------------] 34% ...Cleaning example_data//vu_25_test.bib
+            [=======================-------------------------------------] 38% ...Cleaning example_data//vu_25_test.bib
+            [=========================-----------------------------------] 42% ...Cleaning example_data//vu_25_test.bib
+            [============================--------------------------------] 46% ...Cleaning example_data//vu_25_test.bib
+            [==============================------------------------------] 50% ...Cleaning example_data//vu_25_test.bib
+            [================================----------------------------] 53% ...Cleaning example_data//vu_25_test.bib
+            [===================================-------------------------] 57% ...Cleaning example_data//vu_25_test.bib
+            [=====================================-----------------------] 61% ...Cleaning example_data//vu_25_test.bib
+            [=======================================---------------------] 65% ...Cleaning example_data//vu_25_test.bib
+            [==========================================------------------] 69% ...Cleaning example_data//vu_25_test.bib
+            [============================================----------------] 73% ...Cleaning example_data//vu_25_test.bib
+            [==============================================--------------] 76% ...Cleaning example_data//vu_25_test.bib
+            [================================================------------] 80% ...Cleaning example_data//vu_25_test.bib
+            [===================================================---------] 84% ...Cleaning example_data//vu_25_test.bib
+            [=====================================================-------] 88% ...Cleaning example_data//vu_25_test.bib
+            [=======================================================-----] 92% ...Cleaning example_data//vu_25_test.bib
+            [==========================================================--] 96% ...Cleaning example_data//vu_25_test.bib
+            Cleaning of "example_data//vu_25_test.bib" finished
+            Parsing of example_data//vu_25_test_cleaned.bib started
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
+            Calculating file length...
+            [------------------------------------------------------------] 0% ...Parsing file "example_data//vu_25_test_cleaned.bib"
+            [==============================------------------------------] 50% ...Parsing file "example_data//vu_25_test_cleaned.bib"
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data//vu_25_test_cleaned.bib parsed and imported as Bibliography object.
+            <BLANKLINE>
+            Fields added to the parsed the Bibliography object:
+            {'b_author_labels': 2,
+             'b_authors': 2,
+             'b_document': 2,
+             'b_document_label': 2,
+             'b_note': 2,
+             'b_publication_year': 2,
+             'b_type': 2}
+            <BLANKLINE>
+            <BLANKLINE>
+            [------------------------------------------------------------] 0% ...Converting Bibliography object to Triples object.
+            [==============================------------------------------] 50% ...Converting Bibliography object to Triples object.
+            Calculating the length of the Triples object
+            Writing of the triples to file "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl" has started
+            [------------------------------------------------------------] 0% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=-----------------------------------------------------------] 2% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=======-----------------------------------------------------] 11% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [========----------------------------------------------------] 13% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=========---------------------------------------------------] 15% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========-------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [============------------------------------------------------] 20% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=============-----------------------------------------------] 22% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===============---------------------------------------------] 24% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [================--------------------------------------------] 26% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=================-------------------------------------------] 28% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================----------------------------------------] 33% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=====================---------------------------------------] 35% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=======================-------------------------------------] 37% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=========================-----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===================================-------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================================------------------------] 60% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=====================================-----------------------] 62% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=======================================---------------------] 64% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========================================-----------------] 71% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [============================================----------------] 73% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=============================================---------------] 75% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===============================================-------------] 77% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [================================================------------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=================================================-----------] 82% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===================================================---------] 84% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================================================--------] 86% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=====================================================-------] 88% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========================================================-] 97% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            Success: The triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            These items were skipped due to errors (0 items):
+            <BLANKLINE>
+            A log of the operation is kept in "log.txt"
+            >>> my_ttl_file = Text_File('example_data//example_output_dir//vu_25_test_v0.0.test2.ttl')
+            >>> my_ttl_file.print_lines(29)
+            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#bib_name_with_spaces> .
+
             >>> # see bottom of this file for longer tests
 
         """
         import os
-        from preprocessor.string_tools import Parameter_Value, File_Path
+        from unidecode import unidecode
+        from preprocessor.string_tools import Parameter_Value, File_Path, String
         from triplicator.rdfTools import Triples, RDF_File
         from triplicator.bibTools import Bibliography  # refers to own module, but not redundant—required by force_type
                                                        # method used in Triples.import_bibliography_object()
-
-        Parameter_Value(output_directory).force_type(str)
-        File_Path(output_directory).raise_error_if_single_slash()
 
         log_file = Log_File('log.txt')
         log_file.clear_contents()
@@ -237,6 +342,26 @@ class Bibtex_File(Text_File):
             '’': "'"
         }
 
+        # Error handling for output_directory and desired_version parameters
+        Parameter_Value(output_directory).force_type(str)
+        File_Path(output_directory).raise_error_if_single_slash()
+        Parameter_Value(desired_version).force_type(str)
+
+        # Error handling and cleaning of 'desired_source_bibliography_name' parameter
+        Parameter_Value(desired_source_bibliography_name).force_type(str)
+        # TODO: The following parameter cleaning procedure should be extracted as a method of String class.
+        # the cleaning is done manually here as this item is injected by Triples() instance, and thus, is not
+        # cleaned with bibliography cleaning process beforehand. As a result, if a parameter with illegal characters
+        # is entered and had not been cleaned as below, this could lead to malformed URI's or unreadable ttl files.
+        desired_source_bibliography_name = String(desired_source_bibliography_name). \
+            clean_from_newline_characters(). \
+            replace_patterns(pattern_replacements_dictionary).\
+            replace_patterns({' ': "_"})  # spaces are not cleared by default for all bibliography entries such as labels,
+                                          # so it must be taken care of individually here
+        desired_source_bibliography_name = unidecode(desired_source_bibliography_name.content)  # ascii conversion
+        from urllib.parse import quote
+        desired_source_bibliography_name = quote(desired_source_bibliography_name)
+
         ### Clean the bib file ###
         self.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
                                                        show_progress_bar=True)
@@ -247,7 +372,7 @@ class Bibtex_File(Text_File):
 
         ### Convert to n3 format ###
         triples = Triples()
-        triples.import_bibliography_object(bibliography, desired_source_label=desired_source_label)
+        triples.import_bibliography_object(bibliography, desired_source_bibliography_name=desired_source_bibliography_name)
 
         ### Write to .ttl file
         if output_directory and (not os.path.exists(output_directory)):
@@ -258,7 +383,7 @@ class Bibtex_File(Text_File):
         else:
             output_directory_to_prepend = ''
 
-        ttl_file_path = output_directory_to_prepend + self.file_path_object.append_substring(desired_version).file_name + '.ttl'
+        ttl_file_path = output_directory_to_prepend + self.input_file_name + '_' + desired_version + '.ttl'
         ttl_file = RDF_File(ttl_file_path)
         ttl_file.write_triples_to_file(triples)
 
@@ -2234,7 +2359,7 @@ def long_tests():
 
     Additional tests for .convert_to_ttl():
         >>> my_bibtex_file = Bibtex_File('example_data//vu_1k_test.bib')
-        >>> my_bibtex_file.convert_to_ttl(desired_version='0.0-test', desired_source_label='vu')
+        >>> my_bibtex_file.convert_to_ttl(desired_version='0.0_test', desired_source_bibliography_name='vu')
         Cleaning of "example_data//vu_1k_test.bib" started
         [------------------------------------------------------------] 0% ...Cleaning example_data//vu_1k_test.bib
         [=-----------------------------------------------------------] 0% ...Cleaning example_data//vu_1k_test.bib
@@ -2616,174 +2741,174 @@ def long_tests():
         [===========================================================-] 97% ...Converting Bibliography object to Triples object.
         [===========================================================-] 98% ...Converting Bibliography object to Triples object.
         Calculating the length of the Triples object
-        Writing of the triples to file "vu_1k_test.ttl" has started
-        [------------------------------------------------------------] 0% ...Writing triples to "vu_1k_test.ttl"
-        [=-----------------------------------------------------------] 0% ...Writing triples to "vu_1k_test.ttl"
-        [=-----------------------------------------------------------] 1% ...Writing triples to "vu_1k_test.ttl"
-        [=-----------------------------------------------------------] 2% ...Writing triples to "vu_1k_test.ttl"
-        [==----------------------------------------------------------] 2% ...Writing triples to "vu_1k_test.ttl"
-        [==----------------------------------------------------------] 3% ...Writing triples to "vu_1k_test.ttl"
-        [==----------------------------------------------------------] 4% ...Writing triples to "vu_1k_test.ttl"
-        [===---------------------------------------------------------] 4% ...Writing triples to "vu_1k_test.ttl"
-        [===---------------------------------------------------------] 5% ...Writing triples to "vu_1k_test.ttl"
-        [====--------------------------------------------------------] 5% ...Writing triples to "vu_1k_test.ttl"
-        [====--------------------------------------------------------] 6% ...Writing triples to "vu_1k_test.ttl"
-        [====--------------------------------------------------------] 7% ...Writing triples to "vu_1k_test.ttl"
-        [=====-------------------------------------------------------] 7% ...Writing triples to "vu_1k_test.ttl"
-        [=====-------------------------------------------------------] 8% ...Writing triples to "vu_1k_test.ttl"
-        [=====-------------------------------------------------------] 9% ...Writing triples to "vu_1k_test.ttl"
-        [======------------------------------------------------------] 9% ...Writing triples to "vu_1k_test.ttl"
-        [======------------------------------------------------------] 10% ...Writing triples to "vu_1k_test.ttl"
-        [=======-----------------------------------------------------] 10% ...Writing triples to "vu_1k_test.ttl"
-        [=======-----------------------------------------------------] 11% ...Writing triples to "vu_1k_test.ttl"
-        [=======-----------------------------------------------------] 12% ...Writing triples to "vu_1k_test.ttl"
-        [========----------------------------------------------------] 12% ...Writing triples to "vu_1k_test.ttl"
-        [========----------------------------------------------------] 13% ...Writing triples to "vu_1k_test.ttl"
-        [========----------------------------------------------------] 14% ...Writing triples to "vu_1k_test.ttl"
-        [=========---------------------------------------------------] 14% ...Writing triples to "vu_1k_test.ttl"
-        [=========---------------------------------------------------] 15% ...Writing triples to "vu_1k_test.ttl"
-        [==========--------------------------------------------------] 15% ...Writing triples to "vu_1k_test.ttl"
-        [==========--------------------------------------------------] 16% ...Writing triples to "vu_1k_test.ttl"
-        [==========--------------------------------------------------] 17% ...Writing triples to "vu_1k_test.ttl"
-        [===========-------------------------------------------------] 17% ...Writing triples to "vu_1k_test.ttl"
-        [===========-------------------------------------------------] 18% ...Writing triples to "vu_1k_test.ttl"
-        [===========-------------------------------------------------] 19% ...Writing triples to "vu_1k_test.ttl"
-        [============------------------------------------------------] 19% ...Writing triples to "vu_1k_test.ttl"
-        [============------------------------------------------------] 20% ...Writing triples to "vu_1k_test.ttl"
-        [=============-----------------------------------------------] 20% ...Writing triples to "vu_1k_test.ttl"
-        [=============-----------------------------------------------] 21% ...Writing triples to "vu_1k_test.ttl"
-        [=============-----------------------------------------------] 22% ...Writing triples to "vu_1k_test.ttl"
-        [==============----------------------------------------------] 22% ...Writing triples to "vu_1k_test.ttl"
-        [==============----------------------------------------------] 23% ...Writing triples to "vu_1k_test.ttl"
-        [==============----------------------------------------------] 24% ...Writing triples to "vu_1k_test.ttl"
-        [===============---------------------------------------------] 24% ...Writing triples to "vu_1k_test.ttl"
-        [===============---------------------------------------------] 25% ...Writing triples to "vu_1k_test.ttl"
-        [================--------------------------------------------] 25% ...Writing triples to "vu_1k_test.ttl"
-        [================--------------------------------------------] 26% ...Writing triples to "vu_1k_test.ttl"
-        [================--------------------------------------------] 27% ...Writing triples to "vu_1k_test.ttl"
-        [=================-------------------------------------------] 27% ...Writing triples to "vu_1k_test.ttl"
-        [=================-------------------------------------------] 28% ...Writing triples to "vu_1k_test.ttl"
-        [=================-------------------------------------------] 29% ...Writing triples to "vu_1k_test.ttl"
-        [==================------------------------------------------] 29% ...Writing triples to "vu_1k_test.ttl"
-        [==================------------------------------------------] 30% ...Writing triples to "vu_1k_test.ttl"
-        [===================-----------------------------------------] 30% ...Writing triples to "vu_1k_test.ttl"
-        [===================-----------------------------------------] 31% ...Writing triples to "vu_1k_test.ttl"
-        [===================-----------------------------------------] 32% ...Writing triples to "vu_1k_test.ttl"
-        [====================----------------------------------------] 32% ...Writing triples to "vu_1k_test.ttl"
-        [====================----------------------------------------] 33% ...Writing triples to "vu_1k_test.ttl"
-        [====================----------------------------------------] 34% ...Writing triples to "vu_1k_test.ttl"
-        [=====================---------------------------------------] 34% ...Writing triples to "vu_1k_test.ttl"
-        [=====================---------------------------------------] 35% ...Writing triples to "vu_1k_test.ttl"
-        [======================--------------------------------------] 35% ...Writing triples to "vu_1k_test.ttl"
-        [======================--------------------------------------] 36% ...Writing triples to "vu_1k_test.ttl"
-        [======================--------------------------------------] 37% ...Writing triples to "vu_1k_test.ttl"
-        [=======================-------------------------------------] 37% ...Writing triples to "vu_1k_test.ttl"
-        [=======================-------------------------------------] 38% ...Writing triples to "vu_1k_test.ttl"
-        [=======================-------------------------------------] 39% ...Writing triples to "vu_1k_test.ttl"
-        [========================------------------------------------] 39% ...Writing triples to "vu_1k_test.ttl"
-        [========================------------------------------------] 40% ...Writing triples to "vu_1k_test.ttl"
-        [=========================-----------------------------------] 40% ...Writing triples to "vu_1k_test.ttl"
-        [=========================-----------------------------------] 41% ...Writing triples to "vu_1k_test.ttl"
-        [=========================-----------------------------------] 42% ...Writing triples to "vu_1k_test.ttl"
-        [==========================----------------------------------] 42% ...Writing triples to "vu_1k_test.ttl"
-        [==========================----------------------------------] 43% ...Writing triples to "vu_1k_test.ttl"
-        [==========================----------------------------------] 44% ...Writing triples to "vu_1k_test.ttl"
-        [===========================---------------------------------] 44% ...Writing triples to "vu_1k_test.ttl"
-        [===========================---------------------------------] 45% ...Writing triples to "vu_1k_test.ttl"
-        [============================--------------------------------] 45% ...Writing triples to "vu_1k_test.ttl"
-        [============================--------------------------------] 46% ...Writing triples to "vu_1k_test.ttl"
-        [============================--------------------------------] 47% ...Writing triples to "vu_1k_test.ttl"
-        [=============================-------------------------------] 47% ...Writing triples to "vu_1k_test.ttl"
-        [=============================-------------------------------] 48% ...Writing triples to "vu_1k_test.ttl"
-        [=============================-------------------------------] 49% ...Writing triples to "vu_1k_test.ttl"
-        [==============================------------------------------] 49% ...Writing triples to "vu_1k_test.ttl"
-        [==============================------------------------------] 50% ...Writing triples to "vu_1k_test.ttl"
-        [===============================-----------------------------] 50% ...Writing triples to "vu_1k_test.ttl"
-        [===============================-----------------------------] 51% ...Writing triples to "vu_1k_test.ttl"
-        [===============================-----------------------------] 52% ...Writing triples to "vu_1k_test.ttl"
-        [================================----------------------------] 52% ...Writing triples to "vu_1k_test.ttl"
-        [================================----------------------------] 53% ...Writing triples to "vu_1k_test.ttl"
-        [================================----------------------------] 54% ...Writing triples to "vu_1k_test.ttl"
-        [=================================---------------------------] 54% ...Writing triples to "vu_1k_test.ttl"
-        [=================================---------------------------] 55% ...Writing triples to "vu_1k_test.ttl"
-        [==================================--------------------------] 55% ...Writing triples to "vu_1k_test.ttl"
-        [==================================--------------------------] 56% ...Writing triples to "vu_1k_test.ttl"
-        [==================================--------------------------] 57% ...Writing triples to "vu_1k_test.ttl"
-        [===================================-------------------------] 57% ...Writing triples to "vu_1k_test.ttl"
-        [===================================-------------------------] 58% ...Writing triples to "vu_1k_test.ttl"
-        [===================================-------------------------] 59% ...Writing triples to "vu_1k_test.ttl"
-        [====================================------------------------] 59% ...Writing triples to "vu_1k_test.ttl"
-        [====================================------------------------] 60% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================-----------------------] 60% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================-----------------------] 61% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================-----------------------] 62% ...Writing triples to "vu_1k_test.ttl"
-        [======================================----------------------] 62% ...Writing triples to "vu_1k_test.ttl"
-        [======================================----------------------] 63% ...Writing triples to "vu_1k_test.ttl"
-        [======================================----------------------] 64% ...Writing triples to "vu_1k_test.ttl"
-        [=======================================---------------------] 64% ...Writing triples to "vu_1k_test.ttl"
-        [=======================================---------------------] 65% ...Writing triples to "vu_1k_test.ttl"
-        [========================================--------------------] 65% ...Writing triples to "vu_1k_test.ttl"
-        [========================================--------------------] 66% ...Writing triples to "vu_1k_test.ttl"
-        [========================================--------------------] 67% ...Writing triples to "vu_1k_test.ttl"
-        [=========================================-------------------] 67% ...Writing triples to "vu_1k_test.ttl"
-        [=========================================-------------------] 68% ...Writing triples to "vu_1k_test.ttl"
-        [=========================================-------------------] 69% ...Writing triples to "vu_1k_test.ttl"
-        [==========================================------------------] 69% ...Writing triples to "vu_1k_test.ttl"
-        [==========================================------------------] 70% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================-----------------] 70% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================-----------------] 71% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================-----------------] 72% ...Writing triples to "vu_1k_test.ttl"
-        [============================================----------------] 72% ...Writing triples to "vu_1k_test.ttl"
-        [============================================----------------] 73% ...Writing triples to "vu_1k_test.ttl"
-        [============================================----------------] 74% ...Writing triples to "vu_1k_test.ttl"
-        [=============================================---------------] 74% ...Writing triples to "vu_1k_test.ttl"
-        [=============================================---------------] 75% ...Writing triples to "vu_1k_test.ttl"
-        [==============================================--------------] 75% ...Writing triples to "vu_1k_test.ttl"
-        [==============================================--------------] 76% ...Writing triples to "vu_1k_test.ttl"
-        [==============================================--------------] 77% ...Writing triples to "vu_1k_test.ttl"
-        [===============================================-------------] 77% ...Writing triples to "vu_1k_test.ttl"
-        [===============================================-------------] 78% ...Writing triples to "vu_1k_test.ttl"
-        [===============================================-------------] 79% ...Writing triples to "vu_1k_test.ttl"
-        [================================================------------] 79% ...Writing triples to "vu_1k_test.ttl"
-        [================================================------------] 80% ...Writing triples to "vu_1k_test.ttl"
-        [=================================================-----------] 80% ...Writing triples to "vu_1k_test.ttl"
-        [=================================================-----------] 81% ...Writing triples to "vu_1k_test.ttl"
-        [=================================================-----------] 82% ...Writing triples to "vu_1k_test.ttl"
-        [==================================================----------] 82% ...Writing triples to "vu_1k_test.ttl"
-        [==================================================----------] 83% ...Writing triples to "vu_1k_test.ttl"
-        [==================================================----------] 84% ...Writing triples to "vu_1k_test.ttl"
-        [===================================================---------] 84% ...Writing triples to "vu_1k_test.ttl"
-        [===================================================---------] 85% ...Writing triples to "vu_1k_test.ttl"
-        [====================================================--------] 85% ...Writing triples to "vu_1k_test.ttl"
-        [====================================================--------] 86% ...Writing triples to "vu_1k_test.ttl"
-        [====================================================--------] 87% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================================-------] 87% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================================-------] 88% ...Writing triples to "vu_1k_test.ttl"
-        [=====================================================-------] 89% ...Writing triples to "vu_1k_test.ttl"
-        [======================================================------] 89% ...Writing triples to "vu_1k_test.ttl"
-        [======================================================------] 90% ...Writing triples to "vu_1k_test.ttl"
-        [=======================================================-----] 90% ...Writing triples to "vu_1k_test.ttl"
-        [=======================================================-----] 91% ...Writing triples to "vu_1k_test.ttl"
-        [=======================================================-----] 92% ...Writing triples to "vu_1k_test.ttl"
-        [========================================================----] 92% ...Writing triples to "vu_1k_test.ttl"
-        [========================================================----] 93% ...Writing triples to "vu_1k_test.ttl"
-        [========================================================----] 94% ...Writing triples to "vu_1k_test.ttl"
-        [=========================================================---] 94% ...Writing triples to "vu_1k_test.ttl"
-        [=========================================================---] 95% ...Writing triples to "vu_1k_test.ttl"
-        [==========================================================--] 95% ...Writing triples to "vu_1k_test.ttl"
-        [==========================================================--] 96% ...Writing triples to "vu_1k_test.ttl"
-        [==========================================================--] 97% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================================-] 97% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================================-] 98% ...Writing triples to "vu_1k_test.ttl"
-        [===========================================================-] 99% ...Writing triples to "vu_1k_test.ttl"
-        [============================================================] 99% ...Writing triples to "vu_1k_test.ttl"
-        Success: The triples were written to "vu_1k_test.ttl"
+        Writing of the triples to file "vu_1k_test_0.0_test.ttl" has started
+        [------------------------------------------------------------] 0% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=-----------------------------------------------------------] 0% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=-----------------------------------------------------------] 1% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=-----------------------------------------------------------] 2% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==----------------------------------------------------------] 2% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==----------------------------------------------------------] 3% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==----------------------------------------------------------] 4% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===---------------------------------------------------------] 4% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===---------------------------------------------------------] 5% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====--------------------------------------------------------] 5% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====--------------------------------------------------------] 6% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====--------------------------------------------------------] 7% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====-------------------------------------------------------] 7% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====-------------------------------------------------------] 8% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====-------------------------------------------------------] 9% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======------------------------------------------------------] 9% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======------------------------------------------------------] 10% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======-----------------------------------------------------] 10% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======-----------------------------------------------------] 11% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======-----------------------------------------------------] 12% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========----------------------------------------------------] 12% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========----------------------------------------------------] 13% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========----------------------------------------------------] 14% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========---------------------------------------------------] 14% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========---------------------------------------------------] 15% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========--------------------------------------------------] 15% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========--------------------------------------------------] 16% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========--------------------------------------------------] 17% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========-------------------------------------------------] 17% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========-------------------------------------------------] 18% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========-------------------------------------------------] 19% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============------------------------------------------------] 19% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============------------------------------------------------] 20% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============-----------------------------------------------] 20% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============-----------------------------------------------] 21% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============-----------------------------------------------] 22% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============----------------------------------------------] 22% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============----------------------------------------------] 23% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============----------------------------------------------] 24% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============---------------------------------------------] 24% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============---------------------------------------------] 25% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================--------------------------------------------] 25% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================--------------------------------------------] 26% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================--------------------------------------------] 27% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================-------------------------------------------] 27% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================-------------------------------------------] 28% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================-------------------------------------------] 29% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================------------------------------------------] 29% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================------------------------------------------] 30% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================-----------------------------------------] 30% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================-----------------------------------------] 31% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================-----------------------------------------] 32% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================----------------------------------------] 32% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================----------------------------------------] 33% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================----------------------------------------] 34% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================---------------------------------------] 34% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================---------------------------------------] 35% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================--------------------------------------] 35% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================--------------------------------------] 36% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================--------------------------------------] 37% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================-------------------------------------] 37% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================-------------------------------------] 38% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================-------------------------------------] 39% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================------------------------------------] 39% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================------------------------------------] 40% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================-----------------------------------] 40% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================-----------------------------------] 41% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================-----------------------------------] 42% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================----------------------------------] 42% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================----------------------------------] 43% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================----------------------------------] 44% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================---------------------------------] 44% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================---------------------------------] 45% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================--------------------------------] 45% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================--------------------------------] 46% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================--------------------------------] 47% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============================-------------------------------] 47% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============================-------------------------------] 48% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============================-------------------------------] 49% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============================------------------------------] 49% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============================------------------------------] 50% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================-----------------------------] 50% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================-----------------------------] 51% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================-----------------------------] 52% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================================----------------------------] 52% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================================----------------------------] 53% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================================----------------------------] 54% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================================---------------------------] 54% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================================---------------------------] 55% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================--------------------------] 55% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================--------------------------] 56% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================--------------------------] 57% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================================-------------------------] 57% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================================-------------------------] 58% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================================-------------------------] 59% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================================------------------------] 59% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================================------------------------] 60% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================-----------------------] 60% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================-----------------------] 61% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================-----------------------] 62% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================================----------------------] 62% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================================----------------------] 63% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================================----------------------] 64% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================================---------------------] 64% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================================---------------------] 65% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================--------------------] 65% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================--------------------] 66% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================--------------------] 67% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================================-------------------] 67% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================================-------------------] 68% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================================-------------------] 69% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================================------------------] 69% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================================------------------] 70% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================-----------------] 70% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================-----------------] 71% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================-----------------] 72% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================================----------------] 72% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================================----------------] 73% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================================----------------] 74% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============================================---------------] 74% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=============================================---------------] 75% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============================================--------------] 75% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============================================--------------] 76% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==============================================--------------] 77% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================================-------------] 77% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================================-------------] 78% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===============================================-------------] 79% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================================================------------] 79% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [================================================------------] 80% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================================================-----------] 80% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================================================-----------] 81% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=================================================-----------] 82% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================================----------] 82% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================================----------] 83% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==================================================----------] 84% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================================================---------] 84% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===================================================---------] 85% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================================================--------] 85% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================================================--------] 86% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [====================================================--------] 87% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================================-------] 87% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================================-------] 88% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=====================================================-------] 89% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================================================------] 89% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [======================================================------] 90% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================================================-----] 90% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================================================-----] 91% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=======================================================-----] 92% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================================----] 92% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================================----] 93% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [========================================================----] 94% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================================================---] 94% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [=========================================================---] 95% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================================================--] 95% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================================================--] 96% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [==========================================================--] 97% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================================-] 97% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================================-] 98% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [===========================================================-] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        [============================================================] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
+        Success: The triples were written to "vu_1k_test_0.0_test.ttl"
         These items were skipped due to errors (0 items):
         <BLANKLINE>
         A log of the operation is kept in "log.txt"
 
         >>> from preprocessor.Text_File import Text_File
-        >>> my_ttl_file = Text_File('vu_1k_test.ttl')
+        >>> my_ttl_file = Text_File('vu_1k_test_0.0_test.ttl')
         >>> my_ttl_file.preview(250)
         <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
@@ -2804,12 +2929,8 @@ def long_tests():
         <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-        <http://clokman.com/kfir/resource#VUPure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-        <http://clokman.com/kfir/resource#UVAPure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-        <http://clokman.com/kfir/resource#OpenCitations> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-        <http://clokman.com/kfir/resource#VUPure> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
-        <http://clokman.com/kfir/resource#UVAPure> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
-        <http://clokman.com/kfir/resource#OpenCitations> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
+        <http://clokman.com/kfir/resource#vu> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+        <http://clokman.com/kfir/resource#vu> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
         <http://clokman.com/kfir/ontology#JournalArticle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
@@ -2817,7 +2938,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
         <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
@@ -2827,7 +2948,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
         <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
@@ -2837,7 +2958,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/2000/01/rdf-schema#label> "Johann Friedrich Stapfer (1708-1775)-Theology, Orthodoxy and Polemics in the Late Orthodoxy Period"@en .
         <http://clokman.com/kfir/resource#Blauw_C> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Blauw_C> .
@@ -2847,7 +2968,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/2000/01/rdf-schema#label> "Liturgy John Owen"@en .
         <http://clokman.com/kfir/resource#Hyde_D> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Liturgy_John_Owen> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hyde_D> .
@@ -2857,7 +2978,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/2000/01/rdf-schema#label> "It Seems Good to the Holy Spirit and Us-How Reformed Churches in America May Move Past Binary and Beyond Opaque into Missional Decision Making"@en .
         <http://clokman.com/kfir/resource#Wilson_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Wilson_M> .
@@ -2867,7 +2988,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/2000/01/rdf-schema#label> "N.T. Wright and Missional Hermeneutics"@en .
         <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Gonzalez_CJ> .
@@ -2877,7 +2998,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/2000/01/rdf-schema#label> "The Mission of North American Church Planting in Europe-Motivations and effectiveness of North American church planting in continental Europe"@en .
         <http://clokman.com/kfir/resource#Rossi_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rossi_S> .
@@ -2887,7 +3008,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/2000/01/rdf-schema#label> "Typologisch preken"@en .
         <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Typologisch_preken> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#vd_Weg_AAF> .
@@ -2897,7 +3018,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/2000/01/rdf-schema#label> "Ministry and Mission-an investigation of the missional challenges for the Reformed Presbyterian theology of ministry in a post-Christendom age"@en .
         <http://clokman.com/kfir/resource#den_Hertog_RG> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#den_Hertog_RG> .
@@ -2907,7 +3028,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/2000/01/rdf-schema#label> "PhD begeleiding Sien de Groot, Universiteit Gent, promotor Marc de Groote"@en .
         <http://clokman.com/kfir/resource#van_Opstall_EM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Opstall_EM> .
@@ -2917,7 +3038,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/2000/01/rdf-schema#label> "Reasonableness and Pleasantness of christianity in Matthew Henry"@en .
         <http://clokman.com/kfir/resource#Murray_DP> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Murray_DP> .
@@ -2927,7 +3048,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/2000/01/rdf-schema#label> "Reward captures attention independent of the current focus of attention"@en .
         <http://clokman.com/kfir/resource#Xue_X> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Xue_X> .
@@ -2946,7 +3067,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/2000/01/rdf-schema#label> "Truth and Truth-Telling-Engaging South Africa's Post-Apartheid Public Religious Discourse"@en .
         <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_der_Riet_RL> .
@@ -2956,7 +3077,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/2000/01/rdf-schema#label> "Una Sancta-Towards a Contextualised Ecclesiology for the Korean Churches"@en .
         <http://clokman.com/kfir/resource#Park_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Park_S> .
@@ -2966,7 +3087,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/2000/01/rdf-schema#label> "White anti-apartheid theologies as resource for a theological response to whiteness in post-apartheid South Africa"@en .
         <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Wyngaard_GJ> .
@@ -2976,7 +3097,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Inbook> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Inbook> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/2000/01/rdf-schema#label> "A Future for Cultural History of the Dutch Wadden Region-Challenges and Policies in a Maritime Agricultural Landscape"@en .
         <http://clokman.com/kfir/resource#Egberts_LR> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Egberts_LR> .
@@ -2992,7 +3113,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/2000/01/rdf-schema#label> "Climate, aggression, and violence (CLASH)-a cultural-evolutionary approach"@en .
         <http://clokman.com/kfir/resource#Rinderu_MI> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rinderu_MI> .
@@ -3019,7 +3140,7 @@ def long_tests():
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#VUPure> .
+        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/2000/01/rdf-schema#label> "Performances in the Theatre of the Cold War-the American Society of African Culture (AMSAC) and the 1961 Lagos Festival"@en .
         <http://clokman.com/kfir/resource#Geerlings_AJM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Geerlings_AJM> .
@@ -3035,4 +3156,11 @@ def long_tests():
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasISSN> "1479-4012" .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#african_american_history> .
         <http://clokman.com/kfir/resource#african_american_history> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
+        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#nigeria> .
+        <http://clokman.com/kfir/resource#nigeria> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
+        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#cold_war> .
+        <http://clokman.com/kfir/resource#cold_war> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
+
+        >>> import os
+        >>> os.remove('vu_1k_test_0.0_test.ttl')
     """
