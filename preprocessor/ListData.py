@@ -49,7 +49,7 @@ class ListData():
             [['author'], ['John Doe'], ['Jane Doe']]
 
         """
-        from preprocessor.get_header_index import get_header_index
+        from preprocessor.legacy_functions.get_header_index import get_header_index
 
         # iterate through all entries and their ids in the input Bibliography
         # (this first iteration is only for indexing all headers in the instance.headers_row. all headers must be
@@ -372,7 +372,7 @@ class ListData():
         #############################################################################################################
 
         # the column header also needs to be included in removal process
-        from preprocessor.get_header_index import get_header_index
+        from preprocessor.legacy_functions.get_header_index import get_header_index
         target_index = get_header_index(target_column_header, instance.dataset)
         for i, row in enumerate(instance.dataset):
             del (instance.dataset[i][target_index])
@@ -603,7 +603,6 @@ class ListBuffer(ListData):
             False
         """
         if syntax_to_parse_by == 'bibtex':
-            # import and shorten bibtex parser function
             # import and shorten bibtex parser function
             from pybtex.database.input import bibtex
             parser = bibtex.Parser()

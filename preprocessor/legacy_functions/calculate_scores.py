@@ -30,7 +30,7 @@ def calculate_scores(scale_columns_list, dataset, count_values=None, include_val
 
     #############################################################################################################
 
-    from preprocessor.select_column import select_column
+    from preprocessor.legacy_functions.select_column import select_column
 
     #########################
     ###  INITIALIZATION  ###

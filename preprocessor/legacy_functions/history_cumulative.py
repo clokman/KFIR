@@ -16,7 +16,7 @@ def history_cumulative(target_column_name, n_back, dataset, row_grouping_criteri
     :return: A list containing integers or floats
 
     :example - Cumulative two-day histories for a value (per id):
-        >>> from preprocessor.print_columns import print_columns
+        >>> from preprocessor.legacy_functions.print_columns import print_columns
         >>> my_data = [["id",  "value"], ["john", 1], ["JOHN", 2], ["John", 3], ["john", 4],   ["michael", -1], ["michael", -2], ["michael", -3], ["michael", -4], ["james", 10], ["james", 11], ["james", 12], ["james", 13]]
         >>> # Note the capitalization differences above (they are no problem)
 
@@ -42,8 +42,8 @@ def history_cumulative(target_column_name, n_back, dataset, row_grouping_criteri
 
     #############################################################################################################
 
-    from preprocessor.history_nback import history_nback
-    from preprocessor.divide_column_by_criteria import divide_column_by_criteria
+    from preprocessor.legacy_functions.history_nback import history_nback
+    from preprocessor.legacy_functions.divide_column_by_criteria import divide_column_by_criteria
 
     # Make an iterative summation function for calculating variables that cannot go below a certain value (e.g., sleep debt)
     def sum_iterative(vector_to_iterate, floor_value=None):

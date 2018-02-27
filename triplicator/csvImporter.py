@@ -56,9 +56,9 @@ class CSV_container(Bibliography):
             <BLANKLINE>
 
         """
-        from preprocessor.get_headers import get_headers
-        from preprocessor.get_data import get_data
-        from preprocessor.get_header_index import get_header_index
+        from preprocessor.legacy_functions.get_headers import get_headers
+        from preprocessor.legacy_functions.get_data import get_data
+        from preprocessor.legacy_functions.get_header_index import get_header_index
 
         ### Bibliography class instance attributes
         # adds the instance to the list of all instances of the class

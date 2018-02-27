@@ -1,4 +1,4 @@
-from preprocessor.get_headers import get_headers
+from preprocessor.legacy_functions.get_headers import get_headers
 
 
 def get_header_index(header_query, dataset):
@@ -9,7 +9,7 @@ def get_header_index(header_query, dataset):
     :param dataset:  The variable that contains a dataset with headers
     :return: Integer corresponding to header index
     :example:
-        >>> from preprocessor.demo_data import demo_data
+        >>> from preprocessor.test_data.demo_data import demo_data
         >>> get_header_index("edu", demo_data)
         5
     """

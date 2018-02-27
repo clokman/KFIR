@@ -13,8 +13,8 @@ def transform_column_values(target_replacement_dictionary, target_column_headers
         as well.
 
     :example (single target column as input):
-        >>> from preprocessor.demo_data import demo_data
-        >>> from preprocessor.print_columns import print_columns
+        >>> from preprocessor.test_data.demo_data import demo_data
+        >>> from preprocessor.legacy_functions.print_columns import print_columns
         >>> print_columns("consent", demo_data)
         <BLANKLINE>
         consent is: ['Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel', 'Ja, ik neem deel']
@@ -40,9 +40,9 @@ def transform_column_values(target_replacement_dictionary, target_column_headers
 
     #############################################################################################################
 
-    from preprocessor.select_column import select_column
-    from preprocessor.replace_column import replace_column
-    from preprocessor.print_columns import print_columns
+    from preprocessor.legacy_functions.select_column import select_column
+    from preprocessor.legacy_functions.replace_column import replace_column
+    from preprocessor.legacy_functions.print_columns import print_columns
 
     # If target_column_headers_list is not a list but a string (i.e., target is a single column)...
     # Convert this string to a single list item so that the upcoming lines in the function can still take it as input.

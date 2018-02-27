@@ -36,8 +36,8 @@ def history_nback(target_column_name_or_target_var, n_back, input="list", datase
         [nan, nan, 1, 2, nan, nan, -1, -2, nan, nan, 10, 11]
 
     :example - :
-        >>> from preprocessor.print_columns import print_columns
-        >>> from preprocessor.demo_daily_data import demo_daily_data
+        >>> from preprocessor.legacy_functions.print_columns import print_columns
+        >>> from preprocessor.legacy_functions.demo_daily_data import demo_daily_data
         >>> one_days_before   = history_nback("sun_hours", 1, input="column", dataset=demo_daily_data)
         >>> two_days_before   = history_nback("sun_hours", 2, "column"      , demo_daily_data)
         >>> three_days_before = history_nback("sun_hours", 3, "column"      , demo_daily_data)
@@ -56,7 +56,7 @@ def history_nback(target_column_name_or_target_var, n_back, input="list", datase
 
     #############################################################################################################
 
-    from preprocessor.divide_column_by_criteria import divide_column_by_criteria
+    from preprocessor.legacy_functions.divide_column_by_criteria import divide_column_by_criteria
 
     # If input is not a vector, select the specified column from the dataset.
     if input is "column":

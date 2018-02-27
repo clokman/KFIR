@@ -1,4 +1,4 @@
-from preprocessor.select_column import select_column
+from preprocessor.legacy_functions.select_column import select_column
 
 
 def column_summary(column_name, dataset, print_values=False):

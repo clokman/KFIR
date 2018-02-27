@@ -26,8 +26,8 @@ def transform_column_substring(target_substring, replacement_substring, target_h
 
     import re
 
-    from preprocessor.select_column import select_column
-    from preprocessor.replace_column import replace_column
+    from preprocessor.legacy_functions.select_column import select_column
+    from preprocessor.legacy_functions.replace_column import replace_column
 
     if type(target_headers_list) is str:  # If a single value is inputted as target column header (and not a list)
         target_headers_list = [

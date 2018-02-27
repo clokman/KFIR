@@ -15,7 +15,7 @@ def print_column_vertically(target_column_name, dataset):
 
     #############################################################################################################
 
-    from preprocessor.select_column import select_column
+    from preprocessor.legacy_functions.select_column import select_column
 
     selected_column = select_column(target_column_name, dataset)
     for i, value in enumerate(selected_column):

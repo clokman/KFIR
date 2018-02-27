@@ -14,8 +14,8 @@ def divide_column_by_criteria(row_grouping_criteria_header, target_column_name, 
     :return: A list of lists containing subgroups made out of the inputted column.
 
     :example - divide column/group rows by id (and output a list):
-        >>> from preprocessor.print_columns import print_columns
-        >>> from preprocessor.demo_daily_data import demo_daily_data
+        >>> from preprocessor.legacy_functions.print_columns import print_columns
+        >>> from preprocessor.legacy_functions.demo_daily_data import demo_daily_data
         >>> print_columns("id", demo_daily_data)
         <BLANKLINE>
         id is: ['AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'AB64', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'EM11', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'FT12', 'gh93', 'gh93', 'gh93', 'gh93', 'gh93', 'gh93', 'gh93', 'Gh93', 'gh93', 'gh93', 'gh93', 'Gh93', 'gh93', 'gh93', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'GW98', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'HA61', 'he46', 'he46', 'he46', 'HE46', 'he46', 'he46', 'he46', 'he46', 'he46', 'he46', 'HE46', 'he46', 'he46', 'he46', 'he46', 'he46', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'MJ87', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'PM61', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18', 'wh18']
@@ -33,7 +33,7 @@ def divide_column_by_criteria(row_grouping_criteria_header, target_column_name, 
 
     #############################################################################################################
 
-    from preprocessor.select_column import select_column
+    from preprocessor.legacy_functions.select_column import select_column
 
     # Compatibilty column for history_nback function. Can be ignored.
     if row_grouping_criteria_header is None:

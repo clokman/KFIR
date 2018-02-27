@@ -1,4 +1,4 @@
-from preprocessor.select_column import select_column
+from preprocessor.legacy_functions.select_column import select_column
 
 
 def print_columns(column_names, dataset):

@@ -20,8 +20,8 @@ def transform_column_type(target_headers, target_type, dataset):
 
     #############################################################################################################
 
-    from preprocessor.select_column import select_column
-    from preprocessor.replace_column import replace_column
+    from preprocessor.legacy_functions.select_column import select_column
+    from preprocessor.legacy_functions.replace_column import replace_column
 
     try:
         if type(target_headers) is str:

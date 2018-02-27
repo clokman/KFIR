@@ -16,7 +16,7 @@ class Text_File():
             >>> my_clean_file = Text_File('test_data//problematic_characters_test.bib')
             >>> my_clean_file.input_file_path
             'test_data//problematic_characters_test.bib'
-            >>> my_clean_file.output_file_path
+            >>> my_clean_file.cleaned_file_path
             'test_data//problematic_characters_test_cleaned.bib'
 
             # get input and output file paths in a nested directory
@@ -24,7 +24,7 @@ class Text_File():
                                                     '//file_in_nested_directory.bib')
             >>> my_clean_file_in_subdir.input_file_path
             'test_data//test_directory_for_nested_file_system_demonstration//file_in_nested_directory.bib'
-            >>> my_clean_file_in_subdir.output_file_path
+            >>> my_clean_file_in_subdir.cleaned_file_path
             'test_data//test_directory_for_nested_file_system_demonstration//file_in_nested_directory_cleaned.bib'
         """
         from preprocessor.string_tools import File_Path
@@ -37,8 +37,8 @@ class Text_File():
         self.directory_path = self.file_path_object.directory_path
 
         # store generate output path for cleaned file
-        self.output_file_path = self.directory_path + '//' + self.input_file_name + '_cleaned.' \
-                                + self.input_file_extension
+        self.cleaned_file_path = self.directory_path + '//' + self.input_file_name + '_cleaned.' \
+                                 + self.input_file_extension
 
         self.no_of_nonparsable_entries_due_to_unknown_reason = 0
         self.no_of_unbalanced_entries_skipped = 0
@@ -183,7 +183,8 @@ class Text_File():
 
             return line
 
-    def clean_bibtex_file_and_output_cleaned_file(self, convert_to_ascii = True, patterns_to_replace={'': ''}, show_progress_bar=False):
+    # TODO: Move this method to bibTools
+    def clean_bibtex_file_and_output_cleaned_file(self, convert_to_ascii=True, patterns_to_replace={'': ''}, show_progress_bar=False):
         """
 
         Examples:
@@ -332,7 +333,7 @@ class Text_File():
 
 
         with open(self.input_file_path, encoding="utf8") as input_file:
-            with open(self.output_file_path, mode='w', encoding="utf8") as output_file:
+            with open(self.cleaned_file_path, mode='w', encoding="utf8") as output_file:
 
                 buffer = ListBuffer()
 

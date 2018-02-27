@@ -1,5 +1,5 @@
-from preprocessor.get_data import get_data
-from preprocessor.get_header_index import get_header_index
+from preprocessor.legacy_functions.get_data import get_data
+from preprocessor.legacy_functions.get_header_index import get_header_index
 
 
 def replace_column(replacement_column, target_column_header, dataset):

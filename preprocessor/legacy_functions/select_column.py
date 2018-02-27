@@ -1,6 +1,6 @@
-from preprocessor.get_headers import get_headers
-from preprocessor.get_data import get_data
-from preprocessor.get_header_index import get_header_index
+from preprocessor.legacy_functions.get_headers import get_headers
+from preprocessor.legacy_functions.get_data import get_data
+from preprocessor.legacy_functions.get_header_index import get_header_index
 
 
 def select_column(header_query, dataset):
@@ -11,7 +11,7 @@ def select_column(header_query, dataset):
     :param dataset: The variable that contains a dataset with headers
     :return: A list vector that contains values from the queried column
     :example:
-        >>> from preprocessor.demo_data import demo_data
+        >>> from preprocessor.test_data.demo_data import demo_data
         >>> select_column("edu", demo_data)
         ['HBO', 'WO', 'WO', 'WO', 'WO', 'HBO', 'HBO', 'WO', 'WO', 'MBO', 'WO']
     '''
