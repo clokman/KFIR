@@ -1,4 +1,4 @@
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 from preprocessor.Text_File import Text_File, Log_File
 
 log_file = Log_File('log.txt')

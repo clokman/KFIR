@@ -1,5 +1,5 @@
 # A .bib to .csv export script made in order to accelerate literature review process
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 fa_bibliography = Bibliography()
 fa_bibliography.importBib('Input//finn_aron//publications_finn_aron_edit.bib')

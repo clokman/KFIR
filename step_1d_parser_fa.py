@@ -1,4 +1,4 @@
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 # Finn and Aron bibliography
 fa_bibliography = Bibliography()

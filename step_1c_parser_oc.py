@@ -1,5 +1,5 @@
 from preprocessor.csv_tools import CSV_File
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 
 input_file_name_without_extension = 'oc_1.1_yasgui__2500'

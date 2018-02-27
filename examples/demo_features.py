@@ -1,4 +1,4 @@
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 from preprocessor.string_tools import String
 from preprocessor.csv_tools import CSV_Row, CSV_Line, CSV_Cell
 ##########################################################
@@ -21,7 +21,7 @@ vu_bibliography.getEntriesByField('b_authors', 'Werner_WG')
 
 
 ################# Underlying Functionality ###############
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 # import
 my_bibliography = Bibliography()
@@ -112,7 +112,7 @@ frederik_bibliography.exportToCsv(output_file_path='demo.csv',
 # - Sphinx
 
 #Cleaner code than before
-    # --> string_tools.py vs bibliographyInstantiator.py
+    # --> string_tools.py vs bibTools.py
 
 # Error handling
 # - CSV_Row(' "a", "b", "c" ,').clean_cell_heads_and_tails_from_characters('"')

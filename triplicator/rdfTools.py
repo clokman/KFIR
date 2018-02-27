@@ -48,6 +48,10 @@ class RDF_File(Text_File):
 
             >>> # Write triples object
             >>> my_rdf_file.write_triples_to_file(my_triples)
+            Calculating the length of the Triples object
+            Writing of the triples to file "example_data//write_test.ttl" has started
+            [------------------------------------------------------------] 0% ...Writing triples to "example_data//write_test.ttl"
+            [==============================------------------------------] 50% ...Writing triples to "example_data//write_test.ttl"
             Success: The triples were written to "example_data//write_test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
@@ -62,22 +66,27 @@ class RDF_File(Text_File):
 
         file_path = self.input_file_path
 
+        console.log_message('Calculating the length of the Triples object', add_timestamp_in_file=True)
+        maximum_progress = len(triples_object)  # for progress bar
         erroneous_triples = []  # for logging
 
         # Write to file
-        for each_triple in triples_object:
-            with open(file_path, mode="a", encoding='utf8') as file:
+        console.log_message('Writing of the triples to file "%s" has started' % file_path, add_timestamp_in_file=True)
+        with open(file_path, mode="a", encoding='utf8') as file:
+            for i, each_triple in enumerate(triples_object):
                 try:
                     file.write(each_triple + '\n')
                 except:
                     erroneous_triples.append(each_triple)
+                finally:
+                    console.print_current_progress(current_progress=i, maximum_progress=maximum_progress,
+                                                   status_message='Writing triples to "%s"' % file_path)
 
         # Log
         # TODO: Include number of triples written to file in the log
         console.log_message('Success: The triples were written to "%s"' % file_path, add_timestamp_in_file=True)
         console.log_list_with_message('These items were skipped due to errors', erroneous_triples)
         console.log_message('\nA log of the operation is kept in "%s"' % console.get_log_file_path())
-
 
 
 class Triples():
@@ -123,6 +132,10 @@ class Triples():
         'test 1'
         >>> my_triples[0:2]
         ['test 1', '<http://clokman.com/ontologies/scientific-research> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.w3.org/2002/07/owl#Visualization .']
+
+        >>> # length
+        >>> len(my_triples)
+        2
     """
     def __init__(self):
         self.triples_list = []
@@ -143,6 +156,9 @@ class Triples():
 
     def __setitem__(self, index, value):
         self.triples_list[index] = value
+
+    def __len__(self):
+        return len(self.triples_list)
     #####################################
 
 
@@ -300,7 +316,7 @@ class Triples():
 
         Examples:
             >>> # prep
-            >>> from triplicator.bibliographyInstantiator import Bibliography
+            >>> from triplicator.bibTools import Bibliography
             >>> my_bibliography_object = Bibliography()
             >>> my_bibliography_object.importBib('example_data//test_clean.bib')
             Parsing of example_data//test_clean.bib started
@@ -812,14 +828,14 @@ class Triples():
             ...     my_triples.import_bibliography_object('bad parameter', desired_source_label='good parameter')
             ... except Exception as error_message:
             ...     print('Exception: ' + str(error_message))
-            Exception: Parameter "bad parameter" must be of type <class 'triplicator.bibliographyInstantiator.Bibliography'>, but is currently of type <class 'str'>
+            Exception: Parameter "bad parameter" must be of type <class 'triplicator.bibTools.Bibliography'>, but is currently of type <class 'str'>
         """
         ## TODO: Add basic class equivalencies (e.g., article = JournalArticle) to method
 
         # This method is formatted without line wrapping. Turn LINE WRAPPING OFF for optimal viewing.
 
         from preprocessor.string_tools import Parameter_Value
-        from triplicator.bibliographyInstantiator import Bibliography
+        from triplicator.bibTools import Bibliography
         from preprocessor.string_tools import String
         from preprocessor.Text_File import Log_File
         from meta.consoleOutput import ConsoleOutput

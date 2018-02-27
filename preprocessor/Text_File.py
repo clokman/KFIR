@@ -152,7 +152,7 @@ class Text_File():
             ... except Exception as error_message:
             ...     print('Exception: ' + str(error_message))
             Exception: Parameter value must be a positive integer but is "0" of <class 'int'>.
-            
+
 
             >>> # erroneous index number entered (too high)
             >>> try:
@@ -486,3 +486,64 @@ class Log_File(Text_File):
                 time_stamp_and_separator = ''
 
             log_file.write(time_stamp_and_separator + input_string + '\n')
+
+
+# TODO: Move Bibtex_File class to triplicator package (but keep it as a subclass of Log_File)
+class Bibtex_File(Text_File):
+    """
+    Examples:
+        >>> my_log_file = Log_File('test_data//log_file_test.txt')
+    """
+    def __init__(self, input_file_path):
+        Text_File.__init__(self, input_file_path)
+
+
+    # TODO: The parameter 'desired_source_label' can not yet take any desired labels (only vu, oc, and uva keywords
+    # TODO: ...allowed. This must be changed by modifying the related Triples method)
+    def convert_to_ttl(self, desired_version, desired_source_label):
+        """
+
+        Args:
+            desired_version:
+            desired_source_label:
+
+        Returns:
+            Nothing
+
+        Examples:
+            # >>> my_bibtex_file = Bibtex_File('../Input//vu_100k_feb.bib')
+            # >>> my_bibtex_file.convert_to_ttl(desired_version='2.1-objtest2', desired_source_label='vu')
+        """
+        from triplicator.bibTools import Bibliography
+        from triplicator.rdfTools import Triples, RDF_File
+
+        log_file = Log_File('log.txt')
+        log_file.clear_contents()
+
+        # Patterns to clean from bib files
+        pattern_replacements_dictionary = {
+            '<': '--',
+            '>': '--',
+            '\{"\}': "'",  # to replace {"} with '
+            '\\\\': '--',  # to remove '\' in expressions such as '\sqrt{s}' and rogue '\'s.  unsure why '\\' does not work
+            '“': "'",
+            '”': "'",
+            '’': "'"
+        }
+
+        ### Clean the bib file ###
+        self.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
+                                                       show_progress_bar=True)
+
+        ### Parse the bib file ###
+        bibliography = Bibliography()
+        bibliography.importBib(self.output_file_path, show_progress_bar=True)
+
+        ### Convert to n3 format ###
+        triples = Triples()
+        triples.import_bibliography_object(bibliography, desired_source_label=desired_source_label)
+
+        ### Write to .ttl file
+        ttl_file_path = 'Output//' + self.file_path_object.append_substring(desired_version).file_name + '.ttl'
+        ttl_file = RDF_File(ttl_file_path)
+        ttl_file.write_triples_to_file(triples)

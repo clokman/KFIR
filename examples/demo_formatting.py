@@ -1,6 +1,6 @@
  # preparation
 from triplicator.pybtexImporter import Pybtex_import
-from triplicator.bibliographyInstantiator import cleanAndFormatValues
+from triplicator.bibTools import cleanAndFormatValues
 
 # import a bib file with pybtex and and extract entries (i.e., {entry_id:entries} pairs)
 pybtex_entries = Pybtex_import("demo.bib").data.entries

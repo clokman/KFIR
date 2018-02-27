@@ -1,4 +1,4 @@
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 # A .bib to .csv export script made in order to accelerate literature review process
 frederik_bibliography = Bibliography()

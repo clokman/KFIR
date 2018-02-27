@@ -10,7 +10,7 @@ class Bibliography:
 
     Examples:
         >>> # import class and instantiate a Bibliography object.
-        >>> from triplicator.bibliographyInstantiator import Bibliography
+        >>> from triplicator.bibTools import Bibliography
         >>> my_bibliography = Bibliography()
 
         >>> # add entries to the instance
@@ -666,7 +666,7 @@ class Bibliography:
 
         Examples:
             >>> # preparation: import class and instantiate a Bibliography object.
-            >>> from triplicator.bibliographyInstantiator import Bibliography
+            >>> from triplicator.bibTools import Bibliography
             >>> my_bibliography = Bibliography()
 
             >>> # add entries to the instance
@@ -715,7 +715,7 @@ class Bibliography:
 
         Examples:
             >>> # import class and instantiate a Bibliography object.
-            >>> from triplicator.bibliographyInstantiator import Bibliography
+            >>> from triplicator.bibTools import Bibliography
             >>> my_bibliography = Bibliography()
 
             >>> # import a sample .bib file and assign it to a variable
@@ -1080,7 +1080,7 @@ class Bibliography:
 
         Examples:
             >>> # Preparation:
-            >>> from triplicator.bibliographyInstantiator import Bibliography
+            >>> from triplicator.bibTools import Bibliography
             >>> bibx = Bibliography()
             >>> bibx.setEntry("01", "author", "John Can Lokman")
             >>> bibx.setEntry("01", "title", "Test Book 1")
@@ -1115,7 +1115,7 @@ class Bibliography:
             # Example 1
 
                 >>> # preparation
-                >>> from triplicator.bibliographyInstantiator import Bibliography
+                >>> from triplicator.bibTools import Bibliography
                 >>> bibx = Bibliography()
                 >>> bibx.setEntry("01", "author", "John Can Lokman")
                 >>> bibx.setEntry("01", "title", "Test Book 1")
@@ -1242,7 +1242,7 @@ class Bibliography:
 
             Examples:
                 >>> # preparation
-                >>> from triplicator.bibliographyInstantiator import Bibliography
+                >>> from triplicator.bibTools import Bibliography
                 >>> bibx = Bibliography()
 
                 >>> # add first entry and see how instance registry is updated afterwards
@@ -1480,7 +1480,7 @@ def standardizeCapitalization(input_string, algorithm):
         The converted string
 
     Examples:
-        >>> from triplicator.bibliographyInstantiator import standardizeCapitalization
+        >>> from triplicator.bibTools import standardizeCapitalization
         >>> standardizeCapitalization("Phantom Of The Opera", "en_title")
         'Phantom of the Opera'
     """
@@ -1592,7 +1592,7 @@ def cleanAndFormatValues(target_field, algorithm):
     Examples:
         >>> # preparation
         >>> from triplicator.pybtexImporter import Pybtex_import
-        >>> from triplicator.bibliographyInstantiator import cleanAndFormatValues
+        >>> from triplicator.bibTools import cleanAndFormatValues
 
         >>> # import a bib file with pybtex and and extract entries (i.e., {entry_id:entries} pairs)
         >>> pybtex_entries = Pybtex_import("example_data//test.bib").data.entries

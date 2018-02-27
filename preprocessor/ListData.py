@@ -36,7 +36,7 @@ class ListData():
             ListData class object
 
         Examples:
-            >>> from triplicator.bibliographyInstantiator import Bibliography
+            >>> from triplicator.bibTools import Bibliography
             >>> my_bibliography = Bibliography()
             >>> my_bibliography.setEntry('01', 'author', 'John Doe')
             >>> my_bibliography.setEntry('02', 'author', 'Jane Doe')

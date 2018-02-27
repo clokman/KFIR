@@ -1,4 +1,4 @@
-from triplicator.bibliographyInstantiator import Bibliography
+from triplicator.bibTools import Bibliography
 
 # CSV_container is a subclass of Bibliography class
 class CSV_container(Bibliography):
