@@ -1014,10 +1014,11 @@ class Triples():
 
             #######  DOCUMENT INSTANCE + DOCUMENT TYPE + DOCUMENT #######
             self.add_triple(i_document_instance,  p_rdf_type,       c_named_individual) # named_indiviual means instance
-            self.add_triple(c_document_type,      p_subclass_of,    c_document        )
+            self.add_triple(i_document_instance,  p_rdf_type,       c_document)
+
             # bind the extracted document classes to the document instances (the latter was extracted previously)
             self.add_triple(i_document_instance,  p_rdf_type,       c_document_type   )
-
+            self.add_triple(c_document_type,      p_subclass_of,    c_document        )
 
             ########  DOCUMENT ORIGIN BIBLIOGRAPHY  #######
             # the document comes from the given bibliography

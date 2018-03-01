@@ -372,7 +372,8 @@ class Bibtex_File(Text_File):
 
         ### Convert to n3 format ###
         triples = Triples()
-        triples.import_bibliography_object(bibliography, desired_source_bibliography_name=desired_source_bibliography_name)
+        triples.import_bibliography_object(bibliography,
+                                           desired_source_bibliography_name=desired_source_bibliography_name)
 
         ### Write to .ttl file
         if output_directory and (not os.path.exists(output_directory)):
