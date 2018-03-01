@@ -43,6 +43,7 @@ class Text_File():
         self.no_of_nonparsable_entries_due_to_unknown_reason = 0
         self.no_of_unbalanced_entries_skipped = 0
 
+
     def preview(self, number_of_lines=1, print_separators_between_lines=False):
         """
         Examples:
@@ -115,6 +116,37 @@ class Text_File():
             print('The file "%s" is empty (file length is "%s")' % (self.input_file_path, file_length))
         else:
             self.print_lines(1, file_length)
+
+
+    def return_content(self):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> my_file = Text_File('test_data//small_text_file.txt')
+            >>> my_file.return_content()[:37]  # slicing is used because otherwise '/n' (i.e., 37th character in string)
+            ...                                # is returned from file and this breaks testing.
+            'This is the first line of of the file'
+
+            >>> my_file.return_content()[38:]
+            'This is the second line of the file'
+
+            >>> # Assign file contents to variable
+            >>> my_variable = my_file.return_content()
+            >>> print(my_variable) # printing works normally without any problems with newline characters
+            This is the first line of of the file
+            This is the second line of the file
+        """
+        from preprocessor.string_tools import String
+
+        string = ''
+
+        with open(self.input_file_path, encoding='utf8') as file:
+            for each_line in file:
+                string = string + each_line
+
+        return string
 
 
     def get_line_at_position_from_file(self, line_number):

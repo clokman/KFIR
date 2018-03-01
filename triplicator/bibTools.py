@@ -99,42 +99,44 @@ class Bibtex_File(Text_File):
             [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=======-----------------------------------------------------] 11% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [========----------------------------------------------------] 13% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=========---------------------------------------------------] 15% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========-------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [============------------------------------------------------] 20% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=============-----------------------------------------------] 22% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===============---------------------------------------------] 24% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [================--------------------------------------------] 26% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=================-------------------------------------------] 28% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [======------------------------------------------------------] 10% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [========----------------------------------------------------] 12% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=========---------------------------------------------------] 14% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==========--------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========-------------------------------------------------] 19% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=============-----------------------------------------------] 21% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==============----------------------------------------------] 23% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===============---------------------------------------------] 25% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=================-------------------------------------------] 27% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==================------------------------------------------] 29% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================----------------------------------------] 33% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=====================---------------------------------------] 35% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=======================-------------------------------------] 37% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================----------------------------------------] 34% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [======================--------------------------------------] 36% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=======================-------------------------------------] 38% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=========================-----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==========================----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===================================-------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================================------------------------] 60% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=====================================-----------------------] 62% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=======================================---------------------] 64% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==================================--------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================================------------------------] 59% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=====================================-----------------------] 61% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [======================================----------------------] 63% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========================================-----------------] 71% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [============================================----------------] 73% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=============================================---------------] 75% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===============================================-------------] 77% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [================================================------------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=================================================-----------] 82% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===================================================---------] 84% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================================================--------] 86% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=====================================================-------] 88% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==========================================------------------] 70% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===========================================-----------------] 72% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=============================================---------------] 74% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==============================================--------------] 76% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===============================================-------------] 78% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [=================================================-----------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [==================================================----------] 83% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [===================================================---------] 85% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [====================================================--------] 87% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            [======================================================------] 89% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
@@ -270,42 +272,44 @@ class Bibtex_File(Text_File):
             [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=======-----------------------------------------------------] 11% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [========----------------------------------------------------] 13% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=========---------------------------------------------------] 15% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========-------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [============------------------------------------------------] 20% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=============-----------------------------------------------] 22% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===============---------------------------------------------] 24% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [================--------------------------------------------] 26% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=================-------------------------------------------] 28% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [======------------------------------------------------------] 10% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [========----------------------------------------------------] 12% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=========---------------------------------------------------] 14% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==========--------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========-------------------------------------------------] 19% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=============-----------------------------------------------] 21% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==============----------------------------------------------] 23% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===============---------------------------------------------] 25% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=================-------------------------------------------] 27% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==================------------------------------------------] 29% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================----------------------------------------] 33% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=====================---------------------------------------] 35% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=======================-------------------------------------] 37% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================----------------------------------------] 34% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [======================--------------------------------------] 36% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=======================-------------------------------------] 38% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=========================-----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==========================----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===================================-------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================================------------------------] 60% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=====================================-----------------------] 62% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=======================================---------------------] 64% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==================================--------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================================------------------------] 59% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=====================================-----------------------] 61% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [======================================----------------------] 63% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========================================-----------------] 71% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [============================================----------------] 73% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=============================================---------------] 75% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===============================================-------------] 77% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [================================================------------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=================================================-----------] 82% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===================================================---------] 84% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================================================--------] 86% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=====================================================-------] 88% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==========================================------------------] 70% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===========================================-----------------] 72% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=============================================---------------] 74% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==============================================--------------] 76% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===============================================-------------] 78% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [=================================================-----------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [==================================================----------] 83% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [===================================================---------] 85% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [====================================================--------] 87% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            [======================================================------] 89% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
@@ -2937,8 +2941,9 @@ def long_tests():
         <http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/ontology#Miscellaneous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
         <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> .
@@ -2947,8 +2952,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Agteresch_HJ> <http://www.w3.org/2000/01/rdf-schema#label> "Agteresch, HJ"@en .
         <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2023" .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
         <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> .
@@ -2957,8 +2963,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/2000/01/rdf-schema#label> "Hartevelt, LDA"@en .
         <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/2000/01/rdf-schema#label> "Johann Friedrich Stapfer (1708-1775)-Theology, Orthodoxy and Polemics in the Late Orthodoxy Period"@en .
         <http://clokman.com/kfir/resource#Blauw_C> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> .
@@ -2967,8 +2974,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Blauw_C> <http://www.w3.org/2000/01/rdf-schema#label> "Blauw, C"@en .
         <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/2000/01/rdf-schema#label> "Liturgy John Owen"@en .
         <http://clokman.com/kfir/resource#Hyde_D> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Liturgy_John_Owen> .
@@ -2977,8 +2985,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Hyde_D> <http://www.w3.org/2000/01/rdf-schema#label> "Hyde, D"@en .
         <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/2000/01/rdf-schema#label> "It Seems Good to the Holy Spirit and Us-How Reformed Churches in America May Move Past Binary and Beyond Opaque into Missional Decision Making"@en .
         <http://clokman.com/kfir/resource#Wilson_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> .
@@ -2987,8 +2996,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Wilson_M> <http://www.w3.org/2000/01/rdf-schema#label> "Wilson, M"@en .
         <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/2000/01/rdf-schema#label> "N.T. Wright and Missional Hermeneutics"@en .
         <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> .
@@ -2997,8 +3007,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://www.w3.org/2000/01/rdf-schema#label> "Gonzalez, CJ"@en .
         <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/2000/01/rdf-schema#label> "The Mission of North American Church Planting in Europe-Motivations and effectiveness of North American church planting in continental Europe"@en .
         <http://clokman.com/kfir/resource#Rossi_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> .
@@ -3007,8 +3018,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Rossi_S> <http://www.w3.org/2000/01/rdf-schema#label> "Rossi, S"@en .
         <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/2000/01/rdf-schema#label> "Typologisch preken"@en .
         <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Typologisch_preken> .
@@ -3017,8 +3029,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://www.w3.org/2000/01/rdf-schema#label> "vd_Weg, AAF"@en .
         <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/2000/01/rdf-schema#label> "Ministry and Mission-an investigation of the missional challenges for the Reformed Presbyterian theology of ministry in a post-Christendom age"@en .
         <http://clokman.com/kfir/resource#den_Hertog_RG> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> .
@@ -3027,8 +3040,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#den_Hertog_RG> <http://www.w3.org/2000/01/rdf-schema#label> "den_Hertog, RG"@en .
         <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/2000/01/rdf-schema#label> "PhD begeleiding Sien de Groot, Universiteit Gent, promotor Marc de Groote"@en .
         <http://clokman.com/kfir/resource#van_Opstall_EM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> .
@@ -3037,8 +3051,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#van_Opstall_EM> <http://www.w3.org/2000/01/rdf-schema#label> "van_Opstall, EM"@en .
         <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/2000/01/rdf-schema#label> "Reasonableness and Pleasantness of christianity in Matthew Henry"@en .
         <http://clokman.com/kfir/resource#Murray_DP> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> .
@@ -3047,8 +3062,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Murray_DP> <http://www.w3.org/2000/01/rdf-schema#label> "Murray, DP"@en .
         <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/2000/01/rdf-schema#label> "Reward captures attention independent of the current focus of attention"@en .
         <http://clokman.com/kfir/resource#Xue_X> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> .
@@ -3066,8 +3082,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasDOI> "10.1167/16.12.84" .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/2000/01/rdf-schema#label> "Truth and Truth-Telling-Engaging South Africa's Post-Apartheid Public Religious Discourse"@en .
         <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> .
@@ -3076,8 +3093,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://www.w3.org/2000/01/rdf-schema#label> "van_der_Riet, RL"@en .
         <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/2000/01/rdf-schema#label> "Una Sancta-Towards a Contextualised Ecclesiology for the Korean Churches"@en .
         <http://clokman.com/kfir/resource#Park_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> .
@@ -3086,8 +3104,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#Park_S> <http://www.w3.org/2000/01/rdf-schema#label> "Park, S"@en .
         <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/2000/01/rdf-schema#label> "White anti-apartheid theologies as resource for a theological response to whiteness in post-apartheid South Africa"@en .
         <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> .
@@ -3096,8 +3115,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://www.w3.org/2000/01/rdf-schema#label> "van_Wyngaard, GJ"@en .
         <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Inbook> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Inbook> .
+        <http://clokman.com/kfir/ontology#Inbook> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/2000/01/rdf-schema#label> "A Future for Cultural History of the Dutch Wadden Region-Challenges and Policies in a Maritime Agricultural Landscape"@en .
         <http://clokman.com/kfir/resource#Egberts_LR> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> .
@@ -3112,8 +3132,9 @@ def long_tests():
         <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isChapterOf> <http://clokman.com/kfir/resource#Waddenland_Outstanding> .
         <http://clokman.com/kfir/resource#Waddenland_Outstanding> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Book> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
+        <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/2000/01/rdf-schema#label> "Climate, aggression, and violence (CLASH)-a cultural-evolutionary approach"@en .
         <http://clokman.com/kfir/resource#Rinderu_MI> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> .
@@ -3139,28 +3160,12 @@ def long_tests():
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasISSN> "2352-250X" .
         <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasAbstract> "The CLimate, Aggression, and Self-control in Humans (CLASH) proposes that aggression and violence increase as climates become hotter and seasonal variation becomes smaller by influencing time-orientation and self-control. Emerging empirical evidence supporting the model is reviewed. Wealth, income inequality, and pathogen stress as powerful influences of these processes are also discussed. We conclude by discussing the theoretical and societal importance of climate change in shaping violence."@en .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
+        <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/2000/01/rdf-schema#label> "Performances in the Theatre of the Cold War-the American Society of African Culture (AMSAC) and the 1961 Lagos Festival"@en .
-        <http://clokman.com/kfir/resource#Geerlings_AJM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Geerlings_AJM> .
-        <http://clokman.com/kfir/resource#Geerlings_AJM> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Geerlings_AJM> <http://www.w3.org/2000/01/rdf-schema#label> "Geerlings, AJM"@en .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#isPublishedOn> <http://clokman.com/kfir/resource#Journal_of_Transatlantic_Studies> .
-        <http://clokman.com/kfir/resource#Journal_of_Transatlantic_Studies> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Taylor_and_Francis_Ltd> .
-        <http://clokman.com/kfir/resource#Taylor_and_Francis_Ltd> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2018" .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "1" .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2018.1" .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasISSN> "1479-4012" .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#african_american_history> .
-        <http://clokman.com/kfir/resource#african_american_history> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#nigeria> .
-        <http://clokman.com/kfir/resource#nigeria> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasTopic> <http://clokman.com/kfir/resource#cold_war> .
-        <http://clokman.com/kfir/resource#cold_war> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Topic> .
+
 
         >>> import os
         >>> os.remove('vu_1k_test_0.0_test.ttl')
