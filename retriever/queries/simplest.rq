@@ -1,0 +1,116 @@
+# Further simplified version of the query (no grouping, no distinct, no optional)
+
+PREFIX cito: <http://purl.org/spar/cito/>
+PREFIX dcterm: <http://purl.org/dc/terms/>
+PREFIX datacite: <http://purl.org/spar/datacite/>
+PREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>
+PREFIX biro: <http://purl.org/spar/biro/>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX c4o: <http://purl.org/spar/c4o/>
+PREFIX pro: <http://purl.org/spar/pro/>
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX prism: <http://prismstandard.org/namespaces/basic/2.0/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+PREFIX bibResource: <https://w3id.org/oc/corpus/br/>
+PREFIX agentRole: <https://w3id.org/oc/corpus/ar/>
+PREFIX responsibleAgent: <https://w3id.org/oc/corpus/ra/>
+PREFIX id: <https://w3id.org/oc/corpus/id/>
+
+SELECT DISTINCT ?publication_type ?journal_article ?title ?publication_year ?author_name ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?cited_by_article ?cited_the_article
+    # The output names are in a different format than the camelCase, because they are intended for a Python script where underscore naming is the convention.
+
+WHERE{
+  # This script queries fabio:JournalArticle
+  # Example fabio:JournalArticle: http://opencitations.net/corpus/br/721330.html
+  # It excludes other types, such as fabio:ReferenceEntry
+  # Example fabio:ReferenceEntry: https://w3id.org/oc/corpus/br/9901
+
+  	# select journal articles
+    ?journal_article rdf:type fabio:JournalArticle .
+
+  	# Publication Type
+  	BIND( STR('Journal Article') AS ?publication_type)
+
+  	### Title ###
+    ?journal_article dcterm:title ?title .
+
+    ### Year ###
+  	?journal_article fabio:hasPublicationYear ?publication_year .
+
+
+    ### Author ###
+    ?journal_article pro:isDocumentContextFor ?author_uri .
+    ?author_uri pro:withRole pro:author;
+                pro:isHeldBy ?author .
+    ?author foaf:givenName ?author_firstname;
+            foaf:familyName ?author_lastname .
+    BIND( CONCAT( STR(?author_lastname), " - ", STR(?author_firstname) ) AS ?author_name)
+
+    ### Publisher ###
+    ?journal_article pro:isDocumentContextFor ?publisher_uri .
+    ?publisher_uri pro:withRole pro:publisher;
+                   pro:isHeldBy ?publisher .
+    ?publisher foaf:name ?publisher_name .
+
+    ### Journal Name, Issue Nr., Volume ###
+    ?journal_article frbr:partOf ?journal_issue .
+    ?journal_issue fabio:hasSequenceIdentifier ?journal_issue_number .
+
+    ?journal_issue frbr:partOf ?journal_volume .
+  	?journal_volume fabio:hasSequenceIdentifier ?journal_volume_number .
+
+  	?journal_volume frbr:partOf ?journal .
+    ?journal dcterm:title ?journal_name .
+
+    ### DOI, URL, PMID ###
+    ?journal_article datacite:hasIdentifier ?doiUri .
+    ?doiUri datacite:usesIdentifierScheme datacite:doi .
+    ?doiUri literal:hasLiteralValue ?doi .
+
+
+   # OPTIONAL {
+   #   ?journal_article datacite:hasIdentifier ?pmidUri .
+   #   ?pmidUri datacite:usesIdentifierScheme datacite:pmid .
+   #   ?pmidUri literal:hasLiteralValue ?pmid .
+   # }
+
+   # OPTIONAL {
+   #   ?journal_article datacite:hasIdentifier ?UrlUri .
+   #   ?UrlUri datacite:usesIdentifierScheme datacite:url .
+   #   ?UrlUri literal:hasLiteralValue ?url .
+   # }
+
+    ### Start and End Page ###
+    ?journal_article frbr:embodiment ?pageInfoBlankNode .
+    ?pageInfoBlankNode prism:endingPage ?endingPage ;
+                       prism:startingPage ?startingPage .
+    BIND(
+      IF (
+        EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
+        CONCAT( STR(?startingPage), "--", STR(?endingPage) ),
+        IF (
+          EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && NOT EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
+          STR(?startingPage),
+          IF (
+            NOT EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
+            STR(?endingPage),
+            ""
+          )#/IF
+        )#/IF
+      ) #/IF
+
+      AS ?startEndPages
+    ) #/BIND
+
+    ### Cited by ###
+    # ?cited_by_article is the articles that cites the ?journal article
+    ?cited_by_article cito:cites ?journal_article;
+    				  rdf:type fabio:JournalArticle .
+
+  	### Cited ###
+	?journal_article cito:cites ?cited_the_article;
+                  rdf:type fabio:JournalArticle .
+} # /WHERE
+LIMIT 100
