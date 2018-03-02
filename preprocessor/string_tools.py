@@ -971,7 +971,7 @@ class Parameter_Value():
     'modified parameter value'
     """
 
-    def __init__(self, content):
+    def __init__(self, content=''):
         self.content = content
         self.inferred_type = type(content)
 
@@ -1098,4 +1098,113 @@ class Parameter_Value():
             self.content = [self.content]
 
         return self.content
+
+
+    @staticmethod
+    def all_must_be_specified(parameters_list, parameter_names):
+        """"
+        Args:
+            parameters_list(list): List of parameters to check
+            parameter_names(list): Names of parameters to be printed to the error message
+
+        Examples:
+            >>> # All required parameters specified:
+            >>> parameter_1 = 'a value'
+            >>> parameter_2 = 'another value'
+            >>> Parameter_Value().all_must_be_specified(parameters_list = [parameter_1, parameter_2],
+            ...                                         parameter_names = ['parameter_1', 'parameter_2'])
+
+            >>> # Missing required parameter
+            >>> parameter_1 = 'a value'
+            >>> parameter_2 = ''
+            >>> try:
+            ...     Parameter_Value().all_must_be_specified(parameters_list = [parameter_1, parameter_2],
+            ...                                             parameter_names = ['parameter_1', 'parameter_2'])
+            ... except Exception as error_message:
+            ...     print("Exception caught: " + str(error_message))
+            Exception caught: Parameters '['parameter_1', 'parameter_2']' must be specified before this method is called. The current values of the parameters are ['a value', '']
+
+            >>> # Comparison of various null values
+            >>> parameter_specified = 'a value'
+
+            >>> parameter_blank = ''
+            >>> try:
+            ...     Parameter_Value().all_must_be_specified([parameter_specified, parameter_blank],
+            ...                                             ['parameter specified', 'parameter_blank'])
+            ... except Exception as error_message:
+            ...     print('Exception caught: ' + str(error_message))
+            Exception caught: Parameters '['parameter specified', 'parameter_blank']' must be specified before this method is called. The current values of the parameters are ['a value', '']
+
+            >>> parameter_none = None
+            >>> try:
+            ...     Parameter_Value().all_must_be_specified([parameter_specified, parameter_none],
+            ...                                             ['parameter_specified', 'parameter_none'])
+            ... except Exception as error_message:
+            ...     print('Exception caught: ' + str(error_message))
+            Exception caught: Parameters '['parameter_specified', 'parameter_none']' must be specified before this method is called. The current values of the parameters are ['a value', None]
+
+            >>> parameter_zero = 0
+            >>> Parameter_Value().all_must_be_specified([parameter_specified, parameter_zero],
+            ...                                         ['parameter_specified', 'parameter_zero'])
+
+            >>> parameter_false = False
+            >>> Parameter_Value().all_must_be_specified([parameter_specified, parameter_false],
+            ...                                         ['parameter_specified', 'parameter_false'])
+        """
+        no_of_parameters_specified = 0
+
+        for each_item in parameters_list:
+            if each_item is not None and each_item != '':
+                no_of_parameters_specified += 1
+
+        if no_of_parameters_specified < len(parameters_list):
+            raise ValueError("Parameters '%s' must be specified before this method is called. The current values of the parameters are %s" % (parameter_names, parameters_list))
+
+
+    @staticmethod
+    def cannot_be_specified_at_the_same_time(parameters_list):
+        """
+        Examples:
+            >>> # Comparison of two non-empty parameter values
+            >>> parameter_1 = 'a value'
+            >>> parameter_2 = 'another value'
+            >>> try:
+            ...     Parameter_Value().cannot_be_specified_at_the_same_time([parameter_1, parameter_2])
+            ... except Exception as error_message:
+            ...     print("Exception: " + str(error_message))
+            Exception: Too many parameters. These parameter values cannot be specified at the same time: ['a value', 'another value']
+
+            >>> # Comparison of various null values
+            >>> parameter_specified = 'a value'
+
+            >>> parameter_blank = ''
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_blank])
+
+            >>> parameter_none = None
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_none])
+
+            >>> parameter_zero = 0
+            >>> try:
+            ...     Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_zero])
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Too many parameters. These parameter values cannot be specified at the same time: ['a value', 0]
+
+            >>> parameter_false = False
+            >>> try:
+            ...     Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_false])
+            ... except Exception as error_message:
+            ...     print('Exception: ' + str(error_message))
+            Exception: Too many parameters. These parameter values cannot be specified at the same time: ['a value', False]
+        """
+        no_of_parameters_specified = 0
+
+        for each_item in parameters_list:
+            if each_item is not None and each_item != '':
+                no_of_parameters_specified += 1
+
+        if no_of_parameters_specified > 1:
+            raise ValueError("Too many parameters. These parameter values cannot be specified at the same time: %s" % parameters_list)
+
+
 
