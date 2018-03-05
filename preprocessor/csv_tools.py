@@ -38,12 +38,6 @@ class CSV_File(Text_File):
         self.row_merged_output_file_path_object  = File_Path(self.input_file_path).append_substring('_rows_merged')
         self.row_merged_output_file_path = self.row_merged_output_file_path_object.content
 
-        # TODO: This is a quick adaptation for ttl cleaning. Consider implementing it more gracefully.
-        # path to write the new uri cleaned (uri encoded) .ttl file
-        self.uri_cleaned_output_file_path_object = File_Path(self.input_file_path).append_substring('_uri_cleaned')
-        self.uri_cleaned_output_file_path_object.file_extension = 'ttl'
-        self.uri_cleaned_output_file_path = self.uri_cleaned_output_file_path_object.content
-
         # parsing parameters (provided during init)
         self.input_column_separator_pattern = column_delimiter_pattern_in_input_file
 
@@ -657,35 +651,6 @@ class CSV_File(Text_File):
                     buffer.clear_all()
 
         print('Cleaning/row-merging successful. The output is written to "%s"' % self.row_merged_output_file_path)
-
-    def clean_ttl_uri_strings(self):
-        # TODO: Add docstring
-        from urllib.parse import quote
-        output_file_path = self.uri_cleaned_output_file_path
-
-        with open(self.input_file_path, encoding='utf8') as input_file:
-            with open(output_file_path, 'w', encoding='utf8') as output_file:
-                for each_line in input_file:
-                    csv_line = CSV_Line(each_line)
-                    csv_row  = self.clean_and_parse_line_to_CSV_Row_using_cleaning_parameters(csv_line)
-
-                    cleaned_line = ''
-                    for each_uri in csv_row:
-                        # print('each_uri:', each_uri)
-                        cleaned_uri = quote(str(each_uri), safe=' <>_:-#//.@"\'')
-                        # TODO: The '<' and '>' and other static characters are workarounds, because set_output_formatting_paramters method could not wrap each uri with two different characters
-                        # This is a workaround. For it to work properly, the uris should be cleaned from '<' and '>' during parsing
-                        cleaned_line = cleaned_line + '<' + cleaned_uri + '>' + ' '
-
-                    # TODO: This static '.' is also a workaround
-                    if '> <http://www.w3.org/2000/01/rdf-schema#label> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#isPublishedOnYear> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#hasDOI> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#hasISBN> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#hasISSN> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#isPublishedOnMonth> "' in cleaned_line or '> <http://clokman.com/ontologies/scientific-research#isPublishedOnDate> "' in cleaned_line:
-                        cleaned_line = cleaned_line[:-2]
-                        cleaned_line = cleaned_line + ' .'
-                    else:
-                        cleaned_line = cleaned_line + '.'
-                    print('cleaned_line: ', cleaned_line)
-                    print(cleaned_line, file=output_file)
-        print('A file with cleaned URIs is written to %s' % output_file_path )
 
 
 class CSV_Line (String, str):
