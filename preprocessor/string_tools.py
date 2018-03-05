@@ -1101,7 +1101,7 @@ class Parameter_Value():
 
 
     @staticmethod
-    def all_must_be_specified(parameters_list, parameter_names):
+    def require_parameters(parameters_list, parameter_names):
         """"
         Args:
             parameters_list(list): List of parameters to check
@@ -1111,14 +1111,14 @@ class Parameter_Value():
             >>> # All required parameters specified:
             >>> parameter_1 = 'a value'
             >>> parameter_2 = 'another value'
-            >>> Parameter_Value().all_must_be_specified(parameters_list = [parameter_1, parameter_2],
+            >>> Parameter_Value().require_parameters(parameters_list = [parameter_1, parameter_2],
             ...                                         parameter_names = ['parameter_1', 'parameter_2'])
 
             >>> # Missing required parameter
             >>> parameter_1 = 'a value'
             >>> parameter_2 = ''
             >>> try:
-            ...     Parameter_Value().all_must_be_specified(parameters_list = [parameter_1, parameter_2],
+            ...     Parameter_Value().require_parameters(parameters_list = [parameter_1, parameter_2],
             ...                                             parameter_names = ['parameter_1', 'parameter_2'])
             ... except Exception as error_message:
             ...     print("Exception caught: " + str(error_message))
@@ -1127,34 +1127,58 @@ class Parameter_Value():
             >>> # Comparison of various null values
             >>> parameter_specified = 'a value'
 
-            >>> parameter_blank = ''
+            >>> parameter_empty_string = ''
             >>> try:
-            ...     Parameter_Value().all_must_be_specified([parameter_specified, parameter_blank],
-            ...                                             ['parameter specified', 'parameter_blank'])
+            ...     Parameter_Value().require_parameters([parameter_specified, parameter_empty_string],
+            ...                                             ['parameter specified', 'parameter_empty_string'])
             ... except Exception as error_message:
             ...     print('Exception caught: ' + str(error_message))
-            Exception caught: Parameters '['parameter specified', 'parameter_blank']' must be specified before this method is called. The current values of the parameters are ['a value', '']
+            Exception caught: Parameters '['parameter specified', 'parameter_empty_string']' must be specified before this method is called. The current values of the parameters are ['a value', '']
+
+            >>> parameter_empty_tuple = ()
+            >>> try:
+            ...     Parameter_Value().require_parameters([parameter_specified, parameter_empty_tuple],
+            ...                                             ['parameter specified', 'parameter_empty_tuple'])
+            ... except Exception as error_message:
+            ...     print('Exception caught: ' + str(error_message))
+            Exception caught: Parameters '['parameter specified', 'parameter_empty_tuple']' must be specified before this method is called. The current values of the parameters are ['a value', ()]
+
+            >>> parameter_empty_list = []
+            >>> try:
+            ...     Parameter_Value().require_parameters([parameter_specified, parameter_empty_list],
+            ...                                             ['parameter specified', 'parameter_empty_list'])
+            ... except Exception as error_message:
+            ...     print('Exception caught: ' + str(error_message))
+            Exception caught: Parameters '['parameter specified', 'parameter_empty_list']' must be specified before this method is called. The current values of the parameters are ['a value', []]
+
+            >>> parameter_empty_dictionary = {}
+            >>> try:
+            ...     Parameter_Value().require_parameters([parameter_specified, parameter_empty_dictionary],
+            ...                                             ['parameter specified', 'parameter_empty_dictionary'])
+            ... except Exception as error_message:
+            ...     print('Exception caught: ' + str(error_message))
+            Exception caught: Parameters '['parameter specified', 'parameter_empty_dictionary']' must be specified before this method is called. The current values of the parameters are ['a value', {}]
 
             >>> parameter_none = None
             >>> try:
-            ...     Parameter_Value().all_must_be_specified([parameter_specified, parameter_none],
+            ...     Parameter_Value().require_parameters([parameter_specified, parameter_none],
             ...                                             ['parameter_specified', 'parameter_none'])
             ... except Exception as error_message:
             ...     print('Exception caught: ' + str(error_message))
             Exception caught: Parameters '['parameter_specified', 'parameter_none']' must be specified before this method is called. The current values of the parameters are ['a value', None]
 
             >>> parameter_zero = 0
-            >>> Parameter_Value().all_must_be_specified([parameter_specified, parameter_zero],
+            >>> Parameter_Value().require_parameters([parameter_specified, parameter_zero],
             ...                                         ['parameter_specified', 'parameter_zero'])
 
             >>> parameter_false = False
-            >>> Parameter_Value().all_must_be_specified([parameter_specified, parameter_false],
+            >>> Parameter_Value().require_parameters([parameter_specified, parameter_false],
             ...                                         ['parameter_specified', 'parameter_false'])
         """
         no_of_parameters_specified = 0
 
         for each_item in parameters_list:
-            if each_item is not None and each_item != '':
+            if each_item is not None and each_item != '' and each_item != [] and each_item != {} and each_item != ():
                 no_of_parameters_specified += 1
 
         if no_of_parameters_specified < len(parameters_list):
@@ -1177,8 +1201,17 @@ class Parameter_Value():
             >>> # Comparison of various null values
             >>> parameter_specified = 'a value'
 
-            >>> parameter_blank = ''
-            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_blank])
+            >>> parameter_empty_string = ''
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_empty_string])
+
+            >>> parameter_empty_tuple = ()
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_empty_tuple])
+
+            >>> parameter_empty_list = []
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_empty_list])
+
+            >>> parameter_empty_dictionary = {}
+            >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_empty_dictionary])
 
             >>> parameter_none = None
             >>> Parameter_Value().cannot_be_specified_at_the_same_time([parameter_specified, parameter_none])
@@ -1200,7 +1233,7 @@ class Parameter_Value():
         no_of_parameters_specified = 0
 
         for each_item in parameters_list:
-            if each_item is not None and each_item != '':
+            if each_item is not None and each_item != '' and each_item != [] and each_item != {} and each_item != ():
                 no_of_parameters_specified += 1
 
         if no_of_parameters_specified > 1:
