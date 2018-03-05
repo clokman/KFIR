@@ -1793,7 +1793,7 @@ class Bibliography:
         from preprocessor.ListData import ListData
 
         list_data_bibliography = ListData()
-        list_data_bibliography.importBibliography(instance)
+        list_data_bibliography.import_bibliography_object(instance)
         #if columns_to_ignore != None:
         list_data_bibliography.remove_columns(columns_to_ignore)
         #if new_header_names != None:

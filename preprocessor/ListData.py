@@ -27,27 +27,28 @@ class ListData():
         """
         return instance.dataset[1:len(instance.dataset)]
 
-
-    def importBibliography(instance, input_Bibliography_instance):
+    def import_json_object(instance, json_object):
         """
-        Converts a Bibliography class object to a ListData object.
+        Converts a JSON formatted object to a ListData object.
+
+        Args:
+            json_dictionary(dict): a dictionary that is formatted as JSON
 
         Returns:
-            ListData class object
-
+            
         Examples:
-            >>> from triplicator.bibTools import Bibliography
-            >>> my_bibliography = Bibliography()
-            >>> my_bibliography.setEntry('01', 'author', 'John Doe')
-            >>> my_bibliography.setEntry('02', 'author', 'Jane Doe')
-            >>> #my_bibliography.import_data('..//triplicator//example_data//test.bib')
-            >>> print(my_bibliography.entries)
-            {'01': {'author': 'John Doe'}, '02': {'author': 'Jane Doe'}}
-            >>> my_list_data = ListData()
-            >>> my_list_data.importBibliography(my_bibliography)
-            >>> print(my_list_data.dataset)
-            [['author'], ['John Doe'], ['Jane Doe']]
+            >>> my_json_object = {
+            ... 1: {'label': 'Example', 'value': 3},
+            ... 2: {'label': 'Test', 'value': 1},
+            ... 3: {'label': 'Tryout'}
+            ... }
+            >>> print(my_json_object)
+            {1: {'label': 'Example', 'value': 3}, 2: {'label': 'Test', 'value': 1}, 3: {'label': 'Tryout'}}
 
+            >>> my_list_data = ListData()
+            >>> my_list_data.import_json_object(my_json_object)
+            >>> print(my_list_data.dataset)
+            [['label', 'value'], ['Example', 3], ['Test', 1], ['Tryout', ' ']]
         """
         from preprocessor.legacy_functions.get_header_index import get_header_index
 
@@ -68,7 +69,7 @@ class ListData():
 
             headers_list = []
 
-            for each_entry_id, each_entry_data in input_Bibliography_instance.entries.items():
+            for each_entry_id, each_entry_data in json_object.items():
                 # add each field name in the input Bibliography to instance.headers_row
                 for each_field_name in each_entry_data.keys():
                     if each_field_name not in headers_list:
@@ -81,7 +82,7 @@ class ListData():
         # iterate (once again) through all entries and their ids in the input Bibliography
         # (this second iteration is for adding data rows)
 
-        for each_entry_id, each_entry_data in input_Bibliography_instance.entries.items():
+        for each_entry_id, each_entry_data in json_object.items():
             # add a blank list to represent a new row per each entry in inputted Bibliography object.
             instance.dataset.append([])
             # select the last added row
@@ -95,6 +96,30 @@ class ListData():
                 # extract the index number of the field name's representation in the headers row
                 current_field_name_header_index = get_header_index(each_field_name, instance.dataset)
                 current_row[current_field_name_header_index] = each_field_value
+
+
+    def import_bibliography_object(instance, bibliography_object):
+        """
+        Converts a Bibliography class object to a ListData object.
+
+        Returns:
+            ListData class object
+
+        Examples:
+            >>> from triplicator.bibTools import Bibliography
+            >>> my_bibliography = Bibliography()
+            >>> my_bibliography.setEntry('01', 'author', 'John Doe')
+            >>> my_bibliography.setEntry('02', 'author', 'Jane Doe')
+            >>> #my_bibliography.import_data('..//triplicator//example_data//test.bib')
+            >>> print(my_bibliography.entries)
+            {'01': {'author': 'John Doe'}, '02': {'author': 'Jane Doe'}}
+            >>> my_list_data = ListData()
+            >>> my_list_data.import_bibliography_object(my_bibliography)
+            >>> print(my_list_data.dataset)
+            [['author'], ['John Doe'], ['Jane Doe']]
+        """
+        instance.import_json_object(bibliography_object.entries)
+
 
     def get_column_at_index(instance, index):
         '''
