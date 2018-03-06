@@ -689,34 +689,43 @@ class Bibliography:
             Nothing; modifies the object it is called from.
 
         Examples:
-            # import a csv object
-            >>> my_csv_bibliography = Bibliography()
-            >>> my_csv_bibliography.importCsv(path_of_file_to_import='example_data//test.csv',
-            ...                                conversion_arguments_list='open citations',
-            ...                                cleaning_algorithm="open citations",
-            ...                                csv_delimiter_character=',',
-            ...                                field_value_list_separator=' | ',
-            ...                                id_column_header='referenceEntry',
-            ...                                verbose_import=False
-            ... )
+            >>> # import a csv file
+            >>> oc_bibliography = Bibliography()
+            >>> oc_bibliography.importCsv(path_of_file_to_import='example_data//oc_query_2.2_results_short_sample.csv',
+            ...                           csv_delimiter_character=',',
+            ...                           field_value_list_separator=' | ',
+            ...                           id_column_header='journal_article',
+            ...                           conversion_arguments_list='open citations',
+            ...                           cleaning_algorithm='open citations',
+            ...                           verbose_import=False)
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
-            example_data//test.csv imported.
+            example_data//oc_query_2.2_results_short_sample.csv imported.
             <BLANKLINE>
             Fields added to the parsed bibliography:
-            {'b_author_labels': 7,
-             'b_authors': 7,
-             'b_document': 7,
-             'b_document_label': 7,
-             'b_doi': 7,
-             'b_publication': 7,
-             'b_publication_label': 7,
-             'b_publication_type': 7,
-             'b_publication_year': 7,
-             'b_publisher': 7,
-             'b_publisher_label': 7,
-             'b_type': 7}
+            {'b_author_labels': 3,
+             'b_authors': 3,
+             'b_cited': 3,
+             'b_cited_by': 3,
+             'b_document': 3,
+             'b_document_label': 3,
+             'b_doi': 3,
+             'b_journal_issue_no': 3,
+             'b_journal_volume_no': 3,
+             'b_pages': 3,
+             'b_pmid': 3,
+             'b_publication': 3,
+             'b_publication_label': 3,
+             'b_publication_type': 3,
+             'b_publication_year': 3,
+             'b_publisher': 3,
+             'b_publisher_label': 3,
+             'b_type': 3,
+             'b_url': 3}
+
+            >>> #oc_bibliography.preview(2) # TODO bt727: Currently, there is a parsing error in the first entry
+            >>>                             # TODO...(missing authors). Once fixed, this test should be uncommented
 
             >>> # create a Bibliography instance by using custom conversion_arguments_list
             >>> custom_arguments_list = [
@@ -747,6 +756,72 @@ class Bibliography:
               'x_document_label': 'Midwife-led continuity models versus other models of '
                                   'care for childbearing women'})
             <BLANKLINE>
+
+            >>>
+
+            >>> # import a csv file
+            >>> old_oc_conversion_arguments_list = [ # this is the old open citations conversion arguments list (was a keyword argument)
+            ...     # [target_field_value in existing data,  formatting_algorithm,                   desired_field_name in new object]
+            ...     ['each_entry_data["titles"]',            'pybtex_document_instance_name',       'b_document'],
+            ...     ['each_entry_data["titles"]',            'pybtex_document_label',               'b_document_label'],
+            ...     ['each_entry_data["dois"]',              'open_citations_list_minimizer',       'b_doi'],
+            ...     ['each_entry_data["authors"]',           'open_citations_author_instance_name', 'b_authors'],
+            ...     ['each_entry_data["authors"]',           'open_citations_author_label',         'b_author_labels'],
+            ...     ['each_entry_data["publications"]',      'pybtex_document_instance_name',       'b_publication'],
+            ...     ['each_entry_data["publications"]',      'pybtex_document_label',               'b_publication_label'],
+            ...     ['each_entry_data["publication_types"]', 'open_citations_list_minimizer_2',     'b_publication_type'],
+            ...     ['each_entry_data["types"]',             'open_citations_list_minimizer_2',     'b_type'],
+            ...     ['each_entry_data["years"]',             'open_citations_list_minimizer',       'b_publication_year'],
+            ...     ['each_entry_data["publishers"]',        'pybtex_document_instance_name',       'b_publisher'],
+            ...     ['each_entry_data["publishers"]',        'pybtex_document_label',               'b_publisher_label']
+            ... ]
+            >>> my_csv_bibliography = Bibliography()
+            >>> my_csv_bibliography.importCsv(path_of_file_to_import='example_data//test.csv',
+            ...                                conversion_arguments_list=old_oc_conversion_arguments_list,
+            ...                                cleaning_algorithm="open citations",
+            ...                                csv_delimiter_character=',',
+            ...                                field_value_list_separator=' | ',
+            ...                                id_column_header='referenceEntry',
+            ...                                verbose_import=False
+            ... )
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data//test.csv imported.
+            <BLANKLINE>
+            Fields added to the parsed bibliography:
+            {'b_author_labels': 7,
+             'b_authors': 7,
+             'b_document': 7,
+             'b_document_label': 7,
+             'b_doi': 7,
+             'b_publication': 7,
+             'b_publication_label': 7,
+             'b_publication_type': 7,
+             'b_publication_year': 7,
+             'b_publisher': 7,
+             'b_publisher_label': 7,
+             'b_type': 7}
+             >>> my_csv_bibliography.preview(1)
+             <BLANKLINE>
+             ----------------------------------ENTRY 1----------------------------------
+             ('https://w3id.org/oc/corpus/br/44493',
+              {'b_author_labels': ['Sandall, J', 'Soltani, H', 'Gates, S', 'Shennan, A',
+                                   'Devane, D'],
+               'b_authors': ['Sandall_J', 'Soltani_H', 'Gates_S', 'Shennan_A', 'Devane_D'],
+               'b_document': 'Midwife-led_continuity_models_versus_other_models_of_care_for_childbearing_women',
+               'b_document_label': 'Midwife-led continuity models versus other models of '
+                                   'care for childbearing women',
+               'b_doi': '10.1002/14651858.cd004667.pub3',
+               'b_publication': 'Cochrane_Database_of_Systematic_Reviews-Reviews',
+               'b_publication_label': 'Cochrane Database of Systematic Reviews-Reviews',
+               'b_publication_type': 'http://purl.org/spar/fabio/ExpressionCollection',
+               'b_publication_year': '2013',
+               'b_publisher': 'Wiley-Blackwell',
+               'b_publisher_label': 'Wiley-Blackwell',
+               'b_type': 'http://purl.org/spar/fabio/ReferenceEntry'})
+             <BLANKLINE>
+
         """
         from triplicator.csvImporter import CSV_container
 
@@ -759,41 +834,28 @@ class Bibliography:
         )
 
         if conversion_arguments_list == 'open citations':
-
-            conversion_arguments_list = [
-                # [target_field_value in existing data,     formatting_algorithm,                   desired_field_name in new object]
-                ['each_entry_data["titles"]', 'pybtex_document_instance_name', 'b_document'],
-                ['each_entry_data["titles"]', 'pybtex_document_label', 'b_document_label'],
-                ['each_entry_data["dois"]', 'open_citations_list_minimizer', 'b_doi'],
-                ['each_entry_data["authors"]', 'open_citations_author_instance_name', 'b_authors'],
-                ['each_entry_data["authors"]', 'open_citations_author_label', 'b_author_labels'],
-                ['each_entry_data["publications"]', 'pybtex_document_instance_name', 'b_publication'],
-                ['each_entry_data["publications"]', 'pybtex_document_label', 'b_publication_label'],
-                ['each_entry_data["publication_types"]', 'open_citations_list_minimizer_2', 'b_publication_type'],
-                ['each_entry_data["types"]', 'open_citations_list_minimizer_2', 'b_type'],
-                ['each_entry_data["years"]', 'open_citations_list_minimizer', 'b_publication_year'],
-                ['each_entry_data["publishers"]', 'pybtex_document_instance_name', 'b_publisher'],
-                ['each_entry_data["publishers"]', 'pybtex_document_label', 'b_publisher_label']
-            ]
-
-        elif conversion_arguments_list == 'open citations with citations':
         # "publication_type" , "journal_article" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "cited_by_article"
             conversion_arguments_list = [
-                # [target_field_value in existing data,  formatting_algorithm,                   desired_field_name in new object]
-                ['each_entry_data["publication_type"]',  'open_citations_list_minimizer_2',     'b_type'],
-                ['each_entry_data["title"]',             'pybtex_document_instance_name',       'b_document'],
-                ['each_entry_data["title"]',             'pybtex_document_label',               'b_document_label'],
-                ['each_entry_data["doi"]',               'open_citations_list_minimizer',       'b_doi'],
-                ['each_entry_data["author_name"]',       'open_citations_author_instance_name', 'b_authors'],
-                ['each_entry_data["author_name"]',       'open_citations_author_label',         'b_author_labels'],
-                ['each_entry_data["journal_name"]',      'pybtex_document_instance_name',       'b_publication'],
-                ['each_entry_data["journal_name"]',      'pybtex_document_label',               'b_publication_label'],
-                ['each_entry_data["publication_type"]',  'open_citations_list_minimizer_2',     'b_publication_type'],
-                ['each_entry_data["publication_year"]',  'open_citations_list_minimizer',       'b_publication_year'],
-                ['each_entry_data["publisher_name"]',    'pybtex_document_instance_name',       'b_publisher'],
-                ['each_entry_data["publisher_name"]',    'pybtex_document_label',               'b_publisher_label'],
-                ['each_entry_data["cited_by_article"]',  'none',                                'b_cited_by'],
-                ['each_entry_data["cited_the_article"]', 'none',                                'b_cited']
+                # [target_field_value in existing data,      formatting_algorithm,                   desired_field_name in new object]
+                ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_type'],
+                ['each_entry_data["title"]',                 'pybtex_document_instance_name',       'b_document'],
+                ['each_entry_data["title"]',                 'pybtex_document_label',               'b_document_label'],
+                ['each_entry_data["doi"]',                   'open_citations_list_minimizer',       'b_doi'],
+                ['each_entry_data["pmid"]',                  'open_citations_list_minimizer',       'b_pmid'],
+                ['each_entry_data["url"]',                   'open_citations_list_minimizer',       'b_url'],
+                ['each_entry_data["authors"]',               'open_citations_author_instance_name', 'b_authors'],
+                ['each_entry_data["authors"]',               'open_citations_author_label',         'b_author_labels'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',       'b_publication'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_label',               'b_publication_label'],
+                ['each_entry_data["publication_year"]',      'open_citations_list_minimizer',       'b_publication_year'],
+                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
+                ['each_entry_data["journal_issue_number"]',  'open_citations_list_minimizer',       'b_journal_issue_no'],
+                ['each_entry_data["journal_volume_number"]', 'open_citations_list_minimizer',       'b_journal_volume_no'],
+                ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_publication_type'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_instance_name',       'b_publisher'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_label',               'b_publisher_label'],
+                ['each_entry_data["cited_by_the_articles"]', 'none',                                'b_cited_by'],
+                ['each_entry_data["cited_the_articles"]',    'none',                                'b_cited']
             ]
 
         # if a custom conversion_arguments_list is provided, proceed without modifying the provided list
