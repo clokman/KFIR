@@ -337,17 +337,6 @@ class Sparql_Query():
                 print(each_row, file=output_file)
             print('The results were written to "%s"' % output_file_path)
 
-        #bibliography = Bibliography()
-
-        #headers = {}
-        #for each_results_line_number, each_result in self.results.values():
-        #    for each_field_name, each_field_values in each_result:
-        #        headers.append(each_field_name)
-
-
-
-
-
 
 class Open_Citations_Query(Sparql_Query):
 
