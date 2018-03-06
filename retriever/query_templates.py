@@ -19,7 +19,7 @@ class Query_Template():
             >>> my_query = Query_Template().get_oc_article_by_doi('342048723')
             >>> print(my_query[0:500])  # preview
             <BLANKLINE>
-                        # v2.0
+                        # v2.2
                         PREFIX cito: <http://purl.org/spar/cito/>
                         PREFIX dcterm: <http://purl.org/dc/terms/>
                         PREFIX datacite: <http://purl.org/spar/datacite/>
