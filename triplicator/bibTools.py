@@ -372,7 +372,7 @@ class Bibtex_File(Text_File):
 
         ### Parse the bib file ###
         bibliography = Bibliography()
-        bibliography.importBib(self.cleaned_file_path, show_progress_bar=True)
+        bibliography.importBibtex(self.cleaned_file_path, show_progress_bar=True)
 
         ### Convert to n3 format ###
         triples = Triples()
@@ -454,7 +454,7 @@ class Bibliography:
     ############################################### IMPORT FUNCTIONS ##################################################
     ###################################################################################################################
 
-    def importBib(instance, path_of_file_to_import, conversion_arguments_list='bib_default', verbose_import=False, show_progress_bar=False):
+    def importBibtex(instance, path_of_file_to_import, conversion_arguments_list='bib_default', verbose_import=False, show_progress_bar=False):
         """
         Parses a Bibliography class object from a .bib file. During parsing, field names in the bib file is converted
         to names (i.e., strings) specified in conversation_conversion_arguments_list.
@@ -475,7 +475,7 @@ class Bibliography:
         Examples:
             >>> # Import a .bib object as Bibliography object
             >>> my_bib = Bibliography()
-            >>> my_bib.importBib('example_data//test.bib')
+            >>> my_bib.importBibtex('example_data//test.bib')
             Parsing of example_data//test.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
@@ -1014,19 +1014,31 @@ class Bibliography:
 
 
     # TODO: Enhance and clarify this function
-    def enrich(instance, other_bibliography_object_to_use, field_to_match_in_bibliographies, method='left join'):
+    def enrich(instance, target_bibliography_object, field_to_match_in_bibliographies, method='left join'):
         """
-        Left joins two bibliographies.
+        Left joins or merges two bibliographies.
 
         Args:
-            other_bibliography_object_to_use: The target bibliography that will be used to enrich the current
+            target_bibliography_object(Bibliography): The target bibliography that will be used to enrich the current
                 bibliography.
-            field_to_match_in_bibliographies: The field name that will be used to match entries between bibliographies
+            field_to_match_in_bibliographies(str): The field name that will be used to match entries between bibliographies
                 (e.g., doi)
+            method(str): Method to use when combining bibliographies
+
+        Keyword Args:
+            'left join' (method): Add new fields and values from the target_bibliography_object only if the record they
+                belong to exists in the instance bibliography (i.e., to self)
+            'merge' (method): Left joins when possible, add if not, adds new entries from target_bibliography to the
+                instance bibliography (i.e., to self)
 
         Returns:
+            Nothing
 
         Examples:
+            >>> #=================================================
+            >>> # EXAMPLE: CREATE AND COMBINE BIBLIOGRAPHY OBJECTS
+            >>> #=================================================
+
             >>> # initiaton
             >>> bib_one = Bibliography()
             >>> bib_one.setEntry(entry_id='01', field_name='doi', field_value='6226')
@@ -1047,7 +1059,7 @@ class Bibliography:
 
 
             >>> # enrichment
-            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi')
+            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
             1 entries enriched and 0 entries appended to bibliography.
             >>> bib_one.preview()
             <BLANKLINE>
@@ -1058,13 +1070,13 @@ class Bibliography:
             >>> # no entries appended in 'left join' mode
             >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')
             >>> bib_two.setEntry(entry_id='100', field_name='note', field_value='This is a note')
-            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi')
+            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
             0 entries enriched and 0 entries appended to bibliography.
 
             >>> # entries enriched and appended in 'merge' mode
             >>> bib_two.setEntry(entry_id='41124', field_name='doi', field_value='6226')
             >>> bib_two.setEntry(entry_id='41124', field_name='publisher', field_value='Some publisher')
-            >>> bib_one.enrich(other_bibliography_object_to_use=bib_two, field_to_match_in_bibliographies='doi'
+            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi'
             ...         , method='merge')
             1 entries enriched and 2 entries appended to bibliography.
             >>> bib_one.preview()
@@ -1080,9 +1092,14 @@ class Bibliography:
             ('100', {'doi': '5000', 'note': 'This is a note'})
             <BLANKLINE>
 
-            >>> # actual bib import and merge
+
+            >>> #=============================================
+            >>> # EXAMPLE: IMPORT AND COMBINE TWO BIBTEX FILES
+            >>> #=============================================
+
+            >>> # bib file import and merge
             >>> bib_poor = Bibliography()
-            >>> bib_poor.importBib('example_data//merge_test_file_poor.bib')
+            >>> bib_poor.importBibtex('example_data//merge_test_file_poor.bib')
             Parsing of example_data//merge_test_file_poor.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
@@ -1130,9 +1147,8 @@ class Bibliography:
               'b_type': 'book'})
             <BLANKLINE>
 
-
             >>> bib_rich = Bibliography()
-            >>> bib_rich.importBib('example_data//merge_test_file_rich.bib')
+            >>> bib_rich.importBibtex('example_data//merge_test_file_rich.bib')
             Parsing of example_data//merge_test_file_rich.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
@@ -1215,7 +1231,7 @@ class Bibliography:
               'b_type': 'book'})
             <BLANKLINE>
 
-            >>> bib_poor.enrich(other_bibliography_object_to_use=bib_rich, field_to_match_in_bibliographies='b_doi')
+            >>> bib_poor.enrich(target_bibliography_object=bib_rich, field_to_match_in_bibliographies='b_doi')
             12 entries enriched and 0 entries appended to bibliography.
 
             >>> bib_poor.preview(100)
@@ -1268,8 +1284,356 @@ class Bibliography:
               'b_publisher_label': 'Palgrave Macmillan',
               'b_type': 'book'})
             <BLANKLINE>
+
+
+            >>> #===========================================
+            >>> # EXAMPLE: MERGE BIB AND CSV(Open Citations)
+            >>> #===========================================
+
+            >>> vu_bibliography = Bibliography()
+            >>> vu_bibliography.importBibtex('example_data//oc_query_complementary_bibtex_for_merging.bib')
+            Parsing of example_data//oc_query_complementary_bibtex_for_merging.bib started
+            pybtex package is parsing using bibtex.Parser()...
+            pybtex package finished parsing
+            Calculating file length...
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data//oc_query_complementary_bibtex_for_merging.bib parsed and imported as Bibliography object.
+            <BLANKLINE>
+            Fields added to the parsed the Bibliography object:
+            {'b_abstract': 1,
+             'b_author_labels': 2,
+             'b_authors': 2,
+             'b_document': 2,
+             'b_document_label': 2,
+             'b_doi': 2,
+             'b_publication_year': 1,
+             'b_publisher': 1,
+             'b_publisher_label': 1,
+             'b_type': 2}
+            <BLANKLINE>
+            <BLANKLINE>
+
+            >>> oc_bibliography = Bibliography()
+            >>> oc_bibliography.importCsv(path_of_file_to_import='example_data/oc_query_2.2_results_short_sample_for_merging.csv',
+            ...                           csv_delimiter_character=',',
+            ...                           field_value_list_separator=' | ',
+            ...                           id_column_header='journal_article',
+            ...                           conversion_arguments_list='open citations',
+            ...                           cleaning_algorithm='open citations',
+            ...                           verbose_import=False)
+            <BLANKLINE>
+            <BLANKLINE>
+            ---------------------------------------------------------------------------------------------------
+            example_data/oc_query_2.2_results_short_sample_for_merging.csv imported.
+            <BLANKLINE>
+            Fields added to the parsed bibliography:
+            {'b_author_labels': 3,
+             'b_authors': 3,
+             'b_cited': 3,
+             'b_cited_by': 3,
+             'b_document': 3,
+             'b_document_label': 3,
+             'b_doi': 3,
+             'b_journal_issue_no': 3,
+             'b_journal_volume_no': 3,
+             'b_pages': 3,
+             'b_pmid': 3,
+             'b_publication': 3,
+             'b_publication_label': 3,
+             'b_publication_type': 3,
+             'b_publication_year': 3,
+             'b_publisher': 3,
+             'b_publisher_label': 3,
+             'b_type': 3,
+             'b_url': 3}
+
+            >>> # compare entries in two bibliographies
+            >>> from pprint import pprint
+            >>> # entry in the the poorer bibliography
+            >>> pprint(vu_bibliography.getEntriesByField('b_doi', '10.1186/s13034-015-0062-7'), compact=True)
+            [{'b_abstract': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed '
+                            'do eiusmod tempor incididunt ut labore et dolore magna '
+                            'aliqua. Ut enim ad minim veniam, quis nostrud exercitation '
+                            'ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis '
+                            'aute irure dolor in reprehenderit in voluptate velit esse '
+                            'cillum dolore eu fugiat nulla pariatur. Excepteur sint '
+                            'occaecat cupidatat non proident, sunt in culpa qui officia '
+                            'deserunt mollit anim id est laborum.',
+              'b_author_labels': ['Maria, Z'],
+              'b_authors': ['Maria_Z'],
+              'b_document': 'Survival_after_relapse_in_patients_with_endometrial_cancer-results_from_a_randomized_trial%E2%98%86',
+              'b_document_label': 'Survival after relapse in patients with endometrial '
+                                  'cancer-results from a randomized trial☆',
+              'b_doi': '10.1186/s13034-015-0062-7',
+              'b_type': 'article'}]
+
+            >>> # entry in the the richer bibliography
+             >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1186/s13034-015-0062-7'), compact=True)
+             [{'b_author_labels': [', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ',
+                                   ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ',
+                                   ', '],
+               'b_authors': ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',
+                             '_', '_', '_', '_', '_', '_'],
+               'b_cited': ['https://w3id.org/oc/corpus/br/37961',
+                           'https://w3id.org/oc/corpus/br/38250',
+                           'https://w3id.org/oc/corpus/br/135448',
+                           'https://w3id.org/oc/corpus/br/135458',
+                           'https://w3id.org/oc/corpus/br/177639',
+                           'https://w3id.org/oc/corpus/br/177648',
+                           'https://w3id.org/oc/corpus/br/177653',
+                           'https://w3id.org/oc/corpus/br/177661',
+                           'https://w3id.org/oc/corpus/br/177774',
+                           'https://w3id.org/oc/corpus/br/362419',
+                           'https://w3id.org/oc/corpus/br/362426',
+                           'https://w3id.org/oc/corpus/br/362438',
+                           'https://w3id.org/oc/corpus/br/607811',
+                           'https://w3id.org/oc/corpus/br/1270766',
+                           'https://w3id.org/oc/corpus/br/1560911',
+                           'https://w3id.org/oc/corpus/br/1794850',
+                           'https://w3id.org/oc/corpus/br/1881397',
+                           'https://w3id.org/oc/corpus/br/2258672',
+                           'https://w3id.org/oc/corpus/br/2907029',
+                           'https://w3id.org/oc/corpus/br/2907034',
+                           'https://w3id.org/oc/corpus/br/2907035',
+                           'https://w3id.org/oc/corpus/br/2907042',
+                           'https://w3id.org/oc/corpus/br/2907056',
+                           'https://w3id.org/oc/corpus/br/3346205',
+                           'https://w3id.org/oc/corpus/br/3567493',
+                           'https://w3id.org/oc/corpus/br/3567495',
+                           'https://w3id.org/oc/corpus/br/3949890',
+                           'https://w3id.org/oc/corpus/br/5106137',
+                           'https://w3id.org/oc/corpus/br/5441063',
+                           'https://w3id.org/oc/corpus/br/5441066',
+                           'https://w3id.org/oc/corpus/br/5441085',
+                           'https://w3id.org/oc/corpus/br/5656230',
+                           'https://w3id.org/oc/corpus/br/6060536',
+                           'https://w3id.org/oc/corpus/br/6063037',
+                           'https://w3id.org/oc/corpus/br/6449521',
+                           'https://w3id.org/oc/corpus/br/6486152',
+                           'https://w3id.org/oc/corpus/br/6486162',
+                           'https://w3id.org/oc/corpus/br/6919305',
+                           'https://w3id.org/oc/corpus/br/6919323',
+                           'https://w3id.org/oc/corpus/br/7558746',
+                           'https://w3id.org/oc/corpus/br/7560541',
+                           'https://w3id.org/oc/corpus/br/7560644',
+                           'https://w3id.org/oc/corpus/br/7560645',
+                           'https://w3id.org/oc/corpus/br/7560646',
+                           'https://w3id.org/oc/corpus/br/7560647',
+                           'https://w3id.org/oc/corpus/br/7560648',
+                           'https://w3id.org/oc/corpus/br/7560651',
+                           'https://w3id.org/oc/corpus/br/7560652',
+                           'https://w3id.org/oc/corpus/br/7560653',
+                           'https://w3id.org/oc/corpus/br/7560654',
+                           'https://w3id.org/oc/corpus/br/7560655',
+                           'https://w3id.org/oc/corpus/br/7560656',
+                           'https://w3id.org/oc/corpus/br/7560657',
+                           'https://w3id.org/oc/corpus/br/7560658',
+                           'https://w3id.org/oc/corpus/br/7560659',
+                           'https://w3id.org/oc/corpus/br/7560660',
+                           'https://w3id.org/oc/corpus/br/7560661',
+                           'https://w3id.org/oc/corpus/br/7560662',
+                           'https://w3id.org/oc/corpus/br/7560663',
+                           'https://w3id.org/oc/corpus/br/7560664',
+                           'https://w3id.org/oc/corpus/br/7560665',
+                           'https://w3id.org/oc/corpus/br/7560666'],
+               'b_cited_by': 'https://w3id.org/oc/corpus/br/362415',
+               'b_document': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
+               'b_document_label': 'The DSM-5 diagnosis of nonsuicidal self-injury '
+                                   'disorder-a review of the empirical literature',
+               'b_doi': '10.1186/s13034-015-0062-7',
+               'b_journal_issue_no': '1',
+               'b_journal_volume_no': '9',
+               'b_pages': ' ',
+               'b_pmid': '26417387',
+               'b_publication': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
+               'b_publication_label': 'Child and Adolescent Psychiatry and Mental '
+                                      'Health-Child Adolesc Psychiatry Ment Health',
+               'b_publication_type': 'Journal Article',
+               'b_publication_year': '2015',
+               'b_publisher': 'Springer_Science_%2B_Business_Media',
+               'b_publisher_label': 'Springer Science + Business Media',
+               'b_type': 'Journal Article',
+               'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7'}]
+
+            >>> # another entry in the the poorer bibliography
+            >>> pprint(vu_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
+            [{'b_author_labels': ['Straughn, MJ', 'Huh, WK'],
+              'b_authors': ['Straughn_MJ', 'Huh_WK'],
+              'b_document': 'Stage_IC_adenocarcinoma_of_the_endometrium-survival_comparisons_of_surgically_staged_patients_with_and_without_adjuvant_radiation_therapy%C3%A2%C2%98%C2%86%C3%A2%C2%98%C2%86Presented_at_the_33rd_Annual_Meeting_of_Gynecologic_Oncologists_Miami_FL_March_2002',
+              'b_document_label': 'Stage IC adenocarcinoma of the endometrium-survival '
+                                  'comparisons of surgically staged patients with and '
+                                  'without adjuvant radiation '
+                                  'therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual '
+                                  'Meeting of Gynecologic Oncologists, Miami, FL, March '
+                                  '2002.',
+              'b_doi': '10.1016/s0090-8258(03)00087-8',
+              'b_publication_year': '2003',
+              'b_publisher': 'Elsevier_BV',
+              'b_publisher_label': 'Elsevier B.V.',
+              'b_type': 'article'}]
+
+            >>> # another entry in the the richer bibliography
+            >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
+            [{'b_author_labels': ['Straughn, JM', 'Huh, WK', 'Orr, JW', 'Kelly, FJ',
+                                  'Roland, PY', 'Gold, MA', 'Powell, M', 'Mutch, DG',
+                                  'Partridge, EE', 'Kilgore, LC', 'Barnes, MN',
+                                  'Austin, JM', 'Alvarez, RD'],
+              'b_authors': ['Straughn_JM', 'Huh_WK', 'Orr_JW', 'Kelly_FJ', 'Roland_PY',
+                            'Gold_MA', 'Powell_M', 'Mutch_DG', 'Partridge_EE', 'Kilgore_LC',
+                            'Barnes_MN', 'Austin_JM', 'Alvarez_RD'],
+              'b_cited': '',
+              'b_cited_by': 'https://w3id.org/oc/corpus/br/1',
+              'b_document': 'Stage_IC_adenocarcinoma_of_the_endometrium-survival_comparisons_of_surgically_staged_patients_with_and_without_adjuvant_radiation_therapy%C3%A2%C2%98%C2%86%C3%A2%C2%98%C2%86Presented_at_the_33rd_Annual_Meeting_of_Gynecologic_Oncologists-Miami-FL-March_2002',
+              'b_document_label': 'Stage IC adenocarcinoma of the endometrium-survival '
+                                  'comparisons of surgically staged patients with and '
+                                  'without adjuvant radiation '
+                                  'therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual '
+                                  'Meeting of Gynecologic Oncologists-Miami-FL-March 2002.',
+              'b_doi': '10.1016/s0090-8258(03)00087-8',
+              'b_journal_issue_no': '2',
+              'b_journal_volume_no': '89',
+              'b_pages': '295--300',
+              'b_pmid': '12713994',
+              'b_publication': 'Gynecologic_Oncology',
+              'b_publication_label': 'Gynecologic Oncology',
+              'b_publication_type': 'Journal Article',
+              'b_publication_year': '2003',
+              'b_publisher': 'Elsevier_BV',
+              'b_publisher_label': 'Elsevier BV',
+              'b_type': 'Journal Article',
+              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'}]
+
+            >>> # merge poorer and richer bibliographies
+            >>> vu_bibliography.enrich(oc_bibliography, field_to_match_in_bibliographies='b_doi')
+            23 entries enriched and 0 entries appended to bibliography.
+            >>> vu_bibliography.preview(100)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('b466af64b57f4089b0596f133f4862d2',
+             {'b_abstract': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed '
+                            'do eiusmod tempor incididunt ut labore et dolore magna '
+                            'aliqua. Ut enim ad minim veniam, quis nostrud exercitation '
+                            'ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis '
+                            'aute irure dolor in reprehenderit in voluptate velit esse '
+                            'cillum dolore eu fugiat nulla pariatur. Excepteur sint '
+                            'occaecat cupidatat non proident, sunt in culpa qui officia '
+                            'deserunt mollit anim id est laborum.',
+              'b_author_labels': ['Maria, Z'],
+              'b_authors': ['Maria_Z'],
+              'b_cited': ['https://w3id.org/oc/corpus/br/37961',
+                          'https://w3id.org/oc/corpus/br/38250',
+                          'https://w3id.org/oc/corpus/br/135448',
+                          'https://w3id.org/oc/corpus/br/135458',
+                          'https://w3id.org/oc/corpus/br/177639',
+                          'https://w3id.org/oc/corpus/br/177648',
+                          'https://w3id.org/oc/corpus/br/177653',
+                          'https://w3id.org/oc/corpus/br/177661',
+                          'https://w3id.org/oc/corpus/br/177774',
+                          'https://w3id.org/oc/corpus/br/362419',
+                          'https://w3id.org/oc/corpus/br/362426',
+                          'https://w3id.org/oc/corpus/br/362438',
+                          'https://w3id.org/oc/corpus/br/607811',
+                          'https://w3id.org/oc/corpus/br/1270766',
+                          'https://w3id.org/oc/corpus/br/1560911',
+                          'https://w3id.org/oc/corpus/br/1794850',
+                          'https://w3id.org/oc/corpus/br/1881397',
+                          'https://w3id.org/oc/corpus/br/2258672',
+                          'https://w3id.org/oc/corpus/br/2907029',
+                          'https://w3id.org/oc/corpus/br/2907034',
+                          'https://w3id.org/oc/corpus/br/2907035',
+                          'https://w3id.org/oc/corpus/br/2907042',
+                          'https://w3id.org/oc/corpus/br/2907056',
+                          'https://w3id.org/oc/corpus/br/3346205',
+                          'https://w3id.org/oc/corpus/br/3567493',
+                          'https://w3id.org/oc/corpus/br/3567495',
+                          'https://w3id.org/oc/corpus/br/3949890',
+                          'https://w3id.org/oc/corpus/br/5106137',
+                          'https://w3id.org/oc/corpus/br/5441063',
+                          'https://w3id.org/oc/corpus/br/5441066',
+                          'https://w3id.org/oc/corpus/br/5441085',
+                          'https://w3id.org/oc/corpus/br/5656230',
+                          'https://w3id.org/oc/corpus/br/6060536',
+                          'https://w3id.org/oc/corpus/br/6063037',
+                          'https://w3id.org/oc/corpus/br/6449521',
+                          'https://w3id.org/oc/corpus/br/6486152',
+                          'https://w3id.org/oc/corpus/br/6486162',
+                          'https://w3id.org/oc/corpus/br/6919305',
+                          'https://w3id.org/oc/corpus/br/6919323',
+                          'https://w3id.org/oc/corpus/br/7558746',
+                          'https://w3id.org/oc/corpus/br/7560541',
+                          'https://w3id.org/oc/corpus/br/7560644',
+                          'https://w3id.org/oc/corpus/br/7560645',
+                          'https://w3id.org/oc/corpus/br/7560646',
+                          'https://w3id.org/oc/corpus/br/7560647',
+                          'https://w3id.org/oc/corpus/br/7560648',
+                          'https://w3id.org/oc/corpus/br/7560651',
+                          'https://w3id.org/oc/corpus/br/7560652',
+                          'https://w3id.org/oc/corpus/br/7560653',
+                          'https://w3id.org/oc/corpus/br/7560654',
+                          'https://w3id.org/oc/corpus/br/7560655',
+                          'https://w3id.org/oc/corpus/br/7560656',
+                          'https://w3id.org/oc/corpus/br/7560657',
+                          'https://w3id.org/oc/corpus/br/7560658',
+                          'https://w3id.org/oc/corpus/br/7560659',
+                          'https://w3id.org/oc/corpus/br/7560660',
+                          'https://w3id.org/oc/corpus/br/7560661',
+                          'https://w3id.org/oc/corpus/br/7560662',
+                          'https://w3id.org/oc/corpus/br/7560663',
+                          'https://w3id.org/oc/corpus/br/7560664',
+                          'https://w3id.org/oc/corpus/br/7560665',
+                          'https://w3id.org/oc/corpus/br/7560666'],
+              'b_cited_by': 'https://w3id.org/oc/corpus/br/362415',
+              'b_document': 'Survival_after_relapse_in_patients_with_endometrial_cancer-results_from_a_randomized_trial%E2%98%86',
+              'b_document_label': 'Survival after relapse in patients with endometrial '
+                                  'cancer-results from a randomized trial☆',
+              'b_doi': '10.1186/s13034-015-0062-7',
+              'b_journal_issue_no': '1',
+              'b_journal_volume_no': '9',
+              'b_pages': ' ',
+              'b_pmid': '26417387',
+              'b_publication': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
+              'b_publication_label': 'Child and Adolescent Psychiatry and Mental '
+                                     'Health-Child Adolesc Psychiatry Ment Health',
+              'b_publication_type': 'Journal Article',
+              'b_publication_year': '2015',
+              'b_publisher': 'Springer_Science_%2B_Business_Media',
+              'b_publisher_label': 'Springer Science + Business Media',
+              'b_type': 'article',
+              'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('b3cd7336ed9a48bfaed37af3a2e593c6',
+             {'b_author_labels': ['Straughn, MJ', 'Huh, WK'],
+              'b_authors': ['Straughn_MJ', 'Huh_WK'],
+              'b_cited': '',
+              'b_cited_by': 'https://w3id.org/oc/corpus/br/1',
+              'b_document': 'Stage_IC_adenocarcinoma_of_the_endometrium-survival_comparisons_of_surgically_staged_patients_with_and_without_adjuvant_radiation_therapy%C3%A2%C2%98%C2%86%C3%A2%C2%98%C2%86Presented_at_the_33rd_Annual_Meeting_of_Gynecologic_Oncologists_Miami_FL_March_2002',
+              'b_document_label': 'Stage IC adenocarcinoma of the endometrium-survival '
+                                  'comparisons of surgically staged patients with and '
+                                  'without adjuvant radiation '
+                                  'therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual '
+                                  'Meeting of Gynecologic Oncologists, Miami, FL, March '
+                                  '2002.',
+              'b_doi': '10.1016/s0090-8258(03)00087-8',
+              'b_journal_issue_no': '2',
+              'b_journal_volume_no': '89',
+              'b_pages': '295--300',
+              'b_pmid': '12713994',
+              'b_publication': 'Gynecologic_Oncology',
+              'b_publication_label': 'Gynecologic Oncology',
+              'b_publication_type': 'Journal Article',
+              'b_publication_year': '2003',
+              'b_publisher': 'Elsevier_BV',
+              'b_publisher_label': 'Elsevier B.V.',
+              'b_type': 'article',
+              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'})
+            <BLANKLINE>
+
+
         """
-        other_bib = other_bibliography_object_to_use
+        other_bib = target_bibliography_object
 
         instance.no_of_enrichments_made_in_last_operation = 0
         instance.no_of_additions_made_in_last_operation = 0

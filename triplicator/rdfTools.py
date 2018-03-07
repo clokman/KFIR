@@ -317,7 +317,7 @@ class Triples():
             >>> # prep
             >>> from triplicator.bibTools import Bibliography
             >>> my_bibliography_object = Bibliography()
-            >>> my_bibliography_object.importBib('example_data//test_clean.bib')
+            >>> my_bibliography_object.importBibtex('example_data//test_clean.bib')
             Parsing of example_data//test_clean.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
