@@ -445,8 +445,10 @@ class Bibliography:
         # dictionary that holds all entries. this is where the bibliography data is held, including ids & field values.
         instance.entries = {}
 
-        instance.no_of_enrichments_made_in_last_operation = 0
-        instance.no_of_additions_made_in_last_operation = 0
+        instance.no_of_existing_fields_enriched_in_last_operation = 0
+        instance.no_of_fields_added_in_last_operation = 0
+        instance.no_of_entries_enriched_in_last_operation = 0
+        instance.no_of_entries_added_in_last_operation = 0
 
         instance.log_file_path = 'log.txt'
 
@@ -1011,10 +1013,7 @@ class Bibliography:
         # if the current field does not exist for the current entry
 
 
-
-
-    # TODO: Enhance and clarify this function
-    def enrich(instance, target_bibliography_object, field_to_match_in_bibliographies, method='left join'):
+    def enrich_with(instance, target_bibliography_object, field_to_match_in_bibliographies, method='left join'):
         """
         Left joins or merges two bibliographies.
 
@@ -1028,7 +1027,7 @@ class Bibliography:
         Keyword Args:
             'left join' (method): Add new fields and values from the target_bibliography_object only if the record they
                 belong to exists in the instance bibliography (i.e., to self)
-            'merge' (method): Left joins when possible, add if not, adds new entries from target_bibliography to the
+            'merge' (method): Left joins when possible, add if not, adds new entries from other_bibliography to the
                 instance bibliography (i.e., to self)
 
         Returns:
@@ -1059,8 +1058,12 @@ class Bibliography:
 
 
             >>> # enrichment
-            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
-            1 entries enriched and 0 entries appended to bibliography.
+            >>> bib_one.enrich_with(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
+            <BLANKLINE>
+            Enrichment completed successfully.
+            Existing entries enriched: 1
+            Fields added to existing entries: 1
+            New entries added: 0
             >>> bib_one.preview()
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
@@ -1068,18 +1071,34 @@ class Bibliography:
             <BLANKLINE>
 
             >>> # no entries appended in 'left join' mode
-            >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')
+            >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')  # doi 500 not in bib_one
             >>> bib_two.setEntry(entry_id='100', field_name='note', field_value='This is a note')
-            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
-            0 entries enriched and 0 entries appended to bibliography.
+            >>> bib_one.enrich_with(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi')
+            <BLANKLINE>
+            Enrichment completed successfully.
+            Existing entries enriched: 0
+            Fields added to existing entries: 0
+            New entries added: 0
+            >>> bib_one.preview(10)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('01', {'author': 'John Doe', 'doi': '6226', 'title': 'This is a title'})
+            <BLANKLINE>
 
             >>> # entries enriched and appended in 'merge' mode
-            >>> bib_two.setEntry(entry_id='41124', field_name='doi', field_value='6226')
+            >>> bib_two.setEntry(entry_id='41124', field_name='doi', field_value='6226')  # doi 6226 is in bib_one too
             >>> bib_two.setEntry(entry_id='41124', field_name='publisher', field_value='Some publisher')
-            >>> bib_one.enrich(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi'
+            >>> bib_two.setEntry(entry_id='100', field_name='doi', field_value='5000')  # doi 500 not in bib_one
+            >>> bib_two.setEntry(entry_id='100', field_name='note', field_value='This is a note')
+            >>> bib_one.enrich_with(target_bibliography_object=bib_two, field_to_match_in_bibliographies='doi'
             ...         , method='merge')
-            1 entries enriched and 2 entries appended to bibliography.
-            >>> bib_one.preview()
+            <BLANKLINE>
+            Enrichment completed successfully.
+            Existing entries enriched: 1
+            Fields added to existing entries: 1
+            New entries added: 1
+
+            >>> bib_one.preview(10)
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
             ('01',
@@ -1231,8 +1250,12 @@ class Bibliography:
               'b_type': 'book'})
             <BLANKLINE>
 
-            >>> bib_poor.enrich(target_bibliography_object=bib_rich, field_to_match_in_bibliographies='b_doi')
-            12 entries enriched and 0 entries appended to bibliography.
+            >>> bib_poor.enrich_with(target_bibliography_object=bib_rich, field_to_match_in_bibliographies='b_doi')
+            <BLANKLINE>
+            Enrichment completed successfully.
+            Existing entries enriched: 2
+            Fields added to existing entries: 12
+            New entries added: 0
 
             >>> bib_poor.preview(100)
             <BLANKLINE>
@@ -1506,8 +1529,14 @@ class Bibliography:
               'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'}]
 
             >>> # merge poorer and richer bibliographies
-            >>> vu_bibliography.enrich(oc_bibliography, field_to_match_in_bibliographies='b_doi')
-            23 entries enriched and 0 entries appended to bibliography.
+            >>> vu_bibliography.enrich_with(oc_bibliography, field_to_match_in_bibliographies='b_doi')
+            <BLANKLINE>
+            Enrichment completed successfully.
+            Existing entries enriched: 2
+            Fields added to existing entries: 23
+            New entries added: 0
+
+
             >>> vu_bibliography.preview(100)
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
@@ -1630,51 +1659,93 @@ class Bibliography:
               'b_type': 'article',
               'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'})
             <BLANKLINE>
-
-
         """
-        other_bib = target_bibliography_object
+        # reset instance counters (in case this is not the first merge operation on the instance, this is necessary)
+        instance.no_of_entries_enriched_in_last_operation = 0
+        instance.no_of_existing_fields_enriched_in_last_operation = 0
+        instance.no_of_entries_added_in_last_operation = 0
+        instance.no_of_fields_added_in_last_operation = 0
 
-        instance.no_of_enrichments_made_in_last_operation = 0
-        instance.no_of_additions_made_in_last_operation = 0
+        other_bibliography = target_bibliography_object
+        target_field_name = field_to_match_in_bibliographies
 
-        for each_other_id, each_other_entry_data in other_bib.entries.items():
-            target_field_name_in_other_bib = field_to_match_in_bibliographies
-            target_value_in_other_bib = each_other_entry_data[target_field_name_in_other_bib]
+        for each_entry_id_in_other_bibliography, each_entry_data_in_other_bibliography in other_bibliography.entries.items():
+
+            # for logging
+            last_entry_is_enriched = False
+            last_entry_is_added = False
+
+            each_target_value_in_other_bibliography = each_entry_data_in_other_bibliography[target_field_name]
 
             # if a field name and value(e.g., doi) from other bibliography is found in the current one, enrich
-            # the corresponding entry in the current dataset with this field name and value
+            # the corresponding entry in the current dataset with this field name and its value
             # TODO: This try-except block should either be made more specific or replaced with an if-else block
             try:
+                # Make sure that only one entry in self matches the target value (e.g., doi)
+                matching_entry_in_this_bibliography = instance.getEntriesByField(field_name=target_field_name, field_value=each_target_value_in_other_bibliography)
+                matching_entry_ids_in_this_bibliography = instance._field_values_registry[target_field_name][each_target_value_in_other_bibliography]
 
-                returned_entry = instance.getEntriesByField(field_name=target_field_name_in_other_bib, field_value=target_value_in_other_bib)
-                matching_ids_list = instance._field_values_registry[target_field_name_in_other_bib][target_value_in_other_bib]
-                if len(matching_ids_list) > 1:
-                    raise ValueError("More than one ID (%s) returned with the field name '%s' and value '%s'."
-                                    % (matching_ids_list, target_field_name_in_other_bib, target_value_in_other_bib))
+                if len(matching_entry_ids_in_this_bibliography) > 1:
+
+                    # TODO: If a DOI (or another target value) appears in multiple entries, only the first entry is
+                    # TODO: ... enriched, and the other occurrences is simply left alone.
+                    # TODO: ... A 'merge_duplicate_entries' function should be implemented and used during cleaning for
+                    # TODO: ... cleaner behavior
+                    # If multiple matches is the case (e.g., a DOI appears in multiple entries in self bibliography)
+                    # only set the first occurrence for enrichment
+                    matching_entry_id_in_this_bibliography = matching_entry_ids_in_this_bibliography[0]
+
+                    # the old error in case there is more than one matching (e.g.) DOI:
+                    #raise ValueError("More than one ID (%s) in the source bibliography returned with the field name '%s' and value '%s'."
+                    #                % (matching_entry_ids_in_this_bibliography, target_field_name, each_target_value_in_other_bibliography))
                 else:
-                    matching_id = matching_ids_list[0]
+                    matching_entry_id_in_this_bibliography = matching_entry_ids_in_this_bibliography[0]
 
-                field_names_of_current_bib = list(returned_entry[0].keys())
-                for each_field_name_in_other_bib, each_field_value_in_other_bib in each_other_entry_data.items():
+                # Enrich fields of matching entries
+                existing_field_names_in_matching_entry_of_this_bibliography = list(matching_entry_in_this_bibliography[0].keys())
+                for each_field_name_in_entry_from_other_bibliography, each_field_value_in_entry_from_other_bibliography in each_entry_data_in_other_bibliography.items():
 
-                    if each_field_name_in_other_bib not in field_names_of_current_bib:
-                        instance.entries[matching_id][each_field_name_in_other_bib] = each_field_value_in_other_bib
-                        instance.no_of_enrichments_made_in_last_operation += 1
-            # TODO: Below part is not tested
-            # TODO: Add kwargs to documentation
-            # if the field name and value from the other bib is not found
-            except:
-               if method == 'merge':
-                   for each_other_field, each_other_field_value in each_other_entry_data.items():
-                       instance.setEntry(each_other_id, each_other_field, each_other_field_value)
-                       instance.no_of_additions_made_in_last_operation += 1
-               else:
+                    if each_field_name_in_entry_from_other_bibliography not in existing_field_names_in_matching_entry_of_this_bibliography:
+                        instance.entries[matching_entry_id_in_this_bibliography][each_field_name_in_entry_from_other_bibliography] \
+                            = each_field_value_in_entry_from_other_bibliography
+
+                        # Logging
+                        instance.no_of_existing_fields_enriched_in_last_operation += 1
+                        last_entry_is_enriched = True
+
+                    else:  # if field already exists in self bibliography, do nothing
+                        pass
+            # TODO: Merge function is not thoroughly tested and it should be
+            except:  # if the field name and value from the other bib is not found
+               if method == 'merge':  # add field name and value to a new entry (if in merge mode)
+                   for each_field_name_in_entry_from_other_bibliography, each_field_value_in_entry_from_other_bibliography in each_entry_data_in_other_bibliography.items():
+                       instance.setEntry(each_entry_id_in_other_bibliography, each_field_name_in_entry_from_other_bibliography, each_field_value_in_entry_from_other_bibliography)
+
+   ###### Logging ######################################################################################################
+                       instance.no_of_fields_added_in_last_operation += 1
+
+                   last_entry_is_added = True
+               else:  # not in merge mode, do nothing
                    pass
 
-        print('%d entries enriched and %d entries appended to bibliography.'
-              % (instance.no_of_enrichments_made_in_last_operation,
-                 instance.no_of_additions_made_in_last_operation))
+            if last_entry_is_enriched:
+                instance.no_of_entries_enriched_in_last_operation += 1
+            elif last_entry_is_added:
+                instance.no_of_entries_added_in_last_operation += 1
+
+        lines_of_console_message = [
+            'Existing entries enriched: %d' % instance.no_of_entries_enriched_in_last_operation,
+            'Fields added to existing entries: %d' % instance.no_of_existing_fields_enriched_in_last_operation,
+            'New entries added: %d' % instance.no_of_entries_added_in_last_operation
+            #'New fields added with new entries: %d' % instance.no_of_fields_added_in_last_operation #  currently
+                                                                                        # ... unnecessary  to report
+        ]
+        from meta.consoleOutput import ConsoleOutput
+        console = ConsoleOutput('log.txt')
+        console.log_list_with_caption('\nEnrichment completed successfully.', lines_of_console_message,
+                                      print_list_length_with_caption=False, add_timestamp_in_file=True)
+    ###### Logging END #################################################################################################
+
     ###################################################################################################################
     ################################################# QUERY FUNCTIONS #################################################
     ###################################################################################################################
