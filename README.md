@@ -7,6 +7,7 @@ Is also the main repository for the packages 'triplicator' and 'preprocessor'. F
 ## Requirements: 
 - Pyhon 3.x
 - pybtex
+- sparqlwrapper
 
 ## Legal:
 Although short samples may be provided, bibliographic databases from VU and UvA are not included in this directory due to copyright reasons related to their respective owners. Data gathered from OpenCitations, however, are made fully available.
