@@ -84,7 +84,7 @@ class RDF_File(Text_File):
         # Log
         # TODO: Include number of triples written to file in the log
         console.log_message('Success: The triples were written to "%s"' % file_path, add_timestamp_in_file=True)
-        console.log_list_with_message('These items were skipped due to errors', erroneous_triples)
+        console.log_list_with_caption('These items were skipped due to errors', erroneous_triples)
         console.log_message('\nA log of the operation is kept in "%s"' % console.get_log_file_path())
 
 
