@@ -27,6 +27,87 @@ class ListData():
         """
         return instance.dataset[1:len(instance.dataset)]
 
+
+    def import_csv_file(instance, input_file_path,
+                        column_delimiter_pattern_in_input_file,
+                        line_head_pattern_to_remove='',
+                        line_tail_pattern_to_remove='',
+                        cell_head_and_tail_characters_to_remove=''):
+        """
+        Returns:
+            nothing
+
+        Examples:
+            >>> # Import a CSV file (yasgui.org formatting)
+            >>> my_list_data = ListData()
+            >>> my_list_data.import_csv_file('test_data//yasgui_output_100.csv',
+            ...                              column_delimiter_pattern_in_input_file=' , ',
+            ...                              line_tail_pattern_to_remove=' ,',
+            ...                              cell_head_and_tail_characters_to_remove='"')
+            Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
+            ----------------------------------LINE 0----------------------------------
+            <BLANKLINE>
+            ----------------------------------LINE 1----------------------------------
+            ['publication_type', 'journal_article', 'title', 'publication_year', 'author_name', 'journal_name', 'journal_issue_number', 'journal_volume_number', 'startEndPages', 'publisher_name', 'doi']
+            ----------------------------------LINE 2----------------------------------
+            ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893']
+            <BLANKLINE>
+            CSV file "test_data//yasgui_output_100.csv" is imported as ListData object.
+
+
+            >>> # Parse a one-column CSV file
+            >>> my_list_data = ListData()
+            >>> my_list_data.import_csv_file('test_data//one_column_data.csv',
+            ...                              column_delimiter_pattern_in_input_file=',')
+            Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
+            ----------------------------------LINE 0----------------------------------
+            <BLANKLINE>
+            ----------------------------------LINE 1----------------------------------
+            ['doi', '']
+            ----------------------------------LINE 2----------------------------------
+            ['10.1163/187607508X384689', '']
+            <BLANKLINE>
+            CSV file "test_data//one_column_data.csv" is imported as ListData object.
+            >>> my_list_data.get_column_at_index(0)
+            ['doi', '10.1163/187607508X384689', '10.1017/S0954579416000572', '10.1007/s11562-016-0353-7', '10.1016/j.adolescence.2016.09.008', '10.1186/s13561-016-0122-6', '10.1007/s00799-016-0182-6', '10.5194/gmd-2016-266', '10.1007/s00737-015-0531-2', '10.1103/RevModPhys.88.021003', 'https://doi.org/10.1101/167171', 'https://doi.org/10.1016/j.chb.2017.04.047', '10.1016/j.trb.2016.09.005', '10.1016/j.ancene.2016.01.001', '10.1111/adb.12322', '10.1017/njg.2016.45', '10.1080/1359432X.2016.1209489', '10.1117/1.JBO.21.6.066008', '10.5194/gmd-10-3329-2017', '10.1016/j.rser.2017.01.103', '10.1177/2050157916664559', '10.1007/978-3-319-45931-8_17', '10.1007/s11136-015-1171-8', '10.1145/2991079.2991121', '10.1093/cz/zow089', '10.1126/science.aac8167', '10.1007/s00586-016-4606-1', '10.1186/s12937-017-0229-6', '10.1007/s11357-016-9894-1', '10.1080/00130095.2015.1094371', '10.1016/j.epsl.2016.02.028', '10.1371/journal.pone.0168636', '10.1016/j.atmosres.2016.03.016', '10.1111/deci.12206', '10.1126/science.aad9634', '10.1103/PhysRevA.94.012506', '10.4103/0019-5545.196846', '10.1016/j.cedpsych.2017.01.006', '10.3324/haematol.2015.133470', '10.1057/978-1-137-50956-7', '10.1016/j.scico.2016.04.001', 'https://doi.org/10.1016/j.scico.2016.04.001', '10.1080/03081087.2015.1053425', '10.3758/s13423-017-1270-3', '10.1681/ASN.2015030287', '10.1016/j.avb.2016.05.006', '10.1177/0971333616689191', '10.1002/sej.1243', '10.1016/j.foreco.2017.06.023', '10.1103/PhysRevLett.118.071801', 'https://doi.org/10.1093/geront/gnv127', '10.1007/978-3-319-42324-1_16', '10.1109/JBHI.2015.2412656', '10.1016/j.jeem.2016.04.002', '10.1080/00207543.2015.1058982', '10.1038/mp.2016.100', '10.1080/03003930.2016.1194267', '10.1016/j.envint.2017.01.018', '10.1038/pr.2015.179', '10.1177/1753193416669263', '10.1016/j.tre.2016.11.003', '10.1021/acs.jpcc.5b12016', '10.1002/anie.201603510', '10.1073/pnas.1607005113', '(DOI) - 10.1111/cch.12521', '10.1017/S0016756815000886', '10.1080/1350293X.2015.1073507', '10.1152/jn.00701.2015', '10.1371/journal.pone.0170791', '10.1016/j.seares.2016.07.005', '10.1016/j.reseneeco.2016.03.003', '10.1007/s00531-017-1499-0', '10.1007/s41669-017-0014-7', '10.1093/acrefore/9780190228613.013.439', '10.14814/phy2.13201', '10.1016/j.jtrangeo.2016.10.013', '10.1523/JNEUROSCI.3658-16.2017', '10.1192/bjpo.bp.115.000166', '10.1136/bmjgh-2016-000109', '10.7554/eLife.20320.001', '10.1037/pas0000332', '10.1177/1474704916673841', '10.1057/978-1-137-58179-2', '10.1002/ejp.963', '10.1017/thg.2016.78', '10.1038/tpj.2016.32', '10.1016/j.jesp.2017.03.008', '10.1287/trsc.2015.0647', '10.1186/s13015-016-0087-3', '10.1016/j.neuroimage.2016.10.030', '10.1371/journal.pone.0169109', '10.1007/s11367-017-1358-z', '10.1080/1369183X.2015.1061425', '10.2196/mental.4614', '10.1002/arp.1564', '10.1021/acs.orglett.6b01023', '10.3847/1538-4357/aa6c47', 'http://www.socialevraagstukken.nl/veiligheid-creeer-je-met-geborgenheid/', '10.1186/s12888-016-0790-0', '10.1371/journal.pone.0155755']
+
+
+            #>>> Enter parsing paramaters that do not match the contents of the CSV file
+            #>>> Error is not invoked anymore as another from CSV_File takes over. Kept for possible future use
+            #>>> my_list_data = ListData()
+            #>>> try:
+            #...     my_list_data.import_csv_file('test_data//one_column_data.txt',
+            #...                                  column_delimiter_pattern_in_input_file='\\n',
+            #...                                  line_head_pattern_to_remove='',
+            #...                                  line_tail_pattern_to_remove='')
+            #... except Exception as error_message:
+            #...     print('Exception caught: ' + str(error_message))
+            Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
+            ----------------------------------LINE 0----------------------------------
+            <BLANKLINE>
+            Exception caught: No data imported from CSV file "test_data//one_column_data.csv". Parsing parameters provided does not seem to match formatting of the inputted CSV file.
+        """
+        from preprocessor.csv_tools import CSV_File
+        csv_file = CSV_File(input_file_path,
+                            column_delimiter_pattern_in_input_file=column_delimiter_pattern_in_input_file)
+
+        csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove=line_head_pattern_to_remove,
+                                                     line_tail_pattern_to_remove=line_tail_pattern_to_remove,
+                                                     cell_head_and_tail_characters_to_remove=cell_head_and_tail_characters_to_remove)
+
+        with open(csv_file.input_file_path, encoding='utf8') as input_file:
+            for i, each_line in enumerate(input_file):
+                csv_line = csv_file.get_line_at_position_from_file(i + 1)
+                csv_row = csv_file.clean_and_parse_line_to_CSV_Row_using_cleaning_parameters(csv_line)
+
+                instance.append_row(csv_row)
+
+        if instance.dataset:  # if not empty
+            print('\nCSV file "%s" is imported as ListData object.' % csv_file.input_file_path)
+        else:
+            raise ValueError('No data imported from CSV file "%s". Parsing parameters provided does not seem to match '
+                             'formatting of the inputted CSV file.' % csv_file.input_file_path)
+
     def import_json_object(instance, json_object):
         """
         Converts a JSON formatted object to a ListData object.
@@ -402,6 +483,7 @@ class ListData():
         for i, row in enumerate(instance.dataset):
             del (instance.dataset[i][target_index])
 
+
     def remove_columns(instance, target_column_headers_list):
         """
         Removes multiple columns from dataset. Is a variation of .remove_column() method to support efficient removal
@@ -421,6 +503,7 @@ class ListData():
 
         for each_column_header in target_column_headers_list:
             instance.remove_column(each_column_header)
+
 
     def replace_headers(instance, header_replacements_list):
         """

@@ -459,7 +459,7 @@ class Open_Citations_Query(Sparql_Query):
             return self.results
 
 
-    def retrieve_articles_by_dois(self, target_dois_list, print_only=False):
+    def retrieve_articles_by_dois(self, target_dois_list, print_only=False, show_progress_bar=False):
         """
         Returns:
             dict or nothing (if print_only is selected)
@@ -597,16 +597,21 @@ class Open_Citations_Query(Sparql_Query):
                           'March 2002.',
                  'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'}}
         """
+        from meta.consoleOutput import ConsoleOutput
+        console = ConsoleOutput()
 
         no_of_results_returned_so_far = 0
         all_results = {}
 
-        for each_target_doi in target_dois_list:
+        maximum_progress = len(target_dois_list)
+
+        for i, each_target_doi in enumerate(target_dois_list):
             current_result = self.retrieve_article_by_doi(each_target_doi)
             # aggregate returned results in all_results variable
             for each_key, each_value in current_result.items():  # keys represent row numbers of returned results table
                 no_of_results_returned_so_far += 1               # ... and values represent fields and their values
                 all_results[no_of_results_returned_so_far] = each_value
+            console.print_current_progress(i, maximum_progress, 'Querying SPARQL endpoint')
 
         self.results = all_results
         self.number_of_lines_retrieved = no_of_results_returned_so_far
