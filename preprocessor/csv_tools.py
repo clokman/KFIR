@@ -41,7 +41,7 @@ class CSV_File(Text_File):
         # parsing parameters (provided during init)
         self.input_column_separator_pattern = column_delimiter_pattern_in_input_file
 
-        # cleaning parameter defaults (updated by CSV_File.set_cleaning_and_parsing_parameters())
+        # cleaning parameter defaults (updated by CSV_File.set_parsing_and_cleaning_parameters())
         self.cleaning_parameters_are_set = False
         self.line_head_artefact = ''
         self.line_tail_artefact = ''
@@ -56,7 +56,7 @@ class CSV_File(Text_File):
         self.output_cell_wrapper = ''
 
 
-    def set_cleaning_and_parsing_parameters(self, line_head_pattern_to_remove='', line_tail_pattern_to_remove='',
+    def set_parsing_and_cleaning_parameters(self, line_head_pattern_to_remove='', line_tail_pattern_to_remove='',
                                             cell_head_and_tail_characters_to_remove=''):
         """
         Sets cleaning parameters to be used in various methods in CSV_File class. After setting the
@@ -78,7 +78,7 @@ class CSV_File(Text_File):
 
 
             >>> # blank parameters
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='',
             ...                                     line_tail_pattern_to_remove='',
             ...                                     cell_head_and_tail_characters_to_remove='')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -90,7 +90,7 @@ class CSV_File(Text_File):
             ['head artefact "*Journal Article*"', '"https://w3id.org/oc/corpus/br/45174"', '"An inventory for measuring clinical anxiety: Psychometric properties."', '"1988"', '"Steer - Robert A."', '"Journal of Consulting and Clinical Psychology"', '"6"', '"56"', '"893--897"', '"American Psychological Association (APA)"', '"10.1037//0022-006x.56.6.893"', 'tail artefact']
 
             >>> # parameters provided
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='head artefact ',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='head artefact ',
             ...                                     line_tail_pattern_to_remove=' , tail artefact',
             ...                                     cell_head_and_tail_characters_to_remove='"*')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -112,7 +112,7 @@ class CSV_File(Text_File):
             Journal Article,<https://w3id.org/oc/corpus/br/44074>,Improving the Blood Pressure Control With the ProActive Attitude of Hypertensive Patients Seeking Follow-up Services,2016,Fang - Haiqing,Medicine,14,95,e3233--e3233,Ovid Technologies (Wolters Kluwer Health),10.1097/md.0000000000003233
 
             >>> # clean it
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='',
             ...                                     line_tail_pattern_to_remove='',
             ...                                     cell_head_and_tail_characters_to_remove='')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -171,7 +171,7 @@ class CSV_File(Text_File):
 
 
             >>> # prep: set cleaning and parsing parameters (must be done before formatting)
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='',
             ...                                     line_tail_pattern_to_remove='',
             ...                                     cell_head_and_tail_characters_to_remove='')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -212,7 +212,7 @@ class CSV_File(Text_File):
             head artefact "*Journal Article*" , "https://w3id.org/oc/corpus/br/45174" , "An inventory for measuring clinical anxiety: Psychometric properties." , "1988" , "Steer - Robert A." , "Journal of Consulting and Clinical Psychology" , "6" , "56" , "893--897" , "American Psychological Association (APA)" , "10.1037//0022-006x.56.6.893" , tail artefact
 
             >>> # set cleaning parameters
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='head artefact ',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='head artefact ',
             ...                                     line_tail_pattern_to_remove=' , tail artefact',
             ...                                     cell_head_and_tail_characters_to_remove='"*')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -278,7 +278,7 @@ class CSV_File(Text_File):
 
     def clean_and_parse_line_to_CSV_Row_using_cleaning_parameters(self, input_string_or_CSV_line):
         """
-        Cleans input using parameters cleaning parameters set by set_cleaning_and_parsing_parameters() method.
+        Cleans input using parameters cleaning parameters set by set_parsing_and_cleaning_parameters() method.
         Because this method is only used internally in live (i.e., line-by-line) parsing class methods, its
         parameters are not directly set. They are rather passed from the previously set instance variables, that
         define how the file is to be cleaned each time this method is called internally by another method (which happens
@@ -291,7 +291,7 @@ class CSV_File(Text_File):
             CSV_Line object
 
         Examples:
-            See CSV_File.set_cleaning_and_parsing_parameters() for tests
+            See CSV_File.set_parsing_and_cleaning_parameters() for tests
         """
         # clean line ends and beginnings
         csv_line = CSV_Line(input_string_or_CSV_line). \
@@ -308,7 +308,7 @@ class CSV_File(Text_File):
 
     def format_line_using_output_formatting_parameters(self, listlike_input_string_or_CSV_row):
         """
-        Formats input using output formatting parameters (which are instance variables set by set_cleaning_and_parsing_parameters()
+        Formats input using output formatting parameters (which are instance variables set by set_parsing_and_cleaning_parameters()
         method). Because this method is only used internally in live (i.e., line-by-line) parsing class methods, its
         parameters are not directly set. They are rather passed from the previously set instance variables, that define
         how the file is to be cleaned each time this method is called internally by another method (which happens
@@ -355,7 +355,7 @@ class CSV_File(Text_File):
             >>> # a csv from yasgui.org
             >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv',
             ...                         column_delimiter_pattern_in_input_file=' , ')
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove=' ',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove=' ',
             ...                                     line_tail_pattern_to_remove=' ,',
             ...                                     cell_head_and_tail_characters_to_remove='"')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -375,7 +375,7 @@ class CSV_File(Text_File):
             >>> # a csv from blazegraph
             >>> my_csv_file = CSV_File('test_data//blazegraph_output_50.csv',
             ...                         column_delimiter_pattern_in_input_file=',')
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='',
             ...                                     line_tail_pattern_to_remove='',
             ...                                     cell_head_and_tail_characters_to_remove='<>')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -425,7 +425,7 @@ class CSV_File(Text_File):
             >>> # prep: a csv from yasgui.org
             >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv',
             ...                         column_delimiter_pattern_in_input_file=' , ')
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove=' ',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove=' ',
             ...                                     line_tail_pattern_to_remove=' ,',
             ...                                     cell_head_and_tail_characters_to_remove='"')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -447,7 +447,7 @@ class CSV_File(Text_File):
             >>> # prep: a csv from blazegraph
             >>> my_csv_file = CSV_File('test_data//blazegraph_output_50.csv',
             ...                         column_delimiter_pattern_in_input_file=',')
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_head_pattern_to_remove='',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_head_pattern_to_remove='',
             ...                                     line_tail_pattern_to_remove='',
             ...                                     cell_head_and_tail_characters_to_remove='<>')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
@@ -547,7 +547,7 @@ class CSV_File(Text_File):
             ...                    column_delimiter_pattern_in_input_file=' , ')
 
             >>> # set cleaning parameters
-            >>> my_csv_file.set_cleaning_and_parsing_parameters(line_tail_pattern_to_remove=' ,',
+            >>> my_csv_file.set_parsing_and_cleaning_parameters(line_tail_pattern_to_remove=' ,',
             ...                                           cell_head_and_tail_characters_to_remove='"')
             Cleaning parameters are set. Output resulting from a demo parsing operation is as following:
             ----------------------------------LINE 0----------------------------------
