@@ -73,7 +73,8 @@ class ConsoleOutput():
             log_file.append_line(message, timestamp=add_timestamp_in_file)  # Log_File class has its own way of handling timestamps
 
 
-    def log_list_with_message(self, message, input_list, add_timestamp_in_file=False, print_to_console=True, print_to_file=True):
+    def log_list_with_caption(self, message, input_list, print_list_length_with_caption=True, add_timestamp_in_file=False,
+                              print_to_console=True, print_to_file=True):
         """
         Args:
             message(str, int, bool, list)
@@ -90,7 +91,7 @@ class ConsoleOutput():
             >>> my_console.clear_log_file()
 
             >>> # print to BOTH console and file
-            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 1', 'item 2'])
+            >>> my_console.log_list_with_caption('These items were skipped due to errors', ['item 1', 'item 2'])
             These items were skipped due to errors (2 items):
             item 1
             item 2
@@ -100,7 +101,7 @@ class ConsoleOutput():
             item 2
 
             >>> # print only to CONSOLE
-            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 3', 'item 4'],
+            >>> my_console.log_list_with_caption('These items were skipped due to errors', ['item 3', 'item 4'],
             ...                                   print_to_file=False)
             These items were skipped due to errors (2 items):
             item 3
@@ -111,7 +112,7 @@ class ConsoleOutput():
             item 2
 
             >>> # print only to FILE
-            >>> my_console.log_list_with_message('These items were skipped due to errors', ['item 5', 'item 6'], print_to_console=False)
+            >>> my_console.log_list_with_caption('These items were skipped due to errors', ['item 5', 'item 6'], print_to_console=False)
             >>> my_console.print_log_file()
             These items were skipped due to errors (2 items):
             item 1
@@ -121,7 +122,7 @@ class ConsoleOutput():
             item 6
 
             >>> # empty list as input
-            >>> my_console.log_list_with_message('These items were skipped due to errors', [])
+            >>> my_console.log_list_with_caption('These items were skipped due to errors', [])
             These items were skipped due to errors (0 items):
             >>> my_console.print_log_file()
             These items were skipped due to errors (2 items):
@@ -134,7 +135,7 @@ class ConsoleOutput():
 
             >>> # wrong format as input
             >>> try:
-            ...     my_console.log_list_with_message('These items were skipped due to errors', 4) #  cannot be integer
+            ...     my_console.log_list_with_caption('These items were skipped due to errors', 4) #  cannot be integer
             ... except Exception as error_message:
             ...     print('Exception: ' + str(error_message))
             Exception: Parameter "4" must be of type <class 'list'>, but is currently of type <class 'int'>
@@ -143,8 +144,13 @@ class ConsoleOutput():
         Parameter_Value(input_list).force_type(list)
 
         # Log the message
-        self.log_message(message + ' (%s items):' % str(len(input_list)),
-                         add_timestamp_in_file=add_timestamp_in_file, print_to_console=print_to_console, print_to_file=print_to_file)
+        if print_list_length_with_caption:
+            message = message + ' (%s items):' % str(len(input_list))
+
+        self.log_message(message,
+                         add_timestamp_in_file=add_timestamp_in_file,
+                         print_to_console=print_to_console,
+                         print_to_file=print_to_file)
 
         # Log items of the list
         for each_item in input_list:
