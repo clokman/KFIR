@@ -667,11 +667,12 @@ class Open_Citations_Query(Sparql_Query):
             return self.results
 
 
-    def select_only_valid_dois(self, doi_list):
+    def validate_dois(self, doi_list):
         """
+        Validates DOIs and returns valid DOIs. Also records valid and invalid DOIs found to as instance variables.
 
         Args:
-            doi_list(list):
+            doi_list(list)
 
         Returns:
             list
@@ -692,7 +693,7 @@ class Open_Citations_Query(Sparql_Query):
 
             >>> # Filtering
             >>> my_query = Open_Citations_Query()
-            >>> valid_dois = my_query.select_only_valid_dois(doi_list)  # variable assignment made to prevent long output
+            >>> valid_dois = my_query.validate_dois(doi_list)  # variable assignment made to prevent long output
             >>> # preview valid DOIs
             >>> pprint(my_query.valid_search_criteria[:15])
             ['10.1163/187607508X384689',
