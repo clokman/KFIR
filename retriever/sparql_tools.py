@@ -36,8 +36,11 @@ class Sparql_Query():
         self.query = input_query
         self.endpoint_address = ''
 
-        self.results = {}
+        self.valid_search_criteria = []
+        self.invalid_search_criteria = []
+
         self.number_of_lines_retrieved = 0
+        self.results = {}
 
 
     def set_query(self, query_string):
@@ -662,3 +665,89 @@ class Open_Citations_Query(Sparql_Query):
             self.print_results()
         else:
             return self.results
+
+
+    def select_only_valid_dois(self, doi_list):
+        """
+
+        Args:
+            doi_list(list):
+
+        Returns:
+            list
+
+        Examples:
+            >>> ### Import and filter all dois in UvA and VU Pure files ###
+
+            >>> #Prep
+            >>> from preprocessor.string_tools import String
+            >>> from pprint import pprint
+            >>> doi_list = []
+            >>> with open('test_data_and_queries/all_dois_in_uva_and_vu_bibliographies_identical_test_copy.csv',
+            ...           encoding='utf8') as doi_file:
+            ...     for each_line in doi_file:
+            ...         cleaned_line = String(each_line)
+            ...         cleaned_line = cleaned_line.clean_from_newline_characters()
+            ...         doi_list.append(str(cleaned_line))
+
+            >>> # Filtering
+            >>> my_query = Open_Citations_Query()
+            >>> valid_dois = my_query.select_only_valid_dois(doi_list)  # variable assignment made to prevent long output
+            >>> # preview valid DOIs
+            >>> pprint(my_query.valid_search_criteria[:15])
+            ['10.1163/187607508X384689',
+             '10.1017/S0954579416000572',
+             '10.1007/s11562-016-0353-7',
+             '10.1016/j.adolescence.2016.09.008',
+             '10.1186/s13561-016-0122-6',
+             '10.1007/s00799-016-0182-6',
+             '10.5194/gmd-2016-266',
+             '10.1007/s00737-015-0531-2',
+             '10.1103/RevModPhys.88.021003',
+             'https://doi.org/10.1101/167171',
+             'https://doi.org/10.1016/j.chb.2017.04.047',
+             '10.1016/j.trb.2016.09.005',
+             '10.1016/j.ancene.2016.01.001',
+             '10.1111/adb.12322',
+             '10.1017/njg.2016.45']
+            >>> # preview invalid DOIs
+            >>> pprint(my_query.invalid_search_criteria[:15])
+            ['(DOI) - 10.1111/cch.12521',
+             'http://www.socialevraagstukken.nl/veiligheid-creeer-je-met-geborgenheid/',
+             'http://www.metajournal.org//articles_pdf/02--krijnen-meta-techno-final.pdf',
+             'http://global-sport.eu/beyond-colonialism-contemporary-cricket-narratives-in-the-caribbean',
+             'http://www.mdpi.com/2075-471X/5/1/10/htm',
+             'http://ntvmr.uni-muenster.de/nt-conjectures',
+             'http://vis4dh.com/papers/GlamMap%20Geovisualization%20for%20e-Humanities.pdf',
+             'http://onlinelibrary.wiley.com/doi/10.1002/pon.4302/full',
+             'http://cadmus.eui.eu/handle/1814/41508',
+             'http://www.vala.org.au/direct-download/vala2016-proceedings/vala2016-papers/590-vala2016-session-8-betti-paper/file',
+             'http://link.springer.com/article/10.1007/s12508-017-0047-4',
+             'http://booksandjournals.brillonline.com/content/journals/1572543x/46/3',
+             '1609.00544',
+             'http://hdl.handle.net/11370/500ac271-aa39-49f7-9ec5-891c2b3c622f',
+             'http://www.envirobiotechjournals.com/article_abstract.php?aid=6963&iid=212&jid=1']
+        """
+        import re
+
+        for item in doi_list:
+            if re.search('^10\.|'
+                         '^https://doi\.org/10\.|'
+                         '^http://doi\.org/10\.|'
+                         '^http://dx\.doi\.org/10\.|'
+                         '^https://dx\.doi\.org/10\.|'
+                         '^DOI 10\.|'
+                         '^DOI: 10\.|'
+                         '^DOI:10\.|'
+                         '^doi:|'
+                         '^doi\.org/|'
+                         '^URN:|'
+                         '^urn:', item) \
+                    and len(item) < 80 \
+                    and not re.search('^http://www\.|'  # DOI links does not contain 'www.'
+                                      '^https://www\.', item):
+                self.valid_search_criteria.append(item)
+            else:
+                self.invalid_search_criteria.append(item)
+
+        return self.valid_search_criteria
