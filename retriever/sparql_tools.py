@@ -630,6 +630,8 @@ class Open_Citations_Query(Sparql_Query):
         from meta.consoleOutput import ConsoleOutput
         console = ConsoleOutput('log.txt')
 
+        target_dois_list = self.validate_dois(target_dois_list)
+
         no_of_results_returned_so_far = 0
         all_results = {}
         failed_queries = []
@@ -694,6 +696,10 @@ class Open_Citations_Query(Sparql_Query):
             >>> # Filtering
             >>> my_query = Open_Citations_Query()
             >>> valid_dois = my_query.validate_dois(doi_list)  # variable assignment made to prevent long output
+            DOI validation completed
+            Number of valid DOIs: 91591
+            Number of invalid DOIs: 189
+            Valid and invalid entries were recorded to variables "self.valid_search_criteria" and "self.invalid_search_criteria"
             >>> # preview valid DOIs
             >>> pprint(my_query.valid_search_criteria[:15])
             ['10.1163/187607508X384689',
@@ -730,6 +736,8 @@ class Open_Citations_Query(Sparql_Query):
              'http://www.envirobiotechjournals.com/article_abstract.php?aid=6963&iid=212&jid=1']
         """
         import re
+        from meta.consoleOutput import ConsoleOutput
+        console = ConsoleOutput('log.txt')
 
         for item in doi_list:
             if re.search('^10\.|'
@@ -751,4 +759,12 @@ class Open_Citations_Query(Sparql_Query):
             else:
                 self.invalid_search_criteria.append(item)
 
+        caption = "DOI validation completed"
+        console.log_message(caption, add_timestamp_in_file=True)
+        summary = 'Number of valid DOIs: %d\n' \
+                  'Number of invalid DOIs: %d\n' \
+                  'Valid and invalid entries were recorded to variables "self.valid_search_criteria" and ' \
+                  '"self.invalid_search_criteria"' \
+                  % (len(self.valid_search_criteria), len(self.invalid_search_criteria))
+        console.log_message(summary)
         return self.valid_search_criteria
