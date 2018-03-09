@@ -307,7 +307,12 @@ class Sparql_Query():
             >>> my_oc_query.retrieve_articles_by_dois(['10.1186/s13034-015-0062-7',
             ...                                                    '10.1016/s0090-8258(03)00126-4',
             ...                                                    '10.1016/s0090-8258(03)00087-8'])
-            All queries completed successfully (3 results retrieved)
+            DOI validation completed
+            Number of valid DOIs: 3
+            Number of invalid DOIs: 0
+            Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables
+            <BLANKLINE>
+            All queries were completed successfully (3 results retrieved out of 3 queries)
             {1: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}, 2: {'journal_article': 'https://w3id.org/oc/corpus/br/384', 'publication_type': 'Journal Article', 'title': 'Survival after relapse in patients with endometrial cancer: results from a randomized trial☆', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '201--209', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00126-4', 'pmid': '12713981', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4', 'authors': 'Creutzberg - Carien L | van Putten - Wim L.J | Koper - Peter C | Lybeert - Marnix L.M | Jobsen - Jan J | Wárlám-Rodenhuis - Carla C | De Winter - Karin A.J | Lutgens - Ludy C.H.W | van den Bergh - Alfons C.M | van der Steen-Banasik - Elzbieta | Beerman - Henk | van Lent - Mat', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1 | https://w3id.org/oc/corpus/br/1342763 | https://w3id.org/oc/corpus/br/1772164'}, 3: {'journal_article': 'https://w3id.org/oc/corpus/br/392', 'publication_type': 'Journal Article', 'title': 'Stage IC adenocarcinoma of the endometrium: survival comparisons of surgically staged patients with and without adjuvant radiation therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual Meeting of Gynecologic Oncologists, Miami, FL, March 2002.', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '295--300', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00087-8', 'pmid': '12713994', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8', 'authors': 'Straughn - J.Michael | Huh - Warner K | Orr - James W | Kelly - F.Joseph | Roland - Phillip Y | Gold - Michael A | Powell - Matthew | Mutch - David G | Partridge - Edward E | Kilgore - Larry C | Barnes - Mack N | Austin - J.Maxwell | Alvarez - Ronald D', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1'}}
 
             >>> my_oc_query.write_results_to_csv('test_data_and_queries//test_write_of_sparql_results.csv')
@@ -486,146 +491,23 @@ class Open_Citations_Query(Sparql_Query):
             ...                     # to see a doi returning two results with a slight difference (different PMIDs in
             ...                     # two results)
             >>> my_oc_query.retrieve_articles_by_dois(target_dois_list)
-            All queries completed successfully (3 results retrieved)
+            DOI validation completed
+            Number of valid DOIs: 3
+            Number of invalid DOIs: 0
+            Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables
+            <BLANKLINE>
+            All queries were completed successfully (3 results retrieved out of 3 queries)
             {1: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}, 2: {'journal_article': 'https://w3id.org/oc/corpus/br/384', 'publication_type': 'Journal Article', 'title': 'Survival after relapse in patients with endometrial cancer: results from a randomized trial☆', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '201--209', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00126-4', 'pmid': '12713981', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4', 'authors': 'Creutzberg - Carien L | van Putten - Wim L.J | Koper - Peter C | Lybeert - Marnix L.M | Jobsen - Jan J | Wárlám-Rodenhuis - Carla C | De Winter - Karin A.J | Lutgens - Ludy C.H.W | van den Bergh - Alfons C.M | van der Steen-Banasik - Elzbieta | Beerman - Henk | van Lent - Mat', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1 | https://w3id.org/oc/corpus/br/1342763 | https://w3id.org/oc/corpus/br/1772164'}, 3: {'journal_article': 'https://w3id.org/oc/corpus/br/392', 'publication_type': 'Journal Article', 'title': 'Stage IC adenocarcinoma of the endometrium: survival comparisons of surgically staged patients with and without adjuvant radiation therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual Meeting of Gynecologic Oncologists, Miami, FL, March 2002.', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '295--300', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00087-8', 'pmid': '12713994', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8', 'authors': 'Straughn - J.Michael | Huh - Warner K | Orr - James W | Kelly - F.Joseph | Roland - Phillip Y | Gold - Michael A | Powell - Matthew | Mutch - David G | Partridge - Edward E | Kilgore - Larry C | Barnes - Mack N | Austin - J.Maxwell | Alvarez - Ronald D', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1'}}
 
-            >>> my_oc_query.retrieve_articles_by_dois(target_dois_list, print_only=True)
-            All queries completed successfully (3 results retrieved)
-            {1: {'authors': 'Zetterqvist - Maria',
-                 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415',
-                 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | '
-                                       'https://w3id.org/oc/corpus/br/38250 | '
-                                       'https://w3id.org/oc/corpus/br/135448 | '
-                                       'https://w3id.org/oc/corpus/br/135458 | '
-                                       'https://w3id.org/oc/corpus/br/177639 | '
-                                       'https://w3id.org/oc/corpus/br/177648 | '
-                                       'https://w3id.org/oc/corpus/br/177653 | '
-                                       'https://w3id.org/oc/corpus/br/177661 | '
-                                       'https://w3id.org/oc/corpus/br/177774 | '
-                                       'https://w3id.org/oc/corpus/br/362419 | '
-                                       'https://w3id.org/oc/corpus/br/362426 | '
-                                       'https://w3id.org/oc/corpus/br/362438 | '
-                                       'https://w3id.org/oc/corpus/br/607811 | '
-                                       'https://w3id.org/oc/corpus/br/1270766 | '
-                                       'https://w3id.org/oc/corpus/br/1560911 | '
-                                       'https://w3id.org/oc/corpus/br/1794850 | '
-                                       'https://w3id.org/oc/corpus/br/1881397 | '
-                                       'https://w3id.org/oc/corpus/br/2258672 | '
-                                       'https://w3id.org/oc/corpus/br/2907029 | '
-                                       'https://w3id.org/oc/corpus/br/2907034 | '
-                                       'https://w3id.org/oc/corpus/br/2907035 | '
-                                       'https://w3id.org/oc/corpus/br/2907042 | '
-                                       'https://w3id.org/oc/corpus/br/2907056 | '
-                                       'https://w3id.org/oc/corpus/br/3346205 | '
-                                       'https://w3id.org/oc/corpus/br/3567493 | '
-                                       'https://w3id.org/oc/corpus/br/3567495 | '
-                                       'https://w3id.org/oc/corpus/br/3949890 | '
-                                       'https://w3id.org/oc/corpus/br/5106137 | '
-                                       'https://w3id.org/oc/corpus/br/5441063 | '
-                                       'https://w3id.org/oc/corpus/br/5441066 | '
-                                       'https://w3id.org/oc/corpus/br/5441085 | '
-                                       'https://w3id.org/oc/corpus/br/5656230 | '
-                                       'https://w3id.org/oc/corpus/br/6060536 | '
-                                       'https://w3id.org/oc/corpus/br/6063037 | '
-                                       'https://w3id.org/oc/corpus/br/6449521 | '
-                                       'https://w3id.org/oc/corpus/br/6486152 | '
-                                       'https://w3id.org/oc/corpus/br/6486162 | '
-                                       'https://w3id.org/oc/corpus/br/6919305 | '
-                                       'https://w3id.org/oc/corpus/br/6919323 | '
-                                       'https://w3id.org/oc/corpus/br/7558746 | '
-                                       'https://w3id.org/oc/corpus/br/7560541 | '
-                                       'https://w3id.org/oc/corpus/br/7560644 | '
-                                       'https://w3id.org/oc/corpus/br/7560645 | '
-                                       'https://w3id.org/oc/corpus/br/7560646 | '
-                                       'https://w3id.org/oc/corpus/br/7560647 | '
-                                       'https://w3id.org/oc/corpus/br/7560648 | '
-                                       'https://w3id.org/oc/corpus/br/7560651 | '
-                                       'https://w3id.org/oc/corpus/br/7560652 | '
-                                       'https://w3id.org/oc/corpus/br/7560653 | '
-                                       'https://w3id.org/oc/corpus/br/7560654 | '
-                                       'https://w3id.org/oc/corpus/br/7560655 | '
-                                       'https://w3id.org/oc/corpus/br/7560656 | '
-                                       'https://w3id.org/oc/corpus/br/7560657 | '
-                                       'https://w3id.org/oc/corpus/br/7560658 | '
-                                       'https://w3id.org/oc/corpus/br/7560659 | '
-                                       'https://w3id.org/oc/corpus/br/7560660 | '
-                                       'https://w3id.org/oc/corpus/br/7560661 | '
-                                       'https://w3id.org/oc/corpus/br/7560662 | '
-                                       'https://w3id.org/oc/corpus/br/7560663 | '
-                                       'https://w3id.org/oc/corpus/br/7560664 | '
-                                       'https://w3id.org/oc/corpus/br/7560665 | '
-                                       'https://w3id.org/oc/corpus/br/7560666',
-                 'doi': '10.1186/s13034-015-0062-7',
-                 'journal_article': 'https://w3id.org/oc/corpus/br/362418',
-                 'journal_issue_number': '1',
-                 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - '
-                                 'Child Adolesc Psychiatry Ment Health',
-                 'journal_volume_number': '9',
-                 'pmid': '26417387',
-                 'publication_type': 'Journal Article',
-                 'publication_year': '2015',
-                 'publisher_name': 'Springer Science + Business Media',
-                 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a '
-                          'review of the empirical literature',
-                 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7'},
-             2: {'authors': 'Creutzberg - Carien L | van Putten - Wim L.J | Koper - Peter '
-                            'C | Lybeert - Marnix L.M | Jobsen - Jan J | Wárlám-Rodenhuis '
-                            '- Carla C | De Winter - Karin A.J | Lutgens - Ludy C.H.W | '
-                            'van den Bergh - Alfons C.M | van der Steen-Banasik - Elzbieta '
-                            '| Beerman - Henk | van Lent - Mat',
-                 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1 | '
-                                          'https://w3id.org/oc/corpus/br/1342763 | '
-                                          'https://w3id.org/oc/corpus/br/1772164',
-                 'cited_the_articles': '',
-                 'doi': '10.1016/s0090-8258(03)00126-4',
-                 'journal_article': 'https://w3id.org/oc/corpus/br/384',
-                 'journal_issue_number': '2',
-                 'journal_name': 'Gynecologic Oncology',
-                 'journal_volume_number': '89',
-                 'pmid': '12713981',
-                 'publication_type': 'Journal Article',
-                 'publication_year': '2003',
-                 'publisher_name': 'Elsevier BV',
-                 'startEndPages': '201--209',
-                 'title': 'Survival after relapse in patients with endometrial cancer: '
-                          'results from a randomized trial☆',
-                 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4'},
-             3: {'authors': 'Straughn - J.Michael | Huh - Warner K | Orr - James W | Kelly '
-                            '- F.Joseph | Roland - Phillip Y | Gold - Michael A | Powell - '
-                            'Matthew | Mutch - David G | Partridge - Edward E | Kilgore - '
-                            'Larry C | Barnes - Mack N | Austin - J.Maxwell | Alvarez - '
-                            'Ronald D',
-                 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1',
-                 'cited_the_articles': '',
-                 'doi': '10.1016/s0090-8258(03)00087-8',
-                 'journal_article': 'https://w3id.org/oc/corpus/br/392',
-                 'journal_issue_number': '2',
-                 'journal_name': 'Gynecologic Oncology',
-                 'journal_volume_number': '89',
-                 'pmid': '12713994',
-                 'publication_type': 'Journal Article',
-                 'publication_year': '2003',
-                 'publisher_name': 'Elsevier BV',
-                 'startEndPages': '295--300',
-                 'title': 'Stage IC adenocarcinoma of the endometrium: survival '
-                          'comparisons of surgically staged patients with and without '
-                          'adjuvant radiation therapyâ\x98\x86â\x98\x86Presented at the '
-                          '33rd Annual Meeting of Gynecologic Oncologists, Miami, FL, '
-                          'March 2002.',
-                 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'}}
-
-            >>> # Failed query due to invalid doi values:
-            >>> doi_list_with_valid_and_invalid_items = ["10. 1144/SP374. 5; Haave, C., (2005) Metamorphic and petrophysical effects of sill intrusions in sedimentary strata: The Karoo Basin, South Africa., p. 168. , MSc thesis, University of Oslo; Hansen, D.M., Cartwright, J., The three-dimensional geometry and growth of forced folds above saucer-shaped igneous sills (2006) Journal of Structural Geology, 28, pp. 1520-1535; Hansen, D.M., Redfern, J., Federici, F., di Biase, D., Bertozzi, G., Miocene igneous activity in the Northern Subbasin, offshore S",
-            ...                     "Onderdeel van de reeks 'De Tweede Wereldoorlog in Nederland'",
-            ...                     "http'//dx.doi.org/10.1016/j.tripleo.2008.06.010",
-            ...                     "10.1186/s13034-015-0062-7"]
-            >>> my_oc_query.retrieve_articles_by_dois(doi_list_with_valid_and_invalid_items)
-            Query completed (1 results retrieved). Queries with these DOIs failed (3 items):
-            10. 1144/SP374. 5; Haave, C., (2005) Metamorphic and petrophysical effects of sill intrusions in sedimentary strata: The Karoo Basin, South Africa., p. 168. , MSc thesis, University of Oslo; Hansen, D.M., Cartwright, J., The three-dimensional geometry and growth of forced folds above saucer-shaped igneous sills (2006) Journal of Structural Geology, 28, pp. 1520-1535; Hansen, D.M., Redfern, J., Federici, F., di Biase, D., Bertozzi, G., Miocene igneous activity in the Northern Subbasin, offshore S
-            Onderdeel van de reeks 'De Tweede Wereldoorlog in Nederland'
-            http'//dx.doi.org/10.1016/j.tripleo.2008.06.010
+            >>> my_oc_query.retrieve_articles_by_dois(target_dois_list)
+            DOI validation completed
+            Number of valid DOIs: 6
+            Number of invalid DOIs: 0
+            Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables
             <BLANKLINE>
-            {1: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}}
+            All queries were completed successfully (6 results retrieved out of 6 queries)
+            {1: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}, 2: {'journal_article': 'https://w3id.org/oc/corpus/br/384', 'publication_type': 'Journal Article', 'title': 'Survival after relapse in patients with endometrial cancer: results from a randomized trial☆', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '201--209', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00126-4', 'pmid': '12713981', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4', 'authors': 'Creutzberg - Carien L | van Putten - Wim L.J | Koper - Peter C | Lybeert - Marnix L.M | Jobsen - Jan J | Wárlám-Rodenhuis - Carla C | De Winter - Karin A.J | Lutgens - Ludy C.H.W | van den Bergh - Alfons C.M | van der Steen-Banasik - Elzbieta | Beerman - Henk | van Lent - Mat', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1 | https://w3id.org/oc/corpus/br/1342763 | https://w3id.org/oc/corpus/br/1772164'}, 3: {'journal_article': 'https://w3id.org/oc/corpus/br/392', 'publication_type': 'Journal Article', 'title': 'Stage IC adenocarcinoma of the endometrium: survival comparisons of surgically staged patients with and without adjuvant radiation therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual Meeting of Gynecologic Oncologists, Miami, FL, March 2002.', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '295--300', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00087-8', 'pmid': '12713994', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8', 'authors': 'Straughn - J.Michael | Huh - Warner K | Orr - James W | Kelly - F.Joseph | Roland - Phillip Y | Gold - Michael A | Powell - Matthew | Mutch - David G | Partridge - Edward E | Kilgore - Larry C | Barnes - Mack N | Austin - J.Maxwell | Alvarez - Ronald D', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1'}, 4: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}, 5: {'journal_article': 'https://w3id.org/oc/corpus/br/384', 'publication_type': 'Journal Article', 'title': 'Survival after relapse in patients with endometrial cancer: results from a randomized trial☆', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '201--209', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00126-4', 'pmid': '12713981', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4', 'authors': 'Creutzberg - Carien L | van Putten - Wim L.J | Koper - Peter C | Lybeert - Marnix L.M | Jobsen - Jan J | Wárlám-Rodenhuis - Carla C | De Winter - Karin A.J | Lutgens - Ludy C.H.W | van den Bergh - Alfons C.M | van der Steen-Banasik - Elzbieta | Beerman - Henk | van Lent - Mat', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1 | https://w3id.org/oc/corpus/br/1342763 | https://w3id.org/oc/corpus/br/1772164'}, 6: {'journal_article': 'https://w3id.org/oc/corpus/br/392', 'publication_type': 'Journal Article', 'title': 'Stage IC adenocarcinoma of the endometrium: survival comparisons of surgically staged patients with and without adjuvant radiation therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual Meeting of Gynecologic Oncologists, Miami, FL, March 2002.', 'publication_year': '2003', 'journal_name': 'Gynecologic Oncology', 'journal_issue_number': '2', 'journal_volume_number': '89', 'startEndPages': '295--300', 'publisher_name': 'Elsevier BV', 'doi': '10.1016/s0090-8258(03)00087-8', 'pmid': '12713994', 'url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8', 'authors': 'Straughn - J.Michael | Huh - Warner K | Orr - James W | Kelly - F.Joseph | Roland - Phillip Y | Gold - Michael A | Powell - Matthew | Mutch - David G | Partridge - Edward E | Kilgore - Larry C | Barnes - Mack N | Austin - J.Maxwell | Alvarez - Ronald D', 'cited_the_articles': '', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/1'}}
+
         """
         from meta.consoleOutput import ConsoleOutput
         console = ConsoleOutput('log.txt')
@@ -633,6 +515,7 @@ class Open_Citations_Query(Sparql_Query):
         target_dois_list = self.validate_dois(target_dois_list)
 
         no_of_results_returned_so_far = 0
+        no_of_queries_made_so_far = 0
         all_results = {}
         failed_queries = []
 
@@ -647,9 +530,15 @@ class Open_Citations_Query(Sparql_Query):
                     all_results[no_of_results_returned_so_far] = each_value
 
                 if show_progress_bar:
-                    console.print_current_progress(i, maximum_progress, 'Querying SPARQL endpoint at %s' % self.endpoint_address)
+                    console.print_current_progress(i, maximum_progress, 'Querying SPARQL endpoint at %s '
+                                                                        '(%d/%d queries made and %d results retrieved)'
+                                                   % (self.endpoint_address,
+                                                      no_of_queries_made_so_far, maximum_progress,
+                                                      no_of_results_returned_so_far))
             except:
                 failed_queries.append(each_target_doi)
+            finally:
+                no_of_queries_made_so_far += 1
 
         self.results = all_results
         self.number_of_lines_retrieved = no_of_results_returned_so_far
@@ -660,7 +549,8 @@ class Open_Citations_Query(Sparql_Query):
             console.log_list_with_caption(message, failed_queries, add_timestamp_in_file=True)
             console.log_message(' ')  # empty line between failed items and printed/returned results
         else:
-            message = 'All queries completed successfully (%d results retrieved)' % no_of_results_returned_so_far
+            message = '\nAll queries were completed successfully (%d results retrieved out of %d queries)' \
+                      % (no_of_results_returned_so_far, no_of_queries_made_so_far)
             console.log_message(message, add_timestamp_in_file=True)
 
         if print_only:
@@ -699,7 +589,7 @@ class Open_Citations_Query(Sparql_Query):
             DOI validation completed
             Number of valid DOIs: 91591
             Number of invalid DOIs: 189
-            Valid and invalid entries were recorded to variables "self.valid_search_criteria" and "self.invalid_search_criteria"
+            Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables
             >>> # preview valid DOIs
             >>> pprint(my_query.valid_search_criteria[:15])
             ['10.1163/187607508X384689',
@@ -763,8 +653,7 @@ class Open_Citations_Query(Sparql_Query):
         console.log_message(caption, add_timestamp_in_file=True)
         summary = 'Number of valid DOIs: %d\n' \
                   'Number of invalid DOIs: %d\n' \
-                  'Valid and invalid entries were recorded to variables "self.valid_search_criteria" and ' \
-                  '"self.invalid_search_criteria"' \
+                  'Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables' \
                   % (len(self.valid_search_criteria), len(self.invalid_search_criteria))
         console.log_message(summary)
         return self.valid_search_criteria
