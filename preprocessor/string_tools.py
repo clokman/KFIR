@@ -28,6 +28,40 @@ class String(str):
         """
         return str(self.content)
 
+    def append(self, string_to_append):
+        """
+        Args:
+            string_to_append(str)
+
+        Returns:
+            self
+
+        Examples:
+            >>> my_String = String('String')
+            >>> my_String.append(' object.')
+            'String object.'
+        """
+        self.content = self.content + string_to_append
+        return self
+
+
+    def prepend(self, string_to_prepend):
+        """
+        Args
+            string_to_prepend(str)
+
+        Returns:
+            self
+
+        Examples:
+            >>> my_String = String('String object.')
+            >>> my_String.prepend('This is a ')
+            'This is a String object.'
+        """
+        self.content = string_to_prepend + self.content
+        return self
+
+
     def surround_with(self, pattern_1, pattern_2=None):
         """
         Surrounds a String object with given character(s) (i.e., pattern[s]).
