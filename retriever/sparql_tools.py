@@ -662,8 +662,10 @@ class Open_Citations_Query(Sparql_Query):
 
 
 class DOI_String(String):
+
     def __init__(self, content):
         String.__init__(self, content=content)
+
 
     def reduce_to_kernel(self):
         """
@@ -727,21 +729,8 @@ class DOI_String(String):
             'http://jena.apache.org/tutorials/sparql_filters.html'
         """
         import re
-
-        doi_check = re.search('^https://doi\.org/10\.|'
-                              '^http://doi\.org/10\.|'
-                              '^http://dx\.doi\.org/10\.|'
-                              '^https://dx\.doi\.org/10\.|'
-                              '^DOI 10\.|'
-                              '^doi 10\.|'
-                              '^DOI: 10\.|'
-                              '^doi: 10\.|'
-                              '^DOI:10\.|'
-                              '^doi:10\.|'
-                              '^doi\.org/10\.|', self.content)
-
         # if input is a DOI, extract and return its kernel
-        if doi_check.span() != (0,0):  # re.search does not return True or False, hence this style of comparison
+        if self.is_doi():
            position_of_the_doi_substring = re.search('10\.', self.content)
            doi_kernel = position_of_the_doi_substring.string[position_of_the_doi_substring.span()[0]:]
            self.content = doi_kernel
@@ -753,3 +742,133 @@ class DOI_String(String):
         return self
 
 
+    def generate_alternative_versions_if_doi(self):
+        """
+        Generates alternative versions of the DOI_String (e.g., 'http://doi.org/10.1016/j.adolescence.2016.09.008'
+        is an alternative version of '10.1016/j.adolescence.2016.09.008'). If DOI_String is not detected as a
+        DOI (e.g., 'URN-5235-KLFGA-533'), it is returned as a single-item list, without any other change to
+        original string.
+
+        Returns:
+            list
+
+        Examples:
+            >>> # Single DOI conversion
+            >>> my_doi = DOI_String('10.1016/j.adolescence.2016.09.008')
+            >>> my_oc_query = Open_Citations_Query()
+            >>> my_doi.generate_alternative_versions_if_doi()
+            ['https://doi.org/10.1016/j.adolescence.2016.09.008', 'http://doi.org/10.1016/j.adolescence.2016.09.008', 'http://dx.doi.org/10.1016/j.adolescence.2016.09.008', 'https://dx.doi.org/10.1016/j.adolescence.2016.09.008', 'DOI 10.1016/j.adolescence.2016.09.008', 'doi 10.1016/j.adolescence.2016.09.008', 'DOI: 10.1016/j.adolescence.2016.09.008', 'doi: 10.1016/j.adolescence.2016.09.008', 'DOI:10.1016/j.adolescence.2016.09.008', 'doi:10.1016/j.adolescence.2016.09.008', 'doi.org/10.1016/j.adolescence.2016.09.008']
+
+
+            >>> # Non-DOI input
+            >>> my_doi = DOI_String('URN-3242340-ATJJK-3466')
+            >>> my_doi.generate_alternative_versions_if_doi()
+            ['URN-3242340-ATJJK-3466']
+
+        """
+        if self.is_doi():
+            pass
+        else:
+            return [self.content]
+
+        prepend_strings = ['https://doi.org/',
+                           'http://doi.org/',
+                           'http://dx.doi.org/',
+                           'https://dx.doi.org/',
+                           'DOI ',
+                           'doi ',
+                           'DOI: ',
+                           'doi: ',
+                           'DOI:',
+                           'doi:',
+                           'doi.org/']
+
+        alternative_versions = []
+        for each_item in prepend_strings:
+            doi_kernel = self.reduce_to_kernel().content
+            extended_doi = String(doi_kernel)
+            extended_doi.prepend(each_item)
+            alternative_versions.append(extended_doi)
+
+        return alternative_versions
+
+
+    def is_doi(self):
+        """
+        Checks if DOI_String matches a DOI pattern (e.g., 'http://doi.org/10.1016/j.adolescence.2016.09.008').
+        If DOI_String is not detected as a DOI (e.g., 'URN-5235-KLFGA-533'), it is returns False.
+
+        Returns:
+            bool
+
+        Examples:
+            >>> # Single DOI conversion
+            >>> my_doi = DOI_String('10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('http://doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('https://doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('http://dx.doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('https://dx.doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('DOI 10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('DOI: 10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('DOI:10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('doi:10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> my_doi = DOI_String('doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.is_doi()
+            True
+
+            >>> # Non-DOI input
+            >>> my_doi = DOI_String('URN-3242340-ATJJK-3466')
+            >>> my_doi.is_doi()
+            False
+
+            >>> # Non-DOI input
+            >>> my_doi = DOI_String('http://jena.apache.org/tutorials/sparql_filters.html')
+            >>> my_doi.is_doi()
+            False
+        """
+        import re
+
+        doi_check = re.search('^10\.|'
+                              '^https://doi\.org/10\.|'
+                              '^http://doi\.org/10\.|'
+                              '^http://dx\.doi\.org/10\.|'
+                              '^https://dx\.doi\.org/10\.|'
+                              '^DOI 10\.|'
+                              '^doi 10\.|'
+                              '^DOI: 10\.|'
+                              '^doi: 10\.|'
+                              '^DOI:10\.|'
+                              '^doi:10\.|'
+                              '^doi\.org/10\.|', self.content)
+
+        if doi_check.span() != (0, 0):
+            return True
+        else:
+           return False
