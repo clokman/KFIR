@@ -463,7 +463,7 @@ class Open_Citations_Query(Sparql_Query):
         """
         from retriever.query_templates import Query_Template
 
-        query_string = Query_Template().get_oc_article_by_doi(target_doi)
+        query_string = Query_Template().retrieve_oc_articles_by_dois(target_doi)
 
         self.set_query(query_string)
         self.results = self.retrieve_results_from_endpoint(endpoint_address='http://opencitations.net/sparql')

@@ -1,7 +1,7 @@
 
 class Query_Template():
 
-    def get_dbpedia_entry_label(self, target_label):
+    def retrieve_dbpedia_entry_label(self, target_label):
         target_label = 'Example'
 
         query = """
@@ -13,26 +13,30 @@ class Query_Template():
         return  query
 
 
-    def get_oc_article_by_doi(self, target_doi):
+    def retrieve_oc_articles_by_dois(self, target_doi):
         """
         Examples:
-            >>> my_query = Query_Template().get_oc_article_by_doi('342048723')
-            >>> print(my_query[0:500])  # preview
+            >>> my_query = Query_Template().retrieve_oc_articles_by_dois("10.1038/modpathol.3800620")
+            >>> print(my_query[0:25])        # preview
             <BLANKLINE>
-                        # v2.2
-                        PREFIX cito: <http://purl.org/spar/cito/>
-                        PREFIX dcterm: <http://purl.org/dc/terms/>
-                        PREFIX datacite: <http://purl.org/spar/datacite/>
-                        PREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>
-                        PREFIX biro: <http://purl.org/spar/biro/>
-                        PREFIX frbr: <http://purl.org/vocab/frbr/core#>
-                        PREFIX c4o: <http://purl.org/spar/c4o/>
-                        PREFIX pro: <http://purl.org/spar/pro/>
+                        # v2.4
             <BLANKLINE>
+
+            >>> print(my_query[1530:1950])  # preview
+            <BLANKLINE>
+                        WHERE{
+            <BLANKLINE>
+                          VALUES ?target_doi_literal{'10.1038/modpathol.3800620'}
+            <BLANKLINE>
+                          # select journal articles
+                          ?journal_article rdf:type fabio:JournalArticle .
+                          ?journal_article datacite:hasIdentifier ?doiUri .
+                          ?doiUri datacite:usesIdentifierScheme datacite:doi .
+                          ?doiUri literal:hasLiteralValue ?target_doi_literal
         """
 
         query = """
-            # v2.2
+            # v2.4
             PREFIX cito: <http://purl.org/spar/cito/>
             PREFIX dcterm: <http://purl.org/dc/terms/>
             PREFIX datacite: <http://purl.org/spar/datacite/>
@@ -57,12 +61,16 @@ class Query_Template():
             (GROUP_CONCAT(DISTINCT ?cited_the_article; SEPARATOR=" | ") AS ?cited_the_articles)
             (GROUP_CONCAT(DISTINCT ?cited_by_article; SEPARATOR=" | ") AS ?cited_by_the_articles)
             
+            
             WHERE{
+              
+              VALUES ?target_doi_literal{'%s'}
+            
               # select journal articles
               ?journal_article rdf:type fabio:JournalArticle .
               ?journal_article datacite:hasIdentifier ?doiUri .
               ?doiUri datacite:usesIdentifierScheme datacite:doi .
-              ?doiUri literal:hasLiteralValue '%s' .
+              ?doiUri literal:hasLiteralValue ?target_doi_literal .
             
               # Publication Type
               BIND('Journal Article'^^xsd:string AS ?publication_type)
@@ -166,7 +174,6 @@ class Query_Template():
             } # /WHERE
             
             GROUP BY ?journal_article ?publication_type ?title ?publication_year ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?pmid ?url
-            LIMIT 10
         """ % target_doi
 
         return query
