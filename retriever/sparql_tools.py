@@ -1,3 +1,5 @@
+from preprocessor.string_tools import String
+
 class Sparql_Query():
     def __init__(self, input_query=''):
         """
@@ -657,3 +659,97 @@ class Open_Citations_Query(Sparql_Query):
                   % (len(self.valid_search_criteria), len(self.invalid_search_criteria))
         console.log_message(summary)
         return self.valid_search_criteria
+
+
+class DOI_String(String):
+    def __init__(self, content):
+        String.__init__(self, content=content)
+
+    def reduce_to_kernel(self):
+        """
+        Removes all characters except the core DOI from the DOI_String (e.g.,
+        'http://doi.org/10.1016/j.adolescence.2016.09.008' becomes '10.1016/j.adolescence.2016.09.008').
+        If DOI_String is not detected as a DOI (e.g., 'URN-5235-KLFGA-533'), it is returned without change.
+
+        Returns:
+            self
+
+        Examples:
+            >>> # Single DOI conversion
+            >>> my_doi = DOI_String('10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('http://doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('https://doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('http://dx.doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('https://dx.doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('DOI 10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('DOI: 10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('DOI:10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('doi:10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> my_doi = DOI_String('doi.org/10.1016/j.adolescence.2016.09.008')
+            >>> my_doi.reduce_to_kernel()
+            '10.1016/j.adolescence.2016.09.008'
+
+            >>> # Non-DOI input
+            >>> my_doi = DOI_String('URN-3242340-ATJJK-3466')
+            >>> my_doi.reduce_to_kernel()
+            'URN-3242340-ATJJK-3466'
+
+            >>> # Non-DOI input
+            >>> my_doi = DOI_String('http://jena.apache.org/tutorials/sparql_filters.html')
+            >>> my_doi.reduce_to_kernel()
+            'http://jena.apache.org/tutorials/sparql_filters.html'
+        """
+        import re
+
+        doi_check = re.search('^https://doi\.org/10\.|'
+                              '^http://doi\.org/10\.|'
+                              '^http://dx\.doi\.org/10\.|'
+                              '^https://dx\.doi\.org/10\.|'
+                              '^DOI 10\.|'
+                              '^doi 10\.|'
+                              '^DOI: 10\.|'
+                              '^doi: 10\.|'
+                              '^DOI:10\.|'
+                              '^doi:10\.|'
+                              '^doi\.org/10\.|', self.content)
+
+        # if input is a DOI, extract and return its kernel
+        if doi_check.span() != (0,0):  # re.search does not return True or False, hence this style of comparison
+           position_of_the_doi_substring = re.search('10\.', self.content)
+           doi_kernel = position_of_the_doi_substring.string[position_of_the_doi_substring.span()[0]:]
+           self.content = doi_kernel
+
+        # otherwise, return the input as string
+        else:
+           pass
+
+        return self
+
+
