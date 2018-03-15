@@ -28,4 +28,4 @@ Retrieve articles by DOIs from Open Citations:
     oc_query.write_results_to_csv('retrieved_articles.csv')
 
 
-See 'examples' directory for more examples
+See the ***examples*** directory for more examples
