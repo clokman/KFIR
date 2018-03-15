@@ -21,7 +21,7 @@ class Bibtex_File(Text_File):
 
     # TODO: The parameter 'desired_source_label' can not yet take any desired labels (only vu, oc, and uva keywords
     # TODO: ...allowed. This must be changed by modifying the related Triples method)
-    def convert_to_ttl(self, desired_version, desired_source_bibliography_name, output_directory=''):
+    def convert_to_ttl(self, desired_version_suffix, desired_source_bibliography_name, output_directory=''):
         """
         Takes a bib file and outputs a .ttl file.
 
@@ -39,7 +39,7 @@ class Bibtex_File(Text_File):
 
         Examples:
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
-            >>> my_bibtex_file.convert_to_ttl(desired_version='0.0.test', desired_source_bibliography_name='arbitrary_label',
+            >>> my_bibtex_file.convert_to_ttl(desired_version_suffix='0.0.test', desired_source_bibliography_name='arbitrary_label',
             ...                               output_directory='example_data//example_output_dir')
             Cleaning of "example_data//vu_25_test.bib" started
             [------------------------------------------------------------] 0% ...Cleaning example_data//vu_25_test.bib
@@ -203,7 +203,7 @@ class Bibtex_File(Text_File):
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test_0.0.test.bib')
             >>> try:
             ...     #  output directory path cannot contain single slashes
-            ...     my_bibtex_file.convert_to_ttl(desired_version='0.0-test', desired_source_bibliography_name='vu',
+            ...     my_bibtex_file.convert_to_ttl(desired_version_suffix='0.0-test', desired_source_bibliography_name='vu',
             ...                                   output_directory='example_data/example_output_dir')
             ... except Exception as error_message:
             ...     print('Exception: ' + str(error_message))
@@ -211,7 +211,7 @@ class Bibtex_File(Text_File):
 
             >>> #  a string with spaces entered as value for desired_source_bibliography_name parameter
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
-            >>> my_bibtex_file.convert_to_ttl(desired_version='v0.0.test2',
+            >>> my_bibtex_file.convert_to_ttl(desired_version_suffix='v0.0.test2',
             ...                               desired_source_bibliography_name='bib name with spaces',
             ...                               output_directory='example_data//example_output_dir')
             Cleaning of "example_data//vu_25_test.bib" started
@@ -346,10 +346,10 @@ class Bibtex_File(Text_File):
             '’': "'"
         }
 
-        # Error handling for output_directory and desired_version parameters
+        # Error handling for output_directory and desired_version_suffix parameters
         Parameter_Value(output_directory).force_type(str)
         File_Path(output_directory).raise_error_if_single_slash()
-        Parameter_Value(desired_version).force_type(str)
+        Parameter_Value(desired_version_suffix).force_type(str)
 
         # Error handling and cleaning of 'desired_source_bibliography_name' parameter
         Parameter_Value(desired_source_bibliography_name).force_type(str)
@@ -388,7 +388,7 @@ class Bibtex_File(Text_File):
         else:
             output_directory_to_prepend = ''
 
-        ttl_file_path = output_directory_to_prepend + self.input_file_name + '_' + desired_version + '.ttl'
+        ttl_file_path = output_directory_to_prepend + self.input_file_name + '_' + desired_version_suffix + '.ttl'
         ttl_file = RDF_File(ttl_file_path)
         ttl_file.write_triples_to_file(triples)
 
@@ -2655,7 +2655,7 @@ def long_tests():
 
     Additional tests for .convert_to_ttl():
         >>> my_bibtex_file = Bibtex_File('example_data//vu_1k_test.bib')
-        >>> my_bibtex_file.convert_to_ttl(desired_version='0.0_test', desired_source_bibliography_name='vu')
+        >>> my_bibtex_file.convert_to_ttl(desired_version_suffix='0.0_test', desired_source_bibliography_name='vu')
         Cleaning of "example_data//vu_1k_test.bib" started
         [------------------------------------------------------------] 0% ...Cleaning example_data//vu_1k_test.bib
         [=-----------------------------------------------------------] 0% ...Cleaning example_data//vu_1k_test.bib
