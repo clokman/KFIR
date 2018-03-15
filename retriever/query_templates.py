@@ -13,30 +13,38 @@ class Query_Template():
         return  query
 
 
-    def retrieve_oc_articles_by_dois(self, target_doi):
+    def retrieve_oc_articles_by_dois(self, target_dois):
         """
         Examples:
             >>> my_query = Query_Template().retrieve_oc_articles_by_dois("10.1038/modpathol.3800620")
             >>> print(my_query[0:25])        # preview
             <BLANKLINE>
-                        # v2.4
+                        # v2.5
             <BLANKLINE>
 
             >>> print(my_query[1530:1950])  # preview
+             WHERE{
             <BLANKLINE>
-                        WHERE{
-            <BLANKLINE>
-                          VALUES ?target_doi_literal{'10.1038/modpathol.3800620'}
+                          VALUES ?target_doi_literal{"10.1038/modpathol.3800620" }
             <BLANKLINE>
                           # select journal articles
                           ?journal_article rdf:type fabio:JournalArticle .
                           ?journal_article datacite:hasIdentifier ?doiUri .
                           ?doiUri datacite:usesIdentifierScheme datacite:doi .
-                          ?doiUri literal:hasLiteralValue ?target_doi_literal
+                          ?doiUri literal:hasLiteralValue ?target_doi_literal .
+            <BLANKLINE>
         """
+        # Make a query suitable for SPARQL expresion such as:
+        # VALUES ?target_doi_literal{'10.1038/modpathol.3800620'  '10.1186/s40104-016-0099-3' }
+        from preprocessor.string_tools import Parameter_Value
+        target_doi_list = Parameter_Value(target_dois).convert_to_single_item_list_if_not_list()
+
+        query_parameter = ''
+        for each_doi in target_doi_list:
+            query_parameter = query_parameter + '"%s" ' % each_doi
 
         query = """
-            # v2.4
+            # v2.5
             PREFIX cito: <http://purl.org/spar/cito/>
             PREFIX dcterm: <http://purl.org/dc/terms/>
             PREFIX datacite: <http://purl.org/spar/datacite/>
@@ -56,7 +64,7 @@ class Query_Template():
             PREFIX id: <https://w3id.org/oc/corpus/id/>
             
             SELECT DISTINCT ?journal_article
-            ?publication_type ?title ?publication_year ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?pmid  ?url
+            ?publication_type ?title ?publication_year ?journal_name ?journal_issue_number ?journal_volume_number ?publisher_name ?doi ?pmid  ?url
             (GROUP_CONCAT(DISTINCT ?author_name; SEPARATOR=" | ") AS ?authors)
             (GROUP_CONCAT(DISTINCT ?cited_the_article; SEPARATOR=" | ") AS ?cited_the_articles)
             (GROUP_CONCAT(DISTINCT ?cited_by_article; SEPARATOR=" | ") AS ?cited_by_the_articles)
@@ -64,13 +72,14 @@ class Query_Template():
             
             WHERE{
               
-              VALUES ?target_doi_literal{'%s'}
-            
+              VALUES ?target_doi_literal{%s}
+              
               # select journal articles
               ?journal_article rdf:type fabio:JournalArticle .
               ?journal_article datacite:hasIdentifier ?doiUri .
               ?doiUri datacite:usesIdentifierScheme datacite:doi .
               ?doiUri literal:hasLiteralValue ?target_doi_literal .
+              
             
               # Publication Type
               BIND('Journal Article'^^xsd:string AS ?publication_type)
@@ -134,30 +143,6 @@ class Query_Template():
                 ?UrlUri literal:hasLiteralValue ?url .
               }
             
-              ### Start and End Page ###
-              OPTIONAL{
-                ?journal_article frbr:embodiment ?pageInfoBlankNode .
-                ?pageInfoBlankNode prism:endingPage ?endingPage ;
-                                   prism:startingPage ?startingPage .
-                BIND(
-                  IF (
-                    EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
-                    CONCAT( STR(?startingPage), "--", STR(?endingPage) ),
-                    IF (
-                      EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && NOT EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
-                      STR(?startingPage),
-                      IF (
-                        NOT EXISTS {?pageInfoBlankNode prism:startingPage ?startingPage} && EXISTS {?pageInfoBlankNode prism:endingPage ?endingPage},
-                        STR(?endingPage),
-                        ""
-                      )#/IF
-                    )#/IF
-                  ) #/IF
-            
-                  AS ?startEndPages
-                ) #/BIND
-              }
-            
               ### Cited by ###
               #?cited_by_article is the articles that cites the ?journal article
               OPTIONAL{
@@ -173,7 +158,7 @@ class Query_Template():
             
             } # /WHERE
             
-            GROUP BY ?journal_article ?publication_type ?title ?publication_year ?journal_name ?journal_issue_number ?journal_volume_number ?startEndPages ?publisher_name ?doi ?pmid ?url
-        """ % target_doi
+            GROUP BY ?journal_article ?publication_type ?title ?publication_year ?journal_name ?journal_issue_number ?journal_volume_number ?publisher_name ?doi ?pmid ?url 
+        """ % query_parameter
 
         return query

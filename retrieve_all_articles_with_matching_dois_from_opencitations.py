@@ -10,7 +10,7 @@ from preprocessor.string_tools import String
 console = ConsoleOutput('log.txt')
 
 doi_list = []
-with open('Input/all_dois_in_uva_and_vu_bibliographies.csv', encoding='utf8') as doi_file:
+with open('Input//all_dois_in_uva_and_vu_bibliographies.csv', encoding='utf8') as doi_file:
     for each_line in doi_file:
         each_line = String(each_line)
         each_line.clean_from_newline_characters()
