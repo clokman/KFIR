@@ -18,7 +18,7 @@ with open('Input//all_dois_in_uva_and_vu_bibliographies.csv', encoding='utf8') a
 
 oc_query = Open_Citations_Query()
 oc_query.retrieve_articles_by_dois(doi_list, show_progress_bar=True)
-oc_query.write_results_to_csv('Input//oc_articles_with_matching_dois_v1.2.csv')
+oc_query.write_results_to_csv('Input//oc_articles_with_matching_dois_v1.3.csv')
 
 
 
