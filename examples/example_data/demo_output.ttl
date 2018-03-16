@@ -1231,3 +1231,163 @@
 <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasDOI> "10.1016/j.cosust.2017.08.009" .
 <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasISSN> "1877-3435" .
 <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAbstract> "Since the 1950s the amount of plastics in the marine environment has increased dramatically. Worldwide there is a growing concern about the risks and possible adverse effects of (micro)plastics. This paper reflects on the sources and effects of marine litter and the effects of policies and other actions taken worldwide. Current knowledge offers a solid basis for effective action. Yet, so far the effects of policies and other initiatives are still largely insufficient. The search for appropriate responses could be based on possible interventions and profound understanding of the context specific factors for success. Moreover, the scope, timeframe and dynamics of all initiatives are distinctly different and orchestration at all levels, in close cooperation with one another, is currently lacking."@en .
+<http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasAuthor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnYear> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnMonth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnDate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasDOI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasISSN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasISBN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isChapterOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/2000/01/rdf-schema#label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasTopic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasAbstract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#PureVU> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#PureVU> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
+<http://clokman.com/kfir/ontology#JournalArticle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#Miscellaneous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Book> .
+<http://clokman.com/kfir/ontology#Book> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#PureVU> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/2000/01/rdf-schema#label> "Book with one author"@en .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Book_with_one_author> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Jaschke_AC> .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://www.w3.org/2000/01/rdf-schema#label> "Jaschke, AC"@en .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Van_Gennep> .
+<http://clokman.com/kfir/resource#Van_Gennep> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
+<http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#PureVU> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/2000/01/rdf-schema#label> "Article with 5 authors with 'and' notation"@en .
+<http://clokman.com/kfir/resource#Lohr_A> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Lohr_A> .
+<http://clokman.com/kfir/resource#Lohr_A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Lohr_A> <http://www.w3.org/2000/01/rdf-schema#label> "Lohr, A"@en .
+<http://clokman.com/kfir/resource#Beunen_R> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Beunen_R> .
+<http://clokman.com/kfir/resource#Beunen_R> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Beunen_R> <http://www.w3.org/2000/01/rdf-schema#label> "Beunen, R"@en .
+<http://clokman.com/kfir/resource#Savelli_H> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Savelli_H> .
+<http://clokman.com/kfir/resource#Savelli_H> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Savelli_H> <http://www.w3.org/2000/01/rdf-schema#label> "Savelli, H"@en .
+<http://clokman.com/kfir/resource#Kalz_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Kalz_M> .
+<http://clokman.com/kfir/resource#Kalz_M> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Kalz_M> <http://www.w3.org/2000/01/rdf-schema#label> "Kalz, M"@en .
+<http://clokman.com/kfir/resource#Ragas_A> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Ragas_A> .
+<http://clokman.com/kfir/resource#Ragas_A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Ragas_A> <http://www.w3.org/2000/01/rdf-schema#label> "Ragas, A"@en .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Van_Belleghem_F> .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://www.w3.org/2000/01/rdf-schema#label> "Van_Belleghem, F"@en .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOn> <http://clokman.com/kfir/resource#Current_Opinion_in_Environmental_Sustainability> .
+<http://clokman.com/kfir/resource#Current_Opinion_in_Environmental_Sustainability> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Elsevier> .
+<http://clokman.com/kfir/resource#Elsevier> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasDOI> "10.1016/j.cosust.2017.08.009" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasISSN> "1877-3435" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAbstract> "Since the 1950s the amount of plastics in the marine environment has increased dramatically. Worldwide there is a growing concern about the risks and possible adverse effects of (micro)plastics. This paper reflects on the sources and effects of marine litter and the effects of policies and other actions taken worldwide. Current knowledge offers a solid basis for effective action. Yet, so far the effects of policies and other initiatives are still largely insufficient. The search for appropriate responses could be based on possible interventions and profound understanding of the context specific factors for success. Moreover, the scope, timeframe and dynamics of all initiatives are distinctly different and orchestration at all levels, in close cooperation with one another, is currently lacking."@en .
+<http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasAuthor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnYear> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnMonth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isPublishedOnDate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasDOI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasISSN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasISBN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#isChapterOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/2000/01/rdf-schema#label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasTopic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasAbstract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#PureVU> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#PureVU> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/resource#Bibliography> .
+<http://clokman.com/kfir/ontology#JournalArticle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/ontology#Miscellaneous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Book> .
+<http://clokman.com/kfir/ontology#Book> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#PureVU> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://www.w3.org/2000/01/rdf-schema#label> "Book with one author"@en .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Book_with_one_author> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Jaschke_AC> .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Jaschke_AC> <http://www.w3.org/2000/01/rdf-schema#label> "Jaschke, AC"@en .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Van_Gennep> .
+<http://clokman.com/kfir/resource#Van_Gennep> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
+<http://clokman.com/kfir/resource#Book_with_one_author> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
+<http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#PureVU> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://www.w3.org/2000/01/rdf-schema#label> "Article with 5 authors with 'and' notation"@en .
+<http://clokman.com/kfir/resource#Lohr_A> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Lohr_A> .
+<http://clokman.com/kfir/resource#Lohr_A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Lohr_A> <http://www.w3.org/2000/01/rdf-schema#label> "Lohr, A"@en .
+<http://clokman.com/kfir/resource#Beunen_R> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Beunen_R> .
+<http://clokman.com/kfir/resource#Beunen_R> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Beunen_R> <http://www.w3.org/2000/01/rdf-schema#label> "Beunen, R"@en .
+<http://clokman.com/kfir/resource#Savelli_H> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Savelli_H> .
+<http://clokman.com/kfir/resource#Savelli_H> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Savelli_H> <http://www.w3.org/2000/01/rdf-schema#label> "Savelli, H"@en .
+<http://clokman.com/kfir/resource#Kalz_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Kalz_M> .
+<http://clokman.com/kfir/resource#Kalz_M> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Kalz_M> <http://www.w3.org/2000/01/rdf-schema#label> "Kalz, M"@en .
+<http://clokman.com/kfir/resource#Ragas_A> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Ragas_A> .
+<http://clokman.com/kfir/resource#Ragas_A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Ragas_A> <http://www.w3.org/2000/01/rdf-schema#label> "Ragas, A"@en .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Van_Belleghem_F> .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Van_Belleghem_F> <http://www.w3.org/2000/01/rdf-schema#label> "Van_Belleghem, F"@en .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOn> <http://clokman.com/kfir/resource#Current_Opinion_in_Environmental_Sustainability> .
+<http://clokman.com/kfir/resource#Current_Opinion_in_Environmental_Sustainability> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Elsevier> .
+<http://clokman.com/kfir/resource#Elsevier> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasDOI> "10.1016/j.cosust.2017.08.009" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasISSN> "1877-3435" .
+<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> <http://clokman.com/kfir/ontology#hasAbstract> "Since the 1950s the amount of plastics in the marine environment has increased dramatically. Worldwide there is a growing concern about the risks and possible adverse effects of (micro)plastics. This paper reflects on the sources and effects of marine litter and the effects of policies and other actions taken worldwide. Current knowledge offers a solid basis for effective action. Yet, so far the effects of policies and other initiatives are still largely insufficient. The search for appropriate responses could be based on possible interventions and profound understanding of the context specific factors for success. Moreover, the scope, timeframe and dynamics of all initiatives are distinctly different and orchestration at all levels, in close cooperation with one another, is currently lacking."@en .

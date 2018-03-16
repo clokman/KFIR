@@ -19,7 +19,7 @@ class Query_Template():
             >>> my_query = Query_Template().retrieve_oc_articles_by_dois("10.1038/modpathol.3800620")
             >>> print(my_query[0:25])        # preview
             <BLANKLINE>
-                        # v2.5
+                        # v2.6
             <BLANKLINE>
 
             >>> print(my_query[1530:1950])  # preview
@@ -44,7 +44,7 @@ class Query_Template():
             query_parameter = query_parameter + '"%s" ' % each_doi
 
         query = """
-            # v2.5
+            # v2.6
             PREFIX cito: <http://purl.org/spar/cito/>
             PREFIX dcterm: <http://purl.org/dc/terms/>
             PREFIX datacite: <http://purl.org/spar/datacite/>
@@ -82,7 +82,7 @@ class Query_Template():
               
             
               # Publication Type
-              BIND('Journal Article'^^xsd:string AS ?publication_type)
+              BIND('Article'^^xsd:string AS ?publication_type)
             
               ### Title ###
               OPTIONAL{
