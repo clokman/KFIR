@@ -38,10 +38,10 @@ class Sparql_Query():
         self.query = input_query
         self.endpoint_address = ''
 
-        self.query_parameters = {}  # main query parameters. Can contain multiple search criteria such as multiple DOIs.
+        self.query_parameters_registry = {}  # main query parameters. Can contain multiple search criteria such as multiple DOIs.
 
-        self.valid_search_criteria = []  # valid components of main query parameters. Each is a single item, like a DOI.
-        self.invalid_search_criteria = []  # thus, query_parameter and search_criteria do not refer to the same concept
+        self.valid_search_criteria_registry = []  # valid components of main query parameters. Each is a single item, like a DOI.
+        self.invalid_search_criteria_registry = []  # thus, query_parameter and search_criteria do not refer to the same concept
 
         self.number_of_lines_retrieved = 0
         self.results = {}
@@ -358,20 +358,33 @@ class Sparql_Query():
             console.log_message(message, add_timestamp_in_file=True)
 
 
-    def update_query_parameters(self, parameter_name, parameter_value):
+    def update_query_parameters_registry(self, parameter_name, parameter_value):
         """
         Updates query parameters for later retrieval. Intended for logging.
+        WARNING: Could results in significant memory consumption in large queries. Could be used for diagnostic purposes but it is probably not a good idea to make this method a part of a regular algorithm.
 
         Returns:
             nothing
 
         Examples:
             >>> my_query = Sparql_Query()
-            >>> my_query.update_query_parameters(parameter_name = 'authors', parameter_value='"Jane Doe" "John Smith"')
-            >>> my_query.query_parameters
-            {'authors': '"Jane Doe" "John Smith"'}
+            >>> my_query.update_query_parameters_registry(parameter_name = 'authors', parameter_value='Jane Doe')
+            >>> my_query.query_parameters_registry
+            {'authors': ['Jane Doe']}
+            >>> my_query.update_query_parameters_registry(parameter_name = 'authors', parameter_value=['April Smith', 'June Doe'])
+            >>> my_query.query_parameters_registry
+            {'authors': ['Jane Doe', ['April Smith', 'June Doe']]}
+            >>> my_query.update_query_parameters_registry(parameter_name = 'issn', parameter_value=['572652267325756'])
+            >>> my_query.query_parameters_registry
+            {'authors': ['Jane Doe', ['April Smith', 'June Doe']], 'issn': [['572652267325756']]}
         """
-        self.query_parameters = {parameter_name: parameter_value}
+        try:
+            self.query_parameters_registry[parameter_name].append(parameter_value)
+        except KeyError:
+            self.query_parameters_registry[parameter_name] = [parameter_value]
+
+
+        #self.query_parameters_registry = {parameter_name: parameter_value}
 
 
 class Open_Citations_Query(Sparql_Query):
@@ -380,12 +393,25 @@ class Open_Citations_Query(Sparql_Query):
         Sparql_Query.__init__(self, input_query)
 
 
-    def retrieve_article_by_doi(self, target_doi, also_query_for_different_versions_of_doi=False, print_only=False):
+    def retrieve_article_by_doi(self, target_doi,
+                                also_query_for_different_versions_of_doi=False,
+                                print_only=False,
+                                log_query_parameters_to_registry=False):
         """
-
         Args:
-            target_dois(str)
-            print_only(bool): If true, prints the result to console and returns nothing. If false, only returns the result.
+            target_doi(str)
+            also_query_for_different_versions_of_doi(bool): If True, generates possible versions of the inputted
+                DOI. These alernative versions (e.g., 'http://dx.doi.org/10.1038/modpathol.3800620'), along with the
+                kernel of the DOI (e.g., '10.1038/modpathol.3800620') are used in the same SPARQL query (and NOT
+                queried using different queries). Generating alternative versions and using them in a single query
+                this way (with SPARQL's VALUES keyword) is dramatically more time-efficient than using REGEX
+                STRENDS keywords in SPARQL.
+            print_only(bool): If True, Prints the results to console and returns nothing. If False, only returns
+                the result.
+            log_query_parameters(bool): If True, logs parameters used in queries (i.e., dois, and if enabled, their
+                alternative versions) in an instance variable. WARNING: Could results in significant memory
+                consumption in large queries. Could be used for diagnostic purposes but it is probably not a good
+                idea to make this method a part of a regular algorithm.
 
         Returns:
             dict or nothing (if print_only is selected)
@@ -483,20 +509,25 @@ class Open_Citations_Query(Sparql_Query):
             >>> print(my_oc_query.results[1])
             {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}
 
-        >>> my_oc_query.retrieve_article_by_doi('10.1186/s13034-015-0062-7', also_query_for_different_versions_of_doi=True)
+        >>> my_oc_query.retrieve_article_by_doi('10.1186/s13034-015-0062-7',
+        ...                                     also_query_for_different_versions_of_doi=True,
+        ...                                     log_query_parameters_to_registry=True)
         {1: {'journal_article': 'https://w3id.org/oc/corpus/br/362418', 'publication_type': 'Journal Article', 'title': 'The DSM-5 diagnosis of nonsuicidal self-injury disorder: a review of the empirical literature', 'publication_year': '2015', 'journal_name': 'Child and Adolescent Psychiatry and Mental Health - Child Adolesc Psychiatry Ment Health', 'journal_issue_number': '1', 'journal_volume_number': '9', 'publisher_name': 'Springer Science + Business Media', 'doi': '10.1186/s13034-015-0062-7', 'pmid': '26417387', 'url': 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'authors': 'Zetterqvist - Maria', 'cited_the_articles': 'https://w3id.org/oc/corpus/br/37961 | https://w3id.org/oc/corpus/br/38250 | https://w3id.org/oc/corpus/br/135448 | https://w3id.org/oc/corpus/br/135458 | https://w3id.org/oc/corpus/br/177639 | https://w3id.org/oc/corpus/br/177648 | https://w3id.org/oc/corpus/br/177653 | https://w3id.org/oc/corpus/br/177661 | https://w3id.org/oc/corpus/br/177774 | https://w3id.org/oc/corpus/br/362419 | https://w3id.org/oc/corpus/br/362426 | https://w3id.org/oc/corpus/br/362438 | https://w3id.org/oc/corpus/br/607811 | https://w3id.org/oc/corpus/br/1270766 | https://w3id.org/oc/corpus/br/1560911 | https://w3id.org/oc/corpus/br/1794850 | https://w3id.org/oc/corpus/br/1881397 | https://w3id.org/oc/corpus/br/2258672 | https://w3id.org/oc/corpus/br/2907029 | https://w3id.org/oc/corpus/br/2907034 | https://w3id.org/oc/corpus/br/2907035 | https://w3id.org/oc/corpus/br/2907042 | https://w3id.org/oc/corpus/br/2907056 | https://w3id.org/oc/corpus/br/3346205 | https://w3id.org/oc/corpus/br/3567493 | https://w3id.org/oc/corpus/br/3567495 | https://w3id.org/oc/corpus/br/3949890 | https://w3id.org/oc/corpus/br/5106137 | https://w3id.org/oc/corpus/br/5441063 | https://w3id.org/oc/corpus/br/5441066 | https://w3id.org/oc/corpus/br/5441085 | https://w3id.org/oc/corpus/br/5656230 | https://w3id.org/oc/corpus/br/6060536 | https://w3id.org/oc/corpus/br/6063037 | https://w3id.org/oc/corpus/br/6449521 | https://w3id.org/oc/corpus/br/6486152 | https://w3id.org/oc/corpus/br/6486162 | https://w3id.org/oc/corpus/br/6919305 | https://w3id.org/oc/corpus/br/6919323 | https://w3id.org/oc/corpus/br/7558746 | https://w3id.org/oc/corpus/br/7560541 | https://w3id.org/oc/corpus/br/7560644 | https://w3id.org/oc/corpus/br/7560645 | https://w3id.org/oc/corpus/br/7560646 | https://w3id.org/oc/corpus/br/7560647 | https://w3id.org/oc/corpus/br/7560648 | https://w3id.org/oc/corpus/br/7560651 | https://w3id.org/oc/corpus/br/7560652 | https://w3id.org/oc/corpus/br/7560653 | https://w3id.org/oc/corpus/br/7560654 | https://w3id.org/oc/corpus/br/7560655 | https://w3id.org/oc/corpus/br/7560656 | https://w3id.org/oc/corpus/br/7560657 | https://w3id.org/oc/corpus/br/7560658 | https://w3id.org/oc/corpus/br/7560659 | https://w3id.org/oc/corpus/br/7560660 | https://w3id.org/oc/corpus/br/7560661 | https://w3id.org/oc/corpus/br/7560662 | https://w3id.org/oc/corpus/br/7560663 | https://w3id.org/oc/corpus/br/7560664 | https://w3id.org/oc/corpus/br/7560665 | https://w3id.org/oc/corpus/br/7560666', 'cited_by_the_articles': 'https://w3id.org/oc/corpus/br/362415'}}
-        >>> my_oc_query.query_parameters
-        {'doi': ['10.1186/s13034-015-0062-7', 'https://doi.org/10.1186/s13034-015-0062-7', 'http://doi.org/10.1186/s13034-015-0062-7', 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'https://dx.doi.org/10.1186/s13034-015-0062-7', 'DOI 10.1186/s13034-015-0062-7', 'doi 10.1186/s13034-015-0062-7', 'DOI: 10.1186/s13034-015-0062-7', 'doi: 10.1186/s13034-015-0062-7', 'DOI:10.1186/s13034-015-0062-7', 'doi:10.1186/s13034-015-0062-7', 'doi.org/10.1186/s13034-015-0062-7']}
-
+        >>> my_oc_query.query_parameters_registry
+        {'doi': [['10.1186/s13034-015-0062-7', 'https://doi.org/10.1186/s13034-015-0062-7', 'http://doi.org/10.1186/s13034-015-0062-7', 'http://dx.doi.org/10.1186/s13034-015-0062-7', 'https://dx.doi.org/10.1186/s13034-015-0062-7', 'DOI 10.1186/s13034-015-0062-7', 'doi 10.1186/s13034-015-0062-7', 'DOI: 10.1186/s13034-015-0062-7', 'doi: 10.1186/s13034-015-0062-7', 'DOI:10.1186/s13034-015-0062-7', 'doi:10.1186/s13034-015-0062-7', 'doi.org/10.1186/s13034-015-0062-7']]}
         """
         from retriever.query_templates import Query_Template
 
         if also_query_for_different_versions_of_doi:
              target_doi = DOI_String(target_doi)
-             target_dois = target_doi.generate_alternative_versions_if_doi()
+             target_dois = target_doi.generate_alternative_versions_if_doi()  # generated DOIs are to be used
+                                                                              # instead of regex or 'strEnds' methods
+                                                                              # in SPARQL (querying this way is
+                                                                              # dramatically faster)
         else:
             target_dois = target_doi
-        self.update_query_parameters('doi', target_dois)  # for logging
+        if log_query_parameters_to_registry:
+            self.update_query_parameters_registry('doi', target_dois)  # could increase memory consumption significantly
 
         query_string = Query_Template().retrieve_oc_articles_by_dois(target_dois=target_dois)
 
@@ -627,7 +658,7 @@ class Open_Citations_Query(Sparql_Query):
             Number of invalid DOIs: 189
             Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables
             >>> # preview valid DOIs
-            >>> pprint(my_query.valid_search_criteria[:15])
+            >>> pprint(my_query.valid_search_criteria_registry[:15])
             ['10.1163/187607508X384689',
              '10.1017/S0954579416000572',
              '10.1007/s11562-016-0353-7',
@@ -644,7 +675,7 @@ class Open_Citations_Query(Sparql_Query):
              '10.1111/adb.12322',
              '10.1017/njg.2016.45']
             >>> # preview invalid DOIs
-            >>> pprint(my_query.invalid_search_criteria[:15])
+            >>> pprint(my_query.invalid_search_criteria_registry[:15])
             ['(DOI) - 10.1111/cch.12521',
              'http://www.socialevraagstukken.nl/veiligheid-creeer-je-met-geborgenheid/',
              'http://www.metajournal.org//articles_pdf/02--krijnen-meta-techno-final.pdf',
@@ -681,18 +712,18 @@ class Open_Citations_Query(Sparql_Query):
                     and len(item) < 80 \
                     and not re.search('^http://www\.|'  # DOI links does not contain 'www.'
                                       '^https://www\.', item):
-                self.valid_search_criteria.append(item)
+                self.valid_search_criteria_registry.append(item)
             else:
-                self.invalid_search_criteria.append(item)
+                self.invalid_search_criteria_registry.append(item)
 
         caption = "DOI validation completed"
         console.log_message(caption, add_timestamp_in_file=True)
         summary = 'Number of valid DOIs: %d\n' \
                   'Number of invalid DOIs: %d\n' \
                   'Valid and invalid query criteria in parameter "doi_list" were recorded in instance variables' \
-                  % (len(self.valid_search_criteria), len(self.invalid_search_criteria))
+                  % (len(self.valid_search_criteria_registry), len(self.invalid_search_criteria_registry))
         console.log_message(summary)
-        return self.valid_search_criteria
+        return self.valid_search_criteria_registry
 
 
 class DOI_String(String):
