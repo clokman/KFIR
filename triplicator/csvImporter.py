@@ -1,13 +1,14 @@
 from triplicator.bibTools import Bibliography
 
-# CSV_container is a subclass of Bibliography class
-class CSV_container(Bibliography):
-    def __init__(instance, csv_file_path, id_column_header, field_value_list_separator, csv_delimiter_character, cleaning_algorithm='parse only'):
+# CSV_Bibliography is a subclass of Bibliography class
+class CSV_Bibliography(Bibliography):
+    def __init__(instance, csv_file_path, id_column_header,
+                 field_value_list_separator, csv_delimiter_character,
+                 cleaning_algorithm='parse only',
+                 show_progress_bar=False):
         # TODO: add id_column_header ad field_value_list_separator arguments to Bibliography class __init__() function arguments.
         """
         A set of methods that parse a .csv file and store its variables as attributes of a Bibliography class instance.
-        CSV_container class is a subclass of Bibliography class, and methods available to Bibliography class can be used
-        for CSV_container instances as well.
 
         Args:
             csv_file_path(str): Path to csv file to be imported.
@@ -26,13 +27,15 @@ class CSV_container(Bibliography):
             A CSV_container instance
 
         Examples:
-            >>> my_csv_container = CSV_container(csv_file_path=                'example_data//test.csv',
+            >>> my_csv_bibliography = CSV_Bibliography(csv_file_path=          'example_data//test.csv',
             ...                                  id_column_header=             'referenceEntry',
             ...                                  field_value_list_separator=   ' | ',
             ...                                  csv_delimiter_character=      ',',
             ...                                  cleaning_algorithm=           'open citations'
             ... )
-            >>> my_csv_container.preview(1)
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
+            >>> my_csv_bibliography.preview(1)
             <BLANKLINE>
             ----------------------------------ENTRY 1----------------------------------
             ('https://w3id.org/oc/corpus/br/44493',
@@ -70,6 +73,9 @@ class CSV_container(Bibliography):
         # dictionary for holding all field types and number of their occurrences
         instance._field_type_registry = {}
 
+        instance._entries_with_failed_id_calls = []
+        instance._no_of_ListData_rows_converted_to_Bibliography_entries = 0
+
         # pass parameters to instance variables
         instance.csv_file_path = csv_file_path
         instance.field_value_list_separator = field_value_list_separator
@@ -94,57 +100,82 @@ class CSV_container(Bibliography):
 
         # a dictionary to hold parsed entities in a way compatible to Bibliography class
         instance.entries = {}
-        instance.convertListDataToEntries()
+        instance.convertListDataToEntries(show_progress_bar)
 
 
-    def convertListDataToEntries(instance):
+    def convertListDataToEntries(instance, show_progress_bar):
         """
         Converts a dataset being stored in list format to instance.entries dictionary.
         """
+        from meta.consoleOutput import ConsoleOutput
+        console = ConsoleOutput(log_file_path='log.txt')
+        maximum_progress = len(instance.data)
+        console.log_message('Conversion from ListData to Bibliography object started', add_timestamp_in_file=True)
+
         # for each row in the imported data
-        for each_row in instance.data:
-            # extract id value from each column, using the id_column_index_position to locate them.
-            each_id_cell_value = each_row[instance.id_column_index_position]
-            # set each id as key for entries dictionary, and let these keys hold an empty dictionary for now
-            # (i.e., the ENTRY_ID in 'my_bibliography.entries = {ENTRY_ID:{FIELD_NAME:FIELD VALUE}}' ).
-            instance.entries[each_id_cell_value] = {}
-            # set field-value pairs as a sub-dictionary to each entry id key
-            # (i.e., the FIELD_NAME and FIELD VALUE in 'my_bibliography.entries = {ENTRY_ID:{FIELD_NAME:FIELD VALUE}}' ).
+        for i, each_row in enumerate(instance.data):
+            if show_progress_bar:
+                console.print_current_progress(i, maximum_progress, 'Converting ListData rows to Bibliography entries')
 
-            # and while iterating through each row, also iterate for each header name-index pair
-            #   in the imported data
-            for each_header_name, each_header_index_position in instance.header_index_positions_dictionary.items():
-                # if there is a row value (i.e., field value) corresponding to the header index position
-                # (i.e., field name), add this field_name-field_value pair to my_bibliography.entries
-                # dictionary. (a row value/field value may not always exist, for instance 'isbn' field
-                # may not be always present in the imported records.)
-                try:
-                    # extract each cell value that corresponds to each header index position for each row
-                    each_targeted_cell_value = each_row[each_header_index_position]
+            try:
+                # extract id value from each column, using the id_column_index_position to locate them.
+                each_id_cell_value = each_row[instance.id_column_index_position]
+                # set each id as key for entries dictionary, and let these keys hold an empty dictionary for now
+                # (i.e., the ENTRY_ID in 'my_bibliography.entries = {ENTRY_ID:{FIELD_NAME:FIELD VALUE}}' ).
+                instance.entries[each_id_cell_value] = {}
+                # set field-value pairs as a sub-dictionary to each entry id key
+                # (i.e., the FIELD_NAME and FIELD VALUE in 'my_bibliography.entries = {ENTRY_ID:{FIELD_NAME:FIELD VALUE}}' ).
 
-                    # if the specified list separator character exists in the current targeted cell
-                    # (e.g., if the cell contains a list of authors, such as [Doe--John | Doe--Jane]
-                    if instance.field_value_list_separator in each_targeted_cell_value:
-                        # tokenize the targeted cell using the specified list separator character
-                        each_tokenized_targeted_cell_value = \
-                            (each_targeted_cell_value.split(instance.field_value_list_separator))
-                        # add each header and their corresponding target value for the each row to the
-                        # my_bibliography.entries dictionary, by binding the field_name-field_value pairs
-                        # to entry ids already exising in the my_bibliography.entries dictionary
-                        # (entry ids were empty sub-dictionary keys of my_bibliography.entries dictionary
-                        # until this point).
-                        instance.setEntry(each_id_cell_value,each_header_name,each_tokenized_targeted_cell_value)
+                # and while iterating through each row, also iterate for each header name-index pair
+                #   in the imported data
+                for each_header_name, each_header_index_position in instance.header_index_positions_dictionary.items():
+                    # if there is a row value (i.e., field value) corresponding to the header index position
+                    # (i.e., field name), add this field_name-field_value pair to my_bibliography.entries
+                    # dictionary. (a row value/field value may not always exist, for instance 'isbn' field
+                    # may not be always present in the imported records.)
+                    try:
+                        # extract each cell value that corresponds to each header index position for each row
+                        each_targeted_cell_value = each_row[each_header_index_position]
 
-                    # if there is no aggregation in the cell
-                    else:
-                        # simply add field_name-field_value pairs to my_bibliography.entries dictionary, as
-                        # subdictionaries to entry ids.
-                        instance.setEntry(each_id_cell_value,each_header_name,each_targeted_cell_value)
+                        # if the specified list separator character exists in the current targeted cell
+                        # (e.g., if the cell contains a list of authors, such as [Doe--John | Doe--Jane]
+                        if instance.field_value_list_separator in each_targeted_cell_value:
+                            # tokenize the targeted cell using the specified list separator character
+                            each_tokenized_targeted_cell_value = \
+                                (each_targeted_cell_value.split(instance.field_value_list_separator))
+                            # add each header and their corresponding target value for the each row to the
+                            # my_bibliography.entries dictionary, by binding the field_name-field_value pairs
+                            # to entry ids already exising in the my_bibliography.entries dictionary
+                            # (entry ids were empty sub-dictionary keys of my_bibliography.entries dictionary
+                            # until this point).
+                            instance.setEntry(each_id_cell_value, each_header_name, each_tokenized_targeted_cell_value)
 
+                        # if there is no aggregation in the cell
+                        else:
+                            # simply add field_name-field_value pairs to my_bibliography.entries dictionary, as
+                            # subdictionaries to entry ids.
+                            instance.setEntry(each_id_cell_value, each_header_name, each_targeted_cell_value)
 
-                # if there is no value in a row that corresponds to the current field name in the loop, do nothing
-                except IndexError:
-                    pass
+                    # if there is no value in a row that corresponds to the current field name in the loop, do nothing
+                    except IndexError:
+                        pass
+
+                instance._no_of_ListData_rows_converted_to_Bibliography_entries += 1
+
+            # if the id call fails, skip this entry and log the line in instance registry for diagnostic purposes. This
+            # is most likely caused by an erroneous row in the CSV file ending too early (i.e., cell does not have even
+            # an empty value such as "" that corresponds to the id column)
+            except IndexError:
+                instance._entries_with_failed_id_calls.append(each_row)
+
+        console.log_message('Conversion completed. %d out of %d ListData rows converted to Bibliography object entries'
+                            % (instance._no_of_ListData_rows_converted_to_Bibliography_entries, len(instance.data)),
+                            add_timestamp_in_file=True)
+        if instance._entries_with_failed_id_calls:
+            console.log_list_with_caption('These ListData rows were failed in conversion (likely due to not having a '
+                                          'valid cell that correspond to the specified ID column)',
+                                          instance._entries_with_failed_id_calls,
+                                          print_list_length_with_caption=True)
 
 
     def cleanAndTokenizeCsv(instance):

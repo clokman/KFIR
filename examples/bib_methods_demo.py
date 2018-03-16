@@ -42,7 +42,7 @@ demo_bibtex_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=p
 
 ############ Parse the bib file into memory ###############
 demo_bibliography = Bibliography()
-demo_bibliography.importBibtex('examples//example_data/demo_cleaned.bib', verbose_import=True)
+demo_bibliography.importBibtex('examples//example_data/demo_cleaned.bib', show_progress_bar=True)
 
 demo_bibliography.preview(10)
 demo_bibliography.summarize()

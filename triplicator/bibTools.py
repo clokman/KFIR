@@ -456,7 +456,7 @@ class Bibliography:
     ############################################### IMPORT FUNCTIONS ##################################################
     ###################################################################################################################
 
-    def importBibtex(instance, path_of_file_to_import, conversion_arguments_list='bib_default', verbose_import=False, show_progress_bar=False):
+    def importBibtex(instance, path_of_file_to_import, conversion_arguments_list='bib_default', show_progress_bar=False):
         """
         Parses a Bibliography class object from a .bib file. During parsing, field names in the bib file is converted
         to names (i.e., strings) specified in conversation_conversion_arguments_list.
@@ -469,7 +469,7 @@ class Bibliography:
                 the hardcoded conversion arguments list will likely be sufficient. However, in cases where
                 modifications may still be necessary, the format in the example sublist below should be followed:
                 ['each_pybtex_entry.fields["title"]', 'pybtex_document_instance_name', 'b_document'],
-            verbose_import (bool): Specifies whether to print the imported entries to console
+
 
         Returns:
             Nothing; modifies the object it is called from.
@@ -603,13 +603,6 @@ class Bibliography:
                                                'Parsing file "%s"' % path_of_file_to_import)
                 current_progress += 1
 
-            # if process should be printed to terminal
-            if verbose_import:
-                # print each imported entry to console in {entry_id:entry_data} format
-                pprint({each_pybtex_entry_id: instance.getEntryById(each_pybtex_entry_id)}, compact=True)
-                print(
-                    "=============================================================================================="
-                    "==================")
 
         ########################################################################
 
@@ -660,7 +653,7 @@ class Bibliography:
                   id_column_header,
                   conversion_arguments_list,
                   cleaning_algorithm=None,
-                  verbose_import=False
+                  show_progress_bar=False
     ):
         """
         Parses a Bibliography class object from a .csv file.
@@ -676,8 +669,7 @@ class Bibliography:
                 a custom arguments list will look like this:
                 ['each_entry_data["titles"]', 'pybtex_document_label', 'b_document_label']
             cleaning_algorithm(str): CSV cleaning algorithm that will be executed in .cleanAndTokenizeCsv() method of
-                CSV_container class in csvImporter module.
-            verbose_import(bool): Specifies whether to print the imported entries to console
+                CSV_Bibliography class in csvImporter module.
 
         Keyword Args:
             "open citations" (conversion_arguments_list): Calls a list of lists that holds arguments for .setEntry
@@ -698,14 +690,14 @@ class Bibliography:
             ...                           field_value_list_separator=' | ',
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
-            ...                           cleaning_algorithm='open citations',
-            ...                           verbose_import=False)
+            ...                           cleaning_algorithm='open citations')
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>
+            Formatting of Bibliography entries started
+            "example_data//oc_query_2.2_results_short_sample.csv" parsed and imported into Bibliography object in memory
             <BLANKLINE>
-            ---------------------------------------------------------------------------------------------------
-            example_data//oc_query_2.2_results_short_sample.csv imported.
-            <BLANKLINE>
-            Fields added to the parsed bibliography:
+            Number of fields in the parsed bibliography:
             {'b_author_labels': 3,
              'b_authors': 3,
              'b_cited': 3,
@@ -715,7 +707,7 @@ class Bibliography:
              'b_doi': 3,
              'b_journal_issue_no': 3,
              'b_journal_volume_no': 3,
-             'b_pages': 3,
+             'b_pages': 2,
              'b_pmid': 3,
              'b_publication': 3,
              'b_publication_label': 3,
@@ -740,15 +732,14 @@ class Bibliography:
             ...                                    cleaning_algorithm="open citations",
             ...                                    csv_delimiter_character=',',
             ...                                    field_value_list_separator=' | ',
-            ...                                    id_column_header='referenceEntry',
-            ...                                    verbose_import=False
-            ... )
+            ...                                    id_column_header='referenceEntry')
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
             <BLANKLINE>
+            Formatting of Bibliography entries started
+            "example_data//test.csv" parsed and imported into Bibliography object in memory
             <BLANKLINE>
-            ---------------------------------------------------------------------------------------------------
-            example_data//test.csv imported.
-            <BLANKLINE>
-            Fields added to the parsed bibliography:
+            Number of fields in the parsed bibliography:
             {'x_document': 7, 'x_document_label': 7}
             >>> my_custom_bibliography.preview(1)
             <BLANKLINE>
@@ -783,15 +774,14 @@ class Bibliography:
             ...                                cleaning_algorithm="open citations",
             ...                                csv_delimiter_character=',',
             ...                                field_value_list_separator=' | ',
-            ...                                id_column_header='referenceEntry',
-            ...                                verbose_import=False
-            ... )
+            ...                                id_column_header='referenceEntry')
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
             <BLANKLINE>
+            Formatting of Bibliography entries started
+            "example_data//test.csv" parsed and imported into Bibliography object in memory
             <BLANKLINE>
-            ---------------------------------------------------------------------------------------------------
-            example_data//test.csv imported.
-            <BLANKLINE>
-            Fields added to the parsed bibliography:
+            Number of fields in the parsed bibliography:
             {'b_author_labels': 7,
              'b_authors': 7,
              'b_document': 7,
@@ -825,15 +815,17 @@ class Bibliography:
              <BLANKLINE>
 
         """
-        from triplicator.csvImporter import CSV_container
+        from triplicator.csvImporter import CSV_Bibliography
+        from meta.consoleOutput import ConsoleOutput
 
-        # pass functions to CSV container and create an instance of CSV_container class
-        csv_container = CSV_container(csv_file_path=path_of_file_to_import,
-                                      id_column_header=id_column_header,
-                                      field_value_list_separator=field_value_list_separator,
-                                      csv_delimiter_character=csv_delimiter_character,
-                                      cleaning_algorithm=cleaning_algorithm
-        )
+        # pass functions to CSV container and create an instance of CSV_Bibliography class
+        csv_bibliography = CSV_Bibliography(csv_file_path=path_of_file_to_import,
+                                            id_column_header=id_column_header,
+                                            field_value_list_separator=field_value_list_separator,
+                                            csv_delimiter_character=csv_delimiter_character,
+                                            cleaning_algorithm=cleaning_algorithm,
+                                            show_progress_bar=show_progress_bar
+                                            )
 
         if conversion_arguments_list == 'open citations':
         # "publication_type" , "journal_article" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "cited_by_article"
@@ -847,10 +839,10 @@ class Bibliography:
                 ['each_entry_data["url"]',                   'open_citations_list_minimizer',       'b_url'],
                 ['each_entry_data["authors"]',               'open_citations_author_instance_name', 'b_authors'],
                 ['each_entry_data["authors"]',               'open_citations_author_label',         'b_author_labels'],
+                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
                 ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',       'b_publication'],
                 ['each_entry_data["journal_name"]',          'pybtex_document_label',               'b_publication_label'],
                 ['each_entry_data["publication_year"]',      'open_citations_list_minimizer',       'b_publication_year'],
-                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
                 ['each_entry_data["journal_issue_number"]',  'open_citations_list_minimizer',       'b_journal_issue_no'],
                 ['each_entry_data["journal_volume_number"]', 'open_citations_list_minimizer',       'b_journal_volume_no'],
                 ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_publication_type'],
@@ -859,6 +851,8 @@ class Bibliography:
                 ['each_entry_data["cited_by_the_articles"]', 'none',                                'b_cited_by'],
                 ['each_entry_data["cited_the_articles"]',    'none',                                'b_cited']
             ]
+              # Currently inactive:
+              #
 
         # if a custom conversion_arguments_list is provided, proceed without modifying the provided list
         elif type(conversion_arguments_list) is list:
@@ -868,9 +862,20 @@ class Bibliography:
             raise ValueError("Conversion_arguments_list parameter should be either left blank or be a list that "
                              "contains sublists of arguments.")
 
+
+        # For logging
+        console = ConsoleOutput('log.txt')
+        console.log_message("\nFormatting of Bibliography entries started", add_timestamp_in_file=True)
+        maximum_progress = len(csv_bibliography.entries.keys())
+
+        failed_conversion_arguments = []
+
         # loop through individual reference entries in the parsed pybtex bib file
-        for each_entry_id, each_entry_data in csv_container.entries.items():
-            # and while doing that, also loop through each line in the conversion_arguments_list
+        for i, (each_entry_id, each_entry_data) in enumerate(csv_bibliography.entries.items()):
+            if show_progress_bar:
+                console.print_current_progress(i, maximum_progress, 'Formatting Bibliography object entries')
+
+            # loop through each line in the conversion_arguments_list
             for each_argument_list in conversion_arguments_list:
                 # try using the elements of each sub-list in conversion_arguments_list as arguments of
                 # .setFormattedEntry method
@@ -883,20 +888,16 @@ class Bibliography:
                     # except KeyError:
                     pass
 
-            if verbose_import:
-                from pprint import pprint
-                pprint({each_entry_id: instance.getEntryById(each_entry_id)}, compact=True)
-                print(
-                    "================================================================================================================")
 
-        ########################
-        #  OPERATION SUMMARY   #
-        ########################
+        ###############################
+        #  OVERALL OPERATION SUMMARY   #
+        ###############################
 
-        print('\n\n---------------------------------------------------------------------------------------------------')
-        print(path_of_file_to_import + ' ' + 'imported.')
+        console.log_message('"%s" parsed and imported into Bibliography object in memory' % path_of_file_to_import,
+                            add_timestamp_in_file=True)
 
-        print("\nFields added to the parsed bibliography:")
+        console.log_message("\nNumber of fields in the parsed bibliography:", print_to_file=False)  # because...
+                                                                    #  ... '.summarize()' does not print to file
         instance.summarize()
 
 
@@ -1344,14 +1345,14 @@ class Bibliography:
             ...                           field_value_list_separator=' | ',
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
-            ...                           cleaning_algorithm='open citations',
-            ...                           verbose_import=False)
+            ...                           cleaning_algorithm='open citations')
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>
+            Formatting of Bibliography entries started
+            "example_data/oc_query_2.2_results_short_sample_for_merging.csv" parsed and imported into Bibliography object in memory
             <BLANKLINE>
-            ---------------------------------------------------------------------------------------------------
-            example_data/oc_query_2.2_results_short_sample_for_merging.csv imported.
-            <BLANKLINE>
-            Fields added to the parsed bibliography:
+            Number of fields in the parsed bibliography:
             {'b_author_labels': 3,
              'b_authors': 3,
              'b_cited': 3,
@@ -1361,7 +1362,7 @@ class Bibliography:
              'b_doi': 3,
              'b_journal_issue_no': 3,
              'b_journal_volume_no': 3,
-             'b_pages': 3,
+             'b_pages': 2,
              'b_pmid': 3,
              'b_publication': 3,
              'b_publication_label': 3,
@@ -2049,14 +2050,21 @@ class Bibliography:
                         #print("")
 
     def updateFieldTypesRegistry(instance, entry_id, field_name, field_value):
-        """
-        """
-        if field_name not in instance._field_type_registry:
-            instance._field_type_registry[field_name] = 1
-        else:
-            instance._field_type_registry[field_name] += 1
 
-            # two container variables for author (instance) names and author labels (which will later be needed by RDF format)
+        field_value_is_empty = False
+        if field_value == None or field_value == ' ' or field_value == '_':
+            field_value_is_empty = True
+
+        field_name_already_in_registry = False
+        if field_name in instance._field_type_registry:
+            field_name_already_in_registry = True
+
+
+        if not field_value_is_empty:
+            if not field_name_already_in_registry:
+                instance._field_type_registry[field_name] = 1
+            else:
+                instance._field_type_registry[field_name] += 1
 
 
     ###################################################################################################################
