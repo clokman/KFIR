@@ -26,7 +26,8 @@ Retrieve articles by DOIs from Open Citations:
     oc_query.write_results_to_csv('retrieved_articles.csv')
 
 
-See the ***examples*** directory for more examples
+See the ***examples*** directory for more examples.
+Further documentation provided in docstrings within the code.
 
 ## Legal
 Although short samples may be provided, bibliographic databases from VU and UvA are not included in this directory due to copyright reasons related to their respective owners. Data gathered from OpenCitations, however, are made fully available.
