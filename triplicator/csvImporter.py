@@ -200,11 +200,12 @@ class CSV_Bibliography(Bibliography):
 
         # otherwise, run cleaning algorithm
         elif instance.cleaning_algorithm == 'open citations':
-            # TODO: The current way to remove in-string commas is tuned for OpenCitations data. Make a generic version by using a while loop (see commented out draft below).
+            # TODO: The current way to remove in-string commas is tuned for OpenCitations data with yasgui style CSV. Make a generic version by using a while loop (see commented out draft below).
             # clean commas that occur in entry field values (i.e., within strings)
             imported_string_cleaned = re.sub(' ,', '_-_-_', imported_string_raw)
             imported_string_cleaned = re.sub(', ', '-', imported_string_cleaned)
             imported_string_cleaned = re.sub('_-_-_', ' ,', imported_string_cleaned)
+
             # clean CSV file from double quotes
             imported_string_cleaned = re.sub(' "|" ', '', imported_string_cleaned)
             # # Draft while loop for a more generic future algorithm to replace in-string commas:

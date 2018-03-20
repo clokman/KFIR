@@ -253,7 +253,7 @@ class Bibtex_File(Text_File):
             ### CLEANING ###############################################################################################
 
             >>> # init and preview targets
-            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test.bib')
             >>> my_unclean_file.print_lines(46)
             title  = "Contribution to {"}Multimedia as bridges for language and literacy for young children{"}, SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
             >>> my_unclean_file.print_lines(32)
@@ -262,15 +262,15 @@ class Bibtex_File(Text_File):
             >>> my_unclean_file.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace={'\{"\}': "'",
             ...                                                                '>': '',
             ...                                                                '<': ''})
-            Cleaning of "example_data//problematic_characters_test_3.bib" started
-            Cleaning of "example_data//problematic_characters_test_3.bib" finished
+            Cleaning of "example_data//problematic_characters_test.bib" started
+            Cleaning of "example_data//problematic_characters_test.bib" finished
             >>> # view results
-            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(22) # line 46 is now line 22 because unbalanced entries excluded in output
             title  = "Contribution to 'Multimedia as bridges for language and literacy for young children', SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
 
             >>> # init and preview targets
-            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test.bib')
             >>> my_unclean_file.print_lines(46)
             title  = "Contribution to {"}Multimedia as bridges for language and literacy for young children{"}, SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
             >>> my_unclean_file.print_lines(32)
@@ -283,7 +283,7 @@ class Bibtex_File(Text_File):
             #...                                                                '>': '',
             #...                                                                '<': ''})
             >>> # view results
-            >>> #my_cleaned_file = Text_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> #my_cleaned_file = Text_File('example_data//problematic_characters_test_cleaned.bib')
             >>> #my_cleaned_file.print_lines(46) # line 46 is still in same place because unbalanced entries not excluded
             title  = "Contribution to 'Multimedia as bridges for language and literacy for young children', SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
             >>> #my_cleaned_file.print_lines(32)  # line 32 is still in same plac because unbalanced entries not excluded
@@ -291,7 +291,7 @@ class Bibtex_File(Text_File):
 
             ### BALANCING ##############################################################################################
 
-            >>> my_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_file = Bibtex_File('example_data//problematic_characters_test.bib')
 
             >>> # unbalanced curly bracket in 'title' field
             >>> my_file.print_lines(1,12)
@@ -324,9 +324,9 @@ class Bibtex_File(Text_File):
 
             >>> # faulty entry is not included in the cleaned file. Now there is another entry in its place.
             >>> my_file.clean_bibtex_file_and_write_output_to_another_file()
-            Cleaning of "example_data//problematic_characters_test_3.bib" started
-            Cleaning of "example_data//problematic_characters_test_3.bib" finished
-            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            Cleaning of "example_data//problematic_characters_test.bib" started
+            Cleaning of "example_data//problematic_characters_test.bib" finished
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(1,7)
             @book{a350c3826d05484cb863e77166d6e17b,
             title     = "Proceedings of Console IX",
@@ -355,7 +355,7 @@ class Bibtex_File(Text_File):
 
 
             ### ASCII CONVERSION #######################################################################################
-            >>> my_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_file = Bibtex_File('example_data//problematic_characters_test.bib')
 
             >>> # non-ascii characters in titles
             >>> my_file.print_lines(125)
@@ -368,9 +368,9 @@ class Bibtex_File(Text_File):
             title     = "Measurement of the CP-violating phase ϕsand the Bs0meson decay width difference with Bs0→ J/ψϕ decays in ATLAS",
 
             >>> my_file.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace={'>': '', '<': ''})
-            Cleaning of "example_data//problematic_characters_test_3.bib" started
-            Cleaning of "example_data//problematic_characters_test_3.bib" finished
-            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            Cleaning of "example_data//problematic_characters_test.bib" started
+            Cleaning of "example_data//problematic_characters_test.bib" finished
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_cleaned.bib')
             >>> my_cleaned_file.print_lines(95)
             title     = "Networks of * / G/ [?] queues with shot-noise-driven arrival intensities",
             >>> my_cleaned_file.print_lines(111)
