@@ -28,263 +28,6 @@ class String(str):
         """
         return str(self.content)
 
-    def append(self, string_to_append):
-        """
-        Args:
-            string_to_append(str)
-
-        Returns:
-            self
-
-        Examples:
-            >>> my_String = String('String')
-            >>> my_String.append(' object.')
-            'String object.'
-        """
-        self.content = self.content + string_to_append
-        return self
-
-
-    def prepend(self, string_to_prepend):
-        """
-        Args
-            string_to_prepend(str)
-
-        Returns:
-            self
-
-        Examples:
-            >>> my_String = String('String object.')
-            >>> my_String.prepend('This is a ')
-            'This is a String object.'
-        """
-        self.content = string_to_prepend + self.content
-        return self
-
-
-    def surround_with(self, pattern_1, pattern_2=None):
-        """
-        Surrounds a String object with given character(s) (i.e., pattern[s]).
-
-        Returns:
-            A String object
-
-        Examples:
-            >>> my_string = String('1st string')
-            >>> my_string.surround_with('"').content
-            '"1st string"'
-            >>> my_string = String('2nd string')
-            >>> my_string.surround_with('[', ']').content
-            '[2nd string]'
-        """
-        input_string = self.content
-
-        if pattern_2 is None:
-            pattern_2 = pattern_1
-
-        surrounded_string = pattern_1 + input_string + pattern_2
-
-        self.content = surrounded_string
-        return self
-
-    def unsurround(self, character_1=None, character_2=None):
-        """
-        Removes surrounding characters from a String object either indiscriminately, or by checking
-        if the right characters are being removed.
-
-        Args:
-            character_1(str): Takes a single character. If a character is specified, acts as a check to ensure the right
-                characters are removed. This check could be useful for loops where not all strings may have the same
-                structure (or that may contain strings that have typos, irregularities, etc.)
-            character_2(str): --
-
-        Returns:
-            Rewrites self.content_sting and returns Modified object (return self).
-
-        Examples:
-            >>> my_string = String('[a string]')
-            >>> my_string.unsurround().content
-            'a string'
-
-            >>> # unsurround without checking which characters being unsurrounded
-            >>> my_string = String('[a string]')
-            >>> my_string.unsurround().content
-            'a string'
-
-            >>> # unsurround with checking whether characters being unsurrounded are indeed the intended ones
-            >>> my_string = String(' a string ')
-            >>> my_string.unsurround(' ').content
-            'a string'
-            >>> my_string = String('[a string]')
-            >>> my_string.unsurround('[', ']').content
-            'a string'
-
-            >>> # Error handling during pattern checks
-            >>> my_string = String('a string')
-            >>> # Uncomment following lines to test the error detection. They should give errors due to input string not
-            >>> # having the specified surround pattern(s) around it'.
-            >>> #my_string.unsurround('"').content
-            >>> #my_string.unsurround('(', ")").content
-        """
-        # TODO: Could remove multi-character patterns instead of single characters (need to modify both match_input_characters_with_head_and_tail_or_raise_error and clip_head_and_tail functions)
-
-        input_string = self.content
-
-        head_character = ''
-        tail_character = ''
-
-        # if neither character_1 nor character_2 is provided
-        if not character_1 and not character_2:
-            head_character = input_string[0]
-            tail_character = input_string[-1]
-
-        # if only character_1 is provided
-        elif character_1 and not character_2:
-            head_character = character_1
-            tail_character = character_1
-
-        # if both character_1 and character_2 is provided
-        elif character_1 and character_2:
-            head_character = character_1
-            tail_character = character_2
-
-        # check if inputted characters exist in the String
-        head_character_matched = self.check_character_at_index(head_character, 0)
-        tail_character_matched = self.check_character_at_index(tail_character, -1)
-        if not head_character_matched or not tail_character_matched:
-            raise ValueError('The patterns surrounding the input "%s" does not match specified unsurround '
-                             'pattern "%s".' % (input_string, character_1))
-
-        self.remove_first_and_last_character()
-        return self
-
-    def remove_first_and_last_character(self):
-        """
-        Removes the first and last characters from String.
-
-        >>> String('Xmy stringX').remove_first_and_last_character().content
-        'my string'
-        """
-        self.content = self.content[1:-1]
-        return self
-
-    def check_character_at_index(self, character, index):
-        """
-        Checks whether inputted characters match to those at the head and of the string
-
-        >>> String('my string').check_character_at_index('y',1)
-        True
-        >>> String('my string').check_character_at_index('y',0)
-        False
-        """
-        if character == self[index]:
-            return True
-        else:
-            return False
-
-    def get_pattern_positions(self, target_pattern):
-        """
-        ##############################
-        Obselete. Use split() instead.
-        ##############################
-
-        Searches for target_pattern in the String object and returns index positions where it starts and ends for each
-        occurrence.
-
-        Args:
-            target_pattern: Pattern to search. Can consist of multiple characters.
-
-        Returns:
-            A list of tuples that contain integers
-
-        Examples:
-            >>> my_string = String('aaXaaXaa')
-            >>> my_string.get_pattern_positions('X')
-            [(2, 3), (5, 6)]
-            >>> my_string.get_pattern_positions('aa')
-            [(0, 2), (3, 5), (6, 8)]
-        """
-        import re
-
-        indexes_list = []
-
-        for each_position in re.finditer(target_pattern, self):
-            indexes_list.append((each_position.start(), each_position.end()))
-
-        return indexes_list
-
-
-    def slice_with_pattern_and_CONVERT_to_list(self, target_pattern):
-        """
-        Slices the string into list elements and returns a list. Empty values are converted as ''.
-
-        WARNING: After this method is used, the self.content is not overwritten, and remains in its string form
-            before the method split it. What is returned is not 'self' nor String type either: the original input is
-            converted from String to list, and this should be kept in mind when fluent interfacing.
-
-        Args:
-            target_pattern: Pattern to be used as dividing point in string. A pattern can consist of multiple
-                characters.
-
-        Returns:
-            A list
-            Does not change the original String object, and does NOT return self.
-
-        Examples:
-            >>> my_string = String('aaXaaXaa')
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list('X')
-            ['aa', 'aa', 'aa']
-
-            >>> my_string = String('aaXaaXaa')
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list('aa')
-            ['', 'X', 'X', '']
-
-            >>> my_string = String('value , value')
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
-            ['value', 'value']
-
-            >>> my_string = String('value, value, , , ')
-            >>> my_string.clean_head_and_tail_from_patterns(', ', 'tail')
-            'value, value, , '
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list(', ')
-            ['value', 'value', '', '']
-
-            >>> my_string = String('value , value ,  , ')
-            >>> my_string.clean_head_and_tail_from_patterns(' , ', location='tail')
-            'value , value , '
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
-            ['value', 'value', '']
-
-            >>> my_string = String('value , value , ')
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
-            ['value', 'value', '']
-
-            >>> my_string = String('value;value;;value;value;;value;;')
-            >>> my_string.slice_with_pattern_and_CONVERT_to_list(';')
-            ['value', 'value', '', 'value', 'value', '', 'value', '', '']
-        """
-        input_string = self.content
-        if target_pattern not in input_string:
-            raise ValueError('Inputted target_pattern "%s" not found in string "%s".' % (target_pattern, input_string))
-
-        list = input_string.split(target_pattern)
-
-        return list
-
-    # def remove_pattern_from_head_or_tail(self, pattern, location='both'):
-    #     """
-    #     >>> self.remove_pattern_from_head_or_tail('x', 'head')
-    #     >>> self.remove_pattern_from_head_or_tail('x', 'tail')
-    #     >>> self.remove_pattern_from_head_or_tail('x', 'ends')
-    #     """
-    #     string = self.content
-    #     first_pattern_occurrence = string.find(pattern)
-    #     last_pattern_occurrence  = string.content.rfind(pattern)
-    #     "".
-    #     if location == 'both':
-    #         string.
-
-
 
     def replace_patterns(self, pattern_conversions_dictionary):
         """
@@ -361,6 +104,173 @@ class String(str):
         #######################
 
         return self
+
+
+    def clean_from_non_ascii_characters(self):
+        """
+        Converts non-ascii characters to their ascii equivalents (e.g., 'ϕ' becomes 'phs').
+
+        Returns:
+            String
+
+        Examples:
+            >>> my_string = String("In pursuit of lepton flavour violation: A search for the τ-> μγγ decay with atlas at √s=8 TeV,")
+            >>> my_string.clean_from_non_ascii_characters()
+            >>> print(my_string)
+            In pursuit of lepton flavour violation: A search for the t-> mgg decay with atlas at [?]s=8 TeV,
+
+            >>> my_string = String("Measurement of the CP-violating phase ϕsand the Bs0meson decay width difference with Bs0→ J/ψϕ decays in ATLAS,")
+            >>> my_string.clean_from_non_ascii_characters()
+            >>> print(my_string)
+            Measurement of the CP-violating phase phsand the Bs0meson decay width difference with Bs0- J/psph decays in ATLAS,
+        """
+        from unidecode import unidecode
+        self.content = String(unidecode(self.content))
+
+
+    def clean_from_non_uri_safe_characters(self):
+        """
+        Converts non-ascii characters to their URI-safe equivalents (e.g., ' ' becomes '%20').
+
+        Returns:
+            String
+
+        Examples:
+            >>> my_string = String('non-uri safe_string')
+            >>> my_string.clean_from_non_uri_safe_characters()
+            'non-uri%20safe_string'
+        """
+
+        from urllib.parse import quote
+        self.content = quote(self.content)
+        return self
+
+
+    def is_balanced(self):
+        """
+        Checks whether String has balanced parantheses, brackets, etc.
+
+        Returns:
+            Boolean. True if balanced, False if unbalanced.
+
+        Examples:
+
+            >>> String("<{[my string]}>").is_balanced()
+            True
+
+            >>> # missing '>'
+            >>> String("<{[my string]}").is_balanced()
+            False
+
+            >>> # '>' at wrong place
+            >>> String("<{[my string]>}").is_balanced()
+            False
+
+            >>> # missing '{'
+            >>> String("<[my string]}>").is_balanced()
+            False
+
+            >>> # missing ']'
+            >>> String("<{[my string}>").is_balanced()
+            False
+
+            >>> line = 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",'
+            >>> String(line).is_balanced()
+            False
+
+            >>> entry_lines = [
+            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
+            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",',
+            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
+            ...     'year      = "2015",',
+            ...     'doi       = "10.1007/978-3-319-26585-8",',
+            ...     'isbn      = "9783319265841",',
+            ...     'series    = "LNAI",',
+            ...     'publisher = "Springer",',
+            ...     'number    = "9485",',
+            ...     '}'
+            ... ]
+            >>> String(str(entry_lines)).is_balanced()
+            False
+
+            >>> entry_lines = [
+            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
+            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)}",',
+            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
+            ...     'year      = "2015",',
+            ...     'doi       = "10.1007/978-3-319-26585-8",',
+            ...     'isbn      = "9783319265841",',
+            ...     'series    = "LNAI",',
+            ...     'publisher = "Springer",',
+            ...     'number    = "9485",',
+            ...     '}'
+            ... ]
+            >>> String(str(entry_lines)).is_balanced()
+            True
+
+            >>> String(str(['@book{a82caf00e1a143759c7f5543b6c84ea5,', 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",', 'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",', 'year      = "2015",', 'doi       = "10.1007/978-3-319-26585-8",', 'isbn      = "9783319265841",', 'series    = "LNAI",', 'publisher = "Springer",', 'number    = "9485",', '}', ''])).is_balanced()
+            False
+        """
+        test_items = iter('(){}[]<>')
+        # create a dictionary from iter('(){}[]<>') such as: {'(': ')', '{': '}', '[': ']', '<': '>'}
+        test_dictionary = dict(zip(test_items, test_items))
+        closing_characters = test_dictionary.values()
+
+        comparison_stack = []
+
+        for each_character in self.content:
+            # if the current character is an opening character, add it to comparison_stack
+            each_character_that_has_a_closing_counterpart_in_test_dictionary = test_dictionary.get(each_character, None)
+            if each_character_that_has_a_closing_counterpart_in_test_dictionary:
+                comparison_stack.append(each_character_that_has_a_closing_counterpart_in_test_dictionary)
+
+            # if the current character is a closing character,
+            # and it has no counterpart (i.e., opening character) in comparison_stack, return false
+            elif each_character in closing_characters:
+                if not comparison_stack or each_character != comparison_stack.pop():
+                    return False
+        # if comparison_stack was never added an item (i.e., test characters are not found in string), return true
+        return not comparison_stack
+
+
+    def clean_from_newline_characters(self):
+        """
+        Cleans the String from newline characters using str.strip() method.
+
+        Returns:
+            - Modifies self.content
+            - Returns the modified self
+
+        Examples:
+
+            # # THIS TEST SHOULD BE RAN MANUALLY BY UNCOMMENTING, AS THE PRESENCE OF '\n' CHARACTER IN THE OUTPUT LEADS TO AN ERROR
+            # # When ran manually, newline characters can be seen at the end of each line in the output
+            # >>> from preprocessor.csv_tools import CSV_File, CSV_Line
+            # >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern=',', cell_delimiter_pattern=' | ')
+            # >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
+            # ...     for i, each_line in enumerate(input_file):
+            # ...         if i < 2:
+            # ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head')
+            # ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+            # ...             print(row)
+
+            >>> from preprocessor.csv_tools import CSV_File, CSV_Line
+            >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern_in_input_file=',')
+            >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
+            ...     for i, each_line in enumerate(input_file):
+            ...         if i < 2:
+            ...             # the clean_from_newline_characters method in the end of statement clears the string from newline characters
+            ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head').clean_from_newline_characters()
+            ...
+            ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
+            ...             print(row)
+            ['publication_type', 'journal_article', 'title', 'publication_year', 'author_name', 'journal_name', 'journal_issue_number', 'journal_volume_number', 'startEndPages', 'publisher_name', 'doi" ,']
+            ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893" ,']
+
+        """
+        self.content = self.content.strip()
+        return self
+
 
     def clean_head_and_tail_from_patterns(self, patterns_to_remove, location='both', clean_newline_characters=False):
         """
@@ -501,60 +411,263 @@ class String(str):
         return self
 
 
-    def clean_from_non_uri_safe_characters(self):
+    def append(self, string_to_append):
         """
+        Args:
+            string_to_append(str)
 
         Returns:
-            String
+            self
 
         Examples:
-            >>> my_string = String('non-uri safe_string')
-            >>> my_string.clean_from_non_uri_safe_characters()
-            'non-uri%20safe_string'
+            >>> my_String = String('String')
+            >>> my_String.append(' object.')
+            'String object.'
         """
-
-        from urllib.parse import quote
-        self.content = quote(self.content)
+        self.content = self.content + string_to_append
         return self
 
 
-    def clean_from_newline_characters(self):
+    def prepend(self, string_to_prepend):
         """
-        Cleans the String from newline characters using str.strip() method.
+        Args
+            string_to_prepend(str)
 
         Returns:
-            - Modifies self.content
-            - Returns the modified self
+            self
 
         Examples:
-
-            # # THIS TEST SHOULD BE RAN MANUALLY BY UNCOMMENTING, AS THE PRESENCE OF '\n' CHARACTER IN THE OUTPUT LEADS TO AN ERROR
-            # # When ran manually, newline characters can be seen at the end of each line in the output
-            # >>> from preprocessor.csv_tools import CSV_File, CSV_Line
-            # >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern=',', cell_delimiter_pattern=' | ')
-            # >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
-            # ...     for i, each_line in enumerate(input_file):
-            # ...         if i < 2:
-            # ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head')
-            # ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
-            # ...             print(row)
-
-            >>> from preprocessor.csv_tools import CSV_File, CSV_Line
-            >>> my_csv_file = CSV_File('test_data//yasgui_output_100.csv', column_delimiter_pattern_in_input_file=',')
-            >>> with open(my_csv_file.input_file_path, encoding='utf8') as input_file:
-            ...     for i, each_line in enumerate(input_file):
-            ...         if i < 2:
-            ...             # the clean_from_newline_characters method in the end of statement clears the string from newline characters
-            ...             line = CSV_Line(each_line).clean_head_and_tail_from_patterns(' ', location='head').clean_from_newline_characters()
-            ...
-            ...             row = line.parse_line_and_CONVERT_to_CSV_Row(' , ').clean_cell_heads_and_tails_from_characters('"')
-            ...             print(row)
-            ['publication_type', 'journal_article', 'title', 'publication_year', 'author_name', 'journal_name', 'journal_issue_number', 'journal_volume_number', 'startEndPages', 'publisher_name', 'doi" ,']
-            ['Journal Article', 'https://w3id.org/oc/corpus/br/45174', 'An inventory for measuring clinical anxiety: Psychometric properties.', '1988', 'Steer - Robert A.', 'Journal of Consulting and Clinical Psychology', '6', '56', '893--897', 'American Psychological Association (APA)', '10.1037//0022-006x.56.6.893" ,']
-
+            >>> my_String = String('String object.')
+            >>> my_String.prepend('This is a ')
+            'This is a String object.'
         """
-        self.content = self.content.strip()
+        self.content = string_to_prepend + self.content
         return self
+
+
+    def surround_with(self, pattern_1, pattern_2=None):
+        """
+        Surrounds a String object with given character(s) (i.e., pattern[s]).
+
+        Returns:
+            A String object
+
+        Examples:
+            >>> my_string = String('1st string')
+            >>> my_string.surround_with('"').content
+            '"1st string"'
+            >>> my_string = String('2nd string')
+            >>> my_string.surround_with('[', ']').content
+            '[2nd string]'
+        """
+        input_string = self.content
+
+        if pattern_2 is None:
+            pattern_2 = pattern_1
+
+        surrounded_string = pattern_1 + input_string + pattern_2
+
+        self.content = surrounded_string
+        return self
+
+    def unsurround(self, character_1=None, character_2=None):
+        """
+        Removes surrounding characters from a String object either indiscriminately, or by checking
+        if the right characters are being removed.
+
+        Args:
+            character_1(str): Takes a single character. If a character is specified, acts as a check to ensure the right
+                characters are removed. This check could be useful for loops where not all strings may have the same
+                structure (or that may contain strings that have typos, irregularities, etc.)
+            character_2(str): --
+
+        Returns:
+            Rewrites self.content_sting and returns Modified object (return self).
+
+        Examples:
+            >>> my_string = String('[a string]')
+            >>> my_string.unsurround().content
+            'a string'
+
+            >>> # unsurround without checking which characters being unsurrounded
+            >>> my_string = String('[a string]')
+            >>> my_string.unsurround().content
+            'a string'
+
+            >>> # unsurround with checking whether characters being unsurrounded are indeed the intended ones
+            >>> my_string = String(' a string ')
+            >>> my_string.unsurround(' ').content
+            'a string'
+            >>> my_string = String('[a string]')
+            >>> my_string.unsurround('[', ']').content
+            'a string'
+
+            >>> # Error handling during pattern checks
+            >>> my_string = String('a string')
+            >>> # Uncomment following lines to test the error detection. They should give errors due to input string not
+            >>> # having the specified surround pattern(s) around it'.
+            >>> #my_string.unsurround('"').content
+            >>> #my_string.unsurround('(', ")").content
+        """
+        # TODO: Could remove multi-character patterns instead of single characters (need to modify both match_input_characters_with_head_and_tail_or_raise_error and clip_head_and_tail functions)
+
+        input_string = self.content
+
+        head_character = ''
+        tail_character = ''
+
+        # if neither character_1 nor character_2 is provided
+        if not character_1 and not character_2:
+            head_character = input_string[0]
+            tail_character = input_string[-1]
+
+        # if only character_1 is provided
+        elif character_1 and not character_2:
+            head_character = character_1
+            tail_character = character_1
+
+        # if both character_1 and character_2 is provided
+        elif character_1 and character_2:
+            head_character = character_1
+            tail_character = character_2
+
+        # check if inputted characters exist in the String
+        head_character_matched = self.check_character_at_index(head_character, 0)
+        tail_character_matched = self.check_character_at_index(tail_character, -1)
+        if not head_character_matched or not tail_character_matched:
+            raise ValueError('The patterns surrounding the input "%s" does not match specified unsurround '
+                             'pattern "%s".' % (input_string, character_1))
+
+        self.remove_first_and_last_character()
+        return self
+
+    def remove_first_and_last_character(self):
+        """
+        Removes the first and last characters from String.
+
+        >>> String('Xmy stringX').remove_first_and_last_character().content
+        'my string'
+        """
+        self.content = self.content[1:-1]
+        return self
+
+
+    def check_character_at_index(self, character, index):
+        """
+        Checks whether inputted characters match to those at the head and of the string
+
+        >>> String('my string').check_character_at_index('y',1)
+        True
+        >>> String('my string').check_character_at_index('y',0)
+        False
+        """
+        if character == self[index]:
+            return True
+        else:
+            return False
+
+
+    def get_pattern_positions(self, target_pattern):
+        """
+        ##############################
+        Obselete. Use split() instead.
+        ##############################
+
+        Searches for target_pattern in the String object and returns index positions where it starts and ends for each
+        occurrence.
+
+        Args:
+            target_pattern: Pattern to search. Can consist of multiple characters.
+
+        Returns:
+            A list of tuples that contain integers
+
+        Examples:
+            >>> my_string = String('aaXaaXaa')
+            >>> my_string.get_pattern_positions('X')
+            [(2, 3), (5, 6)]
+            >>> my_string.get_pattern_positions('aa')
+            [(0, 2), (3, 5), (6, 8)]
+        """
+        import re
+
+        indexes_list = []
+
+        for each_position in re.finditer(target_pattern, self):
+            indexes_list.append((each_position.start(), each_position.end()))
+
+        return indexes_list
+
+
+    def slice_with_pattern_and_CONVERT_to_list(self, target_pattern):
+        """
+        Slices the string into list elements and returns a list. Empty values are converted as ''.
+
+        WARNING: After this method is used, the self.content is not overwritten, and remains in its string form
+            before the method split it. What is returned is not 'self' nor String type either: the original input is
+            converted from String to list, and this should be kept in mind when fluent interfacing.
+
+        Args:
+            target_pattern: Pattern to be used as dividing point in string. A pattern can consist of multiple
+                characters.
+
+        Returns:
+            A list
+            Does not change the original String object, and does NOT return self.
+
+        Examples:
+            >>> my_string = String('aaXaaXaa')
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list('X')
+            ['aa', 'aa', 'aa']
+
+            >>> my_string = String('aaXaaXaa')
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list('aa')
+            ['', 'X', 'X', '']
+
+            >>> my_string = String('value , value')
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
+            ['value', 'value']
+
+            >>> my_string = String('value, value, , , ')
+            >>> my_string.clean_head_and_tail_from_patterns(', ', 'tail')
+            'value, value, , '
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list(', ')
+            ['value', 'value', '', '']
+
+            >>> my_string = String('value , value ,  , ')
+            >>> my_string.clean_head_and_tail_from_patterns(' , ', location='tail')
+            'value , value , '
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
+            ['value', 'value', '']
+
+            >>> my_string = String('value , value , ')
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list(' , ')
+            ['value', 'value', '']
+
+            >>> my_string = String('value;value;;value;value;;value;;')
+            >>> my_string.slice_with_pattern_and_CONVERT_to_list(';')
+            ['value', 'value', '', 'value', 'value', '', 'value', '', '']
+        """
+        input_string = self.content
+        if target_pattern not in input_string:
+            raise ValueError('Inputted target_pattern "%s" not found in string "%s".' % (target_pattern, input_string))
+
+        list = input_string.split(target_pattern)
+
+        return list
+
+    # def remove_pattern_from_head_or_tail(self, pattern, location='both'):
+    #     """
+    #     >>> self.remove_pattern_from_head_or_tail('x', 'head')
+    #     >>> self.remove_pattern_from_head_or_tail('x', 'tail')
+    #     >>> self.remove_pattern_from_head_or_tail('x', 'ends')
+    #     """
+    #     string = self.content
+    #     first_pattern_occurrence = string.find(pattern)
+    #     last_pattern_occurrence  = string.content.rfind(pattern)
+    #     "".
+    #     if location == 'both':
+    #         string.
 
 
     def is_pattern_there(self, pattern, location):
@@ -576,91 +689,6 @@ class String(str):
         else:
             return False
 
-    def is_balanced(self):
-        """
-        Checks whether String has balanced parantheses, brackets, etc.
-
-        Returns:
-            Boolean. True if balanced, False if unbalanced.
-
-        Examples:
-
-            >>> String("<{[my string]}>").is_balanced()
-            True
-
-            >>> # missing '>'
-            >>> String("<{[my string]}").is_balanced()
-            False
-
-            >>> # '>' at wrong place
-            >>> String("<{[my string]>}").is_balanced()
-            False
-
-            >>> # missing '{'
-            >>> String("<[my string]}>").is_balanced()
-            False
-
-            >>> # missing ']'
-            >>> String("<{[my string}>").is_balanced()
-            False
-
-            >>> line = 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",'
-            >>> String(line).is_balanced()
-            False
-
-            >>> entry_lines = [
-            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
-            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",',
-            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
-            ...     'year      = "2015",',
-            ...     'doi       = "10.1007/978-3-319-26585-8",',
-            ...     'isbn      = "9783319265841",',
-            ...     'series    = "LNAI",',
-            ...     'publisher = "Springer",',
-            ...     'number    = "9485",',
-            ...     '}'
-            ... ]
-            >>> String(str(entry_lines)).is_balanced()
-            False
-
-            >>> entry_lines = [
-            ...     '@book{a82caf00e1a143759c7f5543b6c84ea5,',
-            ...     'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)}",',
-            ...     'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",',
-            ...     'year      = "2015",',
-            ...     'doi       = "10.1007/978-3-319-26585-8",',
-            ...     'isbn      = "9783319265841",',
-            ...     'series    = "LNAI",',
-            ...     'publisher = "Springer",',
-            ...     'number    = "9485",',
-            ...     '}'
-            ... ]
-            >>> String(str(entry_lines)).is_balanced()
-            True
-
-            >>> String(str(['@book{a82caf00e1a143759c7f5543b6c84ea5,', 'title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",', 'author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",', 'year      = "2015",', 'doi       = "10.1007/978-3-319-26585-8",', 'isbn      = "9783319265841",', 'series    = "LNAI",', 'publisher = "Springer",', 'number    = "9485",', '}', ''])).is_balanced()
-            False
-        """
-        test_items = iter('(){}[]<>')
-        # create a dictionary from iter('(){}[]<>') such as: {'(': ')', '{': '}', '[': ']', '<': '>'}
-        test_dictionary = dict(zip(test_items, test_items))
-        closing_characters = test_dictionary.values()
-
-        comparison_stack = []
-
-        for each_character in self.content:
-            # if the current character is an opening character, add it to comparison_stack
-            each_character_that_has_a_closing_counterpart_in_test_dictionary = test_dictionary.get(each_character, None)
-            if each_character_that_has_a_closing_counterpart_in_test_dictionary:
-                comparison_stack.append(each_character_that_has_a_closing_counterpart_in_test_dictionary)
-
-            # if the current character is a closing character,
-            # and it has no counterpart (i.e., opening character) in comparison_stack, return false
-            elif each_character in closing_characters:
-                if not comparison_stack or each_character != comparison_stack.pop():
-                    return False
-        # if comparison_stack was never added an item (i.e., test characters are not found in string), return true
-        return not comparison_stack
 
     def clip_at_index(self, divide_at, remove):
         """
@@ -762,6 +790,7 @@ class String(str):
             except IndexError:
                 return False
 
+
     def capitalize_first_letter(self):
         """
         Returns:
@@ -778,6 +807,7 @@ class String(str):
 
         self.content = string
         return self
+
 
 class File_Path(String, str):
     def __init__(self, path_string):

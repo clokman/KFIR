@@ -375,7 +375,7 @@ class Text_File():
                         replace_patterns(patterns_to_replace)
 
                     if convert_to_ascii:
-                        current_line = String(unidecode(current_line.content))
+                        current_line.clean_from_non_ascii_characters()
 
                     # new entry line
                     if current_line.is_line_type('bibtex', 'start of entry'):

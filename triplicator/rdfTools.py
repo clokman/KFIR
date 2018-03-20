@@ -1257,13 +1257,10 @@ def construct_uri(prefix, name):
     """
     from preprocessor.string_tools import String
 
-    prefix = String(prefix).clean_from_non_uri_safe_characters()
-    cleaned_prefix = str(prefix)
-
     name = String(name).clean_from_non_uri_safe_characters()
     cleaned_name = str(name)
 
-    uri = "<" + cleaned_prefix + cleaned_name + ">"
+    uri = "<" + prefix + cleaned_name + ">"
     return uri
 
 
