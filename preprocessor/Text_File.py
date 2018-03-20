@@ -40,9 +40,6 @@ class Text_File():
         self.cleaned_file_path = self.directory_path + '//' + self.input_file_name + '_cleaned.' \
                                  + self.input_file_extension
 
-        self.no_of_nonparsable_entries_due_to_unknown_reason = 0
-        self.no_of_unbalanced_entries_skipped = 0
-
 
     def preview(self, number_of_lines=1, print_separators_between_lines=False):
         """
