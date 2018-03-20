@@ -367,8 +367,8 @@ class Bibtex_File(Text_File):
         desired_source_bibliography_name = quote(desired_source_bibliography_name)
 
         ### Clean the bib file ###
-        self.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
-                                                       show_progress_bar=True)
+        self.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace=pattern_replacements_dictionary,
+                                                                show_progress_bar=True)
 
         ### Parse the bib file ###
         bibliography = Bibliography()
@@ -391,6 +391,206 @@ class Bibtex_File(Text_File):
         ttl_file_path = output_directory_to_prepend + self.input_file_name + '_' + desired_version_suffix + '.ttl'
         ttl_file = RDF_File(ttl_file_path)
         ttl_file.write_triples_to_file(triples)
+
+
+    def clean_bibtex_file_and_write_output_to_another_file(self, convert_to_ascii=True, patterns_to_replace={'': ''},
+                                                           show_progress_bar=False):
+        """
+
+        Examples:
+            ### CLEANING ###############################################################################################
+
+            >>> # init and preview targets
+            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_unclean_file.print_lines(46)
+            title  = "Contribution to {"}Multimedia as bridges for language and literacy for young children{"}, SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
+            >>> my_unclean_file.print_lines(32)
+            title     = "Test of CP invariance in Z ---> mu+ mu- gamma decay",
+            >>> #remove unbalanced entries and clean specified patterns
+            >>> my_unclean_file.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace={'\{"\}': "'",
+            ...                                                                '>': '',
+            ...                                                                '<': ''})
+            Cleaning of "example_data//problematic_characters_test_3.bib" started
+            Cleaning of "example_data//problematic_characters_test_3.bib" finished
+            >>> # view results
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> my_cleaned_file.print_lines(22) # line 46 is now line 22 because unbalanced entries excluded in output
+            title  = "Contribution to 'Multimedia as bridges for language and literacy for young children', SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
+
+            >>> # init and preview targets
+            >>> my_unclean_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+            >>> my_unclean_file.print_lines(46)
+            title  = "Contribution to {"}Multimedia as bridges for language and literacy for young children{"}, SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
+            >>> my_unclean_file.print_lines(32)
+            title     = "Test of CP invariance in Z ---> mu+ mu- gamma decay",
+
+            >>> # This test disabled because currently all unbalanced entries are being cleaned
+            >>> ##do NOT remove unbalanced entries but clean specified patterns
+            >>> #my_unclean_file.clean_bibtex_file_and_write_output_to_another_file(remove_unbalanced_entries=False,
+            #...                                                           patterns_to_replace={'\{"\}': "'",
+            #...                                                                '>': '',
+            #...                                                                '<': ''})
+            >>> # view results
+            >>> #my_cleaned_file = Text_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> #my_cleaned_file.print_lines(46) # line 46 is still in same place because unbalanced entries not excluded
+            title  = "Contribution to 'Multimedia as bridges for language and literacy for young children', SSSR:: Do multimedia in digital storybooks contribute to vocabulary development and which features are particularly supportive?",
+            >>> #my_cleaned_file.print_lines(32)  # line 32 is still in same plac because unbalanced entries not excluded
+            title     = "Test of CP invariance in Z --- mu+ mu- gamma decay",
+
+            ### BALANCING ##############################################################################################
+
+            >>> my_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+
+            >>> # unbalanced curly bracket in 'title' field
+            >>> my_file.print_lines(1,12)
+            % UNCLOSED CURLY BRACKET
+            % This entry will cause an EOF error due to the unclosed curly bracket in the title field values.
+            @book{a82caf00e1a143759c7f5543b6c84ea5,
+            title     = "{Knowledge Representation for Health Care (AIME 2015 International Joint Workshop, KR4HC/ProHealth 2015)",
+            author    = "D Riano and R. Lenz and S Miksch and M Peleg and M. Reichert and {ten Teije}, A.C.M.",
+            year      = "2015",
+            doi       = "10.1007/978-3-319-26585-8",
+            isbn      = "9783319265841",
+            series    = "LNAI",
+            publisher = "Springer",
+            number    = "9485",
+            }
+
+            >>> # unbalanced > in 'title' field.
+            >>> my_file.print_lines(31,41)
+            @article{79948f66cc82409a8978d14c9131346a,
+            title     = "Test of CP invariance in Z ---> mu+ mu- gamma decay",
+            author    = "M. Acciarri and O. Adriani and M. Aguilar-Benitez and S.P. Ahlen and J. Alcaraz and G. Alemanni and J. Allaby and A. Aloisio and F.L. Linde",
+            year      = "1998",
+            doi       = "10.1016/S0370-2693(98)00965-4",
+            volume    = "436",
+            pages     = "428--436",
+            journal   = "Physics Letters B",
+            issn      = "0370-2693",
+            publisher = "Elsevier",
+            }
+
+            >>> # faulty entry is not included in the cleaned file. Now there is another entry in its place.
+            >>> my_file.clean_bibtex_file_and_write_output_to_another_file()
+            Cleaning of "example_data//problematic_characters_test_3.bib" started
+            Cleaning of "example_data//problematic_characters_test_3.bib" finished
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> my_cleaned_file.print_lines(1,7)
+            @book{a350c3826d05484cb863e77166d6e17b,
+            title     = "Proceedings of Console IX",
+            keywords  = "international",
+            author    = "C. Czinglar and K. K?hler and {van der Torre}, E.J. and K.E. Thrift and M. Zimmermann",
+            year      = "2000",
+            publisher = "Kluwer",
+            }
+
+            >>> # faulty entry is not included in the cleaned file. Now there is another entry in its place.
+            >>> my_cleaned_file.print_lines(29,42)
+            @article{96d9add3e2f44e8abbf030170689bc30,
+            title     = "When and where did the great recession erode the support of democracy?{"}",
+            abstract  = "It is likely that ten years of economic crisis have eroded the support of democracy in Europe. But how much? The existing research is divided on this issue. Some claim that the degree of satisfaction with democracy has declined across the whole of Europe during the Great Recession. Other researchers have found no empirical evidence that the support of democracy as a core value has declined across Europe. They claim that merely the specific support has decreased in some countries. This article will use the data from the European Social Survey to verify both claims. It shows that the Great Recession did not lead to a legitimacy crisis of European democracies and that the diffuse support of democracy remains high in most regions. The degree to which the specific support of democracy has been weakened is moderated by the type of welfare regime. In countries where the economic crisis did strike hard and the welfare state is weakly developed, the support of democracy has dropped dramatically. This outcome takes a middle position between two extremes in the ongoing academic debate on the support of democracy. Both positions regarding the increase or decrease of support of and satisfaction with democracy are in need of more nuance by taking into account the impact of welfare regimes. Existing research often assumes a uniform European context that shows either increasing or decreasing levels of satisfaction with democracy. Our research has shown that the response of citizens to the Great Recession has been influenced by the welfare regime.",
+            keywords  = "Democracy, Economic crisis, Europe, Welfare state, Survey data, Quantitative methods",
+            author    = "P.J.M. Pennings",
+            year      = "2017",
+            month     = "3",
+            volume    = "17",
+            pages     = "81--103",
+            journal   = "Zeitschrift fur Vergleichende Politikwissenschaft",
+            issn      = "1865-2646",
+            publisher = "Springer Verlag",
+            number    = "1",
+            }
+
+
+            ### ASCII CONVERSION #######################################################################################
+            >>> my_file = Bibtex_File('example_data//problematic_characters_test_3.bib')
+
+            >>> # non-ascii characters in titles
+            >>> my_file.print_lines(125)
+            title     = "Networks of · / G/ ∞ queues with shot-noise-driven arrival intensities",
+            >>> my_file.print_lines(142)
+            title     = "Search for heavy resonances decaying to a $Z$ boson and a photon in $pp$ collisions at $\sqrt{s}=13$ TeV with the ATLAS detector",
+            >>> my_file.print_lines(156)
+            title    = "In pursuit of lepton flavour violation: A search for the τ-> μγγ decay with atlas at √s=8 TeV",
+            >>> my_file.print_lines(166)
+            title     = "Measurement of the CP-violating phase ϕsand the Bs0meson decay width difference with Bs0→ J/ψϕ decays in ATLAS",
+
+            >>> my_file.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace={'>': '', '<': ''})
+            Cleaning of "example_data//problematic_characters_test_3.bib" started
+            Cleaning of "example_data//problematic_characters_test_3.bib" finished
+            >>> my_cleaned_file = Bibtex_File('example_data//problematic_characters_test_3_cleaned.bib')
+            >>> my_cleaned_file.print_lines(95)
+            title     = "Networks of * / G/ [?] queues with shot-noise-driven arrival intensities",
+            >>> my_cleaned_file.print_lines(111)
+            title     = "Search for heavy resonances decaying to a $Z$ boson and a photon in $pp$ collisions at $\sqrt{s}=13$ TeV with the ATLAS detector",
+            >>> my_cleaned_file.print_lines(124)
+            title    = "In pursuit of lepton flavour violation: A search for the t- mgg decay with atlas at [?]s=8 TeV",
+
+        """
+        # This command likely cannot read some files in which certain unicode characters exist due to an encoding bug.
+        # See: http://www.i18nqa.com/debug/bug-double-conversion.html
+        from preprocessor.string_tools import String
+        from preprocessor.ListData import ListBuffer
+        from unidecode import unidecode
+        from meta.consoleOutput import ConsoleOutput
+
+        current_progress = 0
+        maximum_progress = self.get_no_of_lines_in_file()
+
+        console = ConsoleOutput(log_file_path='log.txt')
+        console.log_message(('Cleaning of "%s" started' % self.input_file_path),
+                            add_timestamp_in_file=True)
+
+
+        with open(self.input_file_path, encoding="utf8") as input_file:
+            with open(self.cleaned_file_path, mode='w', encoding="utf8") as output_file:
+
+                buffer = ListBuffer()
+
+                for current_line in input_file:
+                    current_line = String(current_line).\
+                        clean_from_newline_characters().\
+                        replace_patterns(patterns_to_replace)
+
+                    if convert_to_ascii:
+                        current_line.clean_from_non_ascii_characters()
+
+                    # new entry line
+                    if current_line.is_line_type('bibtex', 'start of entry'):
+
+                        # this is the first entry ever (just append to buffer)
+                        if buffer.is_empty:
+                            buffer.append_row(current_line.content)
+
+                        # this is NOT the first entry ever (write buffer to output if balanced, then re-initiate)
+                        else:
+                            if buffer.is_each_row_balanced(exclude_special_rows_of_syntax='bibtex'):
+                                if buffer.is_parsable('bibtex'):
+                                    for each_buffer_line in buffer.dataset:
+                                        print(each_buffer_line, file=output_file)
+                                else:
+                                    self.no_of_nonparsable_entries_due_to_unknown_reason += 1
+                            else:
+                                # currently, when an unbalanced row is detected, the entry it belongs to is simply
+                                # not written to the output file. If a more precise procedure (e.g., an unbalanced
+                                # character removal algorithm) is to be added, it should be added under this 'else'.
+                                self.no_of_unbalanced_entries_skipped += 1
+
+                            buffer.clear_all().\
+                                append_row(current_line.content)
+
+                    # regular line (just append to buffer)
+                    elif not current_line.is_line_type('bibtex', 'start of entry') \
+                            and not current_line.is_line_type('bibtex', 'comment'):
+                        buffer.append_row(current_line.content)
+
+                    # reporting
+                    if show_progress_bar:  # show_progress_bar is False by default to prevent overly long test outputs
+                        console.print_current_progress(current_progress, maximum_progress,
+                                                          'Cleaning %s' % self.input_file_path)
+                        current_progress += 1
+
+        console.log_message(('Cleaning of "%s" finished' % self.input_file_path), add_timestamp_in_file=True)
 
 
 class Bibliography:

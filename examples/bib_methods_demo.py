@@ -37,8 +37,8 @@ pattern_replacements_dictionary = {
     '’': "'"
 }
 demo_bibtex_file = Bibtex_File('examples//example_data//demo.bib')
-demo_bibtex_file.clean_bibtex_file_and_output_cleaned_file(patterns_to_replace=pattern_replacements_dictionary,
-                                                           show_progress_bar=True)
+demo_bibtex_file.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace=pattern_replacements_dictionary,
+                                                                    show_progress_bar=True)
 
 ############ Parse the bib file into memory ###############
 demo_bibliography = Bibliography()
