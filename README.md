@@ -3,13 +3,14 @@ Repository of the [Knowledge Flows in Interdisciplinary Research](http://www.net
 
 Is also the main repository for the packages 'triplicator' and 'preprocessor'. For descriptions of these individual modules, please see their directory. 
  
+## Functionality 
+![](KFIR_system_minimal.png)
 ## Requirements:
 - Pyhon 3.x
 - pybtex
 - sparqlwrapper
 
 ## Quickstart
-
 Convert .bib to .ttl:
 
     my_bibtex_file = Bibtex_File('demo.bib')
