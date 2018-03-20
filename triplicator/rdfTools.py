@@ -17,7 +17,7 @@ class RDF_File(Text_File):
         Text_File.__init__(self, file_path)
 
 
-    def write_triples_to_file(self, triples_object):
+    def write_triples_to_file(self, triples_object, show_progress_bar=True):
         """
         Args:
             triples_object(Triples)
@@ -46,11 +46,9 @@ class RDF_File(Text_File):
             >>> my_rdf_file.clear_contents()  # in case file is used by another test before
 
             >>> # Write triples object
-            >>> my_rdf_file.write_triples_to_file(my_triples)
+            >>> my_rdf_file.write_triples_to_file(my_triples, show_progress_bar=False)
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//write_test.ttl" has started
-            [------------------------------------------------------------] 0% ...Writing triples to "example_data//write_test.ttl"
-            [==============================------------------------------] 50% ...Writing triples to "example_data//write_test.ttl"
             Success: The triples were written to "example_data//write_test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
@@ -78,8 +76,9 @@ class RDF_File(Text_File):
                 except:
                     erroneous_triples.append(each_triple)
                 finally:
-                    console.print_current_progress(current_progress=i, maximum_progress=maximum_progress,
-                                                   status_message='Writing triples to "%s"' % file_path)
+                    if show_progress_bar:
+                        console.print_current_progress(current_progress=i, maximum_progress=maximum_progress,
+                                                       status_message='Writing triples to "%s"' % file_path)
 
         # Log
         # TODO: Include number of triples written to file in the log
@@ -307,7 +306,7 @@ class Triples():
 
         return self
 
-    def import_bibliography_object(self, source_bibliography, desired_source_bibliography_name):
+    def import_bibliography_object(self, source_bibliography, desired_source_bibliography_name, show_progress_bar=True):
         # TODO: This method is extracted as a method from the old source code and is not concise. It must be divided into many short methods.
         """
         Returns:
@@ -349,14 +348,9 @@ class Triples():
             <BLANKLINE>
             <BLANKLINE>
 
-
-            # TODO: Change "desired_source_label='vu'" to "desired_source_label='some bibliography'" when the parameter is made independent from keywords
             >>> my_triples = Triples()
-            >>> my_triples.import_bibliography_object(my_bibliography_object, desired_source_bibliography_name='vu')\
+            >>> my_triples.import_bibliography_object(my_bibliography_object, desired_source_bibliography_name='some bibliography', show_progress_bar=False)\
                           .preview(1000)
-            [------------------------------------------------------------] 0% ...Converting Bibliography object to Triples object.
-            [====================----------------------------------------] 33% ...Converting Bibliography object to Triples object.
-            [========================================--------------------] 66% ...Converting Bibliography object to Triples object.
             Triple 1:
             ('<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
@@ -434,11 +428,11 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2000/01/rdf-schema#Class> .')
             Triple 20:
-            ('<http://clokman.com/kfir/resource#vu> '
+            ('<http://clokman.com/kfir/resource#some%20bibliography> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2000/01/rdf-schema#Class> .')
             Triple 21:
-            ('<http://clokman.com/kfir/resource#vu> '
+            ('<http://clokman.com/kfir/resource#some%20bibliography> '
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/resource#Bibliography> .')
             Triple 22:
@@ -476,7 +470,7 @@ class Triples():
             Triple 30:
             ('<http://clokman.com/kfir/resource#Book_with_one_author> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
-             '<http://clokman.com/kfir/resource#vu> .')
+             '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 31:
             ('<http://clokman.com/kfir/resource#Book_with_one_author> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Book with one author"@en .')
@@ -531,7 +525,7 @@ class Triples():
             Triple 45:
             ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
-             '<http://clokman.com/kfir/resource#vu> .')
+             '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 46:
             ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Article with 5 authors with '
@@ -697,7 +691,7 @@ class Triples():
             Triple 85:
             ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
-             '<http://clokman.com/kfir/resource#vu> .')
+             '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 86:
             ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Article with 3 authors with '
@@ -1229,8 +1223,9 @@ class Triples():
 
 
             # Progress bar update
-            console.print_current_progress(current_progress, maximum_progress, 'Converting Bibliography object to '
-                                                                               'Triples object.')
+            if show_progress_bar:
+                console.print_current_progress(current_progress, maximum_progress, 'Converting Bibliography object to '
+                                                                                   'Triples object.')
             current_progress += 1
 
         return self

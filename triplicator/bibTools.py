@@ -22,9 +22,8 @@ class Bibtex_File(Text_File):
         self.no_of_unbalanced_entries_skipped = 0
 
 
-    # TODO: The parameter 'desired_source_label' can not yet take any desired labels (only vu, oc, and uva keywords
-    # TODO: ...allowed. This must be changed by modifying the related Triples method)
-    def convert_to_ttl(self, desired_version_suffix, desired_source_bibliography_name, output_directory=''):
+    def convert_to_ttl(self, desired_version_suffix, desired_source_bibliography_name, output_directory='',
+                       show_progress_bar=True):
         """
         Takes a bib file and outputs a .ttl file.
 
@@ -43,41 +42,14 @@ class Bibtex_File(Text_File):
         Examples:
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
             >>> my_bibtex_file.convert_to_ttl(desired_version_suffix='0.0.test', desired_source_bibliography_name='arbitrary_label',
-            ...                               output_directory='example_data//example_output_dir')
+            ...                               output_directory='example_data//example_output_dir',
+            ...                               show_progress_bar=False)
             Cleaning of "example_data//vu_25_test.bib" started
-            [------------------------------------------------------------] 0% ...Cleaning example_data//vu_25_test.bib
-            [==----------------------------------------------------------] 3% ...Cleaning example_data//vu_25_test.bib
-            [=====-------------------------------------------------------] 7% ...Cleaning example_data//vu_25_test.bib
-            [=======-----------------------------------------------------] 11% ...Cleaning example_data//vu_25_test.bib
-            [=========---------------------------------------------------] 15% ...Cleaning example_data//vu_25_test.bib
-            [============------------------------------------------------] 19% ...Cleaning example_data//vu_25_test.bib
-            [==============----------------------------------------------] 23% ...Cleaning example_data//vu_25_test.bib
-            [================--------------------------------------------] 26% ...Cleaning example_data//vu_25_test.bib
-            [==================------------------------------------------] 30% ...Cleaning example_data//vu_25_test.bib
-            [=====================---------------------------------------] 34% ...Cleaning example_data//vu_25_test.bib
-            [=======================-------------------------------------] 38% ...Cleaning example_data//vu_25_test.bib
-            [=========================-----------------------------------] 42% ...Cleaning example_data//vu_25_test.bib
-            [============================--------------------------------] 46% ...Cleaning example_data//vu_25_test.bib
-            [==============================------------------------------] 50% ...Cleaning example_data//vu_25_test.bib
-            [================================----------------------------] 53% ...Cleaning example_data//vu_25_test.bib
-            [===================================-------------------------] 57% ...Cleaning example_data//vu_25_test.bib
-            [=====================================-----------------------] 61% ...Cleaning example_data//vu_25_test.bib
-            [=======================================---------------------] 65% ...Cleaning example_data//vu_25_test.bib
-            [==========================================------------------] 69% ...Cleaning example_data//vu_25_test.bib
-            [============================================----------------] 73% ...Cleaning example_data//vu_25_test.bib
-            [==============================================--------------] 76% ...Cleaning example_data//vu_25_test.bib
-            [================================================------------] 80% ...Cleaning example_data//vu_25_test.bib
-            [===================================================---------] 84% ...Cleaning example_data//vu_25_test.bib
-            [=====================================================-------] 88% ...Cleaning example_data//vu_25_test.bib
-            [=======================================================-----] 92% ...Cleaning example_data//vu_25_test.bib
-            [==========================================================--] 96% ...Cleaning example_data//vu_25_test.bib
             Cleaning of "example_data//vu_25_test.bib" finished
             Parsing of example_data//vu_25_test_cleaned.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
             Calculating file length...
-            [------------------------------------------------------------] 0% ...Parsing file "example_data//vu_25_test_cleaned.bib"
-            [==============================------------------------------] 50% ...Parsing file "example_data//vu_25_test_cleaned.bib"
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
@@ -93,57 +65,8 @@ class Bibtex_File(Text_File):
              'b_type': 2}
             <BLANKLINE>
             <BLANKLINE>
-            [------------------------------------------------------------] 0% ...Converting Bibliography object to Triples object.
-            [==============================------------------------------] 50% ...Converting Bibliography object to Triples object.
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_0.0.test.ttl" has started
-            [------------------------------------------------------------] 0% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=-----------------------------------------------------------] 2% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [======------------------------------------------------------] 10% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [========----------------------------------------------------] 12% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=========---------------------------------------------------] 14% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==========--------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========-------------------------------------------------] 19% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=============-----------------------------------------------] 21% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==============----------------------------------------------] 23% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===============---------------------------------------------] 25% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=================-------------------------------------------] 27% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==================------------------------------------------] 29% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================----------------------------------------] 34% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [======================--------------------------------------] 36% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=======================-------------------------------------] 38% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==========================----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==================================--------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================================------------------------] 59% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=====================================-----------------------] 61% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [======================================----------------------] 63% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==========================================------------------] 70% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========================================-----------------] 72% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=============================================---------------] 74% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==============================================--------------] 76% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===============================================-------------] 78% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=================================================-----------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [==================================================----------] 83% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===================================================---------] 85% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [====================================================--------] 87% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [======================================================------] 89% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
-            [===========================================================-] 97% ...Writing triples to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             Success: The triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
@@ -216,41 +139,14 @@ class Bibtex_File(Text_File):
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test.bib')
             >>> my_bibtex_file.convert_to_ttl(desired_version_suffix='v0.0.test2',
             ...                               desired_source_bibliography_name='bib name with spaces',
-            ...                               output_directory='example_data//example_output_dir')
+            ...                               output_directory='example_data//example_output_dir',
+            ...                               show_progress_bar=False)
             Cleaning of "example_data//vu_25_test.bib" started
-            [------------------------------------------------------------] 0% ...Cleaning example_data//vu_25_test.bib
-            [==----------------------------------------------------------] 3% ...Cleaning example_data//vu_25_test.bib
-            [=====-------------------------------------------------------] 7% ...Cleaning example_data//vu_25_test.bib
-            [=======-----------------------------------------------------] 11% ...Cleaning example_data//vu_25_test.bib
-            [=========---------------------------------------------------] 15% ...Cleaning example_data//vu_25_test.bib
-            [============------------------------------------------------] 19% ...Cleaning example_data//vu_25_test.bib
-            [==============----------------------------------------------] 23% ...Cleaning example_data//vu_25_test.bib
-            [================--------------------------------------------] 26% ...Cleaning example_data//vu_25_test.bib
-            [==================------------------------------------------] 30% ...Cleaning example_data//vu_25_test.bib
-            [=====================---------------------------------------] 34% ...Cleaning example_data//vu_25_test.bib
-            [=======================-------------------------------------] 38% ...Cleaning example_data//vu_25_test.bib
-            [=========================-----------------------------------] 42% ...Cleaning example_data//vu_25_test.bib
-            [============================--------------------------------] 46% ...Cleaning example_data//vu_25_test.bib
-            [==============================------------------------------] 50% ...Cleaning example_data//vu_25_test.bib
-            [================================----------------------------] 53% ...Cleaning example_data//vu_25_test.bib
-            [===================================-------------------------] 57% ...Cleaning example_data//vu_25_test.bib
-            [=====================================-----------------------] 61% ...Cleaning example_data//vu_25_test.bib
-            [=======================================---------------------] 65% ...Cleaning example_data//vu_25_test.bib
-            [==========================================------------------] 69% ...Cleaning example_data//vu_25_test.bib
-            [============================================----------------] 73% ...Cleaning example_data//vu_25_test.bib
-            [==============================================--------------] 76% ...Cleaning example_data//vu_25_test.bib
-            [================================================------------] 80% ...Cleaning example_data//vu_25_test.bib
-            [===================================================---------] 84% ...Cleaning example_data//vu_25_test.bib
-            [=====================================================-------] 88% ...Cleaning example_data//vu_25_test.bib
-            [=======================================================-----] 92% ...Cleaning example_data//vu_25_test.bib
-            [==========================================================--] 96% ...Cleaning example_data//vu_25_test.bib
             Cleaning of "example_data//vu_25_test.bib" finished
             Parsing of example_data//vu_25_test_cleaned.bib started
             pybtex package is parsing using bibtex.Parser()...
             pybtex package finished parsing
             Calculating file length...
-            [------------------------------------------------------------] 0% ...Parsing file "example_data//vu_25_test_cleaned.bib"
-            [==============================------------------------------] 50% ...Parsing file "example_data//vu_25_test_cleaned.bib"
             <BLANKLINE>
             <BLANKLINE>
             ---------------------------------------------------------------------------------------------------
@@ -266,57 +162,8 @@ class Bibtex_File(Text_File):
              'b_type': 2}
             <BLANKLINE>
             <BLANKLINE>
-            [------------------------------------------------------------] 0% ...Converting Bibliography object to Triples object.
-            [==============================------------------------------] 50% ...Converting Bibliography object to Triples object.
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl" has started
-            [------------------------------------------------------------] 0% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=-----------------------------------------------------------] 2% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===---------------------------------------------------------] 4% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====--------------------------------------------------------] 6% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=====-------------------------------------------------------] 8% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [======------------------------------------------------------] 10% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [========----------------------------------------------------] 12% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=========---------------------------------------------------] 14% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==========--------------------------------------------------] 17% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========-------------------------------------------------] 19% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=============-----------------------------------------------] 21% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==============----------------------------------------------] 23% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===============---------------------------------------------] 25% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=================-------------------------------------------] 27% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==================------------------------------------------] 29% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===================-----------------------------------------] 31% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================----------------------------------------] 34% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [======================--------------------------------------] 36% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=======================-------------------------------------] 38% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [========================------------------------------------] 40% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==========================----------------------------------] 42% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========================---------------------------------] 44% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [============================--------------------------------] 46% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=============================-------------------------------] 48% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===============================-----------------------------] 51% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [================================----------------------------] 53% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=================================---------------------------] 55% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==================================--------------------------] 57% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================================------------------------] 59% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=====================================-----------------------] 61% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [======================================----------------------] 63% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [========================================--------------------] 66% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=========================================-------------------] 68% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==========================================------------------] 70% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========================================-----------------] 72% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=============================================---------------] 74% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==============================================--------------] 76% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===============================================-------------] 78% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=================================================-----------] 80% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [==================================================----------] 83% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===================================================---------] 85% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [====================================================--------] 87% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [======================================================------] 89% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=======================================================-----] 91% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [========================================================----] 93% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [=========================================================---] 95% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
-            [===========================================================-] 97% ...Writing triples to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             Success: The triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
@@ -372,16 +219,17 @@ class Bibtex_File(Text_File):
 
         ### Clean the bib file ###
         self.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace=pattern_replacements_dictionary,
-                                                                show_progress_bar=True)
+                                                                show_progress_bar=show_progress_bar)
 
         ### Parse the bib file ###
         bibliography = Bibliography()
-        bibliography.importBibtex(self.cleaned_file_path, show_progress_bar=True)
+        bibliography.importBibtex(self.cleaned_file_path, show_progress_bar=show_progress_bar)
 
         ### Convert to n3 format ###
         triples = Triples()
         triples.import_bibliography_object(bibliography,
-                                           desired_source_bibliography_name=desired_source_bibliography_name)
+                                           desired_source_bibliography_name=desired_source_bibliography_name,
+                                           show_progress_bar=show_progress_bar)
 
         ### Write to .ttl file
         if output_directory and (not os.path.exists(output_directory)):
@@ -394,7 +242,7 @@ class Bibtex_File(Text_File):
 
         ttl_file_path = output_directory_to_prepend + self.input_file_name + '_' + desired_version_suffix + '.ttl'
         ttl_file = RDF_File(ttl_file_path)
-        ttl_file.write_triples_to_file(triples)
+        ttl_file.write_triples_to_file(triples, show_progress_bar=show_progress_bar)
 
 
     def clean_bibtex_file_and_write_output_to_another_file(self, convert_to_ascii=True, patterns_to_replace={'': ''},
