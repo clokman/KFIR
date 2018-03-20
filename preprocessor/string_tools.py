@@ -127,6 +127,8 @@ class String(str):
         from unidecode import unidecode
         self.content = String(unidecode(self.content))
 
+        return self
+
 
     def clean_from_non_uri_safe_characters(self):
         """
@@ -143,6 +145,7 @@ class String(str):
 
         from urllib.parse import quote
         self.content = quote(self.content)
+
         return self
 
 
