@@ -1241,17 +1241,33 @@ class Triples():
 ###################################################################
 # TODO: Re-write as an OO module.
 
-def construct_uri(prefix, name):  # universal function
+def construct_uri(prefix, name):
     """
-    :return:
-    :example:
-        construct_uri(sr, "Document")
+    Returns:
+        str
+
+    Example:
+        >>> sr = 'http://www.example.com/'
+        >>> construct_uri(sr, "Document")
+        '<http://www.example.com/Document>'
+
+        >>> sr = 'http://www.example.com/'
+        >>> construct_uri(sr, "Some Document")
+        '<http://www.example.com/Some%20Document>'
     """
-    uri = "<" + prefix + name + ">"
+    from preprocessor.string_tools import String
+
+    prefix = String(prefix).clean_from_non_uri_safe_characters()
+    cleaned_prefix = str(prefix)
+
+    name = String(name).clean_from_non_uri_safe_characters()
+    cleaned_name = str(name)
+
+    uri = "<" + cleaned_prefix + cleaned_name + ">"
     return uri
 
 
-def construct_string_literal(input_string, language_tag=""):  # universal function
+def construct_string_literal(input_string, language_tag=""):
     """
     Constructs an English (@en) string literal in turtle format.
 
@@ -1269,7 +1285,7 @@ def construct_string_literal(input_string, language_tag=""):  # universal functi
     return new_string_literal
 
 
-def construct_integer_literal(input_string):  # universal function
+def construct_integer_literal(input_string):
     """
     Constructs an integer literal in turtle format. (Uses 'int' instead of 'integer').
 

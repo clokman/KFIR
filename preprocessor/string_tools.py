@@ -500,6 +500,24 @@ class String(str):
         self.content = string
         return self
 
+
+    def clean_from_non_uri_safe_characters(self):
+        """
+
+        Returns:
+            String
+
+        Examples:
+            >>> my_string = String('non-uri safe_string')
+            >>> my_string.clean_from_non_uri_safe_characters()
+            'non-uri%20safe_string'
+        """
+
+        from urllib.parse import quote
+        self.content = quote(self.content)
+        return self
+
+
     def clean_from_newline_characters(self):
         """
         Cleans the String from newline characters using str.strip() method.
