@@ -18,6 +18,9 @@ class Bibtex_File(Text_File):
     def __init__(self, input_file_path):
         Text_File.__init__(self, input_file_path)
 
+        self.no_of_nonparsable_entries_due_to_unknown_reason = 0
+        self.no_of_unbalanced_entries_skipped = 0
+
 
     # TODO: The parameter 'desired_source_label' can not yet take any desired labels (only vu, oc, and uva keywords
     # TODO: ...allowed. This must be changed by modifying the related Triples method)
@@ -362,9 +365,10 @@ class Bibtex_File(Text_File):
             replace_patterns(pattern_replacements_dictionary).\
             replace_patterns({' ': "_"})  # spaces are not cleared by default for all bibliography entries such as labels,
                                           # so it must be taken care of individually here
-        desired_source_bibliography_name = unidecode(desired_source_bibliography_name.content)  # ascii conversion
-        from urllib.parse import quote
-        desired_source_bibliography_name = quote(desired_source_bibliography_name)
+
+        desired_source_bibliography_name.clean_from_non_ascii_characters()
+        desired_source_bibliography_name.clean_from_non_uri_safe_characters()
+        desired_source_bibliography_name = desired_source_bibliography_name.content  # convert String to str
 
         ### Clean the bib file ###
         self.clean_bibtex_file_and_write_output_to_another_file(patterns_to_replace=pattern_replacements_dictionary,

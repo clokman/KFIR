@@ -116,13 +116,11 @@ class String(str):
         Examples:
             >>> my_string = String("In pursuit of lepton flavour violation: A search for the τ-> μγγ decay with atlas at √s=8 TeV,")
             >>> my_string.clean_from_non_ascii_characters()
-            >>> print(my_string)
-            In pursuit of lepton flavour violation: A search for the t-> mgg decay with atlas at [?]s=8 TeV,
+            'In pursuit of lepton flavour violation: A search for the t-> mgg decay with atlas at [?]s=8 TeV,'
 
             >>> my_string = String("Measurement of the CP-violating phase ϕsand the Bs0meson decay width difference with Bs0→ J/ψϕ decays in ATLAS,")
             >>> my_string.clean_from_non_ascii_characters()
-            >>> print(my_string)
-            Measurement of the CP-violating phase phsand the Bs0meson decay width difference with Bs0- J/psph decays in ATLAS,
+            'Measurement of the CP-violating phase phsand the Bs0meson decay width difference with Bs0- J/psph decays in ATLAS,'
         """
         from unidecode import unidecode
         self.content = String(unidecode(self.content))
