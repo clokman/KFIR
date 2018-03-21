@@ -742,7 +742,7 @@ class Bibliography:
             ...                           field_value_list_separator=' | ',
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
-            ...                           cleaning_algorithm='open citations')
+            ...                           cleaning_algorithm='default')
             Conversion from ListData to Bibliography object started
             Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>
@@ -781,7 +781,7 @@ class Bibliography:
             >>> my_custom_bibliography = Bibliography()
             >>> my_custom_bibliography.importCsv(path_of_file_to_import='example_data//test.csv',
             ...                                    conversion_arguments_list=custom_arguments_list,
-            ...                                    cleaning_algorithm="open citations",
+            ...                                    cleaning_algorithm="default",
             ...                                    csv_delimiter_character=',',
             ...                                    field_value_list_separator=' | ',
             ...                                    id_column_header='referenceEntry')
@@ -823,7 +823,7 @@ class Bibliography:
             >>> my_csv_bibliography = Bibliography()
             >>> my_csv_bibliography.importCsv(path_of_file_to_import='example_data//test.csv',
             ...                                conversion_arguments_list=old_oc_conversion_arguments_list,
-            ...                                cleaning_algorithm="open citations",
+            ...                                cleaning_algorithm="default",
             ...                                csv_delimiter_character=',',
             ...                                field_value_list_separator=' | ',
             ...                                id_column_header='referenceEntry')
@@ -1397,7 +1397,7 @@ class Bibliography:
             ...                           field_value_list_separator=' | ',
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
-            ...                           cleaning_algorithm='open citations')
+            ...                           cleaning_algorithm='default')
             Conversion from ListData to Bibliography object started
             Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>

@@ -37,7 +37,7 @@ oc_bibliography.importCsv(path_of_file_to_import='examples//example_data//yasgui
                           field_value_list_separator=' | ',
                           id_column_header='journal_article',
                           conversion_arguments_list='open citations',
-                          cleaning_algorithm='open citations',
+                          cleaning_algorithm='default',
                           show_progress_bar=True)
 
 oc_bibliography.preview(5)

@@ -31,7 +31,7 @@ class CSV_Bibliography(Bibliography):
             ...                                  id_column_header=             'referenceEntry',
             ...                                  field_value_list_separator=   ' | ',
             ...                                  csv_delimiter_character=      ',',
-            ...                                  cleaning_algorithm=           'open citations'
+            ...                                  cleaning_algorithm=           'default'
             ... )
             Conversion from ListData to Bibliography object started
             Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
@@ -198,7 +198,7 @@ class CSV_Bibliography(Bibliography):
             ...                           id_column_header='journal_article',
             ...                           field_value_list_separator=' | ',
             ...                           csv_delimiter_character=',',
-            ...                           cleaning_algorithm='open citations'
+            ...                           cleaning_algorithm='default'
             ... )
             Conversion from ListData to Bibliography object started
             Conversion completed. 2 out of 2 ListData rows converted to Bibliography object entries
@@ -239,7 +239,7 @@ class CSV_Bibliography(Bibliography):
             imported_string_cleaned = imported_string_raw
 
         # otherwise, run cleaning algorithm
-        elif instance.cleaning_algorithm == 'open citations':
+        elif instance.cleaning_algorithm == 'default':
             # TODO: The current way to remove in-string commas is tuned for OpenCitations data with yasgui style CSV. Make a generic version by using a while loop (see commented out draft below).
             # clean commas that occur in entry field values (i.e., within strings)
             imported_string_cleaned = re.sub(' ,', '_-_-_', imported_string_raw)
