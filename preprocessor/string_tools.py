@@ -28,6 +28,40 @@ class String(str):
         """
         return str(self.content)
 
+    def purify(self, leave_newline_characters=False):
+        """
+        Replaces non-ascii characters with their ascii equivalents (e.g., 'â' with 'a') and removes patterns/characters
+        that can lead to parsing errors.
+
+        Returns:
+            String
+
+        Examples:
+            >>> my_string = String('bad string ââ “ ” ’< > \ {"} () {} []')
+            >>> my_string.purify()
+            'bad string aa'
+        """
+        pattern_replacements_dictionary = {
+            '<': '',
+            '>': '',
+            '\{"\}': '',  # to replace {"} with '
+            '\\\\': '',   # to remove '\' in expressions such as '\sqrt{s}' and rogue '\'s.  unsure why '\\' does not work
+            "'": '',
+            '"': '',
+            '“': '',
+            '”': '',
+            '’': '',
+            '\\\\': '',
+            '\[|\]|\{|\}|\(|\)': ''
+        }
+
+        self.clean_from_non_ascii_characters()
+        self.replace_patterns(pattern_replacements_dictionary)
+        if not leave_newline_characters:
+            self.clean_from_newline_characters()
+
+        return self
+
 
     def replace_patterns(self, pattern_conversions_dictionary):
         """
@@ -35,7 +69,7 @@ class String(str):
 
         Args:
             pattern_conversions_dictionary(dict): A dictionary in the format of {target:replacement}. Targets and
-            replacements can be longer than single characters, and can contain regex expressions.
+                replacements can be longer than single characters, and can contain regex expressions.
 
         Returns:
             A modified String object (self)
