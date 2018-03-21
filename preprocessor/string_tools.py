@@ -28,18 +28,40 @@ class String(str):
         """
         return str(self.content)
 
-    def purify(self, leave_newline_characters=False):
+    def purify(self,clean_from_non_ascii_characters=True, remove_problematic_patterns=True,
+               clean_newline_characters=True,
+               convert_spaces_to_underscores=False, make_uri_safe=False):
         """
         Replaces non-ascii characters with their ascii equivalents (e.g., 'â' with 'a') and removes patterns/characters
-        that can lead to parsing errors.
+        that can lead to parsing errors. If associated parameters are set, also performs additional operations such as
+        converting spaces to underscore and making the String safe to use as an uri/url.
+
+        Args:
+            leave_newline_characters(bool)
+            convert_spaces_to_underscores(bool)
+            make_uri_safe(bool)
 
         Returns:
-            String
+            String (self)
 
         Examples:
             >>> my_string = String('bad string ââ “ ” ’< > \ {"} () {} []')
             >>> my_string.purify()
             'bad string aa'
+            >>> my_string.purify(convert_spaces_to_underscores=True)
+            'bad_string_aa'
+
+            >>> # Make uri-safe
+            >>> my_string = String('a string')
+            >>> my_string.purify(make_uri_safe=True)
+            'a%20string'
+
+            >>> # Convert spaces to underscores and make uri safe
+            >>> # replacing spaces with underscores takes precedence over replacing them with '%20', if both parameters
+            >>> # are set to True
+            >>> my_string = String('another string')
+            >>> my_string.purify(convert_spaces_to_underscores=True, make_uri_safe=True)
+            'another_string'
         """
         pattern_replacements_dictionary = {
             '<': '',
@@ -55,10 +77,21 @@ class String(str):
             '\[|\]|\{|\}|\(|\)': ''
         }
 
-        self.clean_from_non_ascii_characters()
-        self.replace_patterns(pattern_replacements_dictionary)
-        if not leave_newline_characters:
+        if clean_from_non_ascii_characters:
+            self.clean_from_non_ascii_characters()
+        
+        if remove_problematic_patterns:
+            self.replace_patterns(pattern_replacements_dictionary)
+
+        if clean_newline_characters:
             self.clean_from_newline_characters()
+
+        if convert_spaces_to_underscores:  # should stay here before 'make_uri_safe',
+                                           # or spaces would be replaced with '%20'
+            self.replace_patterns({' ': '_'})
+
+        if make_uri_safe:
+            self.clean_from_non_uri_safe_characters()
 
         return self
 
