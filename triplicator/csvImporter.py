@@ -185,10 +185,50 @@ class CSV_Bibliography(Bibliography):
         Returns:
             List containing parsed data from the .csv file. For each row in the .csv file (including headers row), a
                 sub-list is created in the main list.
+
+        Examples:
+            >>> from preprocessor.Text_File import Text_File
+            >>> my_file = Text_File('example_data//problematic_yasgui_csv_file.csv')
+            >>> my_file.print_lines(2)
+            "27624462" , "2016" , "Journal Article" , "Duku - Stephen Kwasiââ OpokuĂŠ | Asenso-Boadi - Francis" , "[]{}\ '<Utilization, of, healthcare services and renewal of health insurance membership: evidence of adverse selection in Ghana" , "Springer Science + Business Media" , "1" , "Health Econ Rev - Health Economics Review" , "http://dx.doi.org/10.1186/s13561-016-0122-6" , "6" , "10.1186/s13561-016-0122-6" , "" , "https://w3id.org/oc/corpus/br/3555801" , "https://w3id.org/oc/corpus/br/18754 | https://w3id.org/oc/corpus/br/18792" ,
+
+
+            >>> my_csv_bibliography = CSV_Bibliography(
+            ...                           csv_file_path='example_data//problematic_yasgui_csv_file.csv',
+            ...                           id_column_header='journal_article',
+            ...                           field_value_list_separator=' | ',
+            ...                           csv_delimiter_character=',',
+            ...                           cleaning_algorithm='open citations'
+            ... )
+            Conversion from ListData to Bibliography object started
+            Conversion completed. 2 out of 2 ListData rows converted to Bibliography object entries
+            >>> my_csv_bibliography.preview(1) # notice the character conversions in the 'authors' and 'title' fields
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('https://w3id.org/oc/corpus/br/3555801',
+             {'': '',
+              'authors': ['Duku - Stephen Kwasiaa OpokuAS', 'Asenso-Boadi - Francis'],
+              'cited_by_the_articles': '',
+              'cited_the_articles': ['https://w3id.org/oc/corpus/br/18754',
+                                     'https://w3id.org/oc/corpus/br/18792'],
+              'doi': '10.1186/s13561-016-0122-6',
+              'journal_article': 'https://w3id.org/oc/corpus/br/3555801',
+              'journal_issue_number': '1',
+              'journal_name': 'Health Econ Rev - Health Economics Review',
+              'journal_volume_number': '6',
+              'pmid': '27624462',
+              'publication_type': 'Journal Article',
+              'publication_year': '2016',
+              'publisher_name': 'Springer Science + Business Media',
+              'title': ' Utilization-of-healthcare services and renewal of health '
+                       'insurance membership: evidence of adverse selection in Ghana',
+              'url': 'http://dx.doi.org/10.1186/s13561-016-0122-6'})
+            <BLANKLINE>
         """
         import re
         import csv
         from os import remove as os_remove
+        from preprocessor.string_tools import String
 
         # open the csv file and read it to a variable
         imported_file_raw = open(instance.csv_file_path, mode="r", encoding="utf8")
@@ -208,6 +248,14 @@ class CSV_Bibliography(Bibliography):
 
             # clean CSV file from double quotes
             imported_string_cleaned = re.sub(' "|" ', '', imported_string_cleaned)
+
+            # clean from characters and patterns that are generally problematic for parsing operations
+            imported_string_cleaned = String(imported_string_cleaned)
+            imported_string_cleaned.purify(clean_from_non_ascii_characters=True,
+                                           remove_problematic_patterns=True,
+                                           clean_newline_characters=False)
+            imported_string_cleaned = str(imported_string_cleaned)
+
             # # Draft while loop for a more generic future algorithm to replace in-string commas:
             #
             # between_quotes = False

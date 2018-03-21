@@ -1561,12 +1561,12 @@ class Bibliography:
                             'Barnes_MN', 'Austin_JM', 'Alvarez_RD'],
               'b_cited': '',
               'b_cited_by': 'https://w3id.org/oc/corpus/br/1',
-              'b_document': 'Stage_IC_adenocarcinoma_of_the_endometrium-survival_comparisons_of_surgically_staged_patients_with_and_without_adjuvant_radiation_therapy%C3%A2%C2%98%C2%86%C3%A2%C2%98%C2%86Presented_at_the_33rd_Annual_Meeting_of_Gynecologic_Oncologists-Miami-FL-March_2002',
+              'b_document': 'Stage_IC_adenocarcinoma_of_the_endometrium-survival_comparisons_of_surgically_staged_patients_with_and_without_adjuvant_radiation_therapyaaPresented_at_the_33rd_Annual_Meeting_of_Gynecologic_Oncologists-Miami-FL-March_2002',
               'b_document_label': 'Stage IC adenocarcinoma of the endometrium-survival '
                                   'comparisons of surgically staged patients with and '
-                                  'without adjuvant radiation '
-                                  'therapyâ\x98\x86â\x98\x86Presented at the 33rd Annual '
-                                  'Meeting of Gynecologic Oncologists-Miami-FL-March 2002.',
+                                  'without adjuvant radiation therapyaaPresented at the '
+                                  '33rd Annual Meeting of Gynecologic '
+                                  'Oncologists-Miami-FL-March 2002.',
               'b_doi': '10.1016/s0090-8258(03)00087-8',
               'b_journal_issue_no': '2',
               'b_journal_volume_no': '89',

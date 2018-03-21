@@ -45,11 +45,11 @@ class String(str):
             String (self)
 
         Examples:
-            >>> my_string = String('bad string ââ “ ” ’< > \ {"} () {} []')
+            >>> my_string = String('bad string {[(ââ)]} “ ” ’< > \ {"}')
             >>> my_string.purify()
-            'bad string aa'
+            'bad string (aa)'
             >>> my_string.purify(convert_spaces_to_underscores=True)
-            'bad_string_aa'
+            'bad_string_(aa)'
 
             >>> # Make uri-safe
             >>> my_string = String('a string')
@@ -73,8 +73,7 @@ class String(str):
             '“': '',
             '”': '',
             '’': '',
-            '\\\\': '',
-            '\[|\]|\{|\}|\(|\)': ''
+            '\[|\]|\{|\}': ''
         }
 
         if clean_from_non_ascii_characters:
