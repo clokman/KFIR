@@ -33,7 +33,7 @@ oc_triples.import_bibliography_object(oc_bibliography, desired_source_bibliograp
 
 ################### Write to .ttl file ######################
 from triplicator.rdfTools import RDF_File
-oc_ttl_file = RDF_File('Output//oc_articles_with_matching_dois_v1.3.ttl')
+oc_ttl_file = RDF_File('Output//oc_articles_with_matching_dois_v1.3.1.ttl')
 oc_ttl_file.write_triples_to_file(oc_triples)
 
 
