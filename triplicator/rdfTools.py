@@ -829,6 +829,7 @@ class Triples():
         from preprocessor.string_tools import String
         from preprocessor.Text_File import Log_File
         from meta.consoleOutput import ConsoleOutput
+        from preprocessor.string_tools import Parameter_Value
 
         # Parameters
         Parameter_Value(source_bibliography).force_type(Bibliography)
@@ -884,24 +885,26 @@ class Triples():
 
 
         ###### STATIC PROPERTY DEFINITIONS (p_) ######
-        p_subclass_of             = construct_uri(rdfs, "subClassOf"        )  # assign URI to subclass of
-        p_is_author_of            = construct_uri(ont,  "isAuthorOf"        )  # assign URI to is author of
-        p_has_author              = construct_uri(ont,  "hasAuthor"         )  # ...
-        p_is_published_on         = construct_uri(ont,  "isPublishedOn"     )
-        p_is_published_by         = construct_uri(ont,  "isPublishedBy"     )
-        p_is_published_on_year    = construct_uri(ont,  "isPublishedOnYear" )
-        p_is_published_on_month   = construct_uri(ont,  "isPublishedOnMonth")
-        p_is_published_on_date    = construct_uri(ont,  "isPublishedOnDate" )
-        p_has_doi                 = construct_uri(ont,  "hasDOI"            )
-        p_has_issn                = construct_uri(ont,  "hasISSN"           )
-        p_has_isbn                = construct_uri(ont,  "hasISBN"           )
-        p_is_chapter_of           = construct_uri(ont,  "isChapterOf"       )
-        p_has_topic               = construct_uri(ont,  "hasTopic")
-        p_has_abstract            = construct_uri(ont,  "hasAbstract"           )
+        p_subclass_of             = construct_uri(rdfs, "subClassOf"           )  # assign URI to subclass of
+        p_is_author_of            = construct_uri(ont,  "isAuthorOf"           )  # assign URI to is author of
+        p_has_author              = construct_uri(ont,  "hasAuthor"            )  # ...
+        p_is_published_on         = construct_uri(ont,  "isPublishedOn"        )
+        p_is_published_by         = construct_uri(ont,  "isPublishedBy"        )
+        p_is_published_on_year    = construct_uri(ont,  "isPublishedOnYear"    )
+        p_is_published_on_month   = construct_uri(ont,  "isPublishedOnMonth"   )
+        p_is_published_on_date    = construct_uri(ont,  "isPublishedOnDate"    )
+        p_has_doi                 = construct_uri(ont,  "hasDOI"               )
+        p_has_issn                = construct_uri(ont,  "hasISSN"              )
+        p_has_isbn                = construct_uri(ont,  "hasISBN"              )
+        p_is_chapter_of           = construct_uri(ont,  "isChapterOf"          )
+        p_has_topic               = construct_uri(ont,  "hasTopic"             )
+        p_has_abstract            = construct_uri(ont,  "hasAbstract"          )
+        p_has_cited               = construct_uri(ont,  "hasCited"             )
+        p_is_cited_by             = construct_uri(ont,  "isCitedBy"            )
         p_has_origin_bibliography = construct_uri(ont,  "hasOriginBibliography")
-        p_rdf_type                = construct_uri(rdf,  "type"              )
-        p_label                   = construct_uri(rdfs, "label"             )
-        p_equivalent_class        = construct_uri(owl,  "equivalentClass"   )
+        p_rdf_type                = construct_uri(rdf,  "type"                 )
+        p_label                   = construct_uri(rdfs, "label"                )
+        p_equivalent_class        = construct_uri(owl,  "equivalentClass"      )
 
         # TODO: Add triple should add triple so self.some_object instead of a variable outside the instance
         self.add_triple(p_subclass_of,              p_rdf_type,     c_object_property)
@@ -920,6 +923,8 @@ class Triples():
         self.add_triple(p_label,                    p_rdf_type,     c_object_property)
         self.add_triple(p_has_topic,                p_rdf_type,     c_object_property)
         self.add_triple(p_has_abstract,             p_rdf_type,     c_object_property)
+        self.add_triple(p_has_cited,                p_rdf_type,     c_object_property)
+        self.add_triple(p_is_cited_by,              p_rdf_type,     c_object_property)
         self.add_triple(p_equivalent_class,         p_rdf_type,     c_object_property)
         self.add_triple(p_has_origin_bibliography,  p_rdf_type,     c_object_property)
 
@@ -951,10 +956,10 @@ class Triples():
         self.add_triple(c_origin_bibliography,  p_rdf_type,    c_class)
         self.add_triple(c_origin_bibliography,  p_subclass_of, c_bibliography)
 
-        # SR document type definitions
+        # Static document type definitions
         # These are not used to categorize instances in the document directly, but necessary for the class
-        # equivalencies with Pure-VU document types. As these are the document classes in the main ontology, their
-        # variable names are not suffixed as in other cases (e.g., c_article_res).
+        # equivalencies with e.g., Pure-VU document types. As these are the document classes in the main ontology,
+        # their variable names are not suffixed as in other cases (e.g., c_article_res).
         c_journal_article = construct_uri(ont, "JournalArticle")
         c_book            = construct_uri(ont, "Book")
         c_book_chapter    = construct_uri(ont, "BookChapter")
@@ -1037,6 +1042,41 @@ class Triples():
                 self.add_triple(i_document_instance, p_label, construct_string_literal(each_entry["b_document_label"], "@en"))
             except:
                 pass
+
+            #######  HAS CITED  #######
+            try:
+                current_incoming_citations_list = each_entry["b_cited"]
+                if current_incoming_citations_list != '':
+                    current_incoming_citations_list = Parameter_Value(current_incoming_citations_list)\
+                                                                     .convert_to_single_item_list_if_not_list()
+
+                for each_incoming_citation in current_incoming_citations_list:
+                    i_incoming_document_instance = construct_uri(res, each_incoming_citation)
+                    # if i_incoming_document_instance corresponds to an existing document_instance,
+                    # its uri would be exactly the same with that of document_instance
+                    self.add_triple(i_incoming_document_instance, p_rdf_type, c_named_individual)
+                    self.add_triple(i_document_instance, p_has_cited, i_incoming_document_instance)
+
+            except:
+                pass
+
+
+            #######  IS CITED BY  #######
+            try:
+                current_outgoing_citations_list = each_entry["b_cited_by"]
+                if current_outgoing_citations_list != '':
+                    current_outgoing_citations_list = Parameter_Value(current_outgoing_citations_list)\
+                                                                     .convert_to_single_item_list_if_not_list()
+
+                for each_outgoing_citation in current_outgoing_citations_list:
+                    i_outgoing_document_instance = construct_uri(res, each_outgoing_citation)
+                    # if i_outgoing_document_instance corresponds to an existing document_instance,
+                    # its uri would be exactly the same with that of document_instance
+                    self.add_triple(i_outgoing_document_instance, p_rdf_type, c_named_individual)
+                    self.add_triple(i_document_instance, p_has_cited, i_outgoing_document_instance)
+            except:
+                pass
+
 
             #######  AUTHOR  ########
             #TODO: this try-except block is a workaround. remove it.
