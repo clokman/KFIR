@@ -1447,11 +1447,8 @@ class Bibliography:
 
             >>> # entry in the the richer bibliography
              >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1186/s13034-015-0062-7'), compact=True)
-             [{'b_author_labels': [', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ',
-                                   ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ', ',
-                                   ', '],
-               'b_authors': ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',
-                             '_', '_', '_', '_', '_', '_'],
+             [{'b_author_labels': ['Zetterqvist, M'],
+               'b_authors': ['Zetterqvist_M'],
                'b_cited': ['https://w3id.org/oc/corpus/br/37961',
                            'https://w3id.org/oc/corpus/br/38250',
                            'https://w3id.org/oc/corpus/br/135448',
@@ -2541,6 +2538,8 @@ def cleanAndFormatValues(target_field, algorithm):
     #              FORMAT: OPEN CITATIONS AUTHOR INSTANCE NAME AND LABEL PREPROCESSOR               #
     #-----------------------------------------------------------------------------------------------#
     if algorithm is "open_citations_author_instance_name" or algorithm is "open_citations_author_label":
+        from preprocessor.string_tools import Parameter_Value
+        target_field = Parameter_Value(target_field).convert_to_single_item_list_if_not_list()
         authors_list = target_field
         each_formatted_author_instance_list = []
         each_formatted_author_label_list = []
