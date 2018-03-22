@@ -1,4 +1,4 @@
-"""Converts given .bib to .ttl """
+"""Converts open citations .csv file to .ttl"""
 
 from triplicator.bibTools import Bibtex_File
 
