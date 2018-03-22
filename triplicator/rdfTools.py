@@ -1073,7 +1073,7 @@ class Triples():
                     # if i_outgoing_document_instance corresponds to an existing document_instance,
                     # its uri would be exactly the same with that of document_instance
                     self.add_triple(i_outgoing_document_instance, p_rdf_type, c_named_individual)
-                    self.add_triple(i_document_instance, p_has_cited, i_outgoing_document_instance)
+                    self.add_triple(i_document_instance, p_is_cited_by, i_outgoing_document_instance)
             except:
                 pass
 
