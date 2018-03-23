@@ -67,7 +67,7 @@ class Bibtex_File(Text_File):
             <BLANKLINE>
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_0.0.test.ttl" has started
-            Success: The triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            Success: 49 triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
@@ -164,7 +164,7 @@ class Bibtex_File(Text_File):
             <BLANKLINE>
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl" has started
-            Success: The triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            Success: 49 triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
@@ -743,6 +743,7 @@ class Bibliography:
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
             ...                           cleaning_algorithm='default')
+            Parsing of "example_data//oc_query_2.2_results_short_sample.csv" started
             Conversion from ListData to Bibliography object started
             Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>
@@ -785,6 +786,7 @@ class Bibliography:
             ...                                    csv_delimiter_character=',',
             ...                                    field_value_list_separator=' | ',
             ...                                    id_column_header='referenceEntry')
+            Parsing of "example_data//test.csv" started
             Conversion from ListData to Bibliography object started
             Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
             <BLANKLINE>
@@ -827,6 +829,7 @@ class Bibliography:
             ...                                csv_delimiter_character=',',
             ...                                field_value_list_separator=' | ',
             ...                                id_column_header='referenceEntry')
+            Parsing of "example_data//test.csv" started
             Conversion from ListData to Bibliography object started
             Conversion completed. 7 out of 7 ListData rows converted to Bibliography object entries
             <BLANKLINE>
@@ -870,6 +873,9 @@ class Bibliography:
         from triplicator.csvImporter import CSV_Bibliography
         from meta.consoleOutput import ConsoleOutput
 
+        console = ConsoleOutput('log.txt')
+        console.log_message('Parsing of "%s" started' % path_of_file_to_import, add_timestamp_in_file=True)
+
         # pass functions to CSV container and create an instance of CSV_Bibliography class
         csv_bibliography = CSV_Bibliography(csv_file_path=path_of_file_to_import,
                                             id_column_header=id_column_header,
@@ -903,8 +909,6 @@ class Bibliography:
                 ['each_entry_data["cited_by_the_articles"]', 'none',                                'b_cited_by'],
                 ['each_entry_data["cited_the_articles"]',    'none',                                'b_cited']
             ]
-              # Currently inactive:
-              #
 
         # if a custom conversion_arguments_list is provided, proceed without modifying the provided list
         elif type(conversion_arguments_list) is list:
@@ -916,7 +920,6 @@ class Bibliography:
 
 
         # For logging
-        console = ConsoleOutput('log.txt')
         console.log_message("\nFormatting of Bibliography entries started", add_timestamp_in_file=True)
         maximum_progress = len(csv_bibliography.entries.keys())
 
@@ -1398,6 +1401,7 @@ class Bibliography:
             ...                           id_column_header='journal_article',
             ...                           conversion_arguments_list='open citations',
             ...                           cleaning_algorithm='default')
+            Parsing of "example_data/oc_query_2.2_results_short_sample_for_merging.csv" started
             Conversion from ListData to Bibliography object started
             Conversion completed. 3 out of 3 ListData rows converted to Bibliography object entries
             <BLANKLINE>
@@ -1725,12 +1729,12 @@ class Bibliography:
             last_entry_is_enriched = False
             last_entry_is_added = False
 
-            each_target_value_in_other_bibliography = each_entry_data_in_other_bibliography[target_field_name]
-
             # if a field name and value(e.g., doi) from other bibliography is found in the current one, enrich
             # the corresponding entry in the current dataset with this field name and its value
             # TODO: This try-except block should either be made more specific or replaced with an if-else block
             try:
+                each_target_value_in_other_bibliography = each_entry_data_in_other_bibliography[target_field_name]
+
                 # Make sure that only one entry in self matches the target value (e.g., doi)
                 matching_entry_in_this_bibliography = instance.getEntriesByField(field_name=target_field_name, field_value=each_target_value_in_other_bibliography)
                 matching_entry_ids_in_this_bibliography = instance._field_values_registry[target_field_name][each_target_value_in_other_bibliography]
@@ -3257,7 +3261,7 @@ def long_tests():
         [===========================================================-] 98% ...Writing triples to "vu_1k_test_0.0_test.ttl"
         [===========================================================-] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
         [============================================================] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
-        Success: The triples were written to "vu_1k_test_0.0_test.ttl"
+        Success: 1995 triples were written to "vu_1k_test_0.0_test.ttl"
         These items were skipped due to errors (0 items):
         <BLANKLINE>
         A log of the operation is kept in "log.txt"
@@ -3281,6 +3285,8 @@ def long_tests():
         <http://www.w3.org/2000/01/rdf-schema#label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasTopic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasAbstract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+        <http://clokman.com/kfir/ontology#hasCited> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+        <http://clokman.com/kfir/ontology#isCitedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
@@ -3513,9 +3519,6 @@ def long_tests():
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
         <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/2000/01/rdf-schema#label> "Performances in the Theatre of the Cold War-the American Society of African Culture (AMSAC) and the 1961 Lagos Festival"@en .
-
 
         >>> import os
         >>> os.remove('vu_1k_test_0.0_test.ttl')
