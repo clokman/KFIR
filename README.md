@@ -45,6 +45,7 @@ The numbers in parentheses before the log entries denote story points.
 - [(5) All DOIs in bib files stored in a file](https://trello.com/c/Pl5QUor5/20-5-all-dois-in-bib-files-stored-in-a-file)
 - [(21) Enrich method for OpenCitations and Pure implemented](https://trello.com/c/5darswd8/7-21-enrich-method-for-opencitations-and-pure-implemented)
 - (8) Implemented methods for one-statement conversion of bib and csv files to ttl  
+- (12) Added real-time reporting (e.g., with progress bars in console) and logging for all methods that take a long time to complete 
 
 #### 👍 Enhancement (5)
 - [(8) verbose_input parameter and the functionality removed form bib and csv parsing operations, so that it does not majorly slow down the processes if someone activates it by mistake](https://trello.com/c/AyD0pV06/27-8-verboseinput-parameter-and-the-functionality-removed-form-bib-and-csv-parsing-operations-so-that-it-does-not-majorly-slow-down)
