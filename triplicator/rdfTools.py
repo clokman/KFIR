@@ -1112,8 +1112,7 @@ class Triples():
 
 
             #######  PUBLICATION INSTANCE + PUBLISHED ON  #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             # This property applies journal articles (but not to books and journals)
             try:
                 current_journal = each_entry["b_journal"]         # extract current publication instance
@@ -1128,8 +1127,7 @@ class Triples():
 
 
             #######  PUBLISHER  #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             # This property applies to books and journals (but not to journal articles)
             try:
                 current_publisher = each_entry["b_publisher"]
@@ -1144,8 +1142,7 @@ class Triples():
 
 
             #######  YEAR + MONTH + DATE #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 # extract field values and combine them into a date
                 current_year  = each_entry["b_publication_year"]
@@ -1171,8 +1168,7 @@ class Triples():
 
 
             #######  DOI  #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
 
                 # Extract current doi
@@ -1187,8 +1183,7 @@ class Triples():
 
 
             #######  ISSN  #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 # Extract current issn
                 current_issn = each_entry["b_issn"]
@@ -1202,8 +1197,7 @@ class Triples():
 
 
             #######  ISBN  #######
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 # Extract current isbn
                 current_isbn = each_entry["b_isbn"]
@@ -1218,8 +1212,7 @@ class Triples():
             #######  BOOK TITLE --> IS CHAPTER IN + PARENT BOOK INSTANCE #######
             # Assign parent book to the current document if available (i.e., if the current document is a book chapter).
             # Also infer parent book instance.
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 # Extract current book title
                 current_parent_book = each_entry["b_parent_book"]
@@ -1236,8 +1229,7 @@ class Triples():
 
             #######  KEYWORDS --> ABOUT  #######
             # Assign keywords to the current document if available and the keyword is not in ignore list.
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 current_topics           = each_entry["b_topics"]
                 list_of_topics_to_ignore = ["Journal_Article", "journal_article"]  # ignore these topics
@@ -1257,8 +1249,7 @@ class Triples():
 
             #######  ABSTRACT  #######
             # Assign abstract to the current document if available and the keyword is not in ignore list.
-            # NOTE: Use this "try-except" structure except identifier, authors, document instance, type--all fields
-            # except these ones may not always be present.
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
             try:
                 current_abstract = each_entry["b_abstract"]
                 list_of_values_to_ignore = []  # ignore these values if they are found in the abstract field
