@@ -598,6 +598,8 @@ class Bibliography:
 
         if conversion_arguments_list == 'bib_default':
            conversion_arguments_list = [
+                # CAUTION: If any changes are made to 'desired_field_name's, the same changes should be made to
+                # Bibliography.importCsv() > conversion_arguments_list > 'open citations' > 'desired_field_name' column
                 # [target_field_value in existing data,     formatting_algorithm,               desired_field_name in new object]
                 ['each_pybtex_entry.type',                  'none',                             'b_type'],
                 ['each_pybtex_entry.fields["title"]',       'pybtex_document_instance_name',    'b_document'],
@@ -758,21 +760,137 @@ class Bibliography:
              'b_document': 3,
              'b_document_label': 3,
              'b_doi': 3,
-             'b_journal_issue_no': 3,
-             'b_journal_volume_no': 3,
+             'b_issue_number': 3,
+             'b_journal': 3,
+             'b_journal_label': 3,
              'b_pages': 2,
              'b_pmid': 3,
-             'b_publication': 3,
-             'b_publication_label': 3,
-             'b_publication_type': 3,
              'b_publication_year': 3,
              'b_publisher': 3,
              'b_publisher_label': 3,
              'b_type': 3,
-             'b_url': 3}
+             'b_url': 3,
+             'b_volume': 3}
 
-            >>> #oc_bibliography.preview(2) # TODO bt727: Currently, there is a parsing error in the first entry
-            >>>                             # TODO...(missing authors). Once fixed, this test should be uncommented
+            >>> oc_bibliography.preview(2)
+            <BLANKLINE>
+            ----------------------------------ENTRY 1----------------------------------
+            ('https://w3id.org/oc/corpus/br/362418',
+             {'b_author_labels': ['Zetterqvist, M'],
+              'b_authors': ['Zetterqvist_M'],
+              'b_cited': ['https://w3id.org/oc/corpus/br/37961',
+                          'https://w3id.org/oc/corpus/br/38250',
+                          'https://w3id.org/oc/corpus/br/135448',
+                          'https://w3id.org/oc/corpus/br/135458',
+                          'https://w3id.org/oc/corpus/br/177639',
+                          'https://w3id.org/oc/corpus/br/177648',
+                          'https://w3id.org/oc/corpus/br/177653',
+                          'https://w3id.org/oc/corpus/br/177661',
+                          'https://w3id.org/oc/corpus/br/177774',
+                          'https://w3id.org/oc/corpus/br/362419',
+                          'https://w3id.org/oc/corpus/br/362426',
+                          'https://w3id.org/oc/corpus/br/362438',
+                          'https://w3id.org/oc/corpus/br/607811',
+                          'https://w3id.org/oc/corpus/br/1270766',
+                          'https://w3id.org/oc/corpus/br/1560911',
+                          'https://w3id.org/oc/corpus/br/1794850',
+                          'https://w3id.org/oc/corpus/br/1881397',
+                          'https://w3id.org/oc/corpus/br/2258672',
+                          'https://w3id.org/oc/corpus/br/2907029',
+                          'https://w3id.org/oc/corpus/br/2907034',
+                          'https://w3id.org/oc/corpus/br/2907035',
+                          'https://w3id.org/oc/corpus/br/2907042',
+                          'https://w3id.org/oc/corpus/br/2907056',
+                          'https://w3id.org/oc/corpus/br/3346205',
+                          'https://w3id.org/oc/corpus/br/3567493',
+                          'https://w3id.org/oc/corpus/br/3567495',
+                          'https://w3id.org/oc/corpus/br/3949890',
+                          'https://w3id.org/oc/corpus/br/5106137',
+                          'https://w3id.org/oc/corpus/br/5441063',
+                          'https://w3id.org/oc/corpus/br/5441066',
+                          'https://w3id.org/oc/corpus/br/5441085',
+                          'https://w3id.org/oc/corpus/br/5656230',
+                          'https://w3id.org/oc/corpus/br/6060536',
+                          'https://w3id.org/oc/corpus/br/6063037',
+                          'https://w3id.org/oc/corpus/br/6449521',
+                          'https://w3id.org/oc/corpus/br/6486152',
+                          'https://w3id.org/oc/corpus/br/6486162',
+                          'https://w3id.org/oc/corpus/br/6919305',
+                          'https://w3id.org/oc/corpus/br/6919323',
+                          'https://w3id.org/oc/corpus/br/7558746',
+                          'https://w3id.org/oc/corpus/br/7560541',
+                          'https://w3id.org/oc/corpus/br/7560644',
+                          'https://w3id.org/oc/corpus/br/7560645',
+                          'https://w3id.org/oc/corpus/br/7560646',
+                          'https://w3id.org/oc/corpus/br/7560647',
+                          'https://w3id.org/oc/corpus/br/7560648',
+                          'https://w3id.org/oc/corpus/br/7560651',
+                          'https://w3id.org/oc/corpus/br/7560652',
+                          'https://w3id.org/oc/corpus/br/7560653',
+                          'https://w3id.org/oc/corpus/br/7560654',
+                          'https://w3id.org/oc/corpus/br/7560655',
+                          'https://w3id.org/oc/corpus/br/7560656',
+                          'https://w3id.org/oc/corpus/br/7560657',
+                          'https://w3id.org/oc/corpus/br/7560658',
+                          'https://w3id.org/oc/corpus/br/7560659',
+                          'https://w3id.org/oc/corpus/br/7560660',
+                          'https://w3id.org/oc/corpus/br/7560661',
+                          'https://w3id.org/oc/corpus/br/7560662',
+                          'https://w3id.org/oc/corpus/br/7560663',
+                          'https://w3id.org/oc/corpus/br/7560664',
+                          'https://w3id.org/oc/corpus/br/7560665',
+                          'https://w3id.org/oc/corpus/br/7560666'],
+              'b_cited_by': 'https://w3id.org/oc/corpus/br/362415',
+              'b_document': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
+              'b_document_label': 'The DSM-5 diagnosis of nonsuicidal self-injury '
+                                  'disorder-a review of the empirical literature',
+              'b_doi': '10.1186/s13034-015-0062-7',
+              'b_issue_number': '1',
+              'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
+              'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
+                                 'Adolesc Psychiatry Ment Health',
+              'b_pages': ' ',
+              'b_pmid': '26417387',
+              'b_publication_year': '2015',
+              'b_publisher': 'Springer_Science_%2B_Business_Media',
+              'b_publisher_label': 'Springer Science + Business Media',
+              'b_type': 'Journal Article',
+              'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7',
+              'b_volume': '9'})
+            <BLANKLINE>
+            ----------------------------------ENTRY 2----------------------------------
+            ('https://w3id.org/oc/corpus/br/384',
+             {'b_author_labels': ['Creutzberg, CL', 'van_Putten, WLJ', 'Koper, PC',
+                                  'Lybeert, MLM', 'Jobsen, JJ', 'Warlam-Rodenhuis, CC',
+                                  'De_Winter, KAJ', 'Lutgens, LCHW', 'van_den_Bergh, ACM',
+                                  'van_der_Steen-Banasik, E', 'Beerman, H', 'van_Lent, M'],
+              'b_authors': ['Creutzberg_CL', 'van_Putten_WLJ', 'Koper_PC', 'Lybeert_MLM',
+                            'Jobsen_JJ', 'Warlam-Rodenhuis_CC', 'De_Winter_KAJ',
+                            'Lutgens_LCHW', 'van_den_Bergh_ACM', 'van_der_Steen-Banasik_E',
+                            'Beerman_H', 'van_Lent_M'],
+              'b_cited': '',
+              'b_cited_by': ['https://w3id.org/oc/corpus/br/1',
+                             'https://w3id.org/oc/corpus/br/1342763',
+                             'https://w3id.org/oc/corpus/br/1772164'],
+              'b_document': 'Survival_after_relapse_in_patients_with_endometrial_cancer-results_from_a_randomized_trial',
+              'b_document_label': 'Survival after relapse in patients with endometrial '
+                                  'cancer-results from a randomized trial',
+              'b_doi': '10.1016/s0090-8258(03)00126-4',
+              'b_issue_number': '2',
+              'b_journal': 'Gynecologic_Oncology',
+              'b_journal_label': 'Gynecologic Oncology',
+              'b_pages': '201--209',
+              'b_pmid': '12713981',
+              'b_publication_year': '2003',
+              'b_publisher': 'Elsevier_BV',
+              'b_publisher_label': 'Elsevier BV',
+              'b_type': 'Journal Article',
+              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900126-4',
+              'b_volume': '89'})
+            <BLANKLINE>
+
+
+
 
             >>> # create a Bibliography instance by using custom conversion_arguments_list
             >>> custom_arguments_list = [
@@ -888,24 +1006,28 @@ class Bibliography:
         if conversion_arguments_list == 'open citations':
         # "publication_type" , "journal_article" , "journal_issue_number" , "journal_volume_number" , "startEndPages" , "publisher_name" , "cited_by_article"
             conversion_arguments_list = [
+                # CAUTION: If there would be any merge operation would be made with other bib files (e.g.,
+                # using 'enrich_with' method), the 'desired_field_name's should be the same with those in
+                # Bibliography.importBibtex() > conversion_arguments_list > 'bib_default' > 'desired_field_name' column
+                # If a field name differs from its counterpart in the bib conversion algorithm, then during the merge
+                # operation it will likely be added as a separate field under this differing name
                 # [target_field_value in existing data,      formatting_algorithm,                   desired_field_name in new object]
                 ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_type'],
                 ['each_entry_data["title"]',                 'pybtex_document_instance_name',       'b_document'],
                 ['each_entry_data["title"]',                 'pybtex_document_label',               'b_document_label'],
+                ['each_entry_data["authors"]',               'open_citations_author_instance_name', 'b_authors'],
+                ['each_entry_data["authors"]',               'open_citations_author_label',         'b_author_labels'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',       'b_journal'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_label',               'b_journal_label'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_instance_name',       'b_publisher'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_label',               'b_publisher_label'],
+                ['each_entry_data["publication_year"]',      'open_citations_list_minimizer',       'b_publication_year'],
+                ['each_entry_data["journal_issue_number"]',  'open_citations_list_minimizer',       'b_issue_number'],
+                ['each_entry_data["journal_volume_number"]', 'open_citations_list_minimizer',       'b_volume'],
+                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
                 ['each_entry_data["doi"]',                   'open_citations_list_minimizer',       'b_doi'],
                 ['each_entry_data["pmid"]',                  'open_citations_list_minimizer',       'b_pmid'],
                 ['each_entry_data["url"]',                   'open_citations_list_minimizer',       'b_url'],
-                ['each_entry_data["authors"]',               'open_citations_author_instance_name', 'b_authors'],
-                ['each_entry_data["authors"]',               'open_citations_author_label',         'b_author_labels'],
-                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
-                ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',       'b_publication'],
-                ['each_entry_data["journal_name"]',          'pybtex_document_label',               'b_publication_label'],
-                ['each_entry_data["publication_year"]',      'open_citations_list_minimizer',       'b_publication_year'],
-                ['each_entry_data["journal_issue_number"]',  'open_citations_list_minimizer',       'b_journal_issue_no'],
-                ['each_entry_data["journal_volume_number"]', 'open_citations_list_minimizer',       'b_journal_volume_no'],
-                ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_publication_type'],
-                ['each_entry_data["publisher_name"]',        'pybtex_document_instance_name',       'b_publisher'],
-                ['each_entry_data["publisher_name"]',        'pybtex_document_label',               'b_publisher_label'],
                 ['each_entry_data["cited_by_the_articles"]', 'none',                                'b_cited_by'],
                 ['each_entry_data["cited_the_articles"]',    'none',                                'b_cited']
             ]
@@ -1416,19 +1538,17 @@ class Bibliography:
              'b_document': 3,
              'b_document_label': 3,
              'b_doi': 3,
-             'b_journal_issue_no': 3,
-             'b_journal_volume_no': 3,
+             'b_issue_number': 3,
+             'b_journal': 3,
+             'b_journal_label': 3,
              'b_pages': 2,
              'b_pmid': 3,
-             'b_publication': 3,
-             'b_publication_label': 3,
-             'b_publication_type': 3,
              'b_publication_year': 3,
              'b_publisher': 3,
              'b_publisher_label': 3,
              'b_type': 3,
-             'b_url': 3}
-
+             'b_url': 3,
+             'b_volume': 3}
             >>> # compare entries in two bibliographies
             >>> from pprint import pprint
             >>> # entry in the the poorer bibliography
@@ -1520,20 +1640,18 @@ class Bibliography:
                'b_document_label': 'The DSM-5 diagnosis of nonsuicidal self-injury '
                                    'disorder-a review of the empirical literature',
                'b_doi': '10.1186/s13034-015-0062-7',
-               'b_journal_issue_no': '1',
-               'b_journal_volume_no': '9',
+               'b_issue_number': '1',
+               'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
+               'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
+                                  'Adolesc Psychiatry Ment Health',
                'b_pages': ' ',
                'b_pmid': '26417387',
-               'b_publication': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
-               'b_publication_label': 'Child and Adolescent Psychiatry and Mental '
-                                      'Health-Child Adolesc Psychiatry Ment Health',
-               'b_publication_type': 'Journal Article',
                'b_publication_year': '2015',
                'b_publisher': 'Springer_Science_%2B_Business_Media',
                'b_publisher_label': 'Springer Science + Business Media',
                'b_type': 'Journal Article',
-               'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7'}]
-
+               'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7',
+               'b_volume': '9'}]
             >>> # another entry in the the poorer bibliography
             >>> pprint(vu_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
             [{'b_author_labels': ['Straughn, MJ', 'Huh, WK'],
@@ -1569,25 +1687,25 @@ class Bibliography:
                                   '33rd Annual Meeting of Gynecologic '
                                   'Oncologists-Miami-FL-March 2002.',
               'b_doi': '10.1016/s0090-8258(03)00087-8',
-              'b_journal_issue_no': '2',
-              'b_journal_volume_no': '89',
+              'b_issue_number': '2',
+              'b_journal': 'Gynecologic_Oncology',
+              'b_journal_label': 'Gynecologic Oncology',
               'b_pages': '295--300',
               'b_pmid': '12713994',
-              'b_publication': 'Gynecologic_Oncology',
-              'b_publication_label': 'Gynecologic Oncology',
-              'b_publication_type': 'Journal Article',
               'b_publication_year': '2003',
               'b_publisher': 'Elsevier_BV',
               'b_publisher_label': 'Elsevier BV',
               'b_type': 'Journal Article',
-              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'}]
+              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8',
+              'b_volume': '89'}]
+
 
             >>> # merge poorer and richer bibliographies
             >>> vu_bibliography.enrich_with(oc_bibliography, field_to_match_in_bibliographies='b_doi')
             <BLANKLINE>
             Enrichment completed successfully.
             Existing entries enriched: 2
-            Fields added to existing entries: 23
+            Fields added to existing entries: 21
             New entries added: 0
 
 
@@ -1672,19 +1790,18 @@ class Bibliography:
               'b_document_label': 'Survival after relapse in patients with endometrial '
                                   'cancer-results from a randomized trial☆',
               'b_doi': '10.1186/s13034-015-0062-7',
-              'b_journal_issue_no': '1',
-              'b_journal_volume_no': '9',
+              'b_issue_number': '1',
+              'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
+              'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
+                                 'Adolesc Psychiatry Ment Health',
               'b_pages': ' ',
               'b_pmid': '26417387',
-              'b_publication': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
-              'b_publication_label': 'Child and Adolescent Psychiatry and Mental '
-                                     'Health-Child Adolesc Psychiatry Ment Health',
-              'b_publication_type': 'Journal Article',
               'b_publication_year': '2015',
               'b_publisher': 'Springer_Science_%2B_Business_Media',
               'b_publisher_label': 'Springer Science + Business Media',
               'b_type': 'article',
-              'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7'})
+              'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7',
+              'b_volume': '9'})
             <BLANKLINE>
             ----------------------------------ENTRY 2----------------------------------
             ('b3cd7336ed9a48bfaed37af3a2e593c6',
@@ -1700,18 +1817,17 @@ class Bibliography:
                                   'Meeting of Gynecologic Oncologists, Miami, FL, March '
                                   '2002.',
               'b_doi': '10.1016/s0090-8258(03)00087-8',
-              'b_journal_issue_no': '2',
-              'b_journal_volume_no': '89',
+              'b_issue_number': '2',
+              'b_journal': 'Gynecologic_Oncology',
+              'b_journal_label': 'Gynecologic Oncology',
               'b_pages': '295--300',
               'b_pmid': '12713994',
-              'b_publication': 'Gynecologic_Oncology',
-              'b_publication_label': 'Gynecologic Oncology',
-              'b_publication_type': 'Journal Article',
               'b_publication_year': '2003',
               'b_publisher': 'Elsevier_BV',
               'b_publisher_label': 'Elsevier B.V.',
               'b_type': 'article',
-              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8'})
+              'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8',
+              'b_volume': '89'})
             <BLANKLINE>
         """
         # reset instance counters (in case this is not the first merge operation on the instance, this is necessary)
