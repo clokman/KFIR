@@ -905,6 +905,7 @@ class Triples():
         p_is_published_on_month   = construct_uri(ont,  "isPublishedOnMonth"   )
         p_is_published_on_date    = construct_uri(ont,  "isPublishedOnDate"    )
         p_has_doi                 = construct_uri(ont,  "hasDOI"               )
+        p_has_pmid                = construct_uri(ont,  "hasPMID"              )
         p_has_issn                = construct_uri(ont,  "hasISSN"              )
         p_has_isbn                = construct_uri(ont,  "hasISBN"              )
         p_is_chapter_of           = construct_uri(ont,  "isChapterOf"          )
@@ -1175,8 +1176,21 @@ class Triples():
                 current_doi = each_entry["b_doi"]
 
                 # Bind the values to instances, and define their types
-                # (the current document is published by the current publisher)
                 self.add_triple(i_document_instance,   p_has_doi,   construct_string_literal(current_doi))
+
+            except:
+                pass
+
+
+            #######  PMID  #######
+            # NOTE: Use this "try-except" structure for all fields that may not always be present.
+            try:
+
+                # Extract current doi
+                current_pmid = each_entry["b_pmid"]
+
+                # Bind the values to instances, and define their types
+                self.add_triple(i_document_instance,   p_has_pmid,   construct_string_literal(current_pmid))
 
             except:
                 pass
@@ -1190,7 +1204,6 @@ class Triples():
 
                 # Bind the values to instances, and define their types
                 self.add_triple(i_document_instance,   p_has_issn,  construct_string_literal(current_issn))  # the
-                # current document is published by the current publisher
 
             except:
                 pass
