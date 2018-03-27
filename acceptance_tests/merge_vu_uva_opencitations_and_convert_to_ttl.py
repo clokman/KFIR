@@ -1,3 +1,5 @@
+import os
+os.chdir('..')  # to be able to run file from both server environment and through 'Run' dialog in IDE
 from triplicator.bibTools import Bibliography
 from triplicator.rdfTools import Triples, RDF_File
 from meta.consoleOutput import ConsoleOutput
