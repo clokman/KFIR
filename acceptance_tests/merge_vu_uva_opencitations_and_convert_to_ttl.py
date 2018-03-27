@@ -42,6 +42,6 @@ merged_triples.import_bibliography_object(vu_bibliography,
                                           show_progress_bar=True)
 
 ### Write to ttl file ###
-ttl_file = RDF_File('acceptance_tests//test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.3_10k.ttl')  # PATH
+ttl_file = RDF_File('acceptance_tests//test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.4_10k.ttl')  # PATH
 ttl_file.write_triples_to_file(merged_triples, show_progress_bar=True)
 
