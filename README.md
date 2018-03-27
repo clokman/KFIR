@@ -36,7 +36,7 @@ Although short samples may be provided, bibliographic databases from VU and UvA 
 ## Change Log
 The numbers in parentheses before the log entries denote story points.
 
-### OpenCitations enrichment and data merge ✅ 06/03/18 > 27/03/18
+### v0.5: OpenCitations enrichment and data merge ✅ 06/03/18 > 27/03/18
 
 
 #### ⭐ New (5)
