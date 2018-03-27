@@ -1563,9 +1563,8 @@ class Bibliography:
                             'deserunt mollit anim id est laborum.',
               'b_author_labels': ['Maria, Z'],
               'b_authors': ['Maria_Z'],
-              'b_document': 'Survival_after_relapse_in_patients_with_endometrial_cancer-results_from_a_randomized_trial%E2%98%86',
-              'b_document_label': 'Survival after relapse in patients with endometrial '
-                                  'cancer-results from a randomized trial☆',
+              'b_document': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
+              'b_document_label': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
               'b_doi': '10.1186/s13034-015-0062-7',
               'b_type': 'article'}]
 
@@ -1786,9 +1785,8 @@ class Bibliography:
                           'https://w3id.org/oc/corpus/br/7560665',
                           'https://w3id.org/oc/corpus/br/7560666'],
               'b_cited_by': 'https://w3id.org/oc/corpus/br/362415',
-              'b_document': 'Survival_after_relapse_in_patients_with_endometrial_cancer-results_from_a_randomized_trial%E2%98%86',
-              'b_document_label': 'Survival after relapse in patients with endometrial '
-                                  'cancer-results from a randomized trial☆',
+              'b_document': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
+              'b_document_label': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
               'b_doi': '10.1186/s13034-015-0062-7',
               'b_issue_number': '1',
               'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
