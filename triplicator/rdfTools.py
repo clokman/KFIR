@@ -1021,7 +1021,7 @@ class Triples():
                 #######  URIs  #######
                 current_document_instance_name = each_entry["b_document"]  # document instance
                 current_type = each_entry["b_type"]  # type
-                current_type = String(current_type).capitalize_first_letter().content
+                current_type = String(current_type)
 
             except:
                 pass

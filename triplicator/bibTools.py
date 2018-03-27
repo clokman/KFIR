@@ -601,7 +601,7 @@ class Bibliography:
                 # CAUTION: If any changes are made to 'desired_field_name's, the same changes should be made to
                 # Bibliography.importCsv() > conversion_arguments_list > 'open citations' > 'desired_field_name' column
                 # [target_field_value in existing data,     formatting_algorithm,               desired_field_name in new object]
-                ['each_pybtex_entry.type',                  'none',                             'b_type'],
+                ['each_pybtex_entry.type',                  'capitalize_first_letter',          'b_type'],
                 ['each_pybtex_entry.fields["title"]',       'pybtex_document_instance_name',    'b_document'],
                 ['each_pybtex_entry.fields["title"]',       'pybtex_document_label',            'b_document_label'],
                 ['each_pybtex_entry.persons["author"]',     'pybtex_author_instance_name',      'b_authors'],
@@ -1330,7 +1330,7 @@ class Bibliography:
               'b_doi': '10.1016--j.future.2017.04.017',
               'b_publication_month': '2',
               'b_publication_year': '2018',
-              'b_type': 'article'})
+              'b_type': 'Article'})
             <BLANKLINE>
             ----------------------------------ENTRY 2----------------------------------
             ('d0e972a611e44a80b8014f1069bfad88',
@@ -1341,7 +1341,7 @@ class Bibliography:
                                   'Parties Ward Off Competition',
               'b_doi': '10.1007--978-3-319-58202-3',
               'b_publication_year': '2018',
-              'b_type': 'book'})
+              'b_type': 'Book'})
             <BLANKLINE>
 
             >>> bib_rich = Bibliography()
@@ -1410,7 +1410,7 @@ class Bibliography:
               'b_publication_year': '2018',
               'b_publisher': 'Elsevier',
               'b_publisher_label': 'Elsevier',
-              'b_type': 'article',
+              'b_type': 'Article',
               'b_volume': '79'})
             <BLANKLINE>
             ----------------------------------ENTRY 2----------------------------------
@@ -1425,7 +1425,7 @@ class Bibliography:
               'b_publication_year': '2018',
               'b_publisher': 'Palgrave_Macmillan',
               'b_publisher_label': 'Palgrave Macmillan',
-              'b_type': 'book'})
+              'b_type': 'Book'})
             <BLANKLINE>
 
             >>> bib_poor.enrich_with(target_bibliography_object=bib_rich, field_to_match_in_bibliographies='b_doi')
@@ -1468,7 +1468,7 @@ class Bibliography:
               'b_publication_year': '2018',
               'b_publisher': 'Elsevier',
               'b_publisher_label': 'Elsevier',
-              'b_type': 'article',
+              'b_type': 'Article',
               'b_volume': '79'})
             <BLANKLINE>
             ----------------------------------ENTRY 2----------------------------------
@@ -1483,7 +1483,7 @@ class Bibliography:
               'b_publication_year': '2018',
               'b_publisher': 'Palgrave_Macmillan',
               'b_publisher_label': 'Palgrave Macmillan',
-              'b_type': 'book'})
+              'b_type': 'Book'})
             <BLANKLINE>
 
 
@@ -1566,7 +1566,7 @@ class Bibliography:
               'b_document': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
               'b_document_label': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
               'b_doi': '10.1186/s13034-015-0062-7',
-              'b_type': 'article'}]
+              'b_type': 'Article'}]
 
             >>> # entry in the the richer bibliography
              >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1186/s13034-015-0062-7'), compact=True)
@@ -1666,7 +1666,7 @@ class Bibliography:
               'b_publication_year': '2003',
               'b_publisher': 'Elsevier_BV',
               'b_publisher_label': 'Elsevier B.V.',
-              'b_type': 'article'}]
+              'b_type': 'Article'}]
 
             >>> # another entry in the the richer bibliography
             >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
@@ -1797,7 +1797,7 @@ class Bibliography:
               'b_publication_year': '2015',
               'b_publisher': 'Springer_Science_%2B_Business_Media',
               'b_publisher_label': 'Springer Science + Business Media',
-              'b_type': 'article',
+              'b_type': 'Article',
               'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7',
               'b_volume': '9'})
             <BLANKLINE>
@@ -1823,7 +1823,7 @@ class Bibliography:
               'b_publication_year': '2003',
               'b_publisher': 'Elsevier_BV',
               'b_publisher_label': 'Elsevier B.V.',
-              'b_type': 'article',
+              'b_type': 'Article',
               'b_url': 'http://dx.doi.org/10.1016/s0090-8258%2803%2900087-8',
               'b_volume': '89'})
             <BLANKLINE>
@@ -2436,6 +2436,8 @@ def cleanAndFormatValues(target_field, algorithm):
             suitable to be used as a list of labels for 'topics' (in the format of ["keyword 1", "keyword 2"]).During the
             operation, capitalization is standardized (e.g., 'In' -> 'in').
 
+        "capitalize_first_letter" (algorithm)
+
     Raises:
         Keyword Error: Keyword for 'algorithm' parameter does not exist.
 
@@ -2809,14 +2811,33 @@ def cleanAndFormatValues(target_field, algorithm):
             return target_field
 
     elif algorithm is "open_citations_list_minimizer_2":
+        from preprocessor.string_tools import String
+
         if type(target_field) is list:
             inputted_list = target_field
+            selected_element = ''
             try:
-                return inputted_list[1]
+                selected_element = inputted_list[1]
             except:
-                return inputted_list[0]
+                selected_element = inputted_list[0]
         else:
-            return target_field
+            selected_element = target_field
+
+        formatted_element = String(selected_element).capitalize_first_letter().content
+        return formatted_element
+
+    elif algorithm is "capitalize_first_letter":
+        from preprocessor.string_tools import String
+        from preprocessor.string_tools import Parameter_Value
+        inputted_list = Parameter_Value(target_field).convert_to_single_item_list_if_not_list()
+        formatted_list = []
+
+        for each_element in inputted_list:
+            each_element = String(each_element).capitalize_first_letter().content
+            formatted_list.append(each_element)
+
+        return formatted_list[0]
+
 
     # ---------------------------------------------------------------------------#
     #               NO FORMATTING: MINIMIZE LISTS (FOR NOW)                      #
