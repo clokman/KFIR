@@ -23,25 +23,31 @@ oc_bibliography.importCsv(path_of_file_to_import='acceptance_tests//test_data//o
                           cleaning_algorithm='default',
                           show_progress_bar=True)
 
-vu_bibliography.enrich_with(uva_bibliography,
+
+enriched_bibliography = Bibliography()
+# Initiates as the same with VU... The previously created vu_bibliography variable is kept untouched for comparison purposes
+enriched_bibliography.importBibtex('acceptance_tests//test_data//VU_Pure_research_output-51017_cleaned_10k.bib', show_progress_bar=True) # PATH
+console.log_message('enriched_bibliography initiated with VU Bibliography object')
+
+enriched_bibliography.enrich_with(uva_bibliography,
                             field_to_match_in_bibliographies='b_doi',
                             method='merge')
-console.log_message('VU bibtex file enriched with UvA bibtex file')
+console.log_message('enriched_bibliography enriched with UvA Bibliography object')
 
-vu_bibliography.enrich_with(oc_bibliography,
+enriched_bibliography.enrich_with(oc_bibliography,
                             field_to_match_in_bibliographies='b_doi',
                             method='left join')
-console.log_message('VU bibtex file enriched with OpenCitations bibtex file')
+console.log_message('enriched_bibliography enriched with OpenCitations Bibliography object')
 
 # TODO: Turn n3 transformation and ttl writing steps to a single 'write_to_ttl' method for Bibliography (e.g., vu_bibliography.write_to_ttl())
 # TODO: Source bibliography name for individual bibliographies inside must be preserved by allowing specification during parsing to Bibliography object and not during ttl conversion. (currently only one can be specified during ttl conversion)
 ### Convert to n3 format ###
 merged_triples = Triples()
-merged_triples.import_bibliography_object(vu_bibliography,
+merged_triples.import_bibliography_object(enriched_bibliography,
                                           desired_source_bibliography_name='vu_and_uva_enriched_with_opencitations',
                                           show_progress_bar=True)
 
 ### Write to ttl file ###
-ttl_file = RDF_File('acceptance_tests//test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.4_10k.ttl')  # PATH
+ttl_file = RDF_File('acceptance_tests//test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.5_10k.ttl')  # PATH
 ttl_file.write_triples_to_file(merged_triples, show_progress_bar=True)
 
