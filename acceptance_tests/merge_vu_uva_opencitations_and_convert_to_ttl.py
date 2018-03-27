@@ -6,14 +6,14 @@ console = ConsoleOutput('log.txt')
 console.clear_log_file()
 
 vu_bibliography = Bibliography()
-vu_bibliography.importBibtex('test_data//VU_Pure_research_output-51017_cleaned_10k.bib', show_progress_bar=True) # PATH
+vu_bibliography.importBibtex('acceptance_tests//test_data//VU_Pure_research_output-51017_cleaned_10k.bib', show_progress_bar=True) # PATH
 
 uva_bibliography = Bibliography()
-uva_bibliography.importBibtex('test_data//UvA_Pure_research_output-41217_cleaned_10k.bib', show_progress_bar=True) # PATH
+uva_bibliography.importBibtex('acceptance_tests//test_data//UvA_Pure_research_output-41217_cleaned_10k.bib', show_progress_bar=True) # PATH
 
 
 oc_bibliography = Bibliography()
-oc_bibliography.importCsv(path_of_file_to_import='test_data//oc_articles_with_matching_dois_v1.3.csv', # PATH
+oc_bibliography.importCsv(path_of_file_to_import='acceptance_tests//test_data//oc_articles_with_matching_dois_v1.3.csv', # PATH
                           csv_delimiter_character=',',
                           field_value_list_separator=' | ',
                           id_column_header='doi',
@@ -40,6 +40,6 @@ merged_triples.import_bibliography_object(vu_bibliography,
                                           show_progress_bar=True)
 
 ### Write to ttl file ###
-ttl_file = RDF_File('test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.3_10k.ttl')  # PATH
+ttl_file = RDF_File('acceptance_tests//test_data//output//vu_and_uva_merged_and_enriched_with_opencitations_v0.3_10k.ttl')  # PATH
 ttl_file.write_triples_to_file(merged_triples, show_progress_bar=True)
 
