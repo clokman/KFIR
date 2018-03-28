@@ -67,7 +67,7 @@ class Bibtex_File(Text_File):
             <BLANKLINE>
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_0.0.test.ttl" has started
-            Success: 49 triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
+            Success: 50 triples were written to "example_data//example_output_dir//vu_25_test_0.0.test.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
@@ -164,7 +164,7 @@ class Bibtex_File(Text_File):
             <BLANKLINE>
             Calculating the length of the Triples object
             Writing of the triples to file "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl" has started
-            Success: 49 triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
+            Success: 50 triples were written to "example_data//example_output_dir//vu_25_test_v0.0.test2.ttl"
             These items were skipped due to errors (0 items):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
@@ -763,6 +763,7 @@ class Bibliography:
              'b_issue_number': 3,
              'b_journal': 3,
              'b_journal_label': 3,
+             'b_open_citations_id': 3,
              'b_pages': 2,
              'b_pmid': 3,
              'b_publication_year': 3,
@@ -849,6 +850,7 @@ class Bibliography:
               'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
               'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
                                  'Adolesc Psychiatry Ment Health',
+              'b_open_citations_id': 'https://w3id.org/oc/corpus/br/362418',
               'b_pages': ' ',
               'b_pmid': '26417387',
               'b_publication_year': '2015',
@@ -879,6 +881,7 @@ class Bibliography:
               'b_issue_number': '2',
               'b_journal': 'Gynecologic_Oncology',
               'b_journal_label': 'Gynecologic Oncology',
+              'b_open_citations_id': 'https://w3id.org/oc/corpus/br/384',
               'b_pages': '201--209',
               'b_pmid': '12713981',
               'b_publication_year': '2003',
@@ -1013,6 +1016,9 @@ class Bibliography:
                 # operation it will likely be added as a separate field under this differing name
                 # [target_field_value in existing data,      formatting_algorithm,                                          desired_field_name in new object]
                 ['each_entry_data["publication_type"]',      'oc_select_last_item_if_list_and_capitalize_first_letter',     'b_type'],
+                # even though the field name below is "journal_article" and it refers to the column with the same header
+                # in the source csv file, this is the name of the column that contains OpenCitations IDs of documents
+                ['each_entry_data["journal_article"]',       'oc_select_first_item_if_list',                                'b_open_citations_id'],
                 ['each_entry_data["title"]',                 'pybtex_document_instance_name',                               'b_document'],
                 ['each_entry_data["title"]',                 'pybtex_document_label',                                       'b_document_label'],
                 ['each_entry_data["authors"]',               'open_citations_author_instance_name',                         'b_authors'],
@@ -1541,6 +1547,7 @@ class Bibliography:
              'b_issue_number': 3,
              'b_journal': 3,
              'b_journal_label': 3,
+             'b_open_citations_id': 3,
              'b_pages': 2,
              'b_pmid': 3,
              'b_publication_year': 3,
@@ -1567,8 +1574,7 @@ class Bibliography:
               'b_document_label': 'The_DSM-5_diagnosis_of_nonsuicidal_self-injury_disorder-a_review_of_the_empirical_literature',
               'b_doi': '10.1186/s13034-015-0062-7',
               'b_type': 'Article'}]
-
-            >>> # entry in the the richer bibliography
+             >>> # entry in the the richer bibliography
              >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1186/s13034-015-0062-7'), compact=True)
              [{'b_author_labels': ['Zetterqvist, M'],
                'b_authors': ['Zetterqvist_M'],
@@ -1643,6 +1649,7 @@ class Bibliography:
                'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
                'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
                                   'Adolesc Psychiatry Ment Health',
+               'b_open_citations_id': 'https://w3id.org/oc/corpus/br/362418',
                'b_pages': ' ',
                'b_pmid': '26417387',
                'b_publication_year': '2015',
@@ -1651,6 +1658,7 @@ class Bibliography:
                'b_type': 'Journal Article',
                'b_url': 'http://dx.doi.org/10.1186/s13034-015-0062-7',
                'b_volume': '9'}]
+
             >>> # another entry in the the poorer bibliography
             >>> pprint(vu_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
             [{'b_author_labels': ['Straughn, MJ', 'Huh, WK'],
@@ -1667,7 +1675,6 @@ class Bibliography:
               'b_publisher': 'Elsevier_BV',
               'b_publisher_label': 'Elsevier B.V.',
               'b_type': 'Article'}]
-
             >>> # another entry in the the richer bibliography
             >>> pprint(oc_bibliography.getEntriesByField('b_doi', '10.1016/s0090-8258(03)00087-8'), compact=True)
             [{'b_author_labels': ['Straughn, JM', 'Huh, WK', 'Orr, JW', 'Kelly, FJ',
@@ -1689,6 +1696,7 @@ class Bibliography:
               'b_issue_number': '2',
               'b_journal': 'Gynecologic_Oncology',
               'b_journal_label': 'Gynecologic Oncology',
+              'b_open_citations_id': 'https://w3id.org/oc/corpus/br/392',
               'b_pages': '295--300',
               'b_pmid': '12713994',
               'b_publication_year': '2003',
@@ -1704,7 +1712,7 @@ class Bibliography:
             <BLANKLINE>
             Enrichment completed successfully.
             Existing entries enriched: 2
-            Fields added to existing entries: 21
+            Fields added to existing entries: 23
             New entries added: 0
 
 
@@ -1792,6 +1800,7 @@ class Bibliography:
               'b_journal': 'Child_and_Adolescent_Psychiatry_and_Mental_Health-Child_Adolesc_Psychiatry_Ment_Health',
               'b_journal_label': 'Child and Adolescent Psychiatry and Mental Health-Child '
                                  'Adolesc Psychiatry Ment Health',
+              'b_open_citations_id': 'https://w3id.org/oc/corpus/br/362418',
               'b_pages': ' ',
               'b_pmid': '26417387',
               'b_publication_year': '2015',
@@ -1818,6 +1827,7 @@ class Bibliography:
               'b_issue_number': '2',
               'b_journal': 'Gynecologic_Oncology',
               'b_journal_label': 'Gynecologic Oncology',
+              'b_open_citations_id': 'https://w3id.org/oc/corpus/br/392',
               'b_pages': '295--300',
               'b_pmid': '12713994',
               'b_publication_year': '2003',
@@ -3416,7 +3426,7 @@ def long_tests():
         [===========================================================-] 98% ...Writing triples to "vu_1k_test_0.0_test.ttl"
         [===========================================================-] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
         [============================================================] 99% ...Writing triples to "vu_1k_test_0.0_test.ttl"
-        Success: 1995 triples were written to "vu_1k_test_0.0_test.ttl"
+        Success: 1996 triples were written to "vu_1k_test_0.0_test.ttl"
         These items were skipped due to errors (0 items):
         <BLANKLINE>
         A log of the operation is kept in "log.txt"
@@ -3435,6 +3445,7 @@ def long_tests():
         <http://clokman.com/kfir/ontology#hasDOI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasISSN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#hasISBN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+        <http://clokman.com/kfir/ontology#hasOpenCitationsID> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://clokman.com/kfir/ontology#isChapterOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
         <http://www.w3.org/2000/01/rdf-schema#label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
@@ -3673,7 +3684,6 @@ def long_tests():
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
         <http://clokman.com/kfir/resource#Performances_in_the_Theatre_of_the_Cold_War-the_American_Society_of_African_Culture_AMSAC_and_the_1961_Lagos_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
-        <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
 
         >>> import os
         >>> os.remove('vu_1k_test_0.0_test.ttl')
