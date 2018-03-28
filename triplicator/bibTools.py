@@ -926,19 +926,19 @@ class Bibliography:
 
             >>> # import a csv file
             >>> old_oc_conversion_arguments_list = [ # this is the old open citations conversion arguments list (was a keyword argument)
-            ...     # [target_field_value in existing data,  formatting_algorithm,                   desired_field_name in new object]
-            ...     ['each_entry_data["titles"]',            'pybtex_document_instance_name',       'b_document'],
-            ...     ['each_entry_data["titles"]',            'pybtex_document_label',               'b_document_label'],
-            ...     ['each_entry_data["dois"]',              'open_citations_list_minimizer',       'b_doi'],
-            ...     ['each_entry_data["authors"]',           'open_citations_author_instance_name', 'b_authors'],
-            ...     ['each_entry_data["authors"]',           'open_citations_author_label',         'b_author_labels'],
-            ...     ['each_entry_data["publications"]',      'pybtex_document_instance_name',       'b_publication'],
-            ...     ['each_entry_data["publications"]',      'pybtex_document_label',               'b_publication_label'],
-            ...     ['each_entry_data["publication_types"]', 'open_citations_list_minimizer_2',     'b_publication_type'],
-            ...     ['each_entry_data["types"]',             'open_citations_list_minimizer_2',     'b_type'],
-            ...     ['each_entry_data["years"]',             'open_citations_list_minimizer',       'b_publication_year'],
-            ...     ['each_entry_data["publishers"]',        'pybtex_document_instance_name',       'b_publisher'],
-            ...     ['each_entry_data["publishers"]',        'pybtex_document_label',               'b_publisher_label']
+            ...     # [target_field_value in existing data,  formatting_algorithm,                                       desired_field_name in new object]
+            ...     ['each_entry_data["titles"]',            'pybtex_document_instance_name',                            'b_document'],
+            ...     ['each_entry_data["titles"]',            'pybtex_document_label',                                    'b_document_label'],
+            ...     ['each_entry_data["dois"]',              'oc_select_first_item_if_list',                             'b_doi'],
+            ...     ['each_entry_data["authors"]',           'open_citations_author_instance_name',                      'b_authors'],
+            ...     ['each_entry_data["authors"]',           'open_citations_author_label',                              'b_author_labels'],
+            ...     ['each_entry_data["publications"]',      'pybtex_document_instance_name',                            'b_publication'],
+            ...     ['each_entry_data["publications"]',      'pybtex_document_label',                                    'b_publication_label'],
+            ...     ['each_entry_data["publication_types"]', 'oc_select_last_item_if_list',                              'b_publication_type'],
+            ...     ['each_entry_data["types"]',             'oc_select_last_item_if_list',                              'b_type'],
+            ...     ['each_entry_data["years"]',             'oc_select_first_item_if_list',                             'b_publication_year'],
+            ...     ['each_entry_data["publishers"]',        'pybtex_document_instance_name',                            'b_publisher'],
+            ...     ['each_entry_data["publishers"]',        'pybtex_document_label',                                    'b_publisher_label']
             ... ]
             >>> my_csv_bibliography = Bibliography()
             >>> my_csv_bibliography.importCsv(path_of_file_to_import='example_data//test.csv',
@@ -1011,25 +1011,25 @@ class Bibliography:
                 # Bibliography.importBibtex() > conversion_arguments_list > 'bib_default' > 'desired_field_name' column
                 # If a field name differs from its counterpart in the bib conversion algorithm, then during the merge
                 # operation it will likely be added as a separate field under this differing name
-                # [target_field_value in existing data,      formatting_algorithm,                   desired_field_name in new object]
-                ['each_entry_data["publication_type"]',      'open_citations_list_minimizer_2',     'b_type'],
-                ['each_entry_data["title"]',                 'pybtex_document_instance_name',       'b_document'],
-                ['each_entry_data["title"]',                 'pybtex_document_label',               'b_document_label'],
-                ['each_entry_data["authors"]',               'open_citations_author_instance_name', 'b_authors'],
-                ['each_entry_data["authors"]',               'open_citations_author_label',         'b_author_labels'],
-                ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',       'b_journal'],
-                ['each_entry_data["journal_name"]',          'pybtex_document_label',               'b_journal_label'],
-                ['each_entry_data["publisher_name"]',        'pybtex_document_instance_name',       'b_publisher'],
-                ['each_entry_data["publisher_name"]',        'pybtex_document_label',               'b_publisher_label'],
-                ['each_entry_data["publication_year"]',      'open_citations_list_minimizer',       'b_publication_year'],
-                ['each_entry_data["journal_issue_number"]',  'open_citations_list_minimizer',       'b_issue_number'],
-                ['each_entry_data["journal_volume_number"]', 'open_citations_list_minimizer',       'b_volume'],
-                ['each_entry_data["startEndPages"]',         'open_citations_list_minimizer',       'b_pages'],
-                ['each_entry_data["doi"]',                   'open_citations_list_minimizer',       'b_doi'],
-                ['each_entry_data["pmid"]',                  'open_citations_list_minimizer',       'b_pmid'],
-                ['each_entry_data["url"]',                   'open_citations_list_minimizer',       'b_url'],
-                ['each_entry_data["cited_by_the_articles"]', 'none',                                'b_cited_by'],
-                ['each_entry_data["cited_the_articles"]',    'none',                                'b_cited']
+                # [target_field_value in existing data,      formatting_algorithm,                                          desired_field_name in new object]
+                ['each_entry_data["publication_type"]',      'oc_select_last_item_if_list_and_capitalize_first_letter',     'b_type'],
+                ['each_entry_data["title"]',                 'pybtex_document_instance_name',                               'b_document'],
+                ['each_entry_data["title"]',                 'pybtex_document_label',                                       'b_document_label'],
+                ['each_entry_data["authors"]',               'open_citations_author_instance_name',                         'b_authors'],
+                ['each_entry_data["authors"]',               'open_citations_author_label',                                 'b_author_labels'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_instance_name',                               'b_journal'],
+                ['each_entry_data["journal_name"]',          'pybtex_document_label',                                       'b_journal_label'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_instance_name',                               'b_publisher'],
+                ['each_entry_data["publisher_name"]',        'pybtex_document_label',                                       'b_publisher_label'],
+                ['each_entry_data["publication_year"]',      'oc_select_first_item_if_list',                                'b_publication_year'],
+                ['each_entry_data["journal_issue_number"]',  'oc_select_first_item_if_list',                                'b_issue_number'],
+                ['each_entry_data["journal_volume_number"]', 'oc_select_first_item_if_list',                                'b_volume'],
+                ['each_entry_data["startEndPages"]',         'oc_select_first_item_if_list',                                'b_pages'],
+                ['each_entry_data["doi"]',                   'oc_select_first_item_if_list',                                'b_doi'],
+                ['each_entry_data["pmid"]',                  'oc_select_first_item_if_list',                                'b_pmid'],
+                ['each_entry_data["url"]',                   'oc_select_first_item_if_list',                                'b_url'],
+                ['each_entry_data["cited_by_the_articles"]', 'none',                                                        'b_cited_by'],
+                ['each_entry_data["cited_the_articles"]',    'none',                                                        'b_cited']
             ]
 
         # if a custom conversion_arguments_list is provided, proceed without modifying the provided list
@@ -2436,14 +2436,23 @@ def cleanAndFormatValues(target_field, algorithm):
             suitable to be used as a list of labels for 'topics' (in the format of ["keyword 1", "keyword 2"]).During the
             operation, capitalization is standardized (e.g., 'In' -> 'in').
 
+        "oc_select_first_item_if_list" (algorithm): 'oc' prefix stands for 'OpenCitations' and these cleaning procedures
+            are made for OpenCitations data.
+
+        "oc_select_last_item_if_list_and_capitalize_first_letter" (algorithm)
+
+        "oc_select_last_item_if_list" (algorithm)
+
         "capitalize_first_letter" (algorithm)
+
+        "none" (algorithm)
 
     Raises:
         Keyword Error: Keyword for 'algorithm' parameter does not exist.
 
     Returns:
         A version of the inputted values that is formatted according the specified algorithm.
-        Algorithms and their corresponding outputs:
+        Some algorithms and their corresponding outputs:
 
             - "pybtex_author_instance_name": a list of strings
             - "pybtex_author_label" : a list of strings
@@ -2569,7 +2578,11 @@ def cleanAndFormatValues(target_field, algorithm):
                                "pybtex_topic_instance_name",
                                "pybtex_topic_label",
                                "open_citations_author_instance_name",
-                               "open_citations_author_label"
+                               "open_citations_author_label",
+                               "oc_select_first_item_if_list",
+                               "oc_select_last_item_if_list_and_capitalize_first_letter",
+                               "oc_select_last_item_if_list",
+                               "capitalize_first_letter",
                                "none"]
 
    # if algorithm not in algorithm_keywords_list:
@@ -2800,31 +2813,38 @@ def cleanAndFormatValues(target_field, algorithm):
 
 
     # ---------------------------------------------------------------------------#
-    #               NO FORMATTING: MINIMIZE LISTS (FOR NOW)                      #
+    #                           MINIMIZE LISTS                                   #
     # ---------------------------------------------------------------------------#
-    # TODO: Remove these function. This is a temporary workaround.
-    elif algorithm is "open_citations_list_minimizer":
+    # TODO: These list minimization/selection functions should be replaced with more graceful equivalents.
+    elif algorithm is "oc_select_first_item_if_list":
         if type(target_field) is list:
             inputted_list = target_field
             return inputted_list[0]
         else:
             return target_field
 
-    elif algorithm is "open_citations_list_minimizer_2":
+    elif algorithm is "oc_select_last_item_if_list_and_capitalize_first_letter":
         from preprocessor.string_tools import String
 
         if type(target_field) is list:
-            inputted_list = target_field
-            selected_element = ''
-            try:
-                selected_element = inputted_list[1]
-            except:
-                selected_element = inputted_list[0]
+            selected_element = target_field[-1]
         else:
             selected_element = target_field
 
         formatted_element = String(selected_element).capitalize_first_letter().content
         return formatted_element
+
+
+    elif algorithm is "oc_select_last_item_if_list":
+        from preprocessor.string_tools import String
+
+        if type(target_field) is list:
+            selected_element = target_field[-1]
+        else:
+            selected_element = target_field
+
+        return selected_element
+
 
     elif algorithm is "capitalize_first_letter":
         from preprocessor.string_tools import String
