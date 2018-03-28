@@ -1039,14 +1039,15 @@ class Triples():
                     current_document_instance_name = each_entry["b_pure_bibliography_id"]
                     i_document_instance = construct_uri(res, current_document_instance_name)
                 except:
-                    try:
-                        current_document_instance_name = each_entry["b_open_citations_id"]
-                        i_document_instance = construct_uri('', current_document_instance_name)  # empty namespace
-                               # because 'b_open_citations_id already comes' with a namespace (i.e., as a full uri)
+                    # TODO: For OC-only entities. The uncommented part should either be removed or implemented correctly
+                    # try:
+                        #current_document_instance_name = each_entry["b_open_citations_id"]
+                        #i_document_instance = construct_uri('', current_document_instance_name)  # empty namespace
+                        #       # because 'b_open_citations_id already comes' with a namespace (i.e., as a full uri)
+                    # except:
 
-                    except:
-                        current_document_instance_name = each_entry["b_document"]  # the old instance naming scheme
-                        i_document_instance = construct_uri(res, current_document_instance_name)
+                    current_document_instance_name = each_entry["b_document"]  # the old instance naming scheme
+                    i_document_instance = construct_uri(res, current_document_instance_name)
             except:
                 pass
 
