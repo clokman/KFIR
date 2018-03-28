@@ -1032,18 +1032,24 @@ class Triples():
         #################################################################################
 
         for each_entry_id, each_entry in source_bibliography.entries.items():
-            #TODO: this try-except block is a workaround [001]. remove it.
+
+            #######  INSTANCE NAME (INSTANCE URI)  #######
             try:
-                #######  INSTANCE NAME (INSTANCE URI)  #######
                 try:
                     current_document_instance_name = each_entry["b_pure_bibliography_id"]
+                    i_document_instance = construct_uri(res, current_document_instance_name)
                 except:
                     try:
                         current_document_instance_name = each_entry["b_open_citations_id"]
+                        i_document_instance = construct_uri('', current_document_instance_name)  # empty namespace
+                               # because 'b_open_citations_id already comes' with a namespace (i.e., as a full uri)
+
                     except:
                         current_document_instance_name = each_entry["b_document"]  # the old instance naming scheme
+                        i_document_instance = construct_uri(res, current_document_instance_name)
             except:
                 pass
+
 
             #######  TYPE  #######
             try:
@@ -1059,7 +1065,6 @@ class Triples():
             # extract the class of the current document (e.g., Article, Book) and assign it to the c_document_type
             c_document_type      = construct_uri(ont, current_type                  )
             # assign current document instance to an instance variable (denoted by i_), and give it an URI
-            i_document_instance   = construct_uri(res, current_document_instance_name)
 
 
             #######  DOCUMENT INSTANCE + DOCUMENT TYPE + DOCUMENT #######
