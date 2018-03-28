@@ -73,7 +73,6 @@ demo_bibliography.importBibtex('examples/example_data/IDR_Literature_WOS.bib')
 demo_bibliography.exportToCsv(output_file_path='examples//example_data//demo_output.csv',
                               columns_to_ignore=['b_document', 'b_authors', 'b_topics', 'b_journal',
                                                 'b_publication_month', 'b_issue_number', 'b_volume',
-                                                'b_pages'],
+                                                'b_pages', 'b_pure_bibliography_id'],
                               new_header_names=['Type', 'Title', 'Authors', 'Topics', 'Journal', 'Year', 'DOI',
-                                                'ISSN', 'Abstract', 'Note', 'ISBN']
-)
+                                                'ISSN', 'Abstract', 'Note', 'ISBN'])
