@@ -3482,227 +3482,228 @@ def long_tests():
         <http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
         <http://clokman.com/kfir/ontology#Miscellaneous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
-        <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
+        <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
         <http://clokman.com/kfir/resource#Agteresch_HJ> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Agteresch_HJ> <http://www.w3.org/2000/01/rdf-schema#label> "Agteresch, HJ"@en .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2023" .
-        <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "a1f8850ca82a4fb89aab8db2a49f8fa1" .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2023" .
+        <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "a1f8850ca82a4fb89aab8db2a49f8fa1" .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
-        <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
+        <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
         <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/2000/01/rdf-schema#label> "Hartevelt, LDA"@en .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
-        <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "61d5cb748d514012b7ecba7bfd6dd745" .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
+        <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "61d5cb748d514012b7ecba7bfd6dd745" .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://www.w3.org/2000/01/rdf-schema#label> "Johann Friedrich Stapfer (1708-1775)-Theology, Orthodoxy and Polemics in the Late Orthodoxy Period"@en .
-        <http://clokman.com/kfir/resource#Blauw_C> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Blauw_C> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://www.w3.org/2000/01/rdf-schema#label> "Johann Friedrich Stapfer (1708-1775)-Theology, Orthodoxy and Polemics in the Late Orthodoxy Period"@en .
+        <http://clokman.com/kfir/resource#Blauw_C> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Blauw_C> .
         <http://clokman.com/kfir/resource#Blauw_C> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Blauw_C> <http://www.w3.org/2000/01/rdf-schema#label> "Blauw, C"@en .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
-        <http://clokman.com/kfir/resource#Johann_Friedrich_Stapfer_1708-1775-Theology_Orthodoxy_and_Polemics_in_the_Late_Orthodoxy_Period> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "5f2ab8884cf8455cac67c15632bbc6a0" .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
+        <http://clokman.com/kfir/resource#5f2ab8884cf8455cac67c15632bbc6a0> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "5f2ab8884cf8455cac67c15632bbc6a0" .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://www.w3.org/2000/01/rdf-schema#label> "Liturgy John Owen"@en .
-        <http://clokman.com/kfir/resource#Hyde_D> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Liturgy_John_Owen> .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hyde_D> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://www.w3.org/2000/01/rdf-schema#label> "Liturgy John Owen"@en .
+        <http://clokman.com/kfir/resource#Hyde_D> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hyde_D> .
         <http://clokman.com/kfir/resource#Hyde_D> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Hyde_D> <http://www.w3.org/2000/01/rdf-schema#label> "Hyde, D"@en .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
-        <http://clokman.com/kfir/resource#Liturgy_John_Owen> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "351ffad9f38f44368f9808595d5537bf" .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
+        <http://clokman.com/kfir/resource#351ffad9f38f44368f9808595d5537bf> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "351ffad9f38f44368f9808595d5537bf" .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://www.w3.org/2000/01/rdf-schema#label> "It Seems Good to the Holy Spirit and Us-How Reformed Churches in America May Move Past Binary and Beyond Opaque into Missional Decision Making"@en .
-        <http://clokman.com/kfir/resource#Wilson_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Wilson_M> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://www.w3.org/2000/01/rdf-schema#label> "It Seems Good to the Holy Spirit and Us-How Reformed Churches in America May Move Past Binary and Beyond Opaque into Missional Decision Making"@en .
+        <http://clokman.com/kfir/resource#Wilson_M> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Wilson_M> .
         <http://clokman.com/kfir/resource#Wilson_M> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Wilson_M> <http://www.w3.org/2000/01/rdf-schema#label> "Wilson, M"@en .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
-        <http://clokman.com/kfir/resource#It_Seems_Good_to_the_Holy_Spirit_and_Us-How_Reformed_Churches_in_America_May_Move_Past_Binary_and_Beyond_Opaque_into_Missional_Decision_Making> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f1a6e4c09d174631ba2bc5839ce037ea" .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
+        <http://clokman.com/kfir/resource#f1a6e4c09d174631ba2bc5839ce037ea> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f1a6e4c09d174631ba2bc5839ce037ea" .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://www.w3.org/2000/01/rdf-schema#label> "N.T. Wright and Missional Hermeneutics"@en .
-        <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Gonzalez_CJ> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://www.w3.org/2000/01/rdf-schema#label> "N.T. Wright and Missional Hermeneutics"@en .
+        <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Gonzalez_CJ> .
         <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Gonzalez_CJ> <http://www.w3.org/2000/01/rdf-schema#label> "Gonzalez, CJ"@en .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
-        <http://clokman.com/kfir/resource#NT_Wright_and_Missional_Hermeneutics> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "3bfe0162a51646b48679ebf8ecfa224a" .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
+        <http://clokman.com/kfir/resource#3bfe0162a51646b48679ebf8ecfa224a> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "3bfe0162a51646b48679ebf8ecfa224a" .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://www.w3.org/2000/01/rdf-schema#label> "The Mission of North American Church Planting in Europe-Motivations and effectiveness of North American church planting in continental Europe"@en .
-        <http://clokman.com/kfir/resource#Rossi_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rossi_S> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://www.w3.org/2000/01/rdf-schema#label> "The Mission of North American Church Planting in Europe-Motivations and effectiveness of North American church planting in continental Europe"@en .
+        <http://clokman.com/kfir/resource#Rossi_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rossi_S> .
         <http://clokman.com/kfir/resource#Rossi_S> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Rossi_S> <http://www.w3.org/2000/01/rdf-schema#label> "Rossi, S"@en .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
-        <http://clokman.com/kfir/resource#The_Mission_of_North_American_Church_Planting_in_Europe-Motivations_and_effectiveness_of_North_American_church_planting_in_continental_Europe> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "8c4e14adf9174238be2598a06a4c9525" .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
+        <http://clokman.com/kfir/resource#8c4e14adf9174238be2598a06a4c9525> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "8c4e14adf9174238be2598a06a4c9525" .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://www.w3.org/2000/01/rdf-schema#label> "Typologisch preken"@en .
-        <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Typologisch_preken> .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#vd_Weg_AAF> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://www.w3.org/2000/01/rdf-schema#label> "Typologisch preken"@en .
+        <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#vd_Weg_AAF> .
         <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#vd_Weg_AAF> <http://www.w3.org/2000/01/rdf-schema#label> "vd_Weg, AAF"@en .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
-        <http://clokman.com/kfir/resource#Typologisch_preken> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "82971e5f9f2d40f0ab69296d2af28c21" .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2020" .
+        <http://clokman.com/kfir/resource#82971e5f9f2d40f0ab69296d2af28c21> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "82971e5f9f2d40f0ab69296d2af28c21" .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://www.w3.org/2000/01/rdf-schema#label> "Ministry and Mission-an investigation of the missional challenges for the Reformed Presbyterian theology of ministry in a post-Christendom age"@en .
-        <http://clokman.com/kfir/resource#den_Hertog_RG> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#den_Hertog_RG> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://www.w3.org/2000/01/rdf-schema#label> "Ministry and Mission-an investigation of the missional challenges for the Reformed Presbyterian theology of ministry in a post-Christendom age"@en .
+        <http://clokman.com/kfir/resource#den_Hertog_RG> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#den_Hertog_RG> .
         <http://clokman.com/kfir/resource#den_Hertog_RG> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#den_Hertog_RG> <http://www.w3.org/2000/01/rdf-schema#label> "den_Hertog, RG"@en .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#Ministry_and_Mission-an_investigation_of_the_missional_challenges_for_the_Reformed_Presbyterian_theology_of_ministry_in_a_post-Christendom_age> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f9f67ac5cf52469c92c8120aba31e1a4" .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#f9f67ac5cf52469c92c8120aba31e1a4> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f9f67ac5cf52469c92c8120aba31e1a4" .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://www.w3.org/2000/01/rdf-schema#label> "PhD begeleiding Sien de Groot, Universiteit Gent, promotor Marc de Groote"@en .
-        <http://clokman.com/kfir/resource#van_Opstall_EM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Opstall_EM> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://www.w3.org/2000/01/rdf-schema#label> "PhD begeleiding Sien de Groot, Universiteit Gent, promotor Marc de Groote"@en .
+        <http://clokman.com/kfir/resource#van_Opstall_EM> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Opstall_EM> .
         <http://clokman.com/kfir/resource#van_Opstall_EM> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#van_Opstall_EM> <http://www.w3.org/2000/01/rdf-schema#label> "van_Opstall, EM"@en .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#PhD_begeleiding_Sien_de_Groot_Universiteit_Gent_promotor_Marc_de_Groote> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "d0d9e402bf5d4c90b9f9aa7e31f236d2" .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#d0d9e402bf5d4c90b9f9aa7e31f236d2> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "d0d9e402bf5d4c90b9f9aa7e31f236d2" .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://www.w3.org/2000/01/rdf-schema#label> "Reasonableness and Pleasantness of christianity in Matthew Henry"@en .
-        <http://clokman.com/kfir/resource#Murray_DP> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Murray_DP> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://www.w3.org/2000/01/rdf-schema#label> "Reasonableness and Pleasantness of christianity in Matthew Henry"@en .
+        <http://clokman.com/kfir/resource#Murray_DP> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Murray_DP> .
         <http://clokman.com/kfir/resource#Murray_DP> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Murray_DP> <http://www.w3.org/2000/01/rdf-schema#label> "Murray, DP"@en .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#Reasonableness_and_Pleasantness_of_christianity_in_Matthew_Henry> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "e883e940a6fc42109164e4fd60249f03" .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#e883e940a6fc42109164e4fd60249f03> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "e883e940a6fc42109164e4fd60249f03" .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://www.w3.org/2000/01/rdf-schema#label> "Reward captures attention independent of the current focus of attention"@en .
-        <http://clokman.com/kfir/resource#Xue_X> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Xue_X> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://www.w3.org/2000/01/rdf-schema#label> "Reward captures attention independent of the current focus of attention"@en .
+        <http://clokman.com/kfir/resource#Xue_X> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Xue_X> .
         <http://clokman.com/kfir/resource#Xue_X> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Xue_X> <http://www.w3.org/2000/01/rdf-schema#label> "Xue, X"@en .
-        <http://clokman.com/kfir/resource#Li_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Li_S> .
+        <http://clokman.com/kfir/resource#Li_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Li_S> .
         <http://clokman.com/kfir/resource#Li_S> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Li_S> <http://www.w3.org/2000/01/rdf-schema#label> "Li, S"@en .
-        <http://clokman.com/kfir/resource#Theeuwes_JL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Theeuwes_JL> .
+        <http://clokman.com/kfir/resource#Theeuwes_JL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Theeuwes_JL> .
         <http://clokman.com/kfir/resource#Theeuwes_JL> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Theeuwes_JL> <http://www.w3.org/2000/01/rdf-schema#label> "Theeuwes, JL"@en .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasDOI> "10.1167/16.12.84" .
-        <http://clokman.com/kfir/resource#Reward_captures_attention_independent_of_the_current_focus_of_attention> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "445d259ad2454906960165a6bbae883c" .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasDOI> "10.1167/16.12.84" .
+        <http://clokman.com/kfir/resource#445d259ad2454906960165a6bbae883c> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "445d259ad2454906960165a6bbae883c" .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://www.w3.org/2000/01/rdf-schema#label> "Truth and Truth-Telling-Engaging South Africa's Post-Apartheid Public Religious Discourse"@en .
-        <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_der_Riet_RL> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://www.w3.org/2000/01/rdf-schema#label> "Truth and Truth-Telling-Engaging South Africa's Post-Apartheid Public Religious Discourse"@en .
+        <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_der_Riet_RL> .
         <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#van_der_Riet_RL> <http://www.w3.org/2000/01/rdf-schema#label> "van_der_Riet, RL"@en .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#Truth_and_Truth-Telling-Engaging_South_Africas_Post-Apartheid_Public_Religious_Discourse> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "8c769226a4fb44daa0cd2f8dc74136d3" .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#8c769226a4fb44daa0cd2f8dc74136d3> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "8c769226a4fb44daa0cd2f8dc74136d3" .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://www.w3.org/2000/01/rdf-schema#label> "Una Sancta-Towards a Contextualised Ecclesiology for the Korean Churches"@en .
-        <http://clokman.com/kfir/resource#Park_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Park_S> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://www.w3.org/2000/01/rdf-schema#label> "Una Sancta-Towards a Contextualised Ecclesiology for the Korean Churches"@en .
+        <http://clokman.com/kfir/resource#Park_S> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Park_S> .
         <http://clokman.com/kfir/resource#Park_S> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Park_S> <http://www.w3.org/2000/01/rdf-schema#label> "Park, S"@en .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#Una_Sancta-Towards_a_Contextualised_Ecclesiology_for_the_Korean_Churches> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f067bb9b678546da89b80ddc45b50291" .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#f067bb9b678546da89b80ddc45b50291> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "f067bb9b678546da89b80ddc45b50291" .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
         <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://www.w3.org/2000/01/rdf-schema#label> "White anti-apartheid theologies as resource for a theological response to whiteness in post-apartheid South Africa"@en .
-        <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Wyngaard_GJ> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://www.w3.org/2000/01/rdf-schema#label> "White anti-apartheid theologies as resource for a theological response to whiteness in post-apartheid South Africa"@en .
+        <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#van_Wyngaard_GJ> .
         <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#van_Wyngaard_GJ> <http://www.w3.org/2000/01/rdf-schema#label> "van_Wyngaard, GJ"@en .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
-        <http://clokman.com/kfir/resource#White_anti-apartheid_theologies_as_resource_for_a_theological_response_to_whiteness_in_post-apartheid_South_Africa> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "cd51779243fb4c228d8313b89b8746e4" .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Inbook> .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2019" .
+        <http://clokman.com/kfir/resource#cd51779243fb4c228d8313b89b8746e4> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "cd51779243fb4c228d8313b89b8746e4" .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Inbook> .
         <http://clokman.com/kfir/ontology#Inbook> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://www.w3.org/2000/01/rdf-schema#label> "A Future for Cultural History of the Dutch Wadden Region-Challenges and Policies in a Maritime Agricultural Landscape"@en .
-        <http://clokman.com/kfir/resource#Egberts_LR> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Egberts_LR> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://www.w3.org/2000/01/rdf-schema#label> "A Future for Cultural History of the Dutch Wadden Region-Challenges and Policies in a Maritime Agricultural Landscape"@en .
+        <http://clokman.com/kfir/resource#Egberts_LR> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Egberts_LR> .
         <http://clokman.com/kfir/resource#Egberts_LR> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Egberts_LR> <http://www.w3.org/2000/01/rdf-schema#label> "Egberts, LR"@en .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Amsterdam_University_Press> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#isPublishedBy> <http://clokman.com/kfir/resource#Amsterdam_University_Press> .
         <http://clokman.com/kfir/resource#Amsterdam_University_Press> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2018" .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2018.10" .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "1a2e1f3f51644da0929d49e8299f7532" .
-        <http://clokman.com/kfir/resource#A_Future_for_Cultural_History_of_the_Dutch_Wadden_Region-Challenges_and_Policies_in_a_Maritime_Agricultural_Landscape> <http://clokman.com/kfir/ontology#isChapterOf> <http://clokman.com/kfir/resource#Waddenland_Outstanding> .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2018" .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#isPublishedOnDate> "2018.10" .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "1a2e1f3f51644da0929d49e8299f7532" .
+        <http://clokman.com/kfir/resource#1a2e1f3f51644da0929d49e8299f7532> <http://clokman.com/kfir/ontology#isChapterOf> <http://clokman.com/kfir/resource#Waddenland_Outstanding> .
         <http://clokman.com/kfir/resource#Waddenland_Outstanding> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Book> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Article> .
         <http://clokman.com/kfir/ontology#Article> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://www.w3.org/2000/01/rdf-schema#label> "Climate, aggression, and violence (CLASH)-a cultural-evolutionary approach"@en .
-        <http://clokman.com/kfir/resource#Rinderu_MI> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rinderu_MI> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#vu> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://www.w3.org/2000/01/rdf-schema#label> "Climate, aggression, and violence (CLASH)-a cultural-evolutionary approach"@en .
+        <http://clokman.com/kfir/resource#Rinderu_MI> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Rinderu_MI> .
         <http://clokman.com/kfir/resource#Rinderu_MI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Rinderu_MI> <http://www.w3.org/2000/01/rdf-schema#label> "Rinderu, MI"@en .
-        <http://clokman.com/kfir/resource#Bushman_BJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> .
-        <http://clokman.com/kfir/resource#Climate_aggression_and_violence_CLASH-a_cultural-evolutionary_approach> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Bushman_BJ> .
+        <http://clokman.com/kfir/resource#Bushman_BJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> .
+        <http://clokman.com/kfir/resource#fc77697ea6da4af396d009f8871dcea5> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Bushman_BJ> .
         <http://clokman.com/kfir/resource#Bushman_BJ> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
         <http://clokman.com/kfir/resource#Bushman_BJ> <http://www.w3.org/2000/01/rdf-schema#label> "Bushman, BJ"@en .
+
 
         >>> import os
         >>> os.remove('vu_1k_test_0.0_test.ttl')

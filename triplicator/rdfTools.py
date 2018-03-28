@@ -473,15 +473,15 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2000/01/rdf-schema#Class> .')
             Triple 30:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 31:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 32:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Book> .')
             Triple 33:
@@ -489,18 +489,18 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 34:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
              '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 35:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Book with one author"@en .')
             Triple 36:
             ('<http://clokman.com/kfir/resource#Jaschke_AC> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Book_with_one_author> .')
+             '<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> .')
             Triple 37:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Jaschke_AC> .')
             Triple 38:
@@ -511,7 +511,7 @@ class Triples():
             ('<http://clokman.com/kfir/resource#Jaschke_AC> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Jaschke, AC"@en .')
             Triple 40:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#isPublishedBy> '
              '<http://clokman.com/kfir/resource#Van_Gennep> .')
             Triple 41:
@@ -519,28 +519,28 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 42:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .')
             Triple 43:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .')
             Triple 44:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .')
             Triple 45:
-            ('<http://clokman.com/kfir/resource#Book_with_one_author> '
+            ('<http://clokman.com/kfir/resource#56fafbf2574947cc9cbbfae578a0a36d> '
              '<http://clokman.com/kfir/ontology#hasPureBibliographyID> '
              '"56fafbf2574947cc9cbbfae578a0a36d" .')
             Triple 46:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 47:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 48:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Article> .')
             Triple 49:
@@ -548,20 +548,19 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 50:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
              '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 51:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Article with 5 authors with '
              '\\'and\\' notation"@en .')
             Triple 52:
             ('<http://clokman.com/kfir/resource#Lohr_A> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 53:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Lohr_A> .')
             Triple 54:
@@ -574,10 +573,9 @@ class Triples():
             Triple 56:
             ('<http://clokman.com/kfir/resource#Beunen_R> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 57:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Beunen_R> .')
             Triple 58:
@@ -590,10 +588,9 @@ class Triples():
             Triple 60:
             ('<http://clokman.com/kfir/resource#Savelli_H> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 61:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Savelli_H> .')
             Triple 62:
@@ -606,10 +603,9 @@ class Triples():
             Triple 64:
             ('<http://clokman.com/kfir/resource#Kalz_M> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 65:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Kalz_M> .')
             Triple 66:
@@ -622,10 +618,9 @@ class Triples():
             Triple 68:
             ('<http://clokman.com/kfir/resource#Ragas_A> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 69:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Ragas_A> .')
             Triple 70:
@@ -638,10 +633,9 @@ class Triples():
             Triple 72:
             ('<http://clokman.com/kfir/resource#Van_Belleghem_F> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> .')
             Triple 73:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Van_Belleghem_F> .')
             Triple 74:
@@ -652,7 +646,7 @@ class Triples():
             ('<http://clokman.com/kfir/resource#Van_Belleghem_F> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Van_Belleghem, F"@en .')
             Triple 76:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#isPublishedOn> '
              '<http://clokman.com/kfir/resource#Current_Opinion_in_Environmental_Sustainability> '
              '.')
@@ -661,7 +655,7 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 78:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#isPublishedBy> '
              '<http://clokman.com/kfir/resource#Elsevier> .')
             Triple 79:
@@ -669,26 +663,26 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 80:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .')
             Triple 81:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .')
             Triple 82:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .')
             Triple 83:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasDOI> "10.1016/j.cosust.2017.08.009" .')
             Triple 84:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasISSN> "1877-3435" .')
             Triple 85:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasPureBibliographyID> '
              '"d79d00c790984ab08240e997d077c332" .')
             Triple 86:
-            ('<http://clokman.com/kfir/resource#Article_with_5_authors_with_and_notation> '
+            ('<http://clokman.com/kfir/resource#d79d00c790984ab08240e997d077c332> '
              '<http://clokman.com/kfir/ontology#hasAbstract> "Since the 1950s the amount '
              'of plastics in the marine environment has increased dramatically. Worldwide '
              'there is a growing concern about the risks and possible adverse effects of '
@@ -702,15 +696,15 @@ class Triples():
              'distinctly different and orchestration at all levels, in close cooperation '
              'with one another, is currently lacking."@en .')
             Triple 87:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 88:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 89:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://clokman.com/kfir/ontology#Article> .')
             Triple 90:
@@ -718,20 +712,19 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Document> .')
             Triple 91:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasOriginBibliography> '
              '<http://clokman.com/kfir/resource#some%20bibliography> .')
             Triple 92:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Article with 3 authors with '
              'mixed notation"@en .')
             Triple 93:
             ('<http://clokman.com/kfir/resource#Mendoza_Rodriguez_JP> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> .')
             Triple 94:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Mendoza_Rodriguez_JP> .')
             Triple 95:
@@ -744,10 +737,9 @@ class Triples():
             Triple 97:
             ('<http://clokman.com/kfir/resource#Wielhouwer_JL> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> .')
             Triple 98:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Wielhouwer_JL> .')
             Triple 99:
@@ -760,10 +752,9 @@ class Triples():
             Triple 101:
             ('<http://clokman.com/kfir/resource#Kirchler_ESMN> '
              '<http://clokman.com/kfir/ontology#isAuthorOf> '
-             '<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
-             '.')
+             '<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> .')
             Triple 102:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasAuthor> '
              '<http://clokman.com/kfir/resource#Kirchler_ESMN> .')
             Triple 103:
@@ -774,7 +765,7 @@ class Triples():
             ('<http://clokman.com/kfir/resource#Kirchler_ESMN> '
              '<http://www.w3.org/2000/01/rdf-schema#label> "Kirchler, ESMN"@en .')
             Triple 105:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#isPublishedOn> '
              '<http://clokman.com/kfir/resource#Journal_of_Economic_Psychology> .')
             Triple 106:
@@ -782,7 +773,7 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 107:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#isPublishedBy> '
              '<http://clokman.com/kfir/resource#Elsevier> .')
             Triple 108:
@@ -790,23 +781,23 @@ class Triples():
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
              '<http://www.w3.org/2002/07/owl#NamedIndividual> .')
             Triple 109:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#isPublishedOnYear> "2017" .')
             Triple 110:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#isPublishedOnMonth> "10" .')
             Triple 111:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#isPublishedOnDate> "2017.10" .')
             Triple 112:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasISSN> "0167-4870" .')
             Triple 113:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasPureBibliographyID> '
              '"a8781aa0eae047d1826a658f3545ce3f" .')
             Triple 114:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasTopic> '
              '<http://clokman.com/kfir/resource#tax_compliance> .')
             Triple 115:
@@ -814,7 +805,7 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Topic> .')
             Triple 116:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasTopic> '
              '<http://clokman.com/kfir/resource#auditing> .')
             Triple 117:
@@ -822,7 +813,7 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Topic> .')
             Triple 118:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasTopic> '
              '<http://clokman.com/kfir/resource#tax_enforcement> .')
             Triple 119:
@@ -830,7 +821,7 @@ class Triples():
              '<http://www.w3.org/2000/01/rdf-schema#subClassOf> '
              '<http://clokman.com/kfir/ontology#Topic> .')
             Triple 120:
-            ('<http://clokman.com/kfir/resource#Article_with_3_authors_with_mixed_notation> '
+            ('<http://clokman.com/kfir/resource#a8781aa0eae047d1826a658f3545ce3f> '
              '<http://clokman.com/kfir/ontology#hasAbstract> "Using country-level data '
              'from 2003–2014, we examine the association between auditing level (measured '
              'as number of verification actions taken by tax authorities per 100 taxpayers '
@@ -1044,7 +1035,14 @@ class Triples():
             #TODO: this try-except block is a workaround [001]. remove it.
             try:
                 #######  URIs  #######
-                current_document_instance_name = each_entry["b_document"]  # document instance
+                try:
+                    current_document_instance_name = each_entry["b_pure_bibliography_id"]
+                except:
+                    try:
+                        current_document_instance_name = each_entry["b_open_citations_id"]
+                    except:
+                        current_document_instance_name = each_entry["b_document"]  # the old instance naming scheme
+
                 current_type = each_entry["b_type"]  # type
                 current_type = String(current_type)
 
