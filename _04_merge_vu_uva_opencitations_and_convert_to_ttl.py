@@ -7,7 +7,6 @@ vu_bibliography.importBibtex('Input//VU_Pure_research_output-51017_cleaned.bib',
 uva_bibliography = Bibliography()
 uva_bibliography.importBibtex('Input//UvA_Pure_research_output-41217_cleaned.bib', show_progress_bar=True)
 
-
 oc_bibliography = Bibliography()
 oc_bibliography.importCsv(path_of_file_to_import='Input//oc_articles_with_matching_dois_v1.3.csv',
                           csv_delimiter_character=',',
