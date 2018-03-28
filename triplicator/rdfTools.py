@@ -1034,7 +1034,7 @@ class Triples():
         for each_entry_id, each_entry in source_bibliography.entries.items():
             #TODO: this try-except block is a workaround [001]. remove it.
             try:
-                #######  URIs  #######
+                #######  INSTANCE NAME (INSTANCE URI)  #######
                 try:
                     current_document_instance_name = each_entry["b_pure_bibliography_id"]
                 except:
@@ -1042,12 +1042,16 @@ class Triples():
                         current_document_instance_name = each_entry["b_open_citations_id"]
                     except:
                         current_document_instance_name = each_entry["b_document"]  # the old instance naming scheme
-
-                current_type = each_entry["b_type"]  # type
-                current_type = String(current_type)
-
             except:
                 pass
+
+            #######  TYPE  #######
+            try:
+                current_type = each_entry["b_type"]  # type
+                current_type = String(current_type)
+            except:
+                pass
+
             # NOTE: Do not move the lines below to category and instance definitions section in the beginning of the
             # script. c_document_type values need to be dynamically assigned within this for loop, as the document
             # classes (e.g., Article, Book) are extracted from the resource file.
