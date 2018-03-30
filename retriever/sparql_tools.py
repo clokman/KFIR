@@ -143,9 +143,44 @@ class Sparql_Query():
         return self
 
 
+    def import_endpoint_from_file(self, file_path):
+        """
+        Reads and parses an enpoint address from a file. Useful in cases where the endpoint address needs to be stored
+        locally (i.e., neither in code nor on Git) for privacy purposes.
+
+        Args:
+            file_path(str)
+
+        Returns:
+            self
+
+        Examples:
+            # Import endpoint from file and check if endpoint is correctly changed
+            >>> my_query = Sparql_Query()
+            >>> my_query.import_endpoint_from_file('test_data_and_queries//endpoint_address_valid.txt').endpoint_address
+            '<http://dbpedia.org/sparql>'
+
+            >>> # File has two lines (error)
+            >>> my_query.import_endpoint_from_file('test_data_and_queries//endpoint_address_invalid.txt')
+            ValueError('The file that contains the endpoint address should have only one line, but the inputted file contains more lines.',)
+        """
+        from preprocessor.Text_File import Text_File
+        file = Text_File(file_path)
+        endpoint_address_in_file = file.return_content()
+
+        if '\n' in endpoint_address_in_file:
+            return ValueError('The file that contains the endpoint address should have only one line, but the inputted '
+                              'file contains more lines.')
+
+        self.endpoint_address = endpoint_address_in_file
+
+        return self
+
+
     def retrieve_results_from_endpoint(self, endpoint_address='', print_only=False):
         """
         Args:
+            endpoint_address(str): A URL string. If not specified, sets the endpoint to the self.endpoint.
             print_results(bool): If False, returns the results but does not print them to console
 
         Returns:
@@ -241,7 +276,6 @@ class Sparql_Query():
             self.print_results()
         else:
             return self.results
-
 
 
     def print_query(self):
