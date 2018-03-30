@@ -4,7 +4,6 @@ Instructions:
  - IMPORTANT: The working directory of the console must be set to project root (i.e., KFIR), otherwise the scripts will likely NOT
     work (due to file path issues)
 """
-
 from retriever.sparql_tools import Open_Citations_Query, DOI_String
 from meta.consoleOutput import ConsoleOutput
 from preprocessor.string_tools import String
@@ -27,6 +26,23 @@ with open('examples//example_data//doi_list_100.csv', encoding='utf8') as doi_fi
 oc_query = Open_Citations_Query()
 oc_query.retrieve_articles_by_dois(doi_list, show_progress_bar=True)
 oc_query.write_results_to_csv('retrieved_oc_articles_with_matching_dois_test_100.csv')
+
+
+########################################################
+############ GENERIC SPARQL QUERY DEMO #################
+########################################################
+
+from retriever.sparql_tools import Sparql_Query
+#Initiation and setting parameters
+my_query = Sparql_Query()
+my_query_string = """
+                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                  SELECT ?label
+                  WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }
+"""
+my_query.set_query(my_query_string)
+my_query.retrieve_results_from_endpoint('http://dbpedia.org/sparql')
+my_query.print_results()
 
 
 #######################################################

@@ -4,6 +4,33 @@ class Sparql_Query():
     def __init__(self, input_query=''):
         """
         Examples:
+            >>> ### QUICKSTART ###
+            >>> # Initiation and setting parameters
+            >>> my_query = Sparql_Query()
+            >>> my_query_string = 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\n'\
+                                  'SELECT ?label\\n'\
+                                  'WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }\\n'
+            >>>                   # this notation (i.e., \\n at the end and quotes encapsulating each line) is only
+            >>>                   # necessary in docstrings, and actual string can be entirely written inside
+            >>>                   #''' ''' symbols (as ''' QUERY ''') in a Python script.
+            >>> my_query.set_query(my_query_string)\
+                        .print_query() # print_query added to supress returning self; not necessary in an actual script
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT ?label
+            WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }
+            <BLANKLINE>
+            >>> # Send and print query
+            >>> my_query.retrieve_results_from_endpoint('http://dbpedia.org/sparql')
+            {1: {'label': 'أمثلة (توضيح)'}, 2: {'label': 'Example'}, 3: {'label': 'Example (Begriffsklärung)'}, 4: {'label': 'Example'}}
+            >>> my_query.print_results()
+            {1: {'label': 'أمثلة (توضيح)'},
+             2: {'label': 'Example'},
+             3: {'label': 'Example (Begriffsklärung)'},
+             4: {'label': 'Example'}}
+
+
+            >>> ### MORE EXAMPLES ###
+
             >>> #Initiation and initial values
             >>> my_query = Sparql_Query()
             >>> my_query.query
@@ -14,11 +41,12 @@ class Sparql_Query():
             >>> # Take string as input
             >>> my_query_string = 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\n'\
                                   'SELECT ?label\\n'\
-                                  'WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }\\n'  # this
-            >>>                   # notation (e.g., \\n at the end) is only necessary in docstrings, and actual
-            >>>                   # string can be written inside ''' ''' marks in a Python script.
+                                  'WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }\\n'
+            >>>                   # this notation (i.e., \\n at the end and quotes encapsulating each line) is only
+            >>>                   # necessary in docstrings, and actual string can be entirely written inside
+            >>>                   #''' ''' symbols (as ''' QUERY ''') in a Python script.
             >>> my_query.set_query(my_query_string)\
-                        .print_query()
+                        .print_query() # print_query added to supress returning self; not necessary in an actual script
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT ?label
             WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }
