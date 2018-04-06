@@ -37,7 +37,7 @@ Although short samples may be provided, bibliographic databases from VU and UvA 
 The numbers in parentheses before the log entries denote story points.
 
 
-### v0.6: Web of science implementation and bug fixes 🔥 27/03/18 > 05/04/18
+### v0.6: Web of science implementation and bug fixes ✅ 27/03/18 > 05/04/18
 
 #### ⭐ New (2)
 - [(24) Pure dataset enriched using Web of Science database](https://trello.com/c/k0H98Dsz/39-24-pure-dataset-enriched-using-web-of-science-database-16)
