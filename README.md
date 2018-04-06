@@ -36,8 +36,25 @@ Although short samples may be provided, bibliographic databases from VU and UvA 
 ## Change Log
 The numbers in parentheses before the log entries denote story points.
 
-### v0.5: OpenCitations enrichment and data merge ✅ 06/03/18 > 27/03/18
 
+### v0.6: Web of science implementation and bug fixes 🔥 27/03/18 > 05/04/18
+
+#### ⭐ New (2)
+- [(24) Pure dataset enriched using Web of Science database](https://trello.com/c/k0H98Dsz/39-24-pure-dataset-enriched-using-web-of-science-database-16)
+- [(6) OpenCitations ID and Pure ID added to entry fields on LD-R](https://trello.com/c/wiALKmqp/33-6-opencitations-id-and-pure-id-added-to-entry-fields-on-ld-r-2)
+
+
+#### 👍 Enhancement (2)
+- [(18) Instance NAMES are now identifiers (i.e., Pure IDs and OpenCitations IDs) instead of URI-safe versions of article titles, so that it is now ensured that instance names are always unique (e.g., no more duplicate entries because of a title such as 'Intro'), and it is easier to refer to entries in a citation network. Instance LABELS stayed as article titles](https://trello.com/c/Mnx51k5X/31-18-instance-names-are-now-identifiers-ie-pure-ids-and-opencitations-ids-instead-of-uri-safe-versions-of-article-titles-so-that-i)
+- [(7) Very long test outputs (e.g., due to progress bars in logs) removed in order to make it easier to navigate source code](https://trello.com/c/Vg6XeuJZ/10-7-very-long-test-outputs-eg-due-to-progress-bars-in-logs-removed-in-order-to-make-it-easier-to-navigate-source-code)
+
+
+#### 🐛 Fixed (2)
+- [(6) Strange document types no longer appear in LD-R](https://trello.com/c/NwtnAwYG/29-6-strange-document-types-no-longer-appear-in-ld-r-1)
+- [(5) Field names in CSV and BIB parsing operations standardized: Now parsing operations of both bib and csv files result in the same field names](https://trello.com/c/3sWBIuHX/36-5-field-names-in-csv-and-bib-parsing-operations-standardized-now-parsing-operations-of-both-bib-and-csv-files-result-in-the-same)
+
+
+### v0.5: OpenCitations enrichment and data merge ✅ 06/03/18 > 27/03/18
 
 #### ⭐ New (5)
 - [(8) Merge functionality fully implemented and tested](https://trello.com/c/NNy94TYB/30-8-merge-functionality-fully-implemented-and-tested)
