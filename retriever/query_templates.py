@@ -1,7 +1,26 @@
 
 class Query_Template():
+    """
+    Builds queries by inserting any given parameters into query templates.
+    """
 
     def retrieve_dbpedia_entry_label(self, target_label):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> my_query = Query_Template().retrieve_dbpedia_entry_label('Amsterdam')
+            >>> print(my_query)
+            <BLANKLINE>
+                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                        SELECT ?label
+                        WHERE { <http://dbpedia.org/resource/Example> rdfs:label ?label }
+            <BLANKLINE>
+
+            >>> print(type(my_query))
+            <class 'str'>
+        """
         target_label = 'Example'
 
         query = """
@@ -10,7 +29,7 @@ class Query_Template():
             WHERE { <http://dbpedia.org/resource/%s> rdfs:label ?label }
         """ % target_label
 
-        return  query
+        return query
 
 
     def retrieve_oc_articles_by_dois(self, target_dois):

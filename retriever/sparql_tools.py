@@ -155,10 +155,10 @@ class Sparql_Query():
             self
 
         Examples:
-            # Import endpoint from file and check if endpoint is correctly changed
+            # Import endpoint from file and check if endpoint is correctly updated
             >>> my_query = Sparql_Query()
             >>> my_query.import_endpoint_from_file('test_data_and_queries//endpoint_address_valid.txt').endpoint_address
-            '<http://dbpedia.org/sparql>'
+            'http://dbpedia.org/sparql'
 
             >>> # File has two lines (error)
             >>> my_query.import_endpoint_from_file('test_data_and_queries//endpoint_address_invalid.txt')
