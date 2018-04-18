@@ -1,3 +1,7 @@
+import os
+if os.getcwd()[-7:] == 'scripts':
+    os.chdir('..//')
+
 from preprocessor.Text_File import Text_File
 from preprocessor.string_tools import String
 
