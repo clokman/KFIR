@@ -41,6 +41,24 @@ class Text_File():
                                  + self.input_file_extension
 
 
+    def construct_output_file_name_with_postfix(self, postfix='_modified'):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> my_text_file = Text_File('test_data//blazegraph_output_50.csv')
+            >>> my_text_file.construct_output_file_name_with_postfix()
+            'test_data//blazegraph_output_50_modified.csv'
+
+            >>> my_text_file.construct_output_file_name_with_postfix(postfix='_cleaned')
+            'test_data//blazegraph_output_50_cleaned.csv'
+        """
+        output_file_path = self.directory_path + '//' + self.input_file_name + postfix + '.' + \
+                           self.input_file_extension
+        return output_file_path
+
+
     def preview(self, number_of_lines=1, print_separators_between_lines=False):
         """
         Examples:
