@@ -756,6 +756,26 @@ class String(str):
         else:
             return False
 
+    def is_any_of_the_patterns_there(self, patterns_list):
+        """
+        Args:
+            patterns_list(list)
+
+        Returns:
+            bool
+
+        Examples:
+            >>> patterns_list = ['XX', '12']
+            >>> String('XXaXXa12a12').is_any_of_the_patterns_there(patterns_list=patterns_list)
+            True
+
+            >>> String('XXaXXa12a12').is_any_of_the_patterns_there(patterns_list=['ZZ', '55'])
+            False
+        """
+        answer = any(each_pattern in self.content for each_pattern in patterns_list)
+
+        return answer
+
 
     def clip_at_index(self, divide_at, remove):
         """
