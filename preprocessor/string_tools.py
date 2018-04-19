@@ -194,7 +194,7 @@ class String(str):
         return self
 
 
-    def clean_from_non_uri_safe_characters(self):
+    def clean_from_non_uri_safe_characters(self, preserve_uri_heads=['http://', 'https://']):
         """
         Converts non-ascii characters to their URI-safe equivalents (e.g., ' ' becomes '%20').
 
@@ -205,10 +205,39 @@ class String(str):
             >>> my_string = String('non-uri safe_string')
             >>> my_string.clean_from_non_uri_safe_characters()
             'non-uri%20safe_string'
+
+            >>> my_string = String('http://some_url')
+            >>> my_string.clean_from_non_uri_safe_characters()
+            'http://some_url'
+
+            >>> my_string = String('http://some_url_that_begins_and_ends_with_http://')
+            >>> my_string.clean_from_non_uri_safe_characters()
+            'http://some_url_that_begins_and_ends_with_http%3A//'
         """
 
         from urllib.parse import quote
-        self.content = quote(self.content)
+        import re
+
+        patterns_were_found = False
+
+        if not preserve_uri_heads:
+            preserve_uri_heads = []
+
+
+        for each_pattern in preserve_uri_heads:
+            pattern_position = re.search('^%s' % each_pattern, self.content)
+            if pattern_position:
+                split_location = pattern_position.end()
+                head = self.content[:split_location]
+                tail = self.content[split_location:]
+
+                cleaned_tail = quote(tail)
+                self.content = head + cleaned_tail
+
+                patterns_were_found = True
+
+        if not patterns_were_found:
+            self.content = quote(self.content)
 
         return self
 
