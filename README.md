@@ -8,6 +8,7 @@ Is also the main repository for the packages 'triplicator' and 'preprocessor'. F
 ## Requirements:
 - Pyhon 3.x
 - pybtex
+- unidecode
 - sparqlwrapper
 
 ## Quickstart
