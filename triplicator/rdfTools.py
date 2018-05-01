@@ -17,6 +17,70 @@ class RDF_File(Text_File):
         Text_File.__init__(self, file_path)
 
 
+    def parse_to_triples_object(self, format):
+        """
+        Args:
+            format(str): Passes the argument to 'parse' method of 'rdflib.graph'
+
+        Keyword Args:
+            turtle(format)
+
+        Returns:
+            Triples
+
+        Examples:
+            >>> my_rdf_file = RDF_File('example_data//example.ttl')
+            >>> triples = my_rdf_file.parse_to_triples_object(format='turtle')
+            >>> # Because the order of triples are different each time due to rdflib behavior, the results are currently
+            >>> # being tested this way:
+            >>> '<http://dx.doi.org/10.1016%252F0896-6273%2894%2990208-9> <http://www.w3.org/1999/02/22-rdf-syntax-ns%23ty'\
+                'pe> <http://xxx.wos.xxx/vocabulary/CitedPublication> .' in triples.triples_list
+            True
+            >>> '<http://dx.doi.org/10.1001%252F2013.jamainternmed.744> <http://www.w3.org/1999/02/22-rdf-syntax-ns%23ty'\
+            'pe> <http://xxx.wos.xxx/vocabulary/CitedPublication> .' in triples.triples_list
+            True
+        """
+        from rdflib.graph import Graph
+        from preprocessor.string_tools import String
+
+        triples = Triples()
+
+        graph = Graph()
+        graph.parse(self.input_file_path, format=format)
+
+        pattern_replacements_dictionary = {
+            '<': '',
+            '>': '',
+            '\\\\': '',  # to remove rogue '\' characters.  Unsure why '\\' does not work
+            '“': '',
+            '”': '',
+            '’': '',
+            '\(|\)|\[|\]|\{|\}': ''  # to remove parantheses, brackets, braces
+        }
+
+        for s, p, o in graph.triples((None, None, None)):
+
+            s = String(s)
+            p = String(p)
+            o = String(o)
+
+            s.purify(make_uri_safe_but_preserve_head=True, remove_problematic_patterns=False)
+            p.purify(make_uri_safe_but_preserve_head=True, remove_problematic_patterns=False)
+            o.purify(make_uri_safe_but_preserve_head=True, remove_problematic_patterns=False)
+
+            s.replace_patterns(pattern_replacements_dictionary)
+            p.replace_patterns(pattern_replacements_dictionary)
+            o.replace_patterns(pattern_replacements_dictionary)
+
+            s.surround_with('<', '>')
+            p.surround_with('<', '>')
+            o.surround_with('<', '>')
+
+            triples.add_triple(s.content, p.content, o.content)
+
+        return triples
+
+
     def write_triples_to_file(self, triples_object, show_progress_bar=True):
         """
         Args:
@@ -70,7 +134,7 @@ class RDF_File(Text_File):
 
         # Write to file
         console.log_message('Writing of the triples to file "%s" has started' % file_path, add_timestamp_in_file=True)
-        with open(file_path, mode="a", encoding='utf8') as file:
+        with open(file_path, mode="w", encoding='utf8') as file:
             for i, each_triple in enumerate(triples_object):
                 try:
                     file.write(each_triple + '\n')
@@ -182,12 +246,12 @@ class Triples():
             >>> my_triples = Triples()
             >>> my_triples.add_triple("<http://clokman.com/ontologies/scientific-research>",
             ...             "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-            ...             "http://www.w3.org/2002/07/owl#Ontology")\
+            ...             "<http://www.w3.org/2002/07/owl#Ontology>")\
                           .preview()
             Triple 1:
             ('<http://clokman.com/ontologies/scientific-research> '
              '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> '
-             'http://www.w3.org/2002/07/owl#Ontology .')
+             '<http://www.w3.org/2002/07/owl#Ontology> .')
 
             >>> #c_book      = <SOME_URI>
             >>> #p_rdf_type  = <SOME URI>
