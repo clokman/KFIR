@@ -249,7 +249,7 @@ class ConsoleOutput():
             >>> from preprocessor.Text_File import Text_File
 
             >>> # print progress
-            >>> my_file = Text_File('C://Users//Clokman//Google Drive//__Projects__//Code//KFIR//preprocessor//test_data//blazegraph_output_1000.csv')
+            >>> my_file = Text_File('..//preprocessor//test_data//blazegraph_output_1000.csv')
             >>> my_console_output = ConsoleOutput(log_file_path='log.txt')
             >>> with open(my_file.input_file_path, encoding='utf8') as file:
             ...    current_progress = 0
@@ -423,7 +423,7 @@ class ConsoleOutput():
 
 
             # print progress with decimals
-            >>> my_file = Text_File('C://Users//Clokman//Google Drive//__Projects__//Code//KFIR//preprocessor//test_data//blazegraph_output_1000.csv')
+            >>> my_file = Text_File('..//preprocessor//test_data//blazegraph_output_1000.csv')
             >>> my_console_output = ConsoleOutput(log_file_path='log.txt')
             >>> with open(my_file.input_file_path, encoding='utf8') as file:
             ...    current_progress = 0
