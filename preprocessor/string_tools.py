@@ -30,7 +30,8 @@ class String(str):
 
     def purify(self,clean_from_non_ascii_characters=True, remove_problematic_patterns=True,
                clean_newline_characters=True,
-               convert_spaces_to_underscores=False, make_uri_safe=False):
+               convert_spaces_to_underscores=False,
+               make_uri_safe=False, make_uri_safe_but_preserve_head=False):
         """
         Replaces non-ascii characters with their ascii equivalents (e.g., 'â' with 'a') and removes patterns/characters
         that can lead to parsing errors. If associated parameters are set, also performs additional operations such as
@@ -73,7 +74,7 @@ class String(str):
             '“': '',
             '”': '',
             '’': '',
-            '\[|\]|\{|\}': ''
+            '\[|\]|\{|\}': ''  # to remove parantheses, brackets, braces
         }
 
         if clean_from_non_ascii_characters:
@@ -90,7 +91,10 @@ class String(str):
             self.replace_patterns({' ': '_'})
 
         if make_uri_safe:
-            self.clean_from_non_uri_safe_characters()
+            self.clean_from_non_uri_safe_characters(preserve_uri_heads=False)
+
+        if make_uri_safe_but_preserve_head:
+            self.clean_from_non_uri_safe_characters(preserve_uri_heads=True)
 
         return self
 
@@ -194,7 +198,7 @@ class String(str):
         return self
 
 
-    def clean_from_non_uri_safe_characters(self, preserve_uri_heads=['http://', 'https://']):
+    def clean_from_non_uri_safe_characters(self, preserve_uri_heads=False):
         """
         Converts non-ascii characters to their URI-safe equivalents (e.g., ' ' becomes '%20').
 
@@ -218,13 +222,11 @@ class String(str):
         from urllib.parse import quote
         import re
 
+        heads_to_preserve = ['http://', 'https://']
+
         patterns_were_found = False
 
-        if not preserve_uri_heads:
-            preserve_uri_heads = []
-
-
-        for each_pattern in preserve_uri_heads:
+        for each_pattern in heads_to_preserve:
             pattern_position = re.search('^%s' % each_pattern, self.content)
             if pattern_position:
                 split_location = pattern_position.end()
