@@ -86,11 +86,15 @@ class Bibtex_File(Text_File):
             <http://clokman.com/kfir/ontology#hasDOI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasISSN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasISBN> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#hasPureBibliographyID> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#hasOpenCitationsID> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#isChapterOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://www.w3.org/2000/01/rdf-schema#label> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasTopic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasAbstract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#hasCited> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+            <http://clokman.com/kfir/ontology#isCitedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
             <http://clokman.com/kfir/ontology#Topic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
@@ -100,31 +104,27 @@ class Bibtex_File(Text_File):
             <http://clokman.com/kfir/ontology#Book> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
             <http://clokman.com/kfir/ontology#BookChapter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
             <http://clokman.com/kfir/ontology#Miscellaneous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
             <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
-            <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
+            <http://clokman.com/kfir/resource#Agteresch_HJ> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Agteresch_HJ> .
             <http://clokman.com/kfir/resource#Agteresch_HJ> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
             <http://clokman.com/kfir/resource#Agteresch_HJ> <http://www.w3.org/2000/01/rdf-schema#label> "Agteresch, HJ"@en .
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2023" .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2023" .
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://clokman.com/kfir/ontology#hasPureBibliographyID> "a1f8850ca82a4fb89aab8db2a49f8fa1" .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Document> .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
             <http://clokman.com/kfir/ontology#Misc> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://clokman.com/kfir/ontology#Document> .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://clokman.com/kfir/ontology#Misc> .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
-            <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#arbitrary_label> .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://www.w3.org/2000/01/rdf-schema#label> "Gereformeerde katholiciteit in de zeventiende eeuw"@en .
+            <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://clokman.com/kfir/ontology#isAuthorOf> <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> .
+            <http://clokman.com/kfir/resource#61d5cb748d514012b7ecba7bfd6dd745> <http://clokman.com/kfir/ontology#hasAuthor> <http://clokman.com/kfir/resource#Hartevelt_LDA> .
             <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
-            <http://clokman.com/kfir/resource#Hartevelt_LDA> <http://www.w3.org/2000/01/rdf-schema#label> "Hartevelt, LDA"@en .
-            <http://clokman.com/kfir/resource#Gereformeerde_katholiciteit_in_de_zeventiende_eeuw> <http://clokman.com/kfir/ontology#isPublishedOnYear> "2021" .
-            <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
-            <http://clokman.com/kfir/ontology#isAuthorOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
-            <http://clokman.com/kfir/ontology#hasAuthor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
-            <http://clokman.com/kfir/ontology#isPublishedOn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
-            <http://clokman.com/kfir/ontology#isPublishedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
 
             >>> # Invalid formatting of output directory
             >>> my_bibtex_file = Bibtex_File('example_data//vu_25_test_0.0.test.bib')
@@ -171,8 +171,8 @@ class Bibtex_File(Text_File):
             <BLANKLINE>
             A log of the operation is kept in "log.txt"
             >>> my_ttl_file = Text_File('example_data//example_output_dir//vu_25_test_v0.0.test2.ttl')
-            >>> my_ttl_file.print_lines(29)
-            <http://clokman.com/kfir/resource#Geloof_en_rechtvaardiging> <http://clokman.com/kfir/ontology#hasOriginBibliography> <http://clokman.com/kfir/resource#bib_name_with_spaces> .
+            >>> my_ttl_file.print_lines(35)
+            <http://clokman.com/kfir/resource#a1f8850ca82a4fb89aab8db2a49f8fa1> <http://www.w3.org/2000/01/rdf-schema#label> "Geloof en rechtvaardiging"@en .
 
             >>> # see bottom of this file for longer tests
 
