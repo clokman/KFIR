@@ -1,0 +1,2 @@
+printed and logged message
+printed and logged a second message
