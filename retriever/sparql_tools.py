@@ -516,38 +516,48 @@ class Gastrodon_Query():
 
 
     def send_construct_query(self, query):
-        #TODO: This method must be developed further.
         """
 
         Args:
-            query:
+            query(str)
 
         Returns:
 
+
         Examples:
-            # >>> query = Gastrodon_Query()
-            # >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
-            #          .set_endpoint('http://dbpedia.org/sparql')\
-            #          .send_construct_query('licenses', 'SELECT (COUNT(?s) AS ?licenses) {?s cc:license ?o .}')
+            >>> # Init and send simple query
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     .set_endpoint('http://dbpedia.org/sparql')\
+                     .send_construct_query('CONSTRUCT {<a> <b> <c> . } WHERE {?s ?p ?o} LIMIT 10')
+              Subject Predicate Object
+            0       a         b      c
+
+            >>> # Send a slightly more complex query (only one result is being requested due to results being returned
+            >>> # with random order)
+            >>> query.send_construct_query('CONSTRUCT {?s <has_license> <http://www.gnu.org/copyleft/fdl.html> . } WHERE {?s cc:license <http://www.gnu.org/copyleft/fdl.html> .}')
+                                    Subject    Predicate                                Object
+            0  http://dbpedia.org/ontology/  has_license  http://www.gnu.org/copyleft/fdl.html
+
         """
+        import pandas, numpy
+        from preprocessor.data_tools import Pandas_Dataframe
+
         self.check_if_minimum_query_parameters_specified()
 
-        result = self.endpoint_object.construct("""
-            %s
-        """ % query)
-        return result
+        result_as_graph = self.endpoint_object.construct("""%s""" % query)
+
+        result_as_dataframe = pandas.DataFrame(columns=['Subject', 'Predicate', 'Object'])
+        result_as_dataframe = Pandas_Dataframe(result_as_dataframe)
+        #result_as_dataframe = pandas.DataFrame(columns=['Subject', 'Predicate', 'Object'])
+        for (s, p, o) in result_as_graph.triples((None, None, None)):  # None acts as the wildcard '*'
+            each_row_dataframe = pandas.DataFrame(numpy.array([[s, p, o]]), columns=['Subject', 'Predicate', 'Object'])
+            result_as_dataframe.insert_dataframe_at_index(len(result_as_dataframe.dataframe), each_row_dataframe)
+
+        return result_as_dataframe.dataframe
 
 
-    # article_count = eculture.select("""
-    #     SELECT (COUNT(DISTINCT ?article) as ?articles)
-    #     WHERE{
-    #         GRAPH wosGraph: {
-    #             ?article a wos:Article .
-    #         }
-    #     }
-    #     """
-    #                                 ).at[0, 'articles']
-    # print(article_count)
+
 
 
     def set_endpoint(self, endpoint_url):
