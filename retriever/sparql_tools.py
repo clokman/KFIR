@@ -461,6 +461,95 @@ class Gastrodon_Query():
         self.endpoint_object = None
         self.prefixes_object = None
 
+
+    def send_select_query(self, query):
+        """
+        Args:
+            query(str)
+
+        Returns:
+           pandas DataFrame
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+
+        Examples:
+            >>> query = Gastrodon_Query()
+            >>> results = query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                     .set_endpoint('http://dbpedia.org/sparql')\
+                     .send_select_query("SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 2")
+            >>> results['s'][1]
+            rdflib.term.URIRef('http://www.openlinksw.com/virtrdf-data-formats#default-iid-nullable')
+            >>> results['p'][1]
+            'rdf:type'
+            >>> results['o'][1]
+            rdflib.term.URIRef('http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat')
+        """
+        self.check_if_minimum_query_parameters_specified()
+
+        result = self.endpoint_object.select("""
+            %s
+        """ % query)
+        return result
+
+
+    def send_count_query(self, variable_that_holds_count_results, query):
+        """
+        Args:
+            query(str)
+
+        Returns:
+           int
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+
+        Examples:
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     .set_endpoint('http://dbpedia.org/sparql')\
+                     .send_count_query('licenses', 'SELECT (COUNT(?s) AS ?licenses) {?s cc:license ?o .}')
+            4
+        """
+        result = self.send_select_query(query=query).at[0, variable_that_holds_count_results]
+        return result
+
+
+    def send_construct_query(self, query):
+        #TODO: This method must be developed further.
+        """
+
+        Args:
+            query:
+
+        Returns:
+
+        Examples:
+            # >>> query = Gastrodon_Query()
+            # >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+            #          .set_endpoint('http://dbpedia.org/sparql')\
+            #          .send_construct_query('licenses', 'SELECT (COUNT(?s) AS ?licenses) {?s cc:license ?o .}')
+        """
+        self.check_if_minimum_query_parameters_specified()
+
+        result = self.endpoint_object.construct("""
+            %s
+        """ % query)
+        return result
+
+
+    # article_count = eculture.select("""
+    #     SELECT (COUNT(DISTINCT ?article) as ?articles)
+    #     WHERE{
+    #         GRAPH wosGraph: {
+    #             ?article a wos:Article .
+    #         }
+    #     }
+    #     """
+    #                                 ).at[0, 'articles']
+    # print(article_count)
+
+
     def set_endpoint(self, endpoint_url):
         """
         Args:
@@ -500,6 +589,7 @@ class Gastrodon_Query():
 
         self.endpoint_object = endpoint_object
         return self
+
 
     def get_endpoint(self):
         """
@@ -557,6 +647,7 @@ class Gastrodon_Query():
         self.prefixes_object = prefixes_object
         return self
 
+
     def get_prefixes(self):
         """
         Returns:
@@ -584,37 +675,10 @@ class Gastrodon_Query():
             return self.prefixes_object
 
 
-    def send_select_query(self, query):
-        """
-        Args:
-            query(str)
-
-        Returns:
-           depends on the type of results
-
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
-
-        Examples:
-            >>> query = Gastrodon_Query()
-            >>> results = query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                     .set_endpoint('http://dbpedia.org/sparql')\
-                     .send_select_query("SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 2")
-            >>> results['s'][1]
-            rdflib.term.URIRef('http://www.openlinksw.com/virtrdf-data-formats#default-iid-nullable')
-            >>> results['p'][1]
-            'rdf:type'
-            >>> results['o'][1]
-            rdflib.term.URIRef('http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat')
-        """
+    def check_if_minimum_query_parameters_specified(self):
         from preprocessor.string_tools import Parameter_Value
         Parameter_Value().require_parameters([self.prefixes_object, self.endpoint_object],
                                              ['prefixes', 'endpoint'])
-
-        result = self.endpoint_object.select("""
-            %s
-        """ % query)
-        return result
 
 
 
