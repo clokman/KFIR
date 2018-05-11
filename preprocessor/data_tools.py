@@ -1,3 +1,4 @@
+import pandas
 class Pandas_Dataframe():
 
     def __init__(self, dataframe):
