@@ -462,6 +462,151 @@ class Gastrodon_Query():
         self.prefixes_object = None
 
 
+    def set_endpoint(self, endpoint_url):
+        """
+        Args:
+            endpoint_url(str)
+
+        Returns:
+            Gastrodon_Query
+
+        Examples:
+            >>> # Set and get endpoint
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               .set_endpoint('http://dbpedia.org/sparql')\
+                               ._get_endpoint()
+            'http://dbpedia.org/sparql'
+
+            >>> # Prefixes must be set before the end point (exception)
+            >>> gastrodon_query_two = Gastrodon_Query()
+            >>> try:
+            ...     gastrodon_query_two.set_endpoint('http://dbpedia.org/sparql')
+            ... except Exception as error_message:
+            ...     print('Exception caught:', error_message)
+            Exception caught: Parameters '['prefixes']' must be specified before this method is called. The current values of the parameters are [None]
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+        """
+        import gastrodon
+        from preprocessor.string_tools import Parameter_Value
+        Parameter_Value().require_parameters([self.prefixes_object], ['prefixes'])
+
+        endpoint_object=gastrodon.RemoteEndpoint(
+            url=endpoint_url,
+            default_graph=None,
+            prefixes=self.prefixes_object
+        )
+
+        self.endpoint_object = endpoint_object
+        return self
+
+
+    def _get_endpoint(self):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               .set_endpoint('http://dbpedia.org/sparql')\
+                               ._get_endpoint()
+            'http://dbpedia.org/sparql'
+
+            >>> gastrodon_query.endpoint_object = None
+            >>> gastrodon_query._get_endpoint()
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+        """
+        if self.endpoint_object != None:
+            return self.endpoint_object.url
+        else:
+            return self.endpoint_object
+
+
+    def set_prefixes(self, prefixes):
+        """
+        Args:
+            prefixes(str)
+
+        Returns:
+            Gastrodon_Query
+
+        Notes:
+            Gastrodon_Query modules are also also tested using unit tests.
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               ._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
+
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
+                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
+                               ._get_prefixes()
+            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
+            ... # This current notation is only for testing, as docstring environment prevents usage of three double
+            ... # quotes within tests.
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
+        """
+        import gastrodon
+        prefixes_object = gastrodon.inline("""
+                    %s
+                """ % prefixes).graph
+        self.prefixes_object = prefixes_object
+        return self
+
+
+    def _get_prefixes(self, convert_to_dictionary_of_strings=False):
+        """
+        Returns a dictionary of namespace uris and their corresponding prefixes (i.e., their abbreviations).
+
+        Args:
+            convert_to_dictionary_of_strings(bool): If True, returns the dictionary in {str1: str2, str3: str4} format. If False, returns the dictionary in {rdflib.term.URIRef1: str1, rdflib.term.URIRef2: str2} format.
+
+        Returns:
+            dict of rdflib.term.URIRef objects vs strings, dict of strins, or nothing (see Args)
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               ._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
+
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
+                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
+                                ._get_prefixes()
+            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
+            ... # This current notation is only for testing, as docstring environment prevents usage of three double
+            ... # quotes within tests.
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
+
+            >>> # return prefixes and uris as a dictionary of strings:
+            >>> gastrodon_query._get_prefixes(convert_to_dictionary_of_strings=True)
+            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://dbpedia.org/ontology/': 'dbo', 'http://dbpedia.org/resource/': 'dbr'}
+            >>> # empty_prefix (returns no output)
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query._get_prefixes()
+        """
+        import gastrodon
+        if self.prefixes_object == None:
+            return self.prefixes_object
+
+        else:
+            if convert_to_dictionary_of_strings:
+                stringified_uris_and_prefixes = {}
+                for each_uri, each_prefix in self.prefixes_object.store._IOMemory__prefix.items():
+                    each_uri_as_string = str(each_uri)
+                    stringified_uris_and_prefixes[each_uri_as_string] = each_prefix
+                return stringified_uris_and_prefixes
+
+            else:
+                return self.prefixes_object.store._IOMemory__prefix
+
+
     def send_select_query(self, query):
         """
         Args:
@@ -485,11 +630,9 @@ class Gastrodon_Query():
             >>> results['o'][1]
             rdflib.term.URIRef('http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat')
         """
-        self.check_if_minimum_query_parameters_specified()
+        self._check_if_minimum_query_parameters_specified()
 
-        result = self.endpoint_object.select("""
-            %s
-        """ % query)
+        result = self.endpoint_object.select(query)
         return result
 
 
@@ -522,6 +665,7 @@ class Gastrodon_Query():
             query(str)
 
         Returns:
+            pandas.DataFrame
 
 
         Examples:
@@ -536,160 +680,96 @@ class Gastrodon_Query():
             >>> # Send a slightly more complex query (only one result is being requested due to results being returned
             >>> # with random order)
             >>> query.send_construct_query('CONSTRUCT {?s <has_license> <http://www.gnu.org/copyleft/fdl.html> . } WHERE {?s cc:license <http://www.gnu.org/copyleft/fdl.html> .}')
-                                    Subject    Predicate                                Object
-            0  http://dbpedia.org/ontology/  has_license  http://www.gnu.org/copyleft/fdl.html
+              Subject    Predicate                                Object
+            0    dbo:  has_license  http://www.gnu.org/copyleft/fdl.html
 
         """
         import pandas, numpy
         from preprocessor.data_tools import Pandas_Dataframe
 
-        self.check_if_minimum_query_parameters_specified()
+        self._check_if_minimum_query_parameters_specified()
 
-        result_as_graph = self.endpoint_object.construct("""%s""" % query)
+        result_as_graph = self.endpoint_object.construct(query)
 
         result_as_dataframe = pandas.DataFrame(columns=['Subject', 'Predicate', 'Object'])
-        result_as_dataframe = Pandas_Dataframe(result_as_dataframe)
-        #result_as_dataframe = pandas.DataFrame(columns=['Subject', 'Predicate', 'Object'])
+        result_as_dataframe = Pandas_Dataframe(result_as_dataframe)  # Pandas_Dataframe is a class that extends the
+                                                                     #  functionality of pandas.DataFrame
+
         for (s, p, o) in result_as_graph.triples((None, None, None)):  # None acts as the wildcard '*'
+
+            s = self._shorten_uri_using_prefixes_if_possible(s)
+            p = self._shorten_uri_using_prefixes_if_possible(p)
+            o = self._shorten_uri_using_prefixes_if_possible(o)
+
             each_row_dataframe = pandas.DataFrame(numpy.array([[s, p, o]]), columns=['Subject', 'Predicate', 'Object'])
             result_as_dataframe.insert_dataframe_at_index(len(result_as_dataframe.dataframe), each_row_dataframe)
 
         return result_as_dataframe.dataframe
 
 
-
-
-
-    def set_endpoint(self, endpoint_url):
+    def _shorten_uri_using_prefixes_if_possible(self, uri):
         """
+        Shortens a specified URI using the prefixes attribute of the Gastrodon_Query instance.
+
         Args:
-            endpoint_url(str)
+            uri(str or rdflib.term.URIRef): A long uri such as 'http://www.w3.org/XML/1998/namespace' or rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace')
+                or
 
-        Returns:
-            Gastrodon_Query
-
-        Examples:
-            >>> # Set and get endpoint
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .set_endpoint('http://dbpedia.org/sparql')\
-                               .get_endpoint()
-            'http://dbpedia.org/sparql'
-
-            >>> # Prefixes must be set before the end point (exception)
-            >>> gastrodon_query_two = Gastrodon_Query()
-            >>> try:
-            ...     gastrodon_query_two.set_endpoint('http://dbpedia.org/sparql')
-            ... except Exception as error_message:
-            ...     print('Exception caught:', error_message)
-            Exception caught: Parameters '['prefixes']' must be specified before this method is called. The current values of the parameters are [None]
-
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
-        """
-        import gastrodon
-        from preprocessor.string_tools import Parameter_Value
-        Parameter_Value().require_parameters([self.prefixes_object], ['prefixes'])
-
-        endpoint_object=gastrodon.RemoteEndpoint(
-            url=endpoint_url,
-            default_graph=None,
-            prefixes=self.prefixes_object
-        )
-
-        self.endpoint_object = endpoint_object
-        return self
-
-
-    def get_endpoint(self):
-        """
         Returns:
             str
 
         Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .set_endpoint('http://dbpedia.org/sparql')\
-                               .get_endpoint()
-            'http://dbpedia.org/sparql'
+            >>> # Shorten a string URI
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     ._shorten_uri_using_prefixes_if_possible('http://dbpedia.org/ontology/test')
+            'dbo:test'
 
-            >>> gastrodon_query.endpoint_object = None
-            >>> gastrodon_query.get_endpoint()
+            >>> # Shorten a rdflib.term.URIRef URI
+            >>> import rdflib
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     ._shorten_uri_using_prefixes_if_possible(rdflib.term.URIRef('http://dbpedia.org/ontology/test'))
+            'dbo:test'
 
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
+            >>> # URI does not have a prefix specified in the instance prefixes (returns uri as is [and as a string]):
+            >>> import rdflib
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     ._shorten_uri_using_prefixes_if_possible('http://example.org/test')
+            'http://example.org/test'
         """
-        if self.endpoint_object != None:
-            return self.endpoint_object.url
-        else:
-            return self.endpoint_object
+        uris_and_prefixes_dictionary = self._get_prefixes(convert_to_dictionary_of_strings=True)
+        for each_namespace_uri, each_namespace_prefix in uris_and_prefixes_dictionary.items():
+
+            if each_namespace_uri in uri:
+                uri_tail = str(uri).split(sep=each_namespace_uri)[1]
+                uri = (each_namespace_prefix + ':' + uri_tail)
+
+        return uri
 
 
-    def set_prefixes(self, prefixes):
+    def send_update_query(self, query):
         """
+
         Args:
-            prefixes(str)
-
-        Returns:
-            Gastrodon_Query
-
-        Notes:
-            Gastrodon_Query modules are also also tested using unit tests.
-
-        Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .get_prefixes()
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
-
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
-                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
-                               .get_prefixes()
-            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
-            ... # This current notation is only for testing, as docstring environment prevents usage of three double
-            ... # quotes within tests.
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
-        """
-        import gastrodon
-        prefixes_object = gastrodon.inline("""
-                    %s
-                """ % prefixes).graph
-        self.prefixes_object = prefixes_object
-        return self
-
-
-    def get_prefixes(self):
-        """
-        Returns:
-            dict or None
-
-        Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .get_prefixes()
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
-
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
-                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
-                                .get_prefixes()
-            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
-            ... # This current notation is only for testing, as docstring environment prevents usage of three double
-            ... # quotes within tests.
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
+            query(str)
 
         """
-        import gastrodon
-        if self.prefixes_object != None:
-            return self.prefixes_object.store._IOMemory__prefix
-        else:
-            return self.prefixes_object
+
+        self._check_if_minimum_query_parameters_specified()
+
+        self.endpoint_object.update(query)
+
+        # import re
+        # query
+        # check = self.endpoint_object.select
 
 
-    def check_if_minimum_query_parameters_specified(self):
+    def _check_if_minimum_query_parameters_specified(self):
         from preprocessor.string_tools import Parameter_Value
         Parameter_Value().require_parameters([self.prefixes_object, self.endpoint_object],
                                              ['prefixes', 'endpoint'])
-
 
 
 class Open_Citations_Query(Sparql_Query):
