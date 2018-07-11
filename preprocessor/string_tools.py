@@ -28,7 +28,7 @@ class String(str):
         """
         return str(self.content)
 
-    def purify(self,clean_from_non_ascii_characters=True, remove_problematic_patterns=True,
+    def purify(self, clean_from_non_ascii_characters=True, remove_problematic_patterns=True,
                clean_newline_characters=True,
                convert_spaces_to_underscores=False,
                make_uri_safe=False, make_uri_safe_but_preserve_head=False):
