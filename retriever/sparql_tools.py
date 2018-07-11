@@ -346,7 +346,7 @@ class Sparql_Query():
         """
         Returns:
             nothing
-            
+
         Examples:
             >>> my_query = Sparql_Query().import_query_from_file('test_data_and_queries//simple_dbpedia_test.rq')
             >>> my_query.retrieve_results_from_endpoint('http://dbpedia.org/sparql')
@@ -455,156 +455,11 @@ class Gastrodon_Query():
     def __init__(self):
 
         import pandas
-        pandas.options.display.width=120
-        pandas.options.display.max_colwidth=100
+        pandas.options.display.width = 120
+        pandas.options.display.max_colwidth = 100
 
         self.endpoint_object = None
         self.prefixes_object = None
-
-
-    def set_endpoint(self, endpoint_url):
-        """
-        Args:
-            endpoint_url(str)
-
-        Returns:
-            Gastrodon_Query
-
-        Examples:
-            >>> # Set and get endpoint
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .set_endpoint('http://dbpedia.org/sparql')\
-                               ._get_endpoint()
-            'http://dbpedia.org/sparql'
-
-            >>> # Prefixes must be set before the end point (exception)
-            >>> gastrodon_query_two = Gastrodon_Query()
-            >>> try:
-            ...     gastrodon_query_two.set_endpoint('http://dbpedia.org/sparql')
-            ... except Exception as error_message:
-            ...     print('Exception caught:', error_message)
-            Exception caught: Parameters '['prefixes']' must be specified before this method is called. The current values of the parameters are [None]
-
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
-        """
-        import gastrodon
-        from preprocessor.string_tools import Parameter_Value
-        Parameter_Value().require_parameters([self.prefixes_object], ['prefixes'])
-
-        endpoint_object=gastrodon.RemoteEndpoint(
-            url=endpoint_url,
-            default_graph=None,
-            prefixes=self.prefixes_object
-        )
-
-        self.endpoint_object = endpoint_object
-        return self
-
-
-    def _get_endpoint(self):
-        """
-        Returns:
-            str
-
-        Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               .set_endpoint('http://dbpedia.org/sparql')\
-                               ._get_endpoint()
-            'http://dbpedia.org/sparql'
-
-            >>> gastrodon_query.endpoint_object = None
-            >>> gastrodon_query._get_endpoint()
-
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
-        """
-        if self.endpoint_object != None:
-            return self.endpoint_object.url
-        else:
-            return self.endpoint_object
-
-
-    def set_prefixes(self, prefixes):
-        """
-        Args:
-            prefixes(str)
-
-        Returns:
-            Gastrodon_Query
-
-        Notes:
-            Gastrodon_Query modules are also also tested using unit tests.
-
-        Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               ._get_prefixes()
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
-
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
-                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
-                               ._get_prefixes()
-            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
-            ... # This current notation is only for testing, as docstring environment prevents usage of three double
-            ... # quotes within tests.
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
-        """
-        import gastrodon
-        prefixes_object = gastrodon.inline("""
-                    %s
-                """ % prefixes).graph
-        self.prefixes_object = prefixes_object
-        return self
-
-
-    def _get_prefixes(self, convert_to_dictionary_of_strings=False):
-        """
-        Returns a dictionary of namespace uris and their corresponding prefixes (i.e., their abbreviations).
-
-        Args:
-            convert_to_dictionary_of_strings(bool): If True, returns the dictionary in {str1: str2, str3: str4} format. If False, returns the dictionary in {rdflib.term.URIRef1: str1, rdflib.term.URIRef2: str2} format.
-
-        Returns:
-            dict of rdflib.term.URIRef objects vs strings, dict of strins, or nothing (see Args)
-
-        Examples:
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
-                               ._get_prefixes()
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
-
-            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
-                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
-                                ._get_prefixes()
-            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
-            ... # This current notation is only for testing, as docstring environment prevents usage of three double
-            ... # quotes within tests.
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
-
-            >>> # return prefixes and uris as a dictionary of strings:
-            >>> gastrodon_query._get_prefixes(convert_to_dictionary_of_strings=True)
-            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://dbpedia.org/ontology/': 'dbo', 'http://dbpedia.org/resource/': 'dbr'}
-            >>> # empty_prefix (returns no output)
-            >>> gastrodon_query = Gastrodon_Query()
-            >>> gastrodon_query._get_prefixes()
-        """
-        import gastrodon
-        if self.prefixes_object == None:
-            return self.prefixes_object
-
-        else:
-            if convert_to_dictionary_of_strings:
-                stringified_uris_and_prefixes = {}
-                for each_uri, each_prefix in self.prefixes_object.store._IOMemory__prefix.items():
-                    each_uri_as_string = str(each_uri)
-                    stringified_uris_and_prefixes[each_uri_as_string] = each_prefix
-                return stringified_uris_and_prefixes
-
-            else:
-                return self.prefixes_object.store._IOMemory__prefix
 
 
     def send_select_query(self, query):
@@ -633,28 +488,6 @@ class Gastrodon_Query():
         self._check_if_minimum_query_parameters_specified()
 
         result = self.endpoint_object.select(query)
-        return result
-
-
-    def send_count_query(self, variable_that_holds_count_results, query):
-        """
-        Args:
-            query(str)
-
-        Returns:
-           int
-
-        Notes:
-            Gastrodon_Query modules are also tested using unit tests.
-
-        Examples:
-            >>> query = Gastrodon_Query()
-            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
-                     .set_endpoint('http://dbpedia.org/sparql')\
-                     .send_count_query('licenses', 'SELECT (COUNT(?s) AS ?licenses) {?s cc:license ?o .}')
-            4
-        """
-        result = self.send_select_query(query=query).at[0, variable_that_holds_count_results]
         return result
 
 
@@ -707,6 +540,188 @@ class Gastrodon_Query():
         return result_as_dataframe.dataframe
 
 
+    def send_update_query(self, query):
+        """
+
+        Args:
+            query(str)
+
+        """
+
+        self._check_if_minimum_query_parameters_specified()
+
+        self.endpoint_object.update(query)
+
+
+
+    def send_count_query(self, query_variable_that_holds_count_results, query):
+        """
+        Args:
+            query(str)
+            query_variable_that_holds_count_results(str)
+
+        Returns:
+           int
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+
+        Examples:
+            >>> query = Gastrodon_Query()
+            >>> query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n @prefix cc: <http://creativecommons.org/ns#> .')\
+                     .set_endpoint('http://dbpedia.org/sparql')\
+                     .send_count_query('licenses', 'SELECT (COUNT(?s) AS ?licenses) {?s cc:license ?o .}')
+            4
+        """
+        result = self.send_select_query(query=query).at[0, query_variable_that_holds_count_results]
+        return result
+
+
+    def set_prefixes(self, prefixes):
+        """
+        Args:
+            prefixes(str)
+
+        Returns:
+            Gastrodon_Query
+
+        Notes:
+            Gastrodon_Query modules are also also tested using unit tests.
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               ._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
+
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
+                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
+                               ._get_prefixes()
+            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
+            ... # This current notation is only for testing, as docstring environment prevents usage of three double
+            ... # quotes within tests.
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
+        """
+        import gastrodon
+        prefixes_object = gastrodon.inline("""
+                    %s
+                """ % prefixes).graph
+        self.prefixes_object = prefixes_object
+        return self
+
+
+    def set_endpoint(self, endpoint_url):
+        """
+        Args:
+            endpoint_url(str)
+
+        Returns:
+            Gastrodon_Query
+
+        Examples:
+            >>> # Set and get endpoint
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               .set_endpoint('http://dbpedia.org/sparql')\
+                               ._get_endpoint()
+            'http://dbpedia.org/sparql'
+
+            >>> # Prefixes must be set before the end point (exception)
+            >>> gastrodon_query_two = Gastrodon_Query()
+            >>> try:
+            ...     gastrodon_query_two.set_endpoint('http://dbpedia.org/sparql')
+            ... except Exception as error_message:
+            ...     print('Exception caught:', error_message)
+            Exception caught: Parameters '['prefixes']' must be specified before this method is called. The current values of the parameters are [None]
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+        """
+        import gastrodon
+        from preprocessor.string_tools import Parameter_Value
+        Parameter_Value().require_parameters([self.prefixes_object], ['prefixes'])
+
+        endpoint_object = gastrodon.RemoteEndpoint(
+            url=endpoint_url,
+            default_graph=None,
+            prefixes=self.prefixes_object
+        )
+
+        self.endpoint_object = endpoint_object
+        return self
+
+
+    def _get_endpoint(self):
+        """
+        Returns:
+            str
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               .set_endpoint('http://dbpedia.org/sparql')\
+                               ._get_endpoint()
+            'http://dbpedia.org/sparql'
+
+            >>> gastrodon_query.endpoint_object = None
+            >>> gastrodon_query._get_endpoint()
+
+        Notes:
+            Gastrodon_Query modules are also tested using unit tests.
+        """
+        if self.endpoint_object != None:
+            return self.endpoint_object.url
+        else:
+            return self.endpoint_object
+
+
+    def _get_prefixes(self, convert_to_dictionary_of_strings=False):
+        """
+        Returns a dictionary of namespace uris and their corresponding prefixes (i.e., their abbreviations).
+
+        Args:
+            convert_to_dictionary_of_strings(bool): If True, returns the dictionary in {str1: str2, str3: str4} format. If False, returns the dictionary in {rdflib.term.URIRef1: str1, rdflib.term.URIRef2: str2} format.
+
+        Returns:
+            dict of rdflib.term.URIRef objects vs strings, dict of strins, or nothing (see Args)
+
+        Examples:
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .')\
+                               ._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo'}
+
+            >>> gastrodon_query.set_prefixes('@prefix dbo: <http://dbpedia.org/ontology/> .\\n'\
+                                             '@prefix dbr: <http://dbpedia.org/resource/> .')\
+                                ._get_prefixes()
+            ... # The prefixes above can also be surrounded with three double quotes when ran form script or terminal.
+            ... # This current notation is only for testing, as docstring environment prevents usage of three double
+            ... # quotes within tests.
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://dbpedia.org/ontology/'): 'dbo', rdflib.term.URIRef('http://dbpedia.org/resource/'): 'dbr'}
+
+            >>> # return prefixes and uris as a dictionary of strings:
+            >>> gastrodon_query._get_prefixes(convert_to_dictionary_of_strings=True)
+            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://dbpedia.org/ontology/': 'dbo', 'http://dbpedia.org/resource/': 'dbr'}
+            >>> # empty_prefix (returns no output)
+            >>> gastrodon_query = Gastrodon_Query()
+            >>> gastrodon_query._get_prefixes()
+        """
+        import gastrodon
+        if self.prefixes_object == None:
+            return self.prefixes_object
+
+        else:
+            if convert_to_dictionary_of_strings:
+                stringified_uris_and_prefixes = {}
+                for each_uri, each_prefix in self.prefixes_object.store._IOMemory__prefix.items():
+                    each_uri_as_string = str(each_uri)
+                    stringified_uris_and_prefixes[each_uri_as_string] = each_prefix
+                return stringified_uris_and_prefixes
+
+            else:
+                return self.prefixes_object.store._IOMemory__prefix
+
+
     def _shorten_uri_using_prefixes_if_possible(self, uri):
         """
         Shortens a specified URI using the prefixes attribute of the Gastrodon_Query instance.
@@ -749,27 +764,525 @@ class Gastrodon_Query():
         return uri
 
 
-    def send_update_query(self, query):
-        """
-
-        Args:
-            query(str)
-
-        """
-
-        self._check_if_minimum_query_parameters_specified()
-
-        self.endpoint_object.update(query)
-
-        # import re
-        # query
-        # check = self.endpoint_object.select
-
-
     def _check_if_minimum_query_parameters_specified(self):
         from preprocessor.string_tools import Parameter_Value
         Parameter_Value().require_parameters([self.prefixes_object, self.endpoint_object],
                                              ['prefixes', 'endpoint'])
+
+
+class WebOfScienceQuery(Gastrodon_Query):
+    def __init__(self, gastrodon_query=None):
+        """
+        Examples:
+            >>> # INITIALIZE FROM EXISTING GASTRODON QUERY =============================================================
+            >>> # Initiate Gastrodon_Query object ----------------------------------------------------------------------
+            >>> my_gastodon_query = Gastrodon_Query()
+
+            >>> # Set and check prefixes
+            >>> my_gastodon_query.set_prefixes('''\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+                @prefix kfirGraph: <http://clokman.com/kfir> .\
+                @prefix testGraph: <http://clokman.com/test> .\
+            ''')._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://clokman.com/wos'): 'wosGraph', rdflib.term.URIRef('http://clokman.com/kfir'): 'kfirGraph', rdflib.term.URIRef('http://clokman.com/test'): 'testGraph'}
+
+            >>> # Get endpoint address from file, set it, and check
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+            >>> url = my_gastodon_query.set_endpoint(eculture_endpoint_url)\
+                              .endpoint_object.url
+            >>> print(type(url), len(url))  # for checking the endpoint url without revealing it
+            <class 'str'> 50
+            >>> #-------------------------------------------------------------------------------------------------------
+
+            >>> # Import to WebOfScienceQuery and test functionality ---------------------------------------------------
+            >>> my_wos_query = WebOfScienceQuery(my_gastodon_query)
+            >>> my_wos_query._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://clokman.com/wos'): 'wosGraph', rdflib.term.URIRef('http://clokman.com/kfir'): 'kfirGraph', rdflib.term.URIRef('http://clokman.com/test'): 'testGraph'}
+
+            >>> private_endpoint_url = my_wos_query.endpoint_object.url
+            >>> print(type(url), len(url))  # for checking the endpoint url without revealing it
+            <class 'str'> 50
+
+            >>> # Run queries
+            >>> results = my_wos_query.send_select_query("SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 2")
+            >>> results['s'][0]
+            rdflib.term.URIRef('http://www.openlinksw.com/virtrdf-data-formats#default-iid')
+            >>> results['p'][0]
+            'rdf:type'
+            >>> results['o'][0]
+            rdflib.term.URIRef('http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat')
+
+            >>> #-------------------------------------------------------------------------------------------------------
+            >>> #=======================================================================================================
+
+
+            >>> # INITIALIZE FROM SCRATCH ==============================================================================
+            >>> # Initiate object
+            >>> eculture_query = WebOfScienceQuery()
+
+            >>> # Set and check prefixes
+            >>> eculture_query.set_prefixes('''\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+                @prefix kfirGraph: <http://clokman.com/kfir> .\
+                @prefix testGraph: <http://clokman.com/test> .\
+            ''')._get_prefixes()
+            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://clokman.com/wos'): 'wosGraph', rdflib.term.URIRef('http://clokman.com/kfir'): 'kfirGraph', rdflib.term.URIRef('http://clokman.com/test'): 'testGraph'}
+
+            >>> # Get endpoint address from file, set it, and check
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+            >>> url = eculture_query.set_endpoint(eculture_endpoint_url)\
+                              .endpoint_object.url
+            >>> print(type(url), len(url))  # for checking the endpoint url without revealing it
+            <class 'str'> 50
+            >>> #=======================================================================================================
+        """
+        Gastrodon_Query.__init__(self)
+
+        if gastrodon_query:
+            self.__dict__.update(gastrodon_query.__dict__)  # copy all attributes from Gastrodon instance to self
+        else:
+            pass
+
+        self._last_query_results = None
+
+
+    def tokenize_purify_and_update_string_literals(self, target_property_uri, uri_of_graph_to_write_the_output,
+                                                   new_property_uri='same as target',
+                                                   query_volume=0, batch_size=10,
+                                                   show_progress=False):
+        """
+        Args:
+            target_property_uri(str): The uri of the property that points to literals of interest
+            uri_of_graph_to_write_the_output(str): Can be the same or different from the original graph.
+            query_volume(int): Works as a global LIMIT keyword put on the query. '0' means maximum possible. The maximum
+                possible value is automatically calculated.
+            batch_size(int): The number of retrieved results from the triple store to be processed per iteration
+                (i.e., in each purification-update cycle). Works as a local LIMIT keyword for each iteration of the
+                loop.
+            new_property_uri(str): Used for renaming the target_property_uri in the new graph
+            show_progress(bool): Shows progress bar during operation
+
+        Returns:
+            nothing
+
+        Examples:
+            >>> # INIT =================================================================================================
+            >>> # Import endpoint address from private file
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+
+            >>> # Initiate instance
+            >>> eculture_query = WebOfScienceQuery()
+
+            >>> # Set query parameters and clear docTestsGraph
+            >>> eculture_query.set_prefixes('''\
+                @prefix wos: <http://wos.risis.eu/vocabulary/> .\
+                @prefix wosres: <http://wos.risis.eu/resource/> .\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+                @prefix docTestsGraph: <http://clokman.com/doctestsgraph> .\
+                @prefix kfir: <http://clokman.com/kfir/ontology#> .\
+            ''').set_endpoint(eculture_endpoint_url).send_update_query('CLEAR GRAPH docTestsGraph:')
+
+            >>> # Confirm that the doctest graph is empty
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+            >>> #=======================================================================================================
+
+
+            >>> # USAGE WITH DEFAULT PARAMETERS ========================================================================
+            >>> # View the literals to be cleaned (Web of Science Categories (wos:WC))
+            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
+                                               o
+            0            Film, Radio, Television
+            1  Clinical Neurology; Neurosciences
+            2                      Asian Studies
+            3                 Clinical Neurology
+            4                     Sport Sciences
+            5             Environmental Sciences
+            6                     Anesthesiology
+            7                         Microscopy
+            8       Medicine, General & Internal
+            9  Economics; Planning & Development
+
+            >>> # Use the method to purify and tokenize Web of Science categories
+            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:WC',
+            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            ...                                                        query_volume=50)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
+                                         s       p                               o
+            0   wosres:WOS_000060208200006  wos:WC         Film, Radio, Television
+            1   wosres:WOS_000070935900005  wos:WC              Clinical Neurology
+            2   wosres:WOS_000070935900005  wos:WC                   Neurosciences
+            3   wosres:WOS_000070948900005  wos:WC                   Asian Studies
+            4   wosres:WOS_000070961600011  wos:WC              Clinical Neurology
+            5   wosres:WOS_000070961600033  wos:WC              Clinical Neurology
+            6   wosres:WOS_000070969600003  wos:WC                  Sport Sciences
+            7   wosres:WOS_000070970500011  wos:WC          Environmental Sciences
+            8   wosres:WOS_000070998100010  wos:WC                  Anesthesiology
+            9   wosres:WOS_000070998900007  wos:WC                      Microscopy
+            10  wosres:WOS_000071006900008  wos:WC  Medicine, General and Internal
+            11  wosres:WOS_000071013000007  wos:WC                       Economics
+            12  wosres:WOS_000071013000007  wos:WC        Planning and Development
+            13  wosres:WOS_000071018600001  wos:WC                        Oncology
+            14  wosres:WOS_000071021600006  wos:WC       Pharmacology and Pharmacy
+            >>> #=======================================================================================================
+
+
+            >>> # USAGE WITH CUSTOM PARAMETERS =========================================================================
+            >>> # Clean doctest graph and confirm cleaning
+            >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+
+            >>> # View the literals to be cleaned (Author keywords (wos:DE))
+            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:DE ?o}} LIMIT 10")
+                                                                                      o
+            0           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
+            1                              pain, postoperative; analgesics, prescribing
+            2           DIC; Nomarski; interference; microscopy; CCD; image processing;
+            3  analysis; reconstruction; optical pathlength; phase; transparent; living
+            4                    atherosclerosis; homocysteine; metformin; vitamin B-12
+            5                                               policy; household economics
+            6      sub-Saharan Africa; Swaziland; labor migration; food security; labor
+            7                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
+            8                                             (electrochemical); NO sensing
+            9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
+
+            >>> # Use the method on author keywords (wos:DE)
+            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:DE',
+            ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
+            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            ...                                                        query_volume=50, batch_size=10)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
+                                          s                      p                                                  o
+            0    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     photosynthesis
+            1    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                              ozone
+            2    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     UV-B radiation
+            3    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                             growth
+            4    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                   Elymus athericus
+            5    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                                pain, postoperative
+            6    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                            analgesics, prescribing
+            7    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                CCD
+            8    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                   image processing
+            9    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                         microscopy
+            10   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           analysis
+            11   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                             living
+            12   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                     reconstruction
+            13   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                              phase
+            14   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                       interference
+            15   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                 optical pathlength
+            16   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                        transparent
+            17   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                DIC
+            18   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           Nomarski
+            19   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                    atherosclerosis
+            20   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       homocysteine
+            21   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                          metformin
+            22   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       vitamin B-12
+            23   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                          Swaziland
+            24   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                      food security
+            25   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                 sub-Saharan Africa
+            26   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                             policy
+            27   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                              labor
+            28   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                    labor migration
+            29   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                household economics
+            ..                          ...                    ...                                                ...
+            122  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                    trigonal-bipyramidal structures
+            123  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                     stereomutation
+            124  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                          Si-29-NMR
+            125  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                      lithium pentaorganylsilicates
+            126  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                tetraorganylsilanes
+            127  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                       malnutrition
+            128  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                          lactation
+            129  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                            puberty
+            130  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                      hypogonadotropic hypogonadism
+            131  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                       Follicle Stimulating Hormone
+            132  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             lactational amenorrhea
+            133  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                           twinning
+            134  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                      twin research
+            135  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                oral contraceptives
+            136  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             weight loss amenorrhea
+            137  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 prenatal diagnosis
+            138  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                           placenta
+            139  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 genomic imprinting
+            140  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                        trophoblast
+            141  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                    molar pregnancy
+            142  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                              HASH2
+            143  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                  DNA binding transcription factors
+            144  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                        macrophages
+            145  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                         retinal pigment epithelium
+            146  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                   membrane protein
+            147  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                               uvea
+            148  wosres:WOS_000071179700013  kfir:hasAuthorKeyword             dichloromethylene diphosphonate Cl2MDP
+            149  wosres:WOS_000071179700013  kfir:hasAuthorKeyword  experimental melanin-protein induced uveitis EMIU
+            150  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                 pigment epithelial
+            151  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                       uveitis EAPU
+            <BLANKLINE>
+            [152 rows x 3 columns]
+            >>> #=======================================================================================================
+
+        """
+        from retriever.sparql_tools import Sparql_Parameter
+        from preprocessor.dataframe_tools import Data_Frame
+        from meta.consoleOutput import ConsoleOutput
+        console = ConsoleOutput()
+        error_log = []
+
+        # if no new_property_uri is specified, use the uri of the target property
+        if new_property_uri == 'same as target':
+            new_property_uri = target_property_uri
+
+        # if query size is zero, assign maximum possible size to it
+        if query_volume == 0:
+            query_volume = self.count_number_of_instances_of_property(target_property_uri)
+
+        for current_offset in range(0, query_volume, batch_size):
+            if show_progress:
+                console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
+                                               status_message='Processing strings and updating specified graph')
+
+            # Retrieve a subset of the dataset that contains the article ids and associated keywords
+            ids_vs_keywords = self.retrieve_relationships_of_property(target_property_uri,
+                                                                      desired_column_name_for_literal='targetLiteral',
+                                                                      desired_column_name_for_identifier='wosArticleUri',
+                                                                      limit=batch_size,
+                                                                      offset=current_offset)
+
+            # Because the retrieved keywords are in a semicolon-separated list, they need to be tokenized:
+            ids_vs_keywords = Data_Frame(ids_vs_keywords)  # this is not 'pandas.DataFrame' class
+            ids_vs_keywords.tokenize_string_column(string_column_name='targetLiteral',
+                                                   id_column_name='wosArticleUri',
+                                                   delimiter_pattern_in_literal_cells='; ')
+
+            # Tokenized keywords contain items such as "Wolff's Law" and "(electrochemical)".
+            # They need to be cleaned from special characters:
+            ids_vs_keywords.purify_column(target_column_name='targetLiteral')
+
+            # Collapse the keywords onto article uris as lists
+            ids_vs_keywords = ids_vs_keywords.collapse_dataframe_on_column(values_column_name='targetLiteral',
+                                                                           identifier_column_name='wosArticleUri')
+
+            # Extract the author keywords column
+            author_keywords_column = ids_vs_keywords.dataframe['targetLiteral']
+
+            # Convert lists on each cell of author keywords column to parameter strings (to be used in VALUES
+            # keyword of SPARQL)
+            parameterized_keywords = Sparql_Parameter.Values_Parameter_Series()
+            parameterized_keywords.import_and_convert_pandas_series(author_keywords_column)
+
+            # Replace the author keywords column of the dataframe with the parameterized version
+            ids_vs_keywords.dataframe['targetLiteral'] = parameterized_keywords.series
+            ids_vs_keywords.dataframe
+
+            # Update the database
+            for index, each_row in ids_vs_keywords.dataframe.iterrows():
+                each_article_id = each_row.values[0]
+                each_parameter_string = each_row.values[1]
+                try:
+                    self.send_update_query(
+                        """
+                        INSERT {
+                            GRAPH %s {
+                                %s %s ?keyword
+                            }
+                        }
+                        WHERE{
+                            VALUES ?keyword {%s}
+                        }
+                        """ % (uri_of_graph_to_write_the_output, each_article_id, new_property_uri, each_parameter_string)
+                    )
+                except Exception as error_message:
+                    error_log.append(str(error_message))
+
+        # Error logging
+        if error_log != []:
+            print('Operation completed.')
+            print('These %d errors were logged during the operation:') % len(error_log)
+            for each_item in error_log:
+                print(each_item, '\n')
+        else:
+            print('Operation completed without errors.')
+
+
+    def retrieve_relationships_of_property(self, property,
+                                                 desired_column_name_for_literal='targetLiteral',
+                                                 desired_column_name_for_identifier='wosArticleUri',
+                                                 limit=None, offset=0):
+        """
+        Retrieves the two sides of a property (i.e., the subject and the object around the property)
+
+        Args:
+            property(str): The uri of the property that connects the article to literal.
+                (e.g., 'wos:DE' connects Web of Science articles to the literals that are author keywords).
+                prefixes if they are defined in Gastrodon Query.
+            desired_column_name_for_literal(str)
+            offset(int): Value to pass on to SPARQL OFFSET statement
+            limit(int): Value to pass on to SPARQL LIMIT statement
+
+        Returns:
+            pandas.DataFrame
+
+        Examples:
+            >>> # Import endpoint address from private file
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+
+            >>> # Initiate instance
+            >>> eculture_query = WebOfScienceQuery()
+
+            >>> # Set query parameters and send a query
+            >>> eculture_query.set_prefixes('''\
+                @prefix wos: <http://wos.risis.eu/vocabulary/> .\
+                @prefix wosres: <http://wos.risis.eu/resource/> .\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+            ''').set_endpoint(eculture_endpoint_url)\
+                .retrieve_relationships_of_property(property='wos:DE', limit=10)
+                            wosArticleUri                                                             targetLiteral
+            0  wosres:WOS_000070970500011           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
+            1  wosres:WOS_000070998100010                              pain, postoperative; analgesics, prescribing
+            2  wosres:WOS_000070998900007           DIC; Nomarski; interference; microscopy; CCD; image processing;
+            3  wosres:WOS_000070998900007  analysis; reconstruction; optical pathlength; phase; transparent; living
+            4  wosres:WOS_000071006900008                    atherosclerosis; homocysteine; metformin; vitamin B-12
+            5  wosres:WOS_000071013000007                                               policy; household economics
+            6  wosres:WOS_000071013000007      sub-Saharan Africa; Swaziland; labor migration; food security; labor
+            7  wosres:WOS_000071021600006                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
+            8  wosres:WOS_000071021600006                                             (electrochemical); NO sensing
+            9  wosres:WOS_000071040300005      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
+
+            >>> # Send another query that has a different conntector_property, offset, and column names
+            >>> eculture_query.retrieve_relationships_of_property(property='wos:WC',
+            ...                                                   desired_column_name_for_literal='myKeywords',
+            ...                                                   desired_column_name_for_identifier='myIdentifier',
+            ...                                                   limit=10, offset=10)
+                             myIdentifier                                                          myKeywords
+            0  wosres:WOS_000071013000007                                   Economics; Planning & Development
+            1  wosres:WOS_000071018600001                                                            Oncology
+            2  wosres:WOS_000071021600006                                             Pharmacology & Pharmacy
+            3  wosres:WOS_000071040300005                                     Clinical Neurology; Orthopedics
+            4  wosres:WOS_000071040500044                                                      Plant Sciences
+            5  wosres:WOS_000071044500005                          Agricultural Economics & Policy; Economics
+            6  wosres:WOS_000071047000001                       Biology; Mathematical & Computational Biology
+            7  wosres:WOS_000071052500006                                                             Imaging
+            8  wosres:WOS_000071052500006  Neurosciences; Neuroimaging; Radiology, Nuclear Medicine & Medical
+            9  wosres:WOS_000071053800004                                                    Physics, Nuclear
+        """
+        # Prepare LIMIT statement (if it exists) for SPARQL query
+        if limit == None:
+            limit_statement_in_query = ''
+        else:
+            limit_statement_in_query = 'LIMIT %d' % limit
+
+        article_ids_vs_literals_dataframe = self.send_select_query("""
+
+        SELECT DISTINCT (?article AS ?%s) ?%s
+        WHERE{
+            GRAPH wosGraph: {
+                ?article a wos:Article;
+                         %s ?%s .
+            }
+        }
+        %s
+        OFFSET %s
+
+        """ % (desired_column_name_for_identifier,
+               desired_column_name_for_literal, property,
+               desired_column_name_for_literal, limit_statement_in_query, offset)
+        )
+        self._last_query_results = article_ids_vs_literals_dataframe
+        return self._last_query_results
+
+
+    def count_number_of_instances_of_property(self, property):
+        """
+        Retrieves the two sides of a property (i.e., the subject and the object around the property)
+
+        Args:
+            property(str): The uri of the property that connects the article to literal.
+                (e.g., 'wos:DE' connects Web of Science articles to the literals that are author keywords).
+                prefixes if they are defined in Gastrodon Query.
+
+        Returns:
+            int
+
+        Examples:
+            >>> # Import endpoint address from private file
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+
+            >>> # Initiate instance
+            >>> eculture_query = WebOfScienceQuery()
+
+            >>> # Set query parameters and send a count query
+            >>> eculture_query.set_prefixes('''\
+                @prefix wos: <http://wos.risis.eu/vocabulary/> .\
+                @prefix wosres: <http://wos.risis.eu/resource/> .\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+            ''').set_endpoint(eculture_endpoint_url)\
+                .count_number_of_instances_of_property(property='wos:DE')
+            134254
+
+            >>> # Send another query that has a different connector_property
+            >>> eculture_query.count_number_of_instances_of_property(property='wos:WC')
+            145145
+        """
+        count = self.send_count_query(
+            query="""
+
+                SELECT (COUNT (?literal) AS ?literals) 
+                WHERE{
+                    GRAPH wosGraph: {
+                        ?article a wos:Article;
+                                 %s ?literal .
+                    }
+                }
+            """ % property,
+            query_variable_that_holds_count_results='literals'
+        )
+
+        return count
+
+
+    # def convert_articles_vs_keywords_dataframe_to_dictionary(articles_vs_keywords_dataframe):
+    #     """
+    #     Args:
+    #         articles_vs_keywords_dataframe(pandas.dataframe)
+    #     Returns:
+    #         dict
+    #
+    #     Examples:
+    #     """
+    #
+    #     raw_articles_vs_keywords_dictionary = articles_vs_keywords_dataframe.to_dict('split')
+    #
+    #     indexed_dictionary = {}
+    #     for each_entry in raw_articles_vs_keywords_dictionary['data']:
+    #         each_article_id = each_entry[0]
+    #         each_keywords_string = each_entry[1]
+    #
+    #         each_keywords_list = each_keywords_string.split('; ')
+    #
+    #         indexed_dictionary[each_article_id] = each_keywords_list
+    #     return indexed_dictionary
+    #
+    # id_vs_keyword_dictionary = convert_articles_vs_keywords_dataframe_to_dictionary(articles_vs_keywords_dataframe)
+    #
+    # from pprint import pprint
+    # pprint(id_vs_keyword_dictionary)
+
 
 
 class Open_Citations_Query(Sparql_Query):
@@ -1322,3 +1835,124 @@ class DOI_String(String):
             return True
         else:
            return False
+
+
+class Sparql_Parameter:
+
+    class Values_Parameter_String:
+        def __init__(self, formatted_parameter_string=None):
+            """
+            Args:
+                formatted_parameter_string(str): And already formatted parameter string for SPARQL VALUES keyword
+
+            Examples:
+                >>> # Initiate empty
+                >>> my_parameter = Sparql_Parameter.Values_Parameter_String()
+
+                >>> # Initiate with a string that contains parameters
+                >>> my_parameter = Sparql_Parameter.Values_Parameter_String('a b c')
+
+                >>> # Exception: Cannot initiate with a non-string
+                >>> try:
+                ...     my_parameter = Sparql_Parameter.Values_Parameter_String([1, 2 ,3])
+                ... except Exception as exception:  # catch exception
+                ...     print (exception)
+                Parameter "[1, 2, 3]" must be of type <class 'str'>, but is currently of type <class 'list'>
+            """
+            from preprocessor.string_tools import Parameter_Value
+
+            if formatted_parameter_string:
+                Parameter_Value(formatted_parameter_string).force_type(str)
+                content = formatted_parameter_string
+            else:
+                content = None
+
+
+        def import_list_and_convert_to_parameter(self, list):
+            """
+
+            Args:
+                list(list)
+
+            Returns:
+                Values_Parameter_String (updated self)
+
+            Examples:
+                >>> # Convert list of strings
+                >>> my_list = ['a', 'b', 'c']
+                >>> my_parameter = Sparql_Parameter.Values_Parameter_String()
+                >>> my_parameter.import_list_and_convert_to_parameter(my_list).content
+                '"a" "b" "c"'
+
+                >>> # Convert list of non-strings
+                >>> my_list = [1, 2, 3]
+                >>> my_parameter = Sparql_Parameter.Values_Parameter_String()
+                >>> my_parameter.import_list_and_convert_to_parameter(my_list).content
+                '"1" "2" "3"'
+            """
+            parameter_string = ''
+            for each_item in list:
+                each_item = str(each_item)
+                parameter_string = parameter_string + '"' + each_item + '"' + ' '
+
+            # Remove the extra space at the end
+            parameter_string = parameter_string[:-1]
+
+            self.content = parameter_string
+            return self
+
+
+    class Values_Parameter_Series:
+
+        def __init__(self):
+            self.series = None
+
+        def import_and_convert_pandas_series(self, series_object):
+            """
+
+            Args:
+                series_object(pandas.Series):
+
+            Returns:
+                Values_Parameter_Series  (updated self)
+
+            Examples:
+                >>> import pandas
+                >>> my_pandas_series = pandas.Series([['a', 'b', 'c' ],
+                ...                                   [1, 2, 3],
+                ...                                   [True, False, True]
+                ... ])
+                >>> my_pandas_series
+                0              [a, b, c]
+                1              [1, 2, 3]
+                2    [True, False, True]
+                dtype: object
+
+                >>> my_parameter_series = Sparql_Parameter.Values_Parameter_Series()
+                >>> my_parameter_series.import_and_convert_pandas_series(my_pandas_series)\
+                                       .series
+                0              "a" "b" "c"
+                1              "1" "2" "3"
+                2    "True" "False" "True"
+                dtype: object
+
+            """
+            import pandas
+            from preprocessor.string_tools import Parameter_Value
+
+            Parameter_Value(series_object).force_type(pandas.Series)
+
+            transformed_series = pandas.Series()
+
+            for each_index, each_keywords_list in series_object.iteritems():
+
+                parameterized_keyword_list = Sparql_Parameter.Values_Parameter_String()
+                parameterized_keyword_list.import_list_and_convert_to_parameter(each_keywords_list)
+
+                parameterized_keyword_series = pandas.Series(parameterized_keyword_list.content)
+
+                transformed_series = transformed_series.append(parameterized_keyword_series, ignore_index=True)
+
+            self.series = transformed_series
+
+            return self
