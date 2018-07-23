@@ -5,7 +5,7 @@ These slides contain the cypher scripts for importing Web of Science database fr
 ### Format and Notation
 The .csv files may serve as a list of **instances** (e.g., a list of all unique titles, which would be imported as nodes in Neo4j), as **join datasets** (e.g., a list of relationships between two titles and article IDs), or both.
 
-The names of .csv files that contain instances (nodes) are written in capitals (e.g., "TITLES.csv", which contains a list of unique titles that can be used to populate the graph with nodes), and, all of their occurrences in other file names are also capitalized (e.g., TITLES_vs_articles.csv, which contains all relationships between titles and article ids, that can be used to add relationships between them to the graph).
+The names of .csv files that contain unique instances (nodes) are written in capitals (e.g., "TITLES.csv", which contains a list of unique titles that can be used to populate the graph with nodes).
 
 ---
 
@@ -66,7 +66,7 @@ Import 'addresses'
 ```
 
 ##### 5.2.1. Import author instances
-In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data)...
+In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
     LOAD CSV WITH HEADERS FROM "file:///authors_vs_articles_pX.csv" AS eachRow
     CREATE (n:AuthorInstance)
@@ -80,7 +80,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 
 ##### 5.2.3. Connect 'author instances' with articles
-In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data)...
+In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
     LOAD CSV WITH HEADERS FROM "file:///authors_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (authorInstance:AuthorInstance)
@@ -133,8 +133,10 @@ This script is currently a preview; ran for 1 million connections.
 
 #### 8. Citations
 Import citations and connect articles via 'dois'
+
+In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///citations_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///citations_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (articleThatIsCited:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  //:Article(wosArticleUri) must have been indexed before
           articleThatIsCited.doi = eachRow.hasCitedArticle_withDoi  //:Article(doi) must have been indexed before
@@ -175,8 +177,9 @@ Import citations and connect articles via 'dois'
 ```
 
 ##### 10.3. Connect 'annotations' with articles
+In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///annotations_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///annotations_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (annotation:Annotation)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // 'wosArticleUri' must already be indexed before
           annotation.annotation = eachRow.annotation  // 'annotation' must already be indexed before
@@ -196,8 +199,9 @@ Import citations and connect articles via 'dois'
 ```
 
 ##### 11.3. Connect 'keywordPlus' with articles
+In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///keywordsPlus_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///keywordsPlus_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (keywordPlus:KeywordPlus)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // 'wosArticleUri' must already be indexed before
           keywordPlus.keywordPlus = eachRow.keywordsPlus  // 'keywordPlus' must already be indexed before
