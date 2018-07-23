@@ -134,6 +134,7 @@ This script is currently a preview; ran for 1 million connections.
 ```
 <br>
 #### 8. Citations
+<br>
 ##### 8.1. Import citations and connect articles via 'dois'
 <br>
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
