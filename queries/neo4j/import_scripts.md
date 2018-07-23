@@ -239,26 +239,17 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 #### 13. Authors to all Topics
 <br>
 ##### 13.1. Connect authors with annotations, keywordsPlus, author keywords, subject categories
-Currently is preview with limit: 10K
-<br>
 ```cypher 
     MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (author)-[:HAS_RESEARCHED]->(topic)
-    RETURN author, topic
-    LIMIT 10000
+    // LIMIT 10000
 ```
-
 <br>
-
 #### 14. Journals to all Topics
 <br>
 ##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
-Currently is preview with limit: 10K
-
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (journal)-[:IS_ABOUT]->(topic)
-    RETURN journal, topic
-    LIMIT 10000
+    //LIMIT 10000
 ```
-<br>
