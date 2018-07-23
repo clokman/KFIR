@@ -4,7 +4,7 @@
 <br>
 ##### 1.1. Import articles and titles
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///TITLES_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/TITLES_vs_articles.csv" AS eachRow
     CREATE (n:Article)
     SET n = eachRow
 ```
@@ -16,9 +16,9 @@
 <br>
 #### 2. Years
 <br>
-Import 'years'
+##### 2.1. Import 'years'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///years_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/years_vs_articles.csv" AS eachRow
     MATCH (article:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri
    SET article.publicationYear = eachRow.publicationYear
@@ -26,9 +26,9 @@ Import 'years'
 <br>
 #### 3. Emails
 <br>
-Import 'emails'
+##### 3.1. Import 'emails'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///emails_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/emails_vs_articles.csv" AS eachRow
     MATCH (article:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceEmail = eachRow.articleEmail
@@ -36,9 +36,9 @@ Import 'emails'
 <br>
 #### 4. Addresses
 <br>
-Import 'addresses'
+##### 4.1. Import 'addresses'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///addresses_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/addresses_vs_articles.csv" AS eachRow
     MATCH (article:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceAddress = eachRow.articleAddress
@@ -48,7 +48,7 @@ Import 'addresses'
 <br>
 ##### 5.1.1. Import 'authors' (names)
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///AUTHOR_NAMES.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/AUTHOR_NAMES.csv" AS eachRow
     CREATE (n:Author)
     SET n.name = eachRow.authorName
 ```
@@ -61,7 +61,7 @@ Import 'addresses'
 ##### 5.2.1. Import author instances
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///authors_vs_articles_pX.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/authors_vs_articles_pX.csv" AS eachRow
     CREATE (n:AuthorInstance)
     SET n.wosAuthorCompoundUri = eachRow.wosAuthorCompoundUri,
         n.authorName = eachRow.authorName
@@ -75,7 +75,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ##### 5.2.3. Connect 'author instances' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///authors_vs_articles_pX.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/authors_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (authorInstance:AuthorInstance)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND 
           authorInstance.wosAuthorCompoundUri = eachRow.wosAuthorCompoundUri
@@ -95,7 +95,7 @@ This script is currently a preview; ran for 1 million connections.
 <br>
 ##### 6.1. Import 'journals'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///JOURNALS.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/JOURNALS.csv" AS eachRow
     CREATE (n:Journal {name:eachRow.journal})
 ```
 <br>
@@ -106,7 +106,7 @@ This script is currently a preview; ran for 1 million connections.
 <br>
 ##### 6.3. Connect journals with articles
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///journals_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/journals_vs_articles.csv" AS eachRow
     MATCH (article:Article), (journal:Journal)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  //wosArticleUri must be indexed
           journal.name = eachRow.journal  //journal.name must be indexed
@@ -117,7 +117,7 @@ This script is currently a preview; ran for 1 million connections.
 <br>
 ##### 7.1. Import dois
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///dois_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/dois_vs_articles.csv" AS eachRow
     MATCH (article:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.doi = eachRow.doi
@@ -129,11 +129,11 @@ This script is currently a preview; ran for 1 million connections.
 ```
 <br>
 #### 8. Citations
-Import citations and connect articles via 'dois'
+##### 8.1. Import citations and connect articles via 'dois'
 <br>
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///citations_vs_articles_pX.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/citations_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (articleThatIsCited:Article)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  //:Article(wosArticleUri) must have been indexed before
           articleThatIsCited.doi = eachRow.hasCitedArticle_withDoi  //:Article(doi) must have been indexed before
@@ -144,7 +144,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 9.1. Import 'author keywords'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///AUTHOR_KEYWORDS.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/AUTHOR_KEYWORDS.csv" AS eachRow
     CREATE (n:AuthorKeyword {authorKeyword:eachRow.authorKeyword})
 ```
 <br>
@@ -155,7 +155,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 9.3. Connect 'author keywords' with articles
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///authorKeywords_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/authorKeywords_vs_articles.csv" AS eachRow
     MATCH (article:Article), (authorKeyword:AuthorKeyword)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // wosArticleUri must be indexed 
           authorKeyword.authorKeyword = eachRow.authorKeyword  // authorKeyword.authorKeyword must be indexed
@@ -166,7 +166,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 10.1. Import 'annotations'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///ANNOTATIONS.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/ANNOTATIONS.csv" AS eachRow
     CREATE (n:Annotation {annotation:eachRow.annotation})
 ```
 <br>
@@ -178,7 +178,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ##### 10.3. Connect 'annotations' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///annotations_vs_articles_pX.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/annotations_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (annotation:Annotation)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // 'wosArticleUri' must already be indexed before
           annotation.annotation = eachRow.annotation  // 'annotation' must already be indexed before
@@ -189,7 +189,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 11.1. Import 'keywordsPlus'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///KEYWORDS_PLUS.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/KEYWORDS_PLUS.csv" AS eachRow
     CREATE (n:KeywordPlus {keywordPlus: eachRow.keywordsPlus})
 ```
 <br>
@@ -201,7 +201,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ##### 11.3. Connect 'keywordPlus' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///keywordsPlus_vs_articles_pX.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/keywordsPlus_vs_articles_pX.csv" AS eachRow
     MATCH (article:Article), (keywordPlus:KeywordPlus)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // 'wosArticleUri' must already be indexed before
           keywordPlus.keywordPlus = eachRow.keywordsPlus  // 'keywordPlus' must already be indexed before
@@ -212,7 +212,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 12.1. Import 'subjectCategories'
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///SUBJECT_CATEGORIES.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/SUBJECT_CATEGORIES.csv" AS eachRow
     CREATE (n:SubjectCategory {subjectCategory: eachRow.subjectCategory})
 ```
 <br>
@@ -223,7 +223,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 ##### 12.3. Connect 'subjectCategories' with articles
 ```cypher
-    LOAD CSV WITH HEADERS FROM "file:///subjectCategories_vs_articles.csv" AS eachRow
+    LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/subjectCategories_vs_articles.csv" AS eachRow
     MATCH (article:Article), (subjectCategory:SubjectCategory)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // 'wosArticleUri' must already be indexed before
           subjectCategory.subjectCategory = eachRow.subjectCategory  // 'subjectCategory' must already be indexed before
@@ -232,8 +232,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 <br>
 #### 13. Authors to all Topics
 <br>
-##### Connect authors with annotations, keywordsPlus, author keywords, subject categories
+##### 13.1. Connect authors with annotations, keywordsPlus, author keywords, subject categories
 Currently is preview with limit: 10K
+<br>
 ```cypher 
     MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (author)-[:HAS_RESEARCHED]->(topic)
@@ -245,8 +246,9 @@ Currently is preview with limit: 10K
 
 #### 14. Journals to all Topics
 <br>
-##### Connect journals with annotations, keywordsPlus, author keywords, subject categories 
+##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
 Currently is preview with limit: 10K
+
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (journal)-[:IS_ABOUT]->(topic)
