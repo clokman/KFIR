@@ -72,7 +72,12 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE INDEX ON :AuthorInstance(wosAuthorCompoundUri)
 ```
 <br>
-##### 5.2.3. Connect 'author instances' with articles
+##### 5.2.3. Index authorNames in author instances
+```cypher
+    CREATE INDEX ON :AuthorInstance(authorName)
+```
+<br>
+##### 5.2.4. Connect 'author instances' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/authors_vs_articles_pX.csv" AS eachRow
