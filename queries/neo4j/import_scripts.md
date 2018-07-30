@@ -241,12 +241,12 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ##### 13.1. Connect authors with annotations, keywordsPlus, author keywords, subject categories
 
 ```cypher
-     CALL apoc.periodic.iterate(
-            "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic) RETURN author, topic",
-            "MERGE (author)-[:HAS_RESEARCHED]->(topic)", {batchSize:1000, parallel:false}
-        )
-        YIELD batches, total 
-        RETURN batches, total
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic) RETURN author, topic",
+        "MERGE (author)-[:HAS_RESEARCHED]->(topic)", {batchSize:1000, parallel:false}
+    )
+    YIELD batches, total 
+    RETURN batches, total
 ```
 
 Old version:
