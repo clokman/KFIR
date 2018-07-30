@@ -1,3 +1,7 @@
+# a
+
+## b
+
 ### Import Scripts
 <br>
 #### 1. Titles
@@ -259,6 +263,21 @@ Old version:
 #### 14. Journals to all Topics
 <br>
 ##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
+```cypher
+MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation)
+MERGE (journal)-[:IS_ABOUT]->(annotation)
+
+MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus)
+MERGE (journal)-[:IS_ABOUT]->(keywordPlus)
+
+MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword)
+MERGE (journal)-[:IS_ABOUT]->(authorKeyword)
+
+MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory)
+MERGE (journal)-[:IS_ABOUT]->(subjectCategory)
+```
+
+Old version:
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (journal)-[:IS_ABOUT]->(topic)
