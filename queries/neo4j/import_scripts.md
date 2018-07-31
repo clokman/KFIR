@@ -286,7 +286,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation) WHERE NOT (author)-[:HAS_RESEARCHED]->(annotation) RETURN author, annotation",
-        "CREATE (author)-[:HAS_RESEARCHED]->(annotation)", {batchSize:100}
+        "MERGE (author)-[:HAS_RESEARCHED]->(annotation)", {batchSize:100}
     )
     YIELD batches, total, timeTaken
     RETURN batches, total, timeTaken
@@ -296,9 +296,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ##### 13.2. Connect authors with keywords plus
 ```cypher
     CALL apoc.periodic.iterate(
-        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus) WHERE NOT (author)-[:HAS_RESEARCHED]->(keywordPlus) RETURN author, keywordPlus
-",
-        "CREATE (author)-[:HAS_RESEARCHED]->(keywordPlus)", {batchSize:100}
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus) WHERE NOT (author)-[:HAS_RESEARCHED]->(keywordPlus) RETURN author, keywordPlus",
+        "MERGE (author)-[:HAS_RESEARCHED]->(keywordPlus)", {batchSize:100}
     )
     YIELD batches, total, timeTaken
     RETURN batches, total, timeTaken
@@ -309,7 +308,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword) WHERE NOT (author)-[:HAS_RESEARCHED]->(authorKeyword) RETURN author, authorKeyword",
-        "CREATE (author)-[:HAS_RESEARCHED]->(authorKeyword)", {batchSize:100}
+        "MERGE (author)-[:HAS_RESEARCHED]->(authorKeyword)", {batchSize:100}
     )
     YIELD batches, total, timeTaken
     RETURN batches, total, timeTaken
@@ -320,7 +319,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory) WHERE NOT (author)-[:HAS_RESEARCHED]->(subjectCategory) RETURN author, subjectCategory",
-        "CREATE (author)-[:HAS_RESEARCHED]->(subjectCategory)", {batchSize:100}
+        "MERGE (author)-[:HAS_RESEARCHED]->(subjectCategory)", {batchSize:100}
     )
     YIELD batches, total, timeTaken
     RETURN batches, total, timeTaken
@@ -350,24 +349,28 @@ Old query:
 #### 14. JOURNAL-TOPIC RELATIONSHIPS
 
 
-##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
-
-
+##### 14.1. Connect journals with annotations
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation)
     MERGE (journal)-[:IS_ABOUT]->(annotation)
 ```
 
+
+##### 14.2. Connect journals with keywords plus
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus)
     MERGE (journal)-[:IS_ABOUT]->(keywordPlus)
 ```
 
+
+##### 14.3. Connect journals with author keywords
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword)
     MERGE (journal)-[:IS_ABOUT]->(authorKeyword)
 ```
 
+
+##### 14.4. Connect journals with subject categories
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory)
     MERGE (journal)-[:IS_ABOUT]->(subjectCategory)
