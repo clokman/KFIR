@@ -1,7 +1,7 @@
 ### Import Scripts
 
-
-#### 1. Titles
+<br>
+#### 1. TITLES
 
 
 ##### 1.1. Import articles and titles
@@ -17,8 +17,8 @@
     CREATE INDEX ON :Article(wosArticleUri)
 ```
 
-
-#### 2. Years
+<br>
+#### 2. YEARS
 
 
 ##### 2.1. Import 'years'
@@ -29,8 +29,8 @@
    SET article.publicationYear = eachRow.publicationYear
 ```
 
-
-#### 3. Emails
+<br>
+#### 3. EMAILS
 
 
 ##### 3.1. Import 'emails'
@@ -41,8 +41,8 @@
     SET article.correspondenceEmail = eachRow.articleEmail
 ```
 
-
-#### 4. Addresses
+<br>
+#### 4. ADDRESSES
 
 
 ##### 4.1. Import 'addresses'
@@ -53,8 +53,8 @@
     SET article.correspondenceAddress = eachRow.articleAddress
 ```
 
-
-#### 5. Authors (names)
+<br>
+#### 5. AUTHORS (NAMES)
 
 
 ##### 5.1.1. Import 'authors' (names)
@@ -113,8 +113,8 @@ This script is currently a preview; ran for 1 million connections.
     MERGE (author)-[:HAS_INSTANCE]->(authorInstance)
 ```
 
-
-#### 6. Journals
+<br>
+#### 6. JOURNALS
 
 
 ##### 6.1. Import 'journals'
@@ -139,7 +139,7 @@ This script is currently a preview; ran for 1 million connections.
     CREATE (article)-[:IS_PUBLISHED_ON]->(journal)
 ```
 
-
+<br>
 #### 7. DOIs
 
 
@@ -157,8 +157,8 @@ This script is currently a preview; ran for 1 million connections.
     CREATE INDEX ON :Article(doi)
 ```
 
-
-#### 8. Citations
+<br>
+#### 8. CITATIONS
 
 
 ##### 8.1. Import citations and connect articles via 'dois'
@@ -172,8 +172,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE (article)-[:HAS_CITED]->(articleThatIsCited)
 ```
 
-
-#### 9. Author Keywords
+<br>
+#### 9. AUTHOR KEYWORDS
 
 
 ##### 9.1. Import 'author keywords'
@@ -198,8 +198,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE (article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword)
 ```
 
-
-#### 10. Annotations
+<br>
+#### 10. ANNOTATIONS
 
 
 ##### 10.1. Import 'annotations'
@@ -225,8 +225,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE (article)-[:HAS_ANNOTATION]->(annotation)
 ```
 
-
-#### 11. Keywords Plus
+<br>
+#### 11. KEYWORDS PLUS
 
 
 ##### 11.1. Import 'keywordsPlus'
@@ -252,8 +252,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE (article)-[:HAS_KEYWORD_PLUS]->(keywordPlus)
 ```
 
-
-#### 12. Subject Categories
+<br>
+#### 12. SUBJECT CATEGORIES
 
 
 ##### 12.1. Import 'subjectCategories'
@@ -278,8 +278,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     CREATE (article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory)
 ```
 
-
-#### 13. Authors to all Topics
+<br>
+#### 13. AUTHOR-TOPIC RELATIONSHIPS
 
 
 ##### 13.1. Connect authors with annotations
@@ -346,8 +346,8 @@ Old query:
     // LIMIT 10000
 ```
 
-
-#### 14. Journals to all Topics
+<br>
+#### 14. JOURNAL-TOPIC RELATIONSHIPS
 
 
 ##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
