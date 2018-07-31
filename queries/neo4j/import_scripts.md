@@ -1,8 +1,7 @@
 ### Import Scripts
-<br>
+
 
 #### 1. Titles
-<br>
 
 
 ##### 1.1. Import articles and titles
@@ -11,17 +10,16 @@
     CREATE (n:Article)
     SET n = eachRow
 ```
-<br>
+
 
 ##### 1.2. Index article uris
 ```cypher
     CREATE INDEX ON :Article(wosArticleUri)
 ```
-<br>
 
 
 #### 2. Years
-<br>
+
 
 ##### 2.1. Import 'years'
 ```cypher
@@ -30,10 +28,9 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
    SET article.publicationYear = eachRow.publicationYear
 ```
-<br>
+
 
 #### 3. Emails
-<br>
 
 
 ##### 3.1. Import 'emails'
@@ -43,10 +40,9 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceEmail = eachRow.articleEmail
 ```
-<br>
+
 
 #### 4. Addresses
-<br>
 
 
 ##### 4.1. Import 'addresses'
@@ -56,10 +52,9 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceAddress = eachRow.articleAddress
 ```
-<br>
+
 
 #### 5. Authors (names)
-<br>
 
 
 ##### 5.1.1. Import 'authors' (names)
@@ -68,13 +63,13 @@
     CREATE (n:Author)
     SET n.name = eachRow.authorName
 ```
-<br>
+
 
 ##### 5.1.2. Index 'author' names
 ```cypher
     CREATE INDEX ON :Author(name)
 ```
-<br>
+
 
 ##### 5.2.1. Import author instances
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
@@ -84,19 +79,19 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     SET n.wosAuthorCompoundUri = eachRow.wosAuthorCompoundUri,
         n.authorName = eachRow.authorName
 ```
-<br>
+
 
 ##### 5.2.2. Index author wos compound uris in author instances
 ```cypher
     CREATE INDEX ON :AuthorInstance(wosAuthorCompoundUri)
 ```
-<br>
+
 
 ##### 5.2.3. Index authorNames in author instances
 ```cypher
     CREATE INDEX ON :AuthorInstance(authorName)
 ```
-<br>
+
 
 ##### 5.2.4. Connect 'author instances' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
@@ -107,7 +102,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           authorInstance.wosAuthorCompoundUri = eachRow.wosAuthorCompoundUri
     CREATE (authorInstance)-[:IS_AUTHOR_OF]->(article)
 ```
-<br>
+
 
 ##### 5.3. Connect 'author instances' with 'authors'
 This script is currently a preview; ran for 1 million connections.
@@ -117,10 +112,9 @@ This script is currently a preview; ran for 1 million connections.
     WITH author, authorInstance LIMIT 1000000
     MERGE (author)-[:HAS_INSTANCE]->(authorInstance)
 ```
-<br>
+
 
 #### 6. Journals
-<br>
 
 
 ##### 6.1. Import 'journals'
@@ -128,13 +122,13 @@ This script is currently a preview; ran for 1 million connections.
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/JOURNALS.csv" AS eachRow
     CREATE (n:Journal {name:eachRow.journal})
 ```
-<br>
+
 
 ##### 6.2. Index journal names
 ```cypher
     CREATE INDEX ON :Journal(name)
 ```
-<br>
+
 
 ##### 6.3. Connect journals with articles
 ```cypher
@@ -144,10 +138,9 @@ This script is currently a preview; ran for 1 million connections.
           journal.name = eachRow.journal  //journal.name must be indexed
     CREATE (article)-[:IS_PUBLISHED_ON]->(journal)
 ```
-<br>
+
 
 #### 7. DOIs
-<br>
 
 
 ##### 7.1. Import dois
@@ -157,20 +150,19 @@ This script is currently a preview; ran for 1 million connections.
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.doi = eachRow.doi
 ```
-<br>
+
 
 ##### 7.2. Index dois
 ```cypher
     CREATE INDEX ON :Article(doi)
 ```
-<br>
+
 
 #### 8. Citations
-<br>
 
 
 ##### 8.1. Import citations and connect articles via 'dois'
-<br>
+
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
 ```cypher
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/citations_vs_articles_pX.csv" AS eachRow
@@ -179,10 +171,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           articleThatIsCited.doi = eachRow.hasCitedArticle_withDoi  //:Article(doi) must have been indexed before
     CREATE (article)-[:HAS_CITED]->(articleThatIsCited)
 ```
-<br>
+
 
 #### 9. Author Keywords
-<br>
 
 
 ##### 9.1. Import 'author keywords'
@@ -190,13 +181,13 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/AUTHOR_KEYWORDS.csv" AS eachRow
     CREATE (n:AuthorKeyword {authorKeyword:eachRow.authorKeyword})
 ```
-<br>
+
 
 ##### 9.2. Index 'author keywords'
 ```cypher
     CREATE INDEX ON :AuthorKeyword(authorKeyword)
 ```
-<br>
+
 
 ##### 9.3. Connect 'author keywords' with articles
 ```cypher
@@ -206,10 +197,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           authorKeyword.authorKeyword = eachRow.authorKeyword  // authorKeyword.authorKeyword must be indexed
     CREATE (article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword)
 ```
-<br>
+
 
 #### 10. Annotations
-<br>
 
 
 ##### 10.1. Import 'annotations'
@@ -217,13 +207,13 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/ANNOTATIONS.csv" AS eachRow
     CREATE (n:Annotation {annotation:eachRow.annotation})
 ```
-<br>
+
 
 ##### 10.2. Index 'annotations'
 ```cypher
     CREATE INDEX ON :Annotation(annotation)
 ```
-<br>
+
 
 ##### 10.3. Connect 'annotations' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
@@ -234,10 +224,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           annotation.annotation = eachRow.annotation  // 'annotation' must already be indexed before
     CREATE (article)-[:HAS_ANNOTATION]->(annotation)
 ```
-<br>
+
 
 #### 11. Keywords Plus
-<br>
 
 
 ##### 11.1. Import 'keywordsPlus'
@@ -245,13 +234,13 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/KEYWORDS_PLUS.csv" AS eachRow
     CREATE (n:KeywordPlus {keywordPlus: eachRow.keywordsPlus})
 ```
-<br>
+
 
 ##### 11.2. Index 'keywordPlus'
 ```cypher
     CREATE INDEX ON :KeywordPlus(keywordPlus)
 ```
-<br>
+
 
 ##### 11.3. Connect 'keywordPlus' with articles
 In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each part of the data).
@@ -262,10 +251,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           keywordPlus.keywordPlus = eachRow.keywordsPlus  // 'keywordPlus' must already be indexed before
     CREATE (article)-[:HAS_KEYWORD_PLUS]->(keywordPlus)
 ```
-<br>
+
 
 #### 12. Subject Categories
-<br>
 
 
 ##### 12.1. Import 'subjectCategories'
@@ -273,13 +261,13 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/SUBJECT_CATEGORIES.csv" AS eachRow
     CREATE (n:SubjectCategory {subjectCategory: eachRow.subjectCategory})
 ```
-<br>
+
 
 ##### 12.2. Index 'subjectCategories'
 ```cypher
     CREATE INDEX ON :SubjectCategory(subjectCategory)
 ```
-<br>
+
 
 ##### 12.3. Connect 'subjectCategories' with articles
 ```cypher
@@ -289,10 +277,9 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           subjectCategory.subjectCategory = eachRow.subjectCategory  // 'subjectCategory' must already be indexed before
     CREATE (article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory)
 ```
-<br>
+
 
 #### 13. Authors to all Topics
-<br>
 
 
 ##### 13.1. Connect authors with annotations, keywordsPlus, author keywords, subject categories
@@ -306,37 +293,43 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     RETURN batches, total
 ```
 
+
 Old version:
 ```cypher 
     MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (author)-[:HAS_RESEARCHED]->(topic)
     // LIMIT 10000
 ```
-<br>
+
 
 #### 14. Journals to all Topics
-<br>
 
 
 ##### 14.1. Connect journals with annotations, keywordsPlus, author keywords, subject categories 
-<br>
+
 
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation)
     MERGE (journal)-[:IS_ABOUT]->(annotation)
+```
 
+```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus)
     MERGE (journal)-[:IS_ABOUT]->(keywordPlus)
+```
 
+```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword)
     MERGE (journal)-[:IS_ABOUT]->(authorKeyword)
+```
 
+```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory)
     MERGE (journal)-[:IS_ABOUT]->(subjectCategory)
 ```
 
+
 Old version:
-<br>
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (journal)-[:IS_ABOUT]->(topic)
