@@ -1,6 +1,6 @@
 ### Import Scripts
-
 <br>
+
 #### 1. TITLES
 
 
@@ -16,8 +16,8 @@
 ```cypher
     CREATE INDEX ON :Article(wosArticleUri)
 ```
-
 <br>
+
 #### 2. YEARS
 
 
@@ -28,8 +28,8 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
    SET article.publicationYear = eachRow.publicationYear
 ```
-
 <br>
+
 #### 3. EMAILS
 
 
@@ -40,8 +40,8 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceEmail = eachRow.articleEmail
 ```
-
 <br>
+
 #### 4. ADDRESSES
 
 
@@ -52,8 +52,8 @@
     WHERE article.wosArticleUri = eachRow.wosArticleUri
     SET article.correspondenceAddress = eachRow.articleAddress
 ```
-
 <br>
+
 #### 5. AUTHORS (NAMES)
 
 
@@ -112,8 +112,8 @@ This script is currently a preview; ran for 1 million connections.
     WITH author, authorInstance LIMIT 1000000
     MERGE (author)-[:HAS_INSTANCE]->(authorInstance)
 ```
-
 <br>
+
 #### 6. JOURNALS
 
 
@@ -138,8 +138,8 @@ This script is currently a preview; ran for 1 million connections.
           journal.name = eachRow.journal  //journal.name must be indexed
     CREATE (article)-[:IS_PUBLISHED_ON]->(journal)
 ```
-
 <br>
+
 #### 7. DOIs
 
 
@@ -156,8 +156,8 @@ This script is currently a preview; ran for 1 million connections.
 ```cypher
     CREATE INDEX ON :Article(doi)
 ```
-
 <br>
+
 #### 8. CITATIONS
 
 
@@ -171,8 +171,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           articleThatIsCited.doi = eachRow.hasCitedArticle_withDoi  //:Article(doi) must have been indexed before
     CREATE (article)-[:HAS_CITED]->(articleThatIsCited)
 ```
-
 <br>
+
 #### 9. AUTHOR KEYWORDS
 
 
@@ -197,8 +197,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           authorKeyword.authorKeyword = eachRow.authorKeyword  // authorKeyword.authorKeyword must be indexed
     CREATE (article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword)
 ```
-
 <br>
+
 #### 10. ANNOTATIONS
 
 
@@ -224,8 +224,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           annotation.annotation = eachRow.annotation  // 'annotation' must already be indexed before
     CREATE (article)-[:HAS_ANNOTATION]->(annotation)
 ```
-
 <br>
+
 #### 11. KEYWORDS PLUS
 
 
@@ -251,8 +251,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           keywordPlus.keywordPlus = eachRow.keywordsPlus  // 'keywordPlus' must already be indexed before
     CREATE (article)-[:HAS_KEYWORD_PLUS]->(keywordPlus)
 ```
-
 <br>
+
 #### 12. SUBJECT CATEGORIES
 
 
@@ -277,8 +277,8 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
           subjectCategory.subjectCategory = eachRow.subjectCategory  // 'subjectCategory' must already be indexed before
     CREATE (article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory)
 ```
-
 <br>
+
 #### 13. AUTHOR-TOPIC RELATIONSHIPS
 
 
@@ -345,8 +345,8 @@ Old query:
     MERGE (author)-[:HAS_RESEARCHED]->(topic)
     // LIMIT 10000
 ```
-
 <br>
+
 #### 14. JOURNAL-TOPIC RELATIONSHIPS
 
 
