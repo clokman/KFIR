@@ -282,8 +282,53 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 #### 13. Authors to all Topics
 
 
-##### 13.1. Connect authors with annotations, keywordsPlus, author keywords, subject categories
+##### 13.1. Connect authors with annotations
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation) WHERE NOT (author)-[:HAS_RESEARCHED]->(annotation) RETURN author, annotation",
+        "CREATE (author)-[:HAS_RESEARCHED]->(annotation)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
 
+
+##### 13.2. Connect authors with keywords plus
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus) WHERE NOT (author)-[:HAS_RESEARCHED]->(keywordPlus) RETURN author, keywordPlus
+",
+        "CREATE (author)-[:HAS_RESEARCHED]->(keywordPlus)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 13.3. Connect authors with author keywords
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword) WHERE NOT (author)-[:HAS_RESEARCHED]->(authorKeyword) RETURN author, authorKeyword",
+        "CREATE (author)-[:HAS_RESEARCHED]->(authorKeyword)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 13.4. Connect authors with subject categories
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory) WHERE NOT (author)-[:HAS_RESEARCHED]->(subjectCategory) RETURN author, subjectCategory",
+        "CREATE (author)-[:HAS_RESEARCHED]->(subjectCategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+
+Old query:
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic) RETURN author, topic",
@@ -294,7 +339,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 
 
-Old version:
+Old query:
 ```cypher 
     MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION |:HAS_KEYWORD_PLUS |:HAS_AUTHOR_KEYWORD |:HAS_SUBJECT_CATEGORY]->(topic)
     MERGE (author)-[:HAS_RESEARCHED]->(topic)
