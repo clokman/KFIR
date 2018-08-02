@@ -309,7 +309,7 @@ class Data_Frame(object):
 
             >>> # INDEXING A TWO-COLUMN DATAFRAME ======================================================================
             >>> # Create a simple dataframe
-            >>> my_dataframe = pandas.DataFrame({'strings':['string one', 'string two', 'string three', 'string four'],
+            >>> my_dataframe = pandas.DataFrame({'strings': ['string one', 'string two', 'string three', 'string four'],
             ...                                      'ids': ['id 1', 'id 1', 'id 1', 'id 2']})
             >>> my_Data_Frame = Data_Frame(my_dataframe)
             >>> my_Data_Frame.dataframe
@@ -357,7 +357,7 @@ class Data_Frame(object):
 
             >>> # GENERAL EXAMPLE ======================================================================================
             >>> # Create a simple dataframe
-            >>> my_dataframe = pandas.DataFrame({'strings':['string one', 'string two', 'string three', 'string four'],
+            >>> my_dataframe = pandas.DataFrame({'strings': ['string one', 'string two', 'string three', 'string four'],
             ...                                      'ids': ['id 1', 'id 1', 'id 1', 'id 2']})
             >>> my_Data_Frame = Data_Frame(my_dataframe)
             >>> my_Data_Frame.dataframe
@@ -373,7 +373,7 @@ class Data_Frame(object):
                              ._index['strings'].content  # output the index for viewing
             {'id 1': ['string one', 'string two', 'string three'], 'id 2': ['string four']}
 
-            >>> # Replace the original dataframe with the index:
+            >>> # Replace the original dataframe with a collapsed one using the index:
             >>> my_Data_Frame._build_pandas_dataframe_from_index(target_index_entry_key='strings',
             ...                                                  desired_values_column_name='strings',
             ...                                                  desired_identifier_column_name='id')
