@@ -342,6 +342,73 @@ class Data_Frame(object):
         return self
 
 
+    def combine_items_within_each_row_if_combination_exists_in_external_list(self,
+                                                                             target_column_name,
+                                                                             external_list_to_compare_with,
+                                                                             fragment_signalling_pattern,
+                                                                             fragment_signalling_pattern_index
+         ):
+        """
+
+
+        Examples:
+            >>> import pandas
+
+            >>> my_dataframe = pandas.DataFrame({'wos_categories': [
+            ...                                                     ["Mathematical &", "Computational Biology", "Statistics & Probability"],
+            ...                                                     ["Interdisciplinary Applications", "Biochemical Research Methods"],
+            ...                                                     ["Biotechnology & Applied Microbiology"]
+            ...                                                    ],
+            ...                                             'ids': ['id 1', 'id 2', 'id 3']})
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.dataframe
+                ids                                     wos_categories
+            0  id 1  [Mathematical &, Computational Biology, Statis...
+            1  id 2  [Interdisciplinary Applications, Biochemical R...
+            2  id 3             [Biotechnology & Applied Microbiology]
+
+            >>> my_Data_Frame.dataframe.loc[0, 'wos_categories']
+            ['Mathematical &', 'Computational Biology', 'Statistics & Probability']
+
+            >>> external_list = ['Mathematical & Computational Biology', 'Architecture', 'Statistics & Probability']
+
+            >>> my_Data_Frame.combine_items_within_each_row_if_combination_exists_in_external_list(
+            ...                                   external_list_to_compare_with=external_list,
+            ...                                   target_column_name='wos_categories',
+            ...                                   fragment_signalling_pattern='&',
+            ...                                   fragment_signalling_pattern_index=-1)\
+                             .dataframe
+                ids                                     wos_categories
+            0  id 1  [Statistics & Probability, Mathematical & Comp...
+            1  id 2  [Interdisciplinary Applications, Biochemical R...
+            2  id 3             [Biotechnology & Applied Microbiology]
+
+            >>> my_Data_Frame.dataframe.loc[0, 'wos_categories']
+            ['Statistics & Probability', 'Mathematical & Computational Biology']
+
+        Notes:
+            See 'preprocessor.list_tools.combine_items_if_their_combination_exists_in_external_list' method for further tests.
+
+
+        """
+        from preprocessor.list_tools import List
+
+        target_column = self.dataframe[target_column_name]
+
+        for i, each_row in enumerate(target_column):
+            each_List_with_reconstructed_items = List(each_row)
+
+            each_List_with_reconstructed_items.combine_items_if_their_combination_exists_in_external_list(
+                fragment_signalling_pattern=fragment_signalling_pattern,
+                fragment_signalling_pattern_index=fragment_signalling_pattern_index,
+                external_list_to_compare_with=external_list_to_compare_with
+            )
+
+            target_column.loc[i] = each_List_with_reconstructed_items.content
+
+        return self
+
+
     def _build_pandas_dataframe_from_index(self, target_index_entry_key, desired_values_column_name,
                                            desired_identifier_column_name):
         """
