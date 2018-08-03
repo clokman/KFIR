@@ -853,6 +853,7 @@ class WebOfScienceQuery(Gastrodon_Query):
     def tokenize_purify_and_update_string_literals(self, target_property_uri, uri_of_graph_to_write_the_output,
                                                    new_property_uri='same as target',
                                                    query_volume=0, batch_size=10,
+                                                   purify=True,
                                                    show_progress=False):
         """
         Args:
@@ -1033,6 +1034,106 @@ class WebOfScienceQuery(Gastrodon_Query):
             [152 rows x 3 columns]
             >>> #=======================================================================================================
 
+
+            >>> # USAGE ON DIFFERENT DATA THAT REQUIRES NO PURIFICATION ================================================
+            >>> # Clean doctest graph and confirm cleaning
+            >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+
+            >>> # View the literals to be cleaned (Author keywords (wos:WC))
+            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
+                                               o
+            0            Film, Radio, Television
+            1  Clinical Neurology; Neurosciences
+            2                      Asian Studies
+            3                 Clinical Neurology
+            4                     Sport Sciences
+            5             Environmental Sciences
+            6                     Anesthesiology
+            7                         Microscopy
+            8       Medicine, General & Internal
+            9  Economics; Planning & Development
+
+            >>> # Use the method on Web of Science categories (wos:WC)
+            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:WC',
+            ...                                                        new_property_uri = 'kfir:hasWosKeyword',
+            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            ...                                                        purify=False,
+            ...                                                        query_volume=50, batch_size=10)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
+                                         s                   p                                              o
+            0   wosres:WOS_000060208200006  kfir:hasWosKeyword                        Film, Radio, Television
+            1   wosres:WOS_000070935900005  kfir:hasWosKeyword                             Clinical Neurology
+            2   wosres:WOS_000070935900005  kfir:hasWosKeyword                                  Neurosciences
+            3   wosres:WOS_000070948900005  kfir:hasWosKeyword                                  Asian Studies
+            4   wosres:WOS_000070961600011  kfir:hasWosKeyword                             Clinical Neurology
+            5   wosres:WOS_000070961600033  kfir:hasWosKeyword                             Clinical Neurology
+            6   wosres:WOS_000070969600003  kfir:hasWosKeyword                                 Sport Sciences
+            7   wosres:WOS_000070970500011  kfir:hasWosKeyword                         Environmental Sciences
+            8   wosres:WOS_000070998100010  kfir:hasWosKeyword                                 Anesthesiology
+            9   wosres:WOS_000070998900007  kfir:hasWosKeyword                                     Microscopy
+            10  wosres:WOS_000071006900008  kfir:hasWosKeyword                   Medicine, General & Internal
+            11  wosres:WOS_000071013000007  kfir:hasWosKeyword                                      Economics
+            12  wosres:WOS_000071013000007  kfir:hasWosKeyword                         Planning & Development
+            13  wosres:WOS_000071018600001  kfir:hasWosKeyword                                       Oncology
+            14  wosres:WOS_000071021600006  kfir:hasWosKeyword                        Pharmacology & Pharmacy
+            15  wosres:WOS_000071040300005  kfir:hasWosKeyword                                    Orthopedics
+            16  wosres:WOS_000071040300005  kfir:hasWosKeyword                             Clinical Neurology
+            17  wosres:WOS_000071040500044  kfir:hasWosKeyword                                 Plant Sciences
+            18  wosres:WOS_000071044500005  kfir:hasWosKeyword                                      Economics
+            19  wosres:WOS_000071044500005  kfir:hasWosKeyword                Agricultural Economics & Policy
+            20  wosres:WOS_000071047000001  kfir:hasWosKeyword                                        Biology
+            21  wosres:WOS_000071047000001  kfir:hasWosKeyword           Mathematical & Computational Biology
+            22  wosres:WOS_000071052500006  kfir:hasWosKeyword                                   Neuroimaging
+            23  wosres:WOS_000071052500006  kfir:hasWosKeyword                                        Imaging
+            24  wosres:WOS_000071052500006  kfir:hasWosKeyword                                  Neurosciences
+            25  wosres:WOS_000071052500006  kfir:hasWosKeyword          Radiology, Nuclear Medicine & Medical
+            26  wosres:WOS_000071053800004  kfir:hasWosKeyword                               Physics, Nuclear
+            27  wosres:WOS_000071054700033  kfir:hasWosKeyword                                Transplantation
+            28  wosres:WOS_000071054700033  kfir:hasWosKeyword                           Urology & Nephrology
+            29  wosres:WOS_000071057200010  kfir:hasWosKeyword  Radiology, Nuclear Medicine & Medical Imaging
+            ..                         ...                 ...                                            ...
+            42  wosres:WOS_000071080700013  kfir:hasWosKeyword                            Infectious Diseases
+            43  wosres:WOS_000071084600009  kfir:hasWosKeyword                          Chemistry, Analytical
+            44  wosres:WOS_000071091600018  kfir:hasWosKeyword                                 Sport Sciences
+            45  wosres:WOS_000071092900005  kfir:hasWosKeyword                                     Biophysics
+            46  wosres:WOS_000071092900005  kfir:hasWosKeyword               Biochemistry & Molecular Biology
+            47  wosres:WOS_000071092900005  kfir:hasWosKeyword                                   Cell Biology
+            48  wosres:WOS_000071095000005  kfir:hasWosKeyword                 Chemistry, Inorganic & Nuclear
+            49  wosres:WOS_000071099500011  kfir:hasWosKeyword    Public, Environmental & Occupational Health
+            50  wosres:WOS_000071100500002  kfir:hasWosKeyword                                    Linguistics
+            51  wosres:WOS_000071100500002  kfir:hasWosKeyword                         Language & Linguistics
+            52  wosres:WOS_000071100500004  kfir:hasWosKeyword                                    Linguistics
+            53  wosres:WOS_000071100500004  kfir:hasWosKeyword                         Language & Linguistics
+            54  wosres:WOS_000071100600006  kfir:hasWosKeyword                   Chemistry, Multidisciplinary
+            55  wosres:WOS_000071100600006  kfir:hasWosKeyword                                       Pharmacy
+            56  wosres:WOS_000071100600006  kfir:hasWosKeyword                           Chemistry, Medicinal
+            57  wosres:WOS_000071100600006  kfir:hasWosKeyword                                 Pharmacology &
+            58  wosres:WOS_000071101700001  kfir:hasWosKeyword                                   Paleontology
+            59  wosres:WOS_000071102900065  kfir:hasWosKeyword                        Pharmacology & Pharmacy
+            60  wosres:WOS_000071104000001  kfir:hasWosKeyword                                      Economics
+            61  wosres:WOS_000071104000001  kfir:hasWosKeyword                           Mathematical Methods
+            62  wosres:WOS_000071104000001  kfir:hasWosKeyword    Mathematics, Interdisciplinary Applications
+            63  wosres:WOS_000071104000001  kfir:hasWosKeyword                               Social Sciences,
+            64  wosres:WOS_000071115800010  kfir:hasWosKeyword                             Psychology, Social
+            65  wosres:WOS_000071121600013  kfir:hasWosKeyword                        Pharmacology & Pharmacy
+            66  wosres:WOS_000071131200036  kfir:hasWosKeyword                            Chemistry, Physical
+            67  wosres:WOS_000071131200036  kfir:hasWosKeyword          Physics, Atomic, Molecular & Chemical
+            68  wosres:WOS_000071133700003  kfir:hasWosKeyword                      Geochemistry & Geophysics
+            69  wosres:WOS_000071138100003  kfir:hasWosKeyword               Education & Educational Research
+            70  wosres:WOS_000071140000007  kfir:hasWosKeyword                                     Immunology
+            71  wosres:WOS_000071140000007  kfir:hasWosKeyword                                       Oncology
+            <BLANKLINE>
+            [72 rows x 3 columns]
+            >>> #=======================================================================================================
+
+
+
         """
         from retriever.sparql_tools import Sparql_Parameter
         from preprocessor.dataframe_tools import Data_Frame
@@ -1066,9 +1167,10 @@ class WebOfScienceQuery(Gastrodon_Query):
                                                    id_column_name='wosArticleUri',
                                                    delimiter_pattern_in_literal_cells='; ')
 
-            # Tokenized keywords contain items such as "Wolff's Law" and "(electrochemical)".
+            # Tokenized keywords may contain items such as "Wolff's Law" and "(electrochemical)".
             # They need to be cleaned from special characters:
-            ids_vs_keywords.purify_column(target_column_name='targetLiteral')
+            if purify:
+                ids_vs_keywords.purify_column(target_column_name='targetLiteral')
 
             # Collapse the keywords onto article uris as lists
             ids_vs_keywords = ids_vs_keywords.collapse_dataframe_on_column(values_column_name='targetLiteral',
