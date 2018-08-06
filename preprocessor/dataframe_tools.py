@@ -345,9 +345,8 @@ class Data_Frame(object):
     def combine_items_within_each_row_if_combination_exists_in_external_list(self,
                                                                              target_column_name,
                                                                              external_list_to_compare_with,
-                                                                             fragment_signalling_pattern,
-                                                                             fragment_signalling_pattern_index
-         ):
+                                                                             fragmentation_signalling_character,
+                                                                             fragmentation_signalling_character_index):
         """
 
 
@@ -375,8 +374,8 @@ class Data_Frame(object):
             >>> my_Data_Frame.combine_items_within_each_row_if_combination_exists_in_external_list(
             ...                                   external_list_to_compare_with=external_list,
             ...                                   target_column_name='wos_categories',
-            ...                                   fragment_signalling_pattern='&',
-            ...                                   fragment_signalling_pattern_index=-1)\
+            ...                                   fragmentation_signalling_character='&',
+            ...                                   fragmentation_signalling_character_index=-1)\
                              .dataframe
                 ids                                     wos_categories
             0  id 1  [Statistics & Probability, Mathematical & Comp...
@@ -399,8 +398,8 @@ class Data_Frame(object):
             each_List_with_reconstructed_items = List(each_row)
 
             each_List_with_reconstructed_items.combine_items_if_their_combination_exists_in_external_list(
-                fragment_signalling_pattern=fragment_signalling_pattern,
-                fragment_signalling_pattern_index=fragment_signalling_pattern_index,
+                fragmentation_signalling_character=fragmentation_signalling_character,
+                fragmentation_signalling_character_index=fragmentation_signalling_character_index,
                 external_list_to_compare_with=external_list_to_compare_with
             )
 

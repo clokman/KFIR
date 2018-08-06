@@ -102,8 +102,8 @@ class List(list):
 
 
     def combine_items_if_their_combination_exists_in_external_list(self,
-                                                                   fragment_signalling_pattern,
-                                                                   fragment_signalling_pattern_index,
+                                                                   fragmentation_signalling_character,
+                                                                   fragmentation_signalling_character_index,
                                                                    external_list_to_compare_with):
         """"
 
@@ -121,9 +121,9 @@ class List(list):
 
             >>> # === RECONSTRUCTION OF A SEPARATED ITEM ===============================================================
             >>> my_List = List(my_list)
-            >>> my_List.combine_items_if_their_combination_exists_in_external_list(fragment_signalling_pattern="&", \
-                                                                               fragment_signalling_pattern_index=-1,\
-                                                                               external_list_to_compare_with=wos_categories_list)
+            >>> my_List.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
+                                                                            fragmentation_signalling_character_index=-1,\
+                                                                            external_list_to_compare_with=wos_categories_list)
             >>> my_List.content  # Note that 'Mathematical & Computational Biology' is a constructed item.
             ['Biochemical Research Methods', 'Biotechnology & Applied Microbiology', 'Statistics & Probability', 'Computer Science', 'Interdisciplinary Applications', 'Mathematical & Computational Biology']
             >>> #=======================================================================================================
@@ -137,9 +137,9 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical &"]
             >>> my_List_2 = List(my_list_2)
 
-            >>> my_List_2.combine_items_if_their_combination_exists_in_external_list(fragment_signalling_pattern="&", \
-                                                                          fragment_signalling_pattern_index=-1,\
-                                                                          external_list_to_compare_with=wos_categories_list_2)
+            >>> my_List_2.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
+                                                                       fragmentation_signalling_character_index=-1,\
+                                                                       external_list_to_compare_with=wos_categories_list_2)
             WARNING: Automatic string reconstruction for the root string 'Mathematical &' skipped due more than one candidate existing for the tail part. These were the candidates: (2 items):
             Mathematical & Computational Biology
             Mathematical & Computational Chemistry
@@ -158,9 +158,9 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical &"]
             >>> my_List_3 = List(my_list_3)
 
-            >>> my_List_3.combine_items_if_their_combination_exists_in_external_list(fragment_signalling_pattern="&", \
-                                                                           fragment_signalling_pattern_index=-1,\
-                                                                           external_list_to_compare_with=wos_categories_list_3)
+            >>> my_List_3.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
+                                                                        fragmentation_signalling_character_index=-1,\
+                                                                        external_list_to_compare_with=wos_categories_list_3)
 
             >>> # Note that no item is constructed in this scenario.
             >>> my_List_3.content
@@ -176,9 +176,9 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical"]
             >>> my_List_4 = List(my_list_4)
 
-            >>> my_List_4.combine_items_if_their_combination_exists_in_external_list(fragment_signalling_pattern="&", \
-                                                                            fragment_signalling_pattern_index=-1,\
-                                                                            external_list_to_compare_with=wos_categories_list_4)
+            >>> my_List_4.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
+                                                                         fragmentation_signalling_character_index=-1,\
+                                                                         external_list_to_compare_with=wos_categories_list_4)
 
             # Note that no item is constructed in this scenario.
             >>> my_List_4.content
@@ -191,8 +191,8 @@ class List(list):
         input_list = self.content
         for i, each_item in enumerate(input_list):
 
-            # if an item ends with the fragment_signalling_pattern
-            if fragment_signalling_pattern == each_item[fragment_signalling_pattern_index]:
+            # if an item ends with the fragmentation_signalling_character
+            if fragmentation_signalling_character == each_item[fragmentation_signalling_character_index]:
 
                 root_string = input_list.pop(i)
 

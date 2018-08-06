@@ -850,10 +850,15 @@ class WebOfScienceQuery(Gastrodon_Query):
         self._last_query_results = None
 
 
-    def tokenize_purify_and_update_string_literals(self, target_property_uri, uri_of_graph_to_write_the_output,
+    def tokenize_process_and_update_string_literals(self, target_property_uri,
+                                                   uri_of_graph_to_write_the_output,
                                                    new_property_uri='same as target',
+                                                   delimiter_pattern_in_literal_cells='; ',
                                                    query_volume=0, batch_size=10,
                                                    purify=True,
+                                                   defragment_strings_using_list=[],
+                                                   fragmentation_signalling_character=';',
+                                                   fragmentation_signalling_character_index=-1,
                                                    show_progress=False):
         """
         Args:
@@ -896,49 +901,146 @@ class WebOfScienceQuery(Gastrodon_Query):
             Index: []
             >>> #=======================================================================================================
 
+            #
+            # >>> # USAGE WITH DEFAULT PARAMETERS ========================================================================
+            # >>> # View the literals to be cleaned (Web of Science Categories (wos:WC))
+            # >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
+            #                                    o
+            # 0            Film, Radio, Television
+            # 1  Clinical Neurology; Neurosciences
+            # 2                      Asian Studies
+            # 3                 Clinical Neurology
+            # 4                     Sport Sciences
+            # 5             Environmental Sciences
+            # 6                     Anesthesiology
+            # 7                         Microscopy
+            # 8       Medicine, General & Internal
+            # 9  Economics; Planning & Development
+            #
+            # >>> # Use the method to purify and tokenize Web of Science categories
+            # >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:WC',
+            # ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            # ...                                                        query_volume=50)
+            # Operation completed without errors.
+            #
+            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
+            #                              s       p                               o
+            # 0   wosres:WOS_000060208200006  wos:WC         Film, Radio, Television
+            # 1   wosres:WOS_000070935900005  wos:WC              Clinical Neurology
+            # 2   wosres:WOS_000070935900005  wos:WC                   Neurosciences
+            # 3   wosres:WOS_000070948900005  wos:WC                   Asian Studies
+            # 4   wosres:WOS_000070961600011  wos:WC              Clinical Neurology
+            # 5   wosres:WOS_000070961600033  wos:WC              Clinical Neurology
+            # 6   wosres:WOS_000070969600003  wos:WC                  Sport Sciences
+            # 7   wosres:WOS_000070970500011  wos:WC          Environmental Sciences
+            # 8   wosres:WOS_000070998100010  wos:WC                  Anesthesiology
+            # 9   wosres:WOS_000070998900007  wos:WC                      Microscopy
+            # 10  wosres:WOS_000071006900008  wos:WC  Medicine, General and Internal
+            # 11  wosres:WOS_000071013000007  wos:WC                       Economics
+            # 12  wosres:WOS_000071013000007  wos:WC        Planning and Development
+            # 13  wosres:WOS_000071018600001  wos:WC                        Oncology
+            # 14  wosres:WOS_000071021600006  wos:WC       Pharmacology and Pharmacy
+            # >>> #=======================================================================================================
+            #
+            #
+            # >>> # USAGE WITH CUSTOM PARAMETERS =========================================================================
+            # >>> # Clean doctest graph and confirm cleaning
+            # >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
+            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            # Empty DataFrame
+            # Columns: [s, p, o]
+            # Index: []
+            #
+            # >>> # View the literals to be cleaned (Author keywords (wos:DE))
+            # >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:DE ?o}} LIMIT 10")
+            #                                                                           o
+            # 0           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
+            # 1                              pain, postoperative; analgesics, prescribing
+            # 2           DIC; Nomarski; interference; microscopy; CCD; image processing;
+            # 3  analysis; reconstruction; optical pathlength; phase; transparent; living
+            # 4                    atherosclerosis; homocysteine; metformin; vitamin B-12
+            # 5                                               policy; household economics
+            # 6      sub-Saharan Africa; Swaziland; labor migration; food security; labor
+            # 7                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
+            # 8                                             (electrochemical); NO sensing
+            # 9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
+            #
+            # >>> # Use the method on author keywords (wos:DE)
+            # >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:DE',
+            # ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
+            # ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            # ...                                                        query_volume=50, batch_size=10)
+            # Operation completed without errors.
+            #
+            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
+            #                               s                      p                                                  o
+            # 0    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     photosynthesis
+            # 1    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                              ozone
+            # 2    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     UV-B radiation
+            # 3    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                             growth
+            # 4    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                   Elymus athericus
+            # 5    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                                pain, postoperative
+            # 6    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                            analgesics, prescribing
+            # 7    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                CCD
+            # 8    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                   image processing
+            # 9    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                         microscopy
+            # 10   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           analysis
+            # 11   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                             living
+            # 12   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                     reconstruction
+            # 13   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                              phase
+            # 14   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                       interference
+            # 15   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                 optical pathlength
+            # 16   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                        transparent
+            # 17   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                DIC
+            # 18   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           Nomarski
+            # 19   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                    atherosclerosis
+            # 20   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       homocysteine
+            # 21   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                          metformin
+            # 22   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       vitamin B-12
+            # 23   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                          Swaziland
+            # 24   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                      food security
+            # 25   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                 sub-Saharan Africa
+            # 26   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                             policy
+            # 27   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                              labor
+            # 28   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                    labor migration
+            # 29   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                household economics
+            # ..                          ...                    ...                                                ...
+            # 122  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                    trigonal-bipyramidal structures
+            # 123  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                     stereomutation
+            # 124  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                          Si-29-NMR
+            # 125  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                      lithium pentaorganylsilicates
+            # 126  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                tetraorganylsilanes
+            # 127  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                       malnutrition
+            # 128  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                          lactation
+            # 129  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                            puberty
+            # 130  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                      hypogonadotropic hypogonadism
+            # 131  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                       Follicle Stimulating Hormone
+            # 132  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             lactational amenorrhea
+            # 133  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                           twinning
+            # 134  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                      twin research
+            # 135  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                oral contraceptives
+            # 136  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             weight loss amenorrhea
+            # 137  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 prenatal diagnosis
+            # 138  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                           placenta
+            # 139  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 genomic imprinting
+            # 140  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                        trophoblast
+            # 141  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                    molar pregnancy
+            # 142  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                              HASH2
+            # 143  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                  DNA binding transcription factors
+            # 144  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                        macrophages
+            # 145  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                         retinal pigment epithelium
+            # 146  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                   membrane protein
+            # 147  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                               uvea
+            # 148  wosres:WOS_000071179700013  kfir:hasAuthorKeyword             dichloromethylene diphosphonate Cl2MDP
+            # 149  wosres:WOS_000071179700013  kfir:hasAuthorKeyword  experimental melanin-protein induced uveitis EMIU
+            # 150  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                 pigment epithelial
+            # 151  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                       uveitis EAPU
+            # <BLANKLINE>
+            # [152 rows x 3 columns]
+            # >>> #=======================================================================================================
+            #
 
-            >>> # USAGE WITH DEFAULT PARAMETERS ========================================================================
-            >>> # View the literals to be cleaned (Web of Science Categories (wos:WC))
-            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
-                                               o
-            0            Film, Radio, Television
-            1  Clinical Neurology; Neurosciences
-            2                      Asian Studies
-            3                 Clinical Neurology
-            4                     Sport Sciences
-            5             Environmental Sciences
-            6                     Anesthesiology
-            7                         Microscopy
-            8       Medicine, General & Internal
-            9  Economics; Planning & Development
-
-            >>> # Use the method to purify and tokenize Web of Science categories
-            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:WC',
-            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            ...                                                        query_volume=50)
-            Operation completed without errors.
-
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
-                                         s       p                               o
-            0   wosres:WOS_000060208200006  wos:WC         Film, Radio, Television
-            1   wosres:WOS_000070935900005  wos:WC              Clinical Neurology
-            2   wosres:WOS_000070935900005  wos:WC                   Neurosciences
-            3   wosres:WOS_000070948900005  wos:WC                   Asian Studies
-            4   wosres:WOS_000070961600011  wos:WC              Clinical Neurology
-            5   wosres:WOS_000070961600033  wos:WC              Clinical Neurology
-            6   wosres:WOS_000070969600003  wos:WC                  Sport Sciences
-            7   wosres:WOS_000070970500011  wos:WC          Environmental Sciences
-            8   wosres:WOS_000070998100010  wos:WC                  Anesthesiology
-            9   wosres:WOS_000070998900007  wos:WC                      Microscopy
-            10  wosres:WOS_000071006900008  wos:WC  Medicine, General and Internal
-            11  wosres:WOS_000071013000007  wos:WC                       Economics
-            12  wosres:WOS_000071013000007  wos:WC        Planning and Development
-            13  wosres:WOS_000071018600001  wos:WC                        Oncology
-            14  wosres:WOS_000071021600006  wos:WC       Pharmacology and Pharmacy
-            >>> #=======================================================================================================
-
-
-            >>> # USAGE WITH CUSTOM PARAMETERS =========================================================================
+            >>> # USAGE ON DIFFERENT DATA THAT REQUIRES DEFRAGMENTATION BUT NO PURIFICATION ============================
             >>> # Clean doctest graph and confirm cleaning
             >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
             >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
@@ -946,190 +1048,48 @@ class WebOfScienceQuery(Gastrodon_Query):
             Columns: [s, p, o]
             Index: []
 
-            >>> # View the literals to be cleaned (Author keywords (wos:DE))
-            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:DE ?o}} LIMIT 10")
-                                                                                      o
-            0           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
-            1                              pain, postoperative; analgesics, prescribing
-            2           DIC; Nomarski; interference; microscopy; CCD; image processing;
-            3  analysis; reconstruction; optical pathlength; phase; transparent; living
-            4                    atherosclerosis; homocysteine; metformin; vitamin B-12
-            5                                               policy; household economics
-            6      sub-Saharan Africa; Swaziland; labor migration; food security; labor
-            7                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
-            8                                             (electrochemical); NO sensing
-            9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
-
-            >>> # Use the method on author keywords (wos:DE)
-            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:DE',
-            ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
-            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            ...                                                        query_volume=50, batch_size=10)
-            Operation completed without errors.
-
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
-                                          s                      p                                                  o
-            0    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     photosynthesis
-            1    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                              ozone
-            2    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     UV-B radiation
-            3    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                             growth
-            4    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                   Elymus athericus
-            5    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                                pain, postoperative
-            6    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                            analgesics, prescribing
-            7    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                CCD
-            8    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                   image processing
-            9    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                         microscopy
-            10   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           analysis
-            11   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                             living
-            12   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                     reconstruction
-            13   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                              phase
-            14   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                       interference
-            15   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                 optical pathlength
-            16   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                        transparent
-            17   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                DIC
-            18   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           Nomarski
-            19   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                    atherosclerosis
-            20   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       homocysteine
-            21   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                          metformin
-            22   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       vitamin B-12
-            23   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                          Swaziland
-            24   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                      food security
-            25   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                 sub-Saharan Africa
-            26   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                             policy
-            27   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                              labor
-            28   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                    labor migration
-            29   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                household economics
-            ..                          ...                    ...                                                ...
-            122  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                    trigonal-bipyramidal structures
-            123  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                     stereomutation
-            124  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                          Si-29-NMR
-            125  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                      lithium pentaorganylsilicates
-            126  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                tetraorganylsilanes
-            127  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                       malnutrition
-            128  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                          lactation
-            129  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                            puberty
-            130  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                      hypogonadotropic hypogonadism
-            131  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                       Follicle Stimulating Hormone
-            132  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             lactational amenorrhea
-            133  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                           twinning
-            134  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                      twin research
-            135  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                oral contraceptives
-            136  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             weight loss amenorrhea
-            137  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 prenatal diagnosis
-            138  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                           placenta
-            139  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 genomic imprinting
-            140  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                        trophoblast
-            141  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                    molar pregnancy
-            142  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                              HASH2
-            143  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                  DNA binding transcription factors
-            144  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                        macrophages
-            145  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                         retinal pigment epithelium
-            146  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                   membrane protein
-            147  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                               uvea
-            148  wosres:WOS_000071179700013  kfir:hasAuthorKeyword             dichloromethylene diphosphonate Cl2MDP
-            149  wosres:WOS_000071179700013  kfir:hasAuthorKeyword  experimental melanin-protein induced uveitis EMIU
-            150  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                 pigment epithelial
-            151  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                       uveitis EAPU
-            <BLANKLINE>
-            [152 rows x 3 columns]
-            >>> #=======================================================================================================
+            # >>> eculture_query.send_update_query("INSERT DATA {GRAPH docTestsGraph: {<ab> <b> <c> .}}")
+            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
 
 
-            >>> # USAGE ON DIFFERENT DATA THAT REQUIRES NO PURIFICATION ================================================
-            >>> # Clean doctest graph and confirm cleaning
-            >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
-            Empty DataFrame
-            Columns: [s, p, o]
-            Index: []
+            >>> eculture_query.send_update_query('''
+            ...     INSERT DATA {
+            ...            GRAPH docTestsGraph: {
+            ...                wosres:WOS_000080363400002 a wos:Article;
+            ...                                           wos:fragmented_WC "Computational Biology; Statistics & Probability",
+            ...                                                             "Computer Science, Interdisciplinary Applications; Mathematical &"
+            ...            }
+            ... }''')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
+                                        s                  p                                                                 o
+            0  wosres:WOS_000080363400002           rdf:type                                                       wos:Article
+            1  wosres:WOS_000080363400002  wos:fragmented_WC                   Computational Biology; Statistics & Probability
+            2  wosres:WOS_000080363400002  wos:fragmented_WC  Computer Science, Interdisciplinary Applications; Mathematical &
 
-            >>> # View the literals to be cleaned (Author keywords (wos:WC))
-            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
-                                               o
-            0            Film, Radio, Television
-            1  Clinical Neurology; Neurosciences
-            2                      Asian Studies
-            3                 Clinical Neurology
-            4                     Sport Sciences
-            5             Environmental Sciences
-            6                     Anesthesiology
-            7                         Microscopy
-            8       Medicine, General & Internal
-            9  Economics; Planning & Development
 
-            >>> # Use the method on Web of Science categories (wos:WC)
-            >>> eculture_query.tokenize_purify_and_update_string_literals(target_property_uri='wos:WC',
-            ...                                                        new_property_uri = 'kfir:hasWosKeyword',
+            >>> from preprocessor.string_tools import String
+            >>> list_of_wos_categories = []
+            >>>
+            >>> with open('..//ontologies//complete_list_of_wos_categories.txt') as wos_categories_file:
+            ...     for each_line in wos_categories_file:
+            ...         each_line = String(each_line)
+            ...         each_line = each_line.clean_from_newline_characters()
+            ...         list_of_wos_categories.append(each_line.content)
+            >>> print(list_of_wos_categories[186:196])
+            ['Pharmacology & Pharmacy', 'Philosophy', 'Physics, Applied', 'Physics, Atomic, Molecular & Chemical', 'Physics, Condensed Matter', 'Physics, Fluids & Plasmas', 'Physics, Mathematical', 'Physics, Multidisciplinary', 'Physics, Nuclear', 'Physics, Particles & Fields']
+
+
+            >>> # Use the method to tokenize, defragment, and upload the results as new data
+            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:fragmented_WC',
+            ...                                                        new_property_uri = 'kfir:fixed_WC',
             ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
             ...                                                        purify=False,
+            ...                                                        defragment_strings_using_list=list_of_wos_categories,
             ...                                                        query_volume=50, batch_size=10)
             Operation completed without errors.
 
             >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
-                                         s                   p                                              o
-            0   wosres:WOS_000060208200006  kfir:hasWosKeyword                        Film, Radio, Television
-            1   wosres:WOS_000070935900005  kfir:hasWosKeyword                             Clinical Neurology
-            2   wosres:WOS_000070935900005  kfir:hasWosKeyword                                  Neurosciences
-            3   wosres:WOS_000070948900005  kfir:hasWosKeyword                                  Asian Studies
-            4   wosres:WOS_000070961600011  kfir:hasWosKeyword                             Clinical Neurology
-            5   wosres:WOS_000070961600033  kfir:hasWosKeyword                             Clinical Neurology
-            6   wosres:WOS_000070969600003  kfir:hasWosKeyword                                 Sport Sciences
-            7   wosres:WOS_000070970500011  kfir:hasWosKeyword                         Environmental Sciences
-            8   wosres:WOS_000070998100010  kfir:hasWosKeyword                                 Anesthesiology
-            9   wosres:WOS_000070998900007  kfir:hasWosKeyword                                     Microscopy
-            10  wosres:WOS_000071006900008  kfir:hasWosKeyword                   Medicine, General & Internal
-            11  wosres:WOS_000071013000007  kfir:hasWosKeyword                                      Economics
-            12  wosres:WOS_000071013000007  kfir:hasWosKeyword                         Planning & Development
-            13  wosres:WOS_000071018600001  kfir:hasWosKeyword                                       Oncology
-            14  wosres:WOS_000071021600006  kfir:hasWosKeyword                        Pharmacology & Pharmacy
-            15  wosres:WOS_000071040300005  kfir:hasWosKeyword                                    Orthopedics
-            16  wosres:WOS_000071040300005  kfir:hasWosKeyword                             Clinical Neurology
-            17  wosres:WOS_000071040500044  kfir:hasWosKeyword                                 Plant Sciences
-            18  wosres:WOS_000071044500005  kfir:hasWosKeyword                                      Economics
-            19  wosres:WOS_000071044500005  kfir:hasWosKeyword                Agricultural Economics & Policy
-            20  wosres:WOS_000071047000001  kfir:hasWosKeyword                                        Biology
-            21  wosres:WOS_000071047000001  kfir:hasWosKeyword           Mathematical & Computational Biology
-            22  wosres:WOS_000071052500006  kfir:hasWosKeyword                                   Neuroimaging
-            23  wosres:WOS_000071052500006  kfir:hasWosKeyword                                        Imaging
-            24  wosres:WOS_000071052500006  kfir:hasWosKeyword                                  Neurosciences
-            25  wosres:WOS_000071052500006  kfir:hasWosKeyword          Radiology, Nuclear Medicine & Medical
-            26  wosres:WOS_000071053800004  kfir:hasWosKeyword                               Physics, Nuclear
-            27  wosres:WOS_000071054700033  kfir:hasWosKeyword                                Transplantation
-            28  wosres:WOS_000071054700033  kfir:hasWosKeyword                           Urology & Nephrology
-            29  wosres:WOS_000071057200010  kfir:hasWosKeyword  Radiology, Nuclear Medicine & Medical Imaging
-            ..                         ...                 ...                                            ...
-            42  wosres:WOS_000071080700013  kfir:hasWosKeyword                            Infectious Diseases
-            43  wosres:WOS_000071084600009  kfir:hasWosKeyword                          Chemistry, Analytical
-            44  wosres:WOS_000071091600018  kfir:hasWosKeyword                                 Sport Sciences
-            45  wosres:WOS_000071092900005  kfir:hasWosKeyword                                     Biophysics
-            46  wosres:WOS_000071092900005  kfir:hasWosKeyword               Biochemistry & Molecular Biology
-            47  wosres:WOS_000071092900005  kfir:hasWosKeyword                                   Cell Biology
-            48  wosres:WOS_000071095000005  kfir:hasWosKeyword                 Chemistry, Inorganic & Nuclear
-            49  wosres:WOS_000071099500011  kfir:hasWosKeyword    Public, Environmental & Occupational Health
-            50  wosres:WOS_000071100500002  kfir:hasWosKeyword                                    Linguistics
-            51  wosres:WOS_000071100500002  kfir:hasWosKeyword                         Language & Linguistics
-            52  wosres:WOS_000071100500004  kfir:hasWosKeyword                                    Linguistics
-            53  wosres:WOS_000071100500004  kfir:hasWosKeyword                         Language & Linguistics
-            54  wosres:WOS_000071100600006  kfir:hasWosKeyword                   Chemistry, Multidisciplinary
-            55  wosres:WOS_000071100600006  kfir:hasWosKeyword                                       Pharmacy
-            56  wosres:WOS_000071100600006  kfir:hasWosKeyword                           Chemistry, Medicinal
-            57  wosres:WOS_000071100600006  kfir:hasWosKeyword                                 Pharmacology &
-            58  wosres:WOS_000071101700001  kfir:hasWosKeyword                                   Paleontology
-            59  wosres:WOS_000071102900065  kfir:hasWosKeyword                        Pharmacology & Pharmacy
-            60  wosres:WOS_000071104000001  kfir:hasWosKeyword                                      Economics
-            61  wosres:WOS_000071104000001  kfir:hasWosKeyword                           Mathematical Methods
-            62  wosres:WOS_000071104000001  kfir:hasWosKeyword    Mathematics, Interdisciplinary Applications
-            63  wosres:WOS_000071104000001  kfir:hasWosKeyword                               Social Sciences,
-            64  wosres:WOS_000071115800010  kfir:hasWosKeyword                             Psychology, Social
-            65  wosres:WOS_000071121600013  kfir:hasWosKeyword                        Pharmacology & Pharmacy
-            66  wosres:WOS_000071131200036  kfir:hasWosKeyword                            Chemistry, Physical
-            67  wosres:WOS_000071131200036  kfir:hasWosKeyword          Physics, Atomic, Molecular & Chemical
-            68  wosres:WOS_000071133700003  kfir:hasWosKeyword                      Geochemistry & Geophysics
-            69  wosres:WOS_000071138100003  kfir:hasWosKeyword               Education & Educational Research
-            70  wosres:WOS_000071140000007  kfir:hasWosKeyword                                     Immunology
-            71  wosres:WOS_000071140000007  kfir:hasWosKeyword                                       Oncology
-            <BLANKLINE>
-            [72 rows x 3 columns]
+
             >>> #=======================================================================================================
 
 
@@ -1154,30 +1114,40 @@ class WebOfScienceQuery(Gastrodon_Query):
                 console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
                                                status_message='Processing strings and updating specified graph')
 
-            # Retrieve a subset of the dataset that contains the article ids and associated keywords
-            ids_vs_keywords = self.retrieve_relationships_of_property(target_property_uri,
-                                                                      desired_column_name_for_literal='targetLiteral',
-                                                                      desired_column_name_for_identifier='wosArticleUri',
-                                                                      limit=batch_size,
-                                                                      offset=current_offset)
+            # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
+            ids_vs_target_object = self.retrieve_subjects_and_objects_of_property(target_property_uri,
+                                                                                  desired_column_name_for_literal='targetLiteral',
+                                                                                  desired_column_name_for_identifier='wosArticleUri',
+                                                                                  limit=batch_size,
+                                                                                  offset=current_offset)
 
             # Because the retrieved keywords are in a semicolon-separated list, they need to be tokenized:
-            ids_vs_keywords = Data_Frame(ids_vs_keywords)  # this is not 'pandas.DataFrame' class
-            ids_vs_keywords.tokenize_string_column(string_column_name='targetLiteral',
+            ids_vs_target_object = Data_Frame(ids_vs_target_object)  # this is not 'pandas.DataFrame' class
+            ids_vs_target_object.tokenize_string_column(string_column_name='targetLiteral',
                                                    id_column_name='wosArticleUri',
-                                                   delimiter_pattern_in_literal_cells='; ')
+                                                   delimiter_pattern_in_literal_cells=delimiter_pattern_in_literal_cells)
 
             # Tokenized keywords may contain items such as "Wolff's Law" and "(electrochemical)".
             # They need to be cleaned from special characters:
             if purify:
-                ids_vs_keywords.purify_column(target_column_name='targetLiteral')
+                ids_vs_target_object.purify_column(target_column_name='targetLiteral')
+
+            if defragment_strings_using_list:
+                checklist = defragment_strings_using_list
+
+                ids_vs_target_object.combine_items_within_each_row_if_combination_exists_in_external_list(
+                                    target_column_name='targetLiteral',
+                                    external_list_to_compare_with=checklist,
+                                    fragmentation_signalling_character=fragmentation_signalling_character,
+                                    fragmentation_signalling_character_index=fragmentation_signalling_character_index)
+
 
             # Collapse the keywords onto article uris as lists
-            ids_vs_keywords = ids_vs_keywords.collapse_dataframe_on_column(values_column_name='targetLiteral',
+            ids_vs_target_object = ids_vs_target_object.collapse_dataframe_on_column(values_column_name='targetLiteral',
                                                                            identifier_column_name='wosArticleUri')
 
             # Extract the author keywords column
-            author_keywords_column = ids_vs_keywords.dataframe['targetLiteral']
+            author_keywords_column = ids_vs_target_object.dataframe['targetLiteral']
 
             # Convert lists on each cell of author keywords column to parameter strings (to be used in VALUES
             # keyword of SPARQL)
@@ -1185,11 +1155,11 @@ class WebOfScienceQuery(Gastrodon_Query):
             parameterized_keywords.import_and_convert_pandas_series(author_keywords_column)
 
             # Replace the author keywords column of the dataframe with the parameterized version
-            ids_vs_keywords.dataframe['targetLiteral'] = parameterized_keywords.series
-            ids_vs_keywords.dataframe
+            ids_vs_target_object.dataframe['targetLiteral'] = parameterized_keywords.series
+            ids_vs_target_object.dataframe
 
             # Update the database
-            for index, each_row in ids_vs_keywords.dataframe.iterrows():
+            for index, each_row in ids_vs_target_object.dataframe.iterrows():
                 each_article_id = each_row.values[0]
                 each_parameter_string = each_row.values[1]
                 try:
@@ -1218,10 +1188,10 @@ class WebOfScienceQuery(Gastrodon_Query):
             print('Operation completed without errors.')
 
 
-    def retrieve_relationships_of_property(self, property,
-                                                 desired_column_name_for_literal='targetLiteral',
-                                                 desired_column_name_for_identifier='wosArticleUri',
-                                                 limit=None, offset=0):
+    def retrieve_subjects_and_objects_of_property(self, property,
+                                                  desired_column_name_for_literal='targetLiteral',
+                                                  desired_column_name_for_identifier='wosArticleUri',
+                                                  limit=None, offset=0):
         """
         Retrieves the two sides of a property (i.e., the subject and the object around the property)
 
@@ -1251,7 +1221,7 @@ class WebOfScienceQuery(Gastrodon_Query):
                 @prefix wosres: <http://wos.risis.eu/resource/> .\
                 @prefix wosGraph: <http://clokman.com/wos> .\
             ''').set_endpoint(eculture_endpoint_url)\
-                .retrieve_relationships_of_property(property='wos:DE', limit=10)
+                .retrieve_subjects_and_objects_of_property(property='wos:DE', limit=10)
                             wosArticleUri                                                             targetLiteral
             0  wosres:WOS_000070970500011           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
             1  wosres:WOS_000070998100010                              pain, postoperative; analgesics, prescribing
@@ -1265,7 +1235,7 @@ class WebOfScienceQuery(Gastrodon_Query):
             9  wosres:WOS_000071040300005      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
 
             >>> # Send another query that has a different conntector_property, offset, and column names
-            >>> eculture_query.retrieve_relationships_of_property(property='wos:WC',
+            >>> eculture_query.retrieve_subjects_and_objects_of_property(property='wos:WC',
             ...                                                   desired_column_name_for_literal='myKeywords',
             ...                                                   desired_column_name_for_identifier='myIdentifier',
             ...                                                   limit=10, offset=10)
@@ -1289,6 +1259,10 @@ class WebOfScienceQuery(Gastrodon_Query):
 
         article_ids_vs_literals_dataframe = self.send_select_query("""
 
+        #TODO: This query simply does not match any results. 
+        # The inflexibiility of this query is the likely culprit for the bug that occurs when attempting to tokenize a graph 
+        # other than the 'wosGraph:'. Fix this SPARQL query to solve the issue.   
+        
         SELECT DISTINCT (?article AS ?%s) ?%s
         WHERE{
             GRAPH wosGraph: {
