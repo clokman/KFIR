@@ -763,6 +763,97 @@ class Gastrodon_Query():
 
         return uri
 
+    @staticmethod
+    def _is_graph_prefix(graph_prefix):
+        """
+        Checks if the given string's formatting indicates that it is a graph name prefix or not
+
+        Args:
+            graph_prefix(str)
+
+        Returns:
+            bool
+
+        Examples:
+            >>> Gastrodon_Query._is_graph_prefix('kfir:')
+            True
+
+            >>> Gastrodon_Query._is_graph_prefix('kfir')
+            False
+
+            >>> Gastrodon_Query._is_graph_prefix('<http://example.com>')
+            False
+
+            >>> Gastrodon_Query._is_graph_prefix('<https://example.com>')
+            False
+
+            >>> Gastrodon_Query._is_graph_prefix('https://example.com')
+            False
+
+            >>> Gastrodon_Query._is_graph_prefix('https://example.com')
+            False
+        """
+
+        from preprocessor.string_tools import String
+
+        graph_prefix_String = String(graph_prefix)
+
+        is_full_uri_string = graph_prefix_String.is_any_of_the_patterns_there(['>', '<', 'http://', 'https://'])
+        is_graph_prefix = graph_prefix[-1] == ':'
+
+        if is_graph_prefix and not is_full_uri_string:
+            return True
+        else:
+            return False
+
+
+    def _force_recognition_if_graph_prefix(self, graph_prefix):
+        """
+        Checks if the specified graph_prefix is indeed a graph prefix, and if it is, checks whether it exists in 
+        self.prefixes_object. 
+        Does nothing if a full graph uri is provided.
+
+        Args:
+            graph_prefix(str)
+
+        Returns:
+            ValueError (if graph_prefix is not recongized) or nothing (if it is recognized)
+
+        Examples:
+            >>> # Initiate instance
+            >>> my_query = Gastrodon_Query()
+
+            >>> # Set query parameters and send a count query
+            >>> my_query.set_prefixes('''\
+                @prefix wos: <http://wos.risis.eu/vocabulary/> .\
+                @prefix wosres: <http://wos.risis.eu/resource/> .\
+                @prefix wosGraph: <http://clokman.com/wos> .\
+            ''')._get_prefixes(convert_to_dictionary_of_strings=True)
+            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://wos.risis.eu/vocabulary/': 'wos', 'http://wos.risis.eu/resource/': 'wosres', 'http://clokman.com/wos': 'wosGraph'}
+
+            >>> # Unrecognized graph prefix
+            >>> try:
+            ...     my_query._force_recognition_if_graph_prefix('kfir:')
+            ... except ValueError as error_message:
+            ...     print('Caught error: %s.' % error_message)
+            Caught error: The graph prefix "kfir:" is not in known prefixes; consider adding it as a prefix. The current pefixes are: "dict_values(['xml', 'rdf', 'rdfs', 'xsd', 'wos', 'wosres', 'wosGraph']).".
+
+            >>> # Recognized graph prefix
+            >>> my_query._force_recognition_if_graph_prefix('wosGraph:')  # returns nothing
+
+            >>> # Not a graph prefix (do nothing)
+            >>> my_query._force_recognition_if_graph_prefix('http://example.com')  # returns nothing
+        """
+        if Gastrodon_Query._is_graph_prefix(graph_prefix):
+            current_prefixes = self._get_prefixes(convert_to_dictionary_of_strings=True).values()
+
+            graph_prefix_without_colon = graph_prefix[:-1]
+
+            if graph_prefix_without_colon not in current_prefixes:
+                raise ValueError('The graph prefix "{graph_prefix}" is not in known prefixes; consider adding it as a prefix. The current pefixes are: "{current_prefixes}."'.format(graph_prefix=graph_prefix, current_prefixes=current_prefixes))
+
+
+
 
     def _check_if_minimum_query_parameters_specified(self):
         from preprocessor.string_tools import Parameter_Value
@@ -851,13 +942,14 @@ class WebOfScienceQuery(Gastrodon_Query):
 
 
     def tokenize_process_and_update_string_literals(self, target_property_uri,
-                                                   uri_of_graph_to_write_the_output,
+                                                   uri_of_source_graph='wosGraph:',
+                                                   uri_of_graph_to_write_the_output='kfirGraph:',
                                                    new_property_uri='same as target',
                                                    delimiter_pattern_in_literal_cells='; ',
                                                    query_volume=0, batch_size=10,
                                                    purify=True,
                                                    defragment_strings_using_list=[],
-                                                   fragmentation_signalling_character=';',
+                                                   fragmentation_signalling_character='&',
                                                    fragmentation_signalling_character_index=-1,
                                                    show_progress=False):
         """
@@ -901,144 +993,144 @@ class WebOfScienceQuery(Gastrodon_Query):
             Index: []
             >>> #=======================================================================================================
 
-            #
-            # >>> # USAGE WITH DEFAULT PARAMETERS ========================================================================
-            # >>> # View the literals to be cleaned (Web of Science Categories (wos:WC))
-            # >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
-            #                                    o
-            # 0            Film, Radio, Television
-            # 1  Clinical Neurology; Neurosciences
-            # 2                      Asian Studies
-            # 3                 Clinical Neurology
-            # 4                     Sport Sciences
-            # 5             Environmental Sciences
-            # 6                     Anesthesiology
-            # 7                         Microscopy
-            # 8       Medicine, General & Internal
-            # 9  Economics; Planning & Development
-            #
-            # >>> # Use the method to purify and tokenize Web of Science categories
-            # >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:WC',
-            # ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            # ...                                                        query_volume=50)
-            # Operation completed without errors.
-            #
-            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
-            #                              s       p                               o
-            # 0   wosres:WOS_000060208200006  wos:WC         Film, Radio, Television
-            # 1   wosres:WOS_000070935900005  wos:WC              Clinical Neurology
-            # 2   wosres:WOS_000070935900005  wos:WC                   Neurosciences
-            # 3   wosres:WOS_000070948900005  wos:WC                   Asian Studies
-            # 4   wosres:WOS_000070961600011  wos:WC              Clinical Neurology
-            # 5   wosres:WOS_000070961600033  wos:WC              Clinical Neurology
-            # 6   wosres:WOS_000070969600003  wos:WC                  Sport Sciences
-            # 7   wosres:WOS_000070970500011  wos:WC          Environmental Sciences
-            # 8   wosres:WOS_000070998100010  wos:WC                  Anesthesiology
-            # 9   wosres:WOS_000070998900007  wos:WC                      Microscopy
-            # 10  wosres:WOS_000071006900008  wos:WC  Medicine, General and Internal
-            # 11  wosres:WOS_000071013000007  wos:WC                       Economics
-            # 12  wosres:WOS_000071013000007  wos:WC        Planning and Development
-            # 13  wosres:WOS_000071018600001  wos:WC                        Oncology
-            # 14  wosres:WOS_000071021600006  wos:WC       Pharmacology and Pharmacy
-            # >>> #=======================================================================================================
-            #
-            #
-            # >>> # USAGE WITH CUSTOM PARAMETERS =========================================================================
-            # >>> # Clean doctest graph and confirm cleaning
-            # >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
-            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
-            # Empty DataFrame
-            # Columns: [s, p, o]
-            # Index: []
-            #
-            # >>> # View the literals to be cleaned (Author keywords (wos:DE))
-            # >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:DE ?o}} LIMIT 10")
-            #                                                                           o
-            # 0           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
-            # 1                              pain, postoperative; analgesics, prescribing
-            # 2           DIC; Nomarski; interference; microscopy; CCD; image processing;
-            # 3  analysis; reconstruction; optical pathlength; phase; transparent; living
-            # 4                    atherosclerosis; homocysteine; metformin; vitamin B-12
-            # 5                                               policy; household economics
-            # 6      sub-Saharan Africa; Swaziland; labor migration; food security; labor
-            # 7                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
-            # 8                                             (electrochemical); NO sensing
-            # 9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
-            #
-            # >>> # Use the method on author keywords (wos:DE)
-            # >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:DE',
-            # ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
-            # ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            # ...                                                        query_volume=50, batch_size=10)
-            # Operation completed without errors.
-            #
-            # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
-            #                               s                      p                                                  o
-            # 0    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     photosynthesis
-            # 1    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                              ozone
-            # 2    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     UV-B radiation
-            # 3    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                             growth
-            # 4    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                   Elymus athericus
-            # 5    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                                pain, postoperative
-            # 6    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                            analgesics, prescribing
-            # 7    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                CCD
-            # 8    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                   image processing
-            # 9    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                         microscopy
-            # 10   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           analysis
-            # 11   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                             living
-            # 12   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                     reconstruction
-            # 13   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                              phase
-            # 14   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                       interference
-            # 15   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                 optical pathlength
-            # 16   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                        transparent
-            # 17   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                DIC
-            # 18   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           Nomarski
-            # 19   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                    atherosclerosis
-            # 20   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       homocysteine
-            # 21   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                          metformin
-            # 22   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       vitamin B-12
-            # 23   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                          Swaziland
-            # 24   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                      food security
-            # 25   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                 sub-Saharan Africa
-            # 26   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                             policy
-            # 27   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                              labor
-            # 28   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                    labor migration
-            # 29   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                household economics
-            # ..                          ...                    ...                                                ...
-            # 122  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                    trigonal-bipyramidal structures
-            # 123  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                     stereomutation
-            # 124  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                          Si-29-NMR
-            # 125  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                      lithium pentaorganylsilicates
-            # 126  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                tetraorganylsilanes
-            # 127  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                       malnutrition
-            # 128  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                          lactation
-            # 129  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                            puberty
-            # 130  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                      hypogonadotropic hypogonadism
-            # 131  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                       Follicle Stimulating Hormone
-            # 132  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             lactational amenorrhea
-            # 133  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                           twinning
-            # 134  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                      twin research
-            # 135  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                oral contraceptives
-            # 136  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             weight loss amenorrhea
-            # 137  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 prenatal diagnosis
-            # 138  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                           placenta
-            # 139  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 genomic imprinting
-            # 140  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                        trophoblast
-            # 141  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                    molar pregnancy
-            # 142  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                              HASH2
-            # 143  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                  DNA binding transcription factors
-            # 144  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                        macrophages
-            # 145  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                         retinal pigment epithelium
-            # 146  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                   membrane protein
-            # 147  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                               uvea
-            # 148  wosres:WOS_000071179700013  kfir:hasAuthorKeyword             dichloromethylene diphosphonate Cl2MDP
-            # 149  wosres:WOS_000071179700013  kfir:hasAuthorKeyword  experimental melanin-protein induced uveitis EMIU
-            # 150  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                 pigment epithelial
-            # 151  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                       uveitis EAPU
-            # <BLANKLINE>
-            # [152 rows x 3 columns]
-            # >>> #=======================================================================================================
-            #
+
+            >>> # USAGE WITH DEFAULT PARAMETERS ========================================================================
+            >>> # View the literals to be cleaned (Web of Science Categories (wos:WC))
+            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:WC ?o}} LIMIT 10")
+                                               o
+            0            Film, Radio, Television
+            1  Clinical Neurology; Neurosciences
+            2                      Asian Studies
+            3                 Clinical Neurology
+            4                     Sport Sciences
+            5             Environmental Sciences
+            6                     Anesthesiology
+            7                         Microscopy
+            8       Medicine, General & Internal
+            9  Economics; Planning & Development
+
+            >>> # Use the method to purify and tokenize Web of Science categories
+            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:WC',
+            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            ...                                                        query_volume=50)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
+                                         s       p                               o
+            0   wosres:WOS_000060208200006  wos:WC         Film, Radio, Television
+            1   wosres:WOS_000070935900005  wos:WC              Clinical Neurology
+            2   wosres:WOS_000070935900005  wos:WC                   Neurosciences
+            3   wosres:WOS_000070948900005  wos:WC                   Asian Studies
+            4   wosres:WOS_000070961600011  wos:WC              Clinical Neurology
+            5   wosres:WOS_000070961600033  wos:WC              Clinical Neurology
+            6   wosres:WOS_000070969600003  wos:WC                  Sport Sciences
+            7   wosres:WOS_000070970500011  wos:WC          Environmental Sciences
+            8   wosres:WOS_000070998100010  wos:WC                  Anesthesiology
+            9   wosres:WOS_000070998900007  wos:WC                      Microscopy
+            10  wosres:WOS_000071006900008  wos:WC  Medicine, General and Internal
+            11  wosres:WOS_000071013000007  wos:WC                       Economics
+            12  wosres:WOS_000071013000007  wos:WC        Planning and Development
+            13  wosres:WOS_000071018600001  wos:WC                        Oncology
+            14  wosres:WOS_000071021600006  wos:WC       Pharmacology and Pharmacy
+            >>> #=======================================================================================================
+
+
+            >>> # USAGE WITH CUSTOM PARAMETERS =========================================================================
+            >>> # Clean doctest graph and confirm cleaning
+            >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+
+            >>> # View the literals to be cleaned (Author keywords (wos:DE))
+            >>> eculture_query.send_select_query("SELECT DISTINCT ?o {GRAPH wosGraph: {?s a wos:Article; wos:DE ?o}} LIMIT 10")
+                                                                                      o
+            0           Elymus athericus; growth; photosynthesis; ozone; UV-B radiation
+            1                              pain, postoperative; analgesics, prescribing
+            2           DIC; Nomarski; interference; microscopy; CCD; image processing;
+            3  analysis; reconstruction; optical pathlength; phase; transparent; living
+            4                    atherosclerosis; homocysteine; metformin; vitamin B-12
+            5                                               policy; household economics
+            6      sub-Saharan Africa; Swaziland; labor migration; food security; labor
+            7                nitric oxide radical; NO scavenging; thiol; S-nitrosothiol
+            8                                             (electrochemical); NO sensing
+            9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
+
+            >>> # Use the method on author keywords (wos:DE)
+            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:DE',
+            ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
+            ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
+            ...                                                        query_volume=50, batch_size=10)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
+                                          s                      p                                                  o
+            0    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     photosynthesis
+            1    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                              ozone
+            2    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                     UV-B radiation
+            3    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                             growth
+            4    wosres:WOS_000070970500011  kfir:hasAuthorKeyword                                   Elymus athericus
+            5    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                                pain, postoperative
+            6    wosres:WOS_000070998100010  kfir:hasAuthorKeyword                            analgesics, prescribing
+            7    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                CCD
+            8    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                   image processing
+            9    wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                         microscopy
+            10   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           analysis
+            11   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                             living
+            12   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                     reconstruction
+            13   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                              phase
+            14   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                       interference
+            15   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                 optical pathlength
+            16   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                        transparent
+            17   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                                DIC
+            18   wosres:WOS_000070998900007  kfir:hasAuthorKeyword                                           Nomarski
+            19   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                    atherosclerosis
+            20   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       homocysteine
+            21   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                          metformin
+            22   wosres:WOS_000071006900008  kfir:hasAuthorKeyword                                       vitamin B-12
+            23   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                          Swaziland
+            24   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                      food security
+            25   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                 sub-Saharan Africa
+            26   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                             policy
+            27   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                              labor
+            28   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                    labor migration
+            29   wosres:WOS_000071013000007  kfir:hasAuthorKeyword                                household economics
+            ..                          ...                    ...                                                ...
+            122  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                    trigonal-bipyramidal structures
+            123  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                     stereomutation
+            124  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                          Si-29-NMR
+            125  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                      lithium pentaorganylsilicates
+            126  wosres:WOS_000071166300006  kfir:hasAuthorKeyword                                tetraorganylsilanes
+            127  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                       malnutrition
+            128  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                          lactation
+            129  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                            puberty
+            130  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                      hypogonadotropic hypogonadism
+            131  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                       Follicle Stimulating Hormone
+            132  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             lactational amenorrhea
+            133  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                           twinning
+            134  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                      twin research
+            135  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                                oral contraceptives
+            136  wosres:WOS_000071178700002  kfir:hasAuthorKeyword                             weight loss amenorrhea
+            137  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 prenatal diagnosis
+            138  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                           placenta
+            139  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                 genomic imprinting
+            140  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                        trophoblast
+            141  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                    molar pregnancy
+            142  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                                              HASH2
+            143  wosres:WOS_000071178700006  kfir:hasAuthorKeyword                  DNA binding transcription factors
+            144  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                        macrophages
+            145  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                         retinal pigment epithelium
+            146  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                   membrane protein
+            147  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                               uvea
+            148  wosres:WOS_000071179700013  kfir:hasAuthorKeyword             dichloromethylene diphosphonate Cl2MDP
+            149  wosres:WOS_000071179700013  kfir:hasAuthorKeyword  experimental melanin-protein induced uveitis EMIU
+            150  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                 pigment epithelial
+            151  wosres:WOS_000071179700013  kfir:hasAuthorKeyword                                       uveitis EAPU
+            <BLANKLINE>
+            [152 rows x 3 columns]
+            >>> #=======================================================================================================
+
 
             >>> # USAGE ON DIFFERENT DATA THAT REQUIRES DEFRAGMENTATION BUT NO PURIFICATION ============================
             >>> # Clean doctest graph and confirm cleaning
@@ -1050,7 +1142,6 @@ class WebOfScienceQuery(Gastrodon_Query):
 
             # >>> eculture_query.send_update_query("INSERT DATA {GRAPH docTestsGraph: {<ab> <b> <c> .}}")
             # >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
-
 
             >>> eculture_query.send_update_query('''
             ...     INSERT DATA {
@@ -1066,7 +1157,6 @@ class WebOfScienceQuery(Gastrodon_Query):
             1  wosres:WOS_000080363400002  wos:fragmented_WC                   Computational Biology; Statistics & Probability
             2  wosres:WOS_000080363400002  wos:fragmented_WC  Computer Science, Interdisciplinary Applications; Mathematical &
 
-
             >>> from preprocessor.string_tools import String
             >>> list_of_wos_categories = []
             >>>
@@ -1075,31 +1165,42 @@ class WebOfScienceQuery(Gastrodon_Query):
             ...         each_line = String(each_line)
             ...         each_line = each_line.clean_from_newline_characters()
             ...         list_of_wos_categories.append(each_line.content)
-            >>> print(list_of_wos_categories[186:196])
-            ['Pharmacology & Pharmacy', 'Philosophy', 'Physics, Applied', 'Physics, Atomic, Molecular & Chemical', 'Physics, Condensed Matter', 'Physics, Fluids & Plasmas', 'Physics, Mathematical', 'Physics, Multidisciplinary', 'Physics, Nuclear', 'Physics, Particles & Fields']
+            >>> print(list_of_wos_categories[145:150])
+            ['Mathematical & Computational Biology', 'Mathematics', 'Mathematics, Applied', 'Mathematics, Interdisciplinary Applications', 'Mechanics']
 
 
             >>> # Use the method to tokenize, defragment, and upload the results as new data
             >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:fragmented_WC',
+            ...                                                        uri_of_source_graph='docTestsGraph:',
             ...                                                        new_property_uri = 'kfir:fixed_WC',
             ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
             ...                                                        purify=False,
             ...                                                        defragment_strings_using_list=list_of_wos_categories,
-            ...                                                        query_volume=50, batch_size=10)
+            ...                                                        query_volume=10, batch_size=10)
             Operation completed without errors.
 
+            >>> # View the result of the tokenization & preprocessing operation:
+            >>> # Note that the items 'Mathematical &' and 'Computational Biology' has been merged into one item as a
+            >>> # result of the operation.
             >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
-
+                                        s                  p                                                                 o
+            0  wosres:WOS_000080363400002           rdf:type                                                       wos:Article
+            1  wosres:WOS_000080363400002  wos:fragmented_WC                   Computational Biology; Statistics & Probability
+            2  wosres:WOS_000080363400002  wos:fragmented_WC  Computer Science, Interdisciplinary Applications; Mathematical &
+            3  wosres:WOS_000080363400002      kfir:fixed_WC                              Mathematical & Computational Biology
+            4  wosres:WOS_000080363400002      kfir:fixed_WC                                          Statistics & Probability
+            5  wosres:WOS_000080363400002      kfir:fixed_WC                  Computer Science, Interdisciplinary Applications
             >>> #=======================================================================================================
-
-
-
         """
         from retriever.sparql_tools import Sparql_Parameter
         from preprocessor.dataframe_tools import Data_Frame
         from meta.consoleOutput import ConsoleOutput
         console = ConsoleOutput()
         error_log = []
+
+        # make sure that any graph prefixes used as parameter values are recognized
+        self._force_recognition_if_graph_prefix(uri_of_source_graph)
+        self._force_recognition_if_graph_prefix(uri_of_graph_to_write_the_output)
 
         # if no new_property_uri is specified, use the uri of the target property
         if new_property_uri == 'same as target':
@@ -1109,13 +1210,14 @@ class WebOfScienceQuery(Gastrodon_Query):
         if query_volume == 0:
             query_volume = self.count_number_of_instances_of_property(target_property_uri)
 
+        # the main loop of the method
         for current_offset in range(0, query_volume, batch_size):
             if show_progress:
                 console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
                                                status_message='Processing strings and updating specified graph')
 
             # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
-            ids_vs_target_object = self.retrieve_subjects_and_objects_of_property(target_property_uri,
+            ids_vs_target_object = self.retrieve_subjects_and_objects_of_property(target_property_uri, graph=uri_of_source_graph,
                                                                                   desired_column_name_for_literal='targetLiteral',
                                                                                   desired_column_name_for_identifier='wosArticleUri',
                                                                                   limit=batch_size,
@@ -1132,6 +1234,10 @@ class WebOfScienceQuery(Gastrodon_Query):
             if purify:
                 ids_vs_target_object.purify_column(target_column_name='targetLiteral')
 
+            # Collapse the keywords onto article uris as lists
+            ids_vs_target_object = ids_vs_target_object.collapse_dataframe_on_column(values_column_name='targetLiteral',
+                                                                           identifier_column_name='wosArticleUri')
+
             if defragment_strings_using_list:
                 checklist = defragment_strings_using_list
 
@@ -1141,10 +1247,6 @@ class WebOfScienceQuery(Gastrodon_Query):
                                     fragmentation_signalling_character=fragmentation_signalling_character,
                                     fragmentation_signalling_character_index=fragmentation_signalling_character_index)
 
-
-            # Collapse the keywords onto article uris as lists
-            ids_vs_target_object = ids_vs_target_object.collapse_dataframe_on_column(values_column_name='targetLiteral',
-                                                                           identifier_column_name='wosArticleUri')
 
             # Extract the author keywords column
             author_keywords_column = ids_vs_target_object.dataframe['targetLiteral']
@@ -1189,9 +1291,11 @@ class WebOfScienceQuery(Gastrodon_Query):
 
 
     def retrieve_subjects_and_objects_of_property(self, property,
+                                                  graph='wosGraph:',
+                                                  restrict_subjects_to_type='wos:Article',
                                                   desired_column_name_for_literal='targetLiteral',
                                                   desired_column_name_for_identifier='wosArticleUri',
-                                                  limit=None, offset=0):
+                                                  limit=0, offset=0):
         """
         Retrieves the two sides of a property (i.e., the subject and the object around the property)
 
@@ -1234,7 +1338,8 @@ class WebOfScienceQuery(Gastrodon_Query):
             8  wosres:WOS_000071021600006                                             (electrochemical); NO sensing
             9  wosres:WOS_000071040300005      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
 
-            >>> # Send another query that has a different conntector_property, offset, and column names
+
+            >>> # Send another query that has a different contector_property, offset, and column names
             >>> eculture_query.retrieve_subjects_and_objects_of_property(property='wos:WC',
             ...                                                   desired_column_name_for_literal='myKeywords',
             ...                                                   desired_column_name_for_identifier='myIdentifier',
@@ -1250,50 +1355,71 @@ class WebOfScienceQuery(Gastrodon_Query):
             7  wosres:WOS_000071052500006                                                             Imaging
             8  wosres:WOS_000071052500006  Neurosciences; Neuroimaging; Radiology, Nuclear Medicine & Medical
             9  wosres:WOS_000071053800004                                                    Physics, Nuclear
+
+            >>> # Error: Offset parameter cannot be specified without also specifying the limit parameter
+            >>> try:
+            ...     eculture_query.retrieve_subjects_and_objects_of_property(property='wos:WC',
+            ...                                                   desired_column_name_for_literal='myKeywords',
+            ...                                                   desired_column_name_for_identifier='myIdentifier',
+            ...                                                   offset=10)
+            ... except ValueError as error_message:
+            ...     print('Caught error: %s' % error_message)
+            Caught error: 'offset' parameter cannot be specified without providing also the 'limit' parameter. The current offset value is '10', and current limit value is '0'.
+
         """
+        # TODO: Other graphs, and possibly more flexible query overall
         # Prepare LIMIT statement (if it exists) for SPARQL query
-        if limit == None:
+        if limit == 0:
             limit_statement_in_query = ''
+
+            if offset != 0:
+                raise ValueError("'offset' parameter cannot be specified without providing also the 'limit' parameter. "
+                                 "The current offset value is '{offset}', and current limit value is '{limit}'."
+                                 .format(offset=offset, limit=limit))
+
         else:
             limit_statement_in_query = 'LIMIT %d' % limit
 
         article_ids_vs_literals_dataframe = self.send_select_query("""
-
-        #TODO: This query simply does not match any results. 
-        # The inflexibiility of this query is the likely culprit for the bug that occurs when attempting to tokenize a graph 
-        # other than the 'wosGraph:'. Fix this SPARQL query to solve the issue.   
         
-        SELECT DISTINCT (?article AS ?%s) ?%s
-        WHERE{
-            GRAPH wosGraph: {
-                ?article a wos:Article;
-                         %s ?%s .
+            SELECT DISTINCT (?subject AS ?%(desired_column_name_for_identifier)s) ?%(desired_column_name_for_literal)s
+            WHERE{
+                GRAPH %(graph)s {
+                    ?subject a %(subject_type)s .
+                    ?subject %(property)s ?%(desired_column_name_for_literal)s .
+                }
             }
-        }
-        %s
-        OFFSET %s
-
-        """ % (desired_column_name_for_identifier,
-               desired_column_name_for_literal, property,
-               desired_column_name_for_literal, limit_statement_in_query, offset)
+            %(limit_statement_in_query)s
+            OFFSET %(offset)d
+    
+            """ % {'desired_column_name_for_identifier': desired_column_name_for_identifier,
+                   'desired_column_name_for_literal':desired_column_name_for_literal,
+                   'graph': graph,
+                   'subject_type': restrict_subjects_to_type,
+                   'property':property,
+                   'limit_statement_in_query':limit_statement_in_query,
+                   'offset':offset}
         )
         self._last_query_results = article_ids_vs_literals_dataframe
         return self._last_query_results
 
 
-    def count_number_of_instances_of_property(self, property):
+    def count_number_of_instances_of_property(self, property, graph='wosGraph:', restrict_subjects_to_type='wos:Article'):
         """
         Retrieves the two sides of a property (i.e., the subject and the object around the property)
 
         Args:
-            property(str): The uri of the property that connects the article to literal.
+            property(str): URI of the property that connects the article to literal.
                 (e.g., 'wos:DE' connects Web of Science articles to the literals that are author keywords).
-                prefixes if they are defined in Gastrodon Query.
+                Can take prefixed URIs if the related prefixes are defined for the query instance.
+            graph(str): URI of the graph. Can be prefixes if defined earlier (e.g., wosGraph:) instead of full URIs
+            restrict_subjects_to_type(str): URI of the type to be used to limit selection. Can take prefixed URIs.
 
         Returns:
             int
 
         Examples:
+            >>> # INIT =================================================================================================
             >>> # Import endpoint address from private file
             >>> from preprocessor.Text_File import Text_File
             >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
@@ -1302,34 +1428,81 @@ class WebOfScienceQuery(Gastrodon_Query):
             >>> # Initiate instance
             >>> eculture_query = WebOfScienceQuery()
 
-            >>> # Set query parameters and send a count query
+            >>> # Set query parameters and clear docTestsGraph
             >>> eculture_query.set_prefixes('''\
                 @prefix wos: <http://wos.risis.eu/vocabulary/> .\
                 @prefix wosres: <http://wos.risis.eu/resource/> .\
                 @prefix wosGraph: <http://clokman.com/wos> .\
-            ''').set_endpoint(eculture_endpoint_url)\
-                .count_number_of_instances_of_property(property='wos:DE')
+                @prefix docTestsGraph: <http://clokman.com/doctestsgraph> .\
+                @prefix kfir: <http://clokman.com/kfir/ontology#> .\
+            ''').set_endpoint(eculture_endpoint_url).send_update_query('CLEAR GRAPH docTestsGraph:')
+
+            >>> # Confirm that the doctest graph is empty
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+            
+            >>> eculture_query.send_update_query('''
+            ...     INSERT DATA {
+            ...            GRAPH docTestsGraph: {
+            ...                wosres:WOS_000080363400002 a wos:Article;
+            ...                                           wos:WC "Statistics & Probability"
+            ...            }
+            ... }''')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
+                                        s         p                         o
+            0  wosres:WOS_000080363400002  rdf:type               wos:Article
+            1  wosres:WOS_000080363400002    wos:WC  Statistics & Probability
+
+            >>> #=======================================================================================================
+
+            # Send a count quety with defauly parameters
+            >>> eculture_query.count_number_of_instances_of_property(property='wos:DE')
             134254
+
+            >>> # Send another query that has a different subject restriction
+            >>> eculture_query.count_number_of_instances_of_property(property='wos:DE', restrict_subjects_to_type='wos:Publication')
+            157861
 
             >>> # Send another query that has a different connector_property
             >>> eculture_query.count_number_of_instances_of_property(property='wos:WC')
             145145
+
+            >>> # Send a query for a different graph
+            >>> eculture_query.count_number_of_instances_of_property(property='wos:WC', graph='docTestsGraph:')
+            1
+
+            >>> # Send a query for a different graph and different property
+            >>> eculture_query.count_number_of_instances_of_property(property='a', graph='docTestsGraph:')
+            1
+
+            >>> # Send a query for a graph with an unknown uri prefix:
+            >>> try:
+            ...     eculture_query.count_number_of_instances_of_property(property='wos:WC', graph='kfirGraph:')
+            ... except ValueError as error_message:
+            ...     print('Caught error: "%s".' % error_message)
+            Caught error: "The graph prefix "kfirGraph:" is not in known prefixes; consider adding it as a prefix. The current pefixes are: "dict_values(['xml', 'rdf', 'rdfs', 'xsd', 'wos', 'wosres', 'wosGraph', 'docTestsGraph', 'kfir'])."".
+
         """
+        self._force_recognition_if_graph_prefix(graph_prefix=graph)  # will do nothing if a full graph uri is provided
+
         count = self.send_count_query(
             query="""
 
-                SELECT (COUNT (?literal) AS ?literals) 
-                WHERE{
-                    GRAPH wosGraph: {
-                        ?article a wos:Article;
-                                 %s ?literal .
-                    }
-                }
-            """ % property,
+                          SELECT (COUNT (?literal) AS ?literals) 
+                          WHERE{
+                              GRAPH %(graph)s {
+                                  ?article a %(allowed_subject_type)s;
+                                           %(property)s ?literal .
+                              }
+                          }
+                      """ % {'graph': graph, 'allowed_subject_type': restrict_subjects_to_type, 'property': property},
             query_variable_that_holds_count_results='literals'
         )
 
         return count
+
 
 
     # def convert_articles_vs_keywords_dataframe_to_dictionary(articles_vs_keywords_dataframe):
