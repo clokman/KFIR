@@ -388,12 +388,15 @@ class String(str):
             Writes the new string to content, and returns the modified object (return self).
 
         Examples:
+
+            >>> # TAIL AND HEAD ========================================================================================
             >>> my_string = String('------    ---- --my string------')
             >>> my_string.clean_head_and_tail_from_patterns(['------'], location='tail')
             '------    ---- --my string'
             >>> my_string.clean_head_and_tail_from_patterns('------    ---- --', location='head')
             'my string'
 
+            >>> # TAIL =================================================================================================
             >>> my_string = String('my string--mmm')
             >>> my_string.clean_head_and_tail_from_patterns('--mmm', location='tail')
             'my string'
@@ -401,6 +404,20 @@ class String(str):
             >>> my_string = String('my string--mmm')
             >>> my_string.clean_head_and_tail_from_patterns('', location='tail', clean_newline_characters=True)
             'my string--mmm'
+
+            >>> # BOTH =================================================================================================
+            >>> my_string = String('---my string---')
+            >>> my_string.clean_head_and_tail_from_patterns('---', location='both')
+            'my string'
+
+            >>> my_string = String(';my string;')
+            >>> my_string.clean_head_and_tail_from_patterns(';', location='both')
+            'my string'
+
+            >>> # Note that when the target it 'both', removal proceeds ONLY if the pattern exists at both head and tail
+            >>> my_string = String(';my string')
+            >>> my_string.clean_head_and_tail_from_patterns(';', location='both')
+            ';my string'
         """
         Parameter_Value(location).force_keyword_parameters(['head', 'tail', 'both'])
         patterns_to_remove = Parameter_Value(patterns_to_remove).convert_to_single_item_list_if_not_list()
