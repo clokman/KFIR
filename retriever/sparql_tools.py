@@ -913,13 +913,17 @@ class WebOfScienceQuery(Gastrodon_Query):
             >>> # Initiate object
             >>> eculture_query = WebOfScienceQuery()
 
-            >>> # Set and check prefixes
+            >>> # View default prefixes
+            >>> eculture_query._get_prefixes(convert_to_dictionary_of_strings=True)
+            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://www.w3.org/2004/02/skos/core#': 'skos', 'http://dbpedia.org/ontology/': 'dbo', 'http://wos.risis.eu/vocabulary/': 'wos', 'http://wos.risis.eu/resource/': 'wosres', 'http://clokman.com/kfir/ontology#': 'kfir', 'https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#': 'ldr', 'http://clokman.com/wos': 'wosGraph', 'http://clokman.com/kfir': 'kfirGraph', 'http://clokman.com/test': 'testGraph', 'http://clokman.com/doctestsgraph': 'docTestsGraph'}
+
+            >>> # Set custom prefixes and check them
             >>> eculture_query.set_prefixes('''\
                 @prefix wosGraph: <http://clokman.com/wos> .\
                 @prefix kfirGraph: <http://clokman.com/kfir> .\
                 @prefix testGraph: <http://clokman.com/test> .\
-            ''')._get_prefixes()
-            {rdflib.term.URIRef('http://www.w3.org/XML/1998/namespace'): 'xml', rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#'): 'rdf', rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#'): 'rdfs', rdflib.term.URIRef('http://www.w3.org/2001/XMLSchema#'): 'xsd', rdflib.term.URIRef('http://clokman.com/wos'): 'wosGraph', rdflib.term.URIRef('http://clokman.com/kfir'): 'kfirGraph', rdflib.term.URIRef('http://clokman.com/test'): 'testGraph'}
+            ''')._get_prefixes(convert_to_dictionary_of_strings=True)
+            {'http://www.w3.org/XML/1998/namespace': 'xml', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf', 'http://www.w3.org/2000/01/rdf-schema#': 'rdfs', 'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://clokman.com/wos': 'wosGraph', 'http://clokman.com/kfir': 'kfirGraph', 'http://clokman.com/test': 'testGraph'}
 
             >>> # Get endpoint address from file, set it, and check
             >>> from preprocessor.Text_File import Text_File
@@ -936,27 +940,48 @@ class WebOfScienceQuery(Gastrodon_Query):
         if gastrodon_query:
             self.__dict__.update(gastrodon_query.__dict__)  # copy all attributes from Gastrodon instance to self
         else:
-            pass
+            # if not importing an already existing query object, initiate with these default prefixes
+            self.set_prefixes('''
+                @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+                @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+                @prefix dbo: <http://dbpedia.org/ontology/> .
+                @prefix wos: <http://wos.risis.eu/vocabulary/> . 
+                @prefix wosres: <http://wos.risis.eu/resource/> . 
+                @prefix kfir: <http://clokman.com/kfir/ontology#> .
+                @prefix ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> .
+                @prefix wosGraph: <http://clokman.com/wos> .
+                @prefix kfirGraph: <http://clokman.com/kfir> . 
+                @prefix testGraph: <http://clokman.com/test> .
+                @prefix docTestsGraph: <http://clokman.com/doctestsgraph> .
+            ''')
 
         self._last_query_results = None
 
 
-    def tokenize_process_and_update_string_literals(self, target_property_uri,
-                                                   uri_of_source_graph='wosGraph:',
-                                                   uri_of_graph_to_write_the_output='kfirGraph:',
-                                                   new_property_uri='same as target',
-                                                   delimiter_pattern_in_literal_cells='; ',
-                                                   query_volume=0, batch_size=10,
-                                                   purify=True,
-                                                   defragment_strings_using_list=[],
-                                                   fragmentation_signalling_character='&',
-                                                   fragmentation_signalling_character_index=-1,
-                                                   show_progress=False):
+
+    def tokenize_preprocess_and_update_string_literals(self,
+                                                       target_property_uri,
+                                                       new_property_uri='same as target',
+                                                       uri_of_source_graph='wosGraph:',
+                                                       uri_of_graph_to_write_the_output='kfirGraph:',
+                                                       query_overall_size=0,
+                                                       #query_overall_offset=0,
+                                                       query_batch_size=10,
+                                                       delimiter_pattern_in_literal_cells='; ',
+                                                       purify_string_literals=False,
+                                                       defragment_string_literals_using_list=[],
+                                                       fragmentation_signalling_character='&',
+                                                       fragmentation_signalling_character_index=-1,
+                                                       #show_progress=False
+    ):
         """
         Args:
             target_property_uri(str): The uri of the property that points to literals of interest
+            uri_of_source_graph(str):
             uri_of_graph_to_write_the_output(str): Can be the same or different from the original graph.
-            query_volume(int): Works as a global LIMIT keyword put on the query. '0' means maximum possible. The maximum
+            new_property_uri(str):
+            delimiter_pattern_in_literal_cells(str):
+            query_size(int): Works as a global LIMIT keyword put on the query. '0' means maximum possible. The maximum
                 possible value is automatically calculated.
             batch_size(int): The number of retrieved results from the triple store to be processed per iteration
                 (i.e., in each purification-update cycle). Works as a local LIMIT keyword for each iteration of the
@@ -1010,9 +1035,10 @@ class WebOfScienceQuery(Gastrodon_Query):
             9  Economics; Planning & Development
 
             >>> # Use the method to purify and tokenize Web of Science categories
-            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:WC',
+            >>> eculture_query.tokenize_preprocess_and_update_string_literals(target_property_uri='wos:WC',
             ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            ...                                                        query_volume=50)
+            ...                                                        query_overall_size=50,
+            ...                                                        purify_string_literals=True)
             Operation completed without errors.
 
             >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 15')
@@ -1058,10 +1084,11 @@ class WebOfScienceQuery(Gastrodon_Query):
             9      lumbar spine; vertebra; trabecular bone; Wolff's Law; intervertebral
 
             >>> # Use the method on author keywords (wos:DE)
-            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:DE',
+            >>> eculture_query.tokenize_preprocess_and_update_string_literals(target_property_uri='wos:DE',
             ...                                                        new_property_uri = 'kfir:hasAuthorKeyword',
             ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            ...                                                        query_volume=50, batch_size=10)
+            ...                                                        query_overall_size=50, query_batch_size=10,
+            ...                                                        purify_string_literals=True)
             Operation completed without errors.
 
             >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 1000')
@@ -1170,13 +1197,13 @@ class WebOfScienceQuery(Gastrodon_Query):
 
 
             >>> # Use the method to tokenize, defragment, and upload the results as new data
-            >>> eculture_query.tokenize_process_and_update_string_literals(target_property_uri='wos:fragmented_WC',
+            >>> eculture_query.tokenize_preprocess_and_update_string_literals(
+            ...                                                        target_property_uri='wos:fragmented_WC',
             ...                                                        uri_of_source_graph='docTestsGraph:',
             ...                                                        new_property_uri = 'kfir:fixed_WC',
             ...                                                        uri_of_graph_to_write_the_output = 'docTestsGraph:',
-            ...                                                        purify=False,
-            ...                                                        defragment_strings_using_list=list_of_wos_categories,
-            ...                                                        query_volume=10, batch_size=10)
+            ...                                                        defragment_string_literals_using_list=list_of_wos_categories,
+            ...                                                        query_overall_size=10, query_batch_size=10)
             Operation completed without errors.
 
             >>> # View the result of the tokenization & preprocessing operation:
@@ -1194,8 +1221,9 @@ class WebOfScienceQuery(Gastrodon_Query):
         """
         from retriever.sparql_tools import Sparql_Parameter
         from preprocessor.dataframe_tools import Data_Frame
+        from tqdm import trange
         from meta.consoleOutput import ConsoleOutput
-        console = ConsoleOutput()
+        # console = ConsoleOutput()
         error_log = []
 
         # make sure that any graph prefixes used as parameter values are recognized
@@ -1207,61 +1235,232 @@ class WebOfScienceQuery(Gastrodon_Query):
             new_property_uri = target_property_uri
 
         # if query size is zero, assign maximum possible size to it
-        if query_volume == 0:
-            query_volume = self.count_number_of_instances_of_property(target_property_uri)
+        if query_overall_size == 0:
+            query_overall_size = self.count_number_of_instances_of_property(target_property_uri)
 
-        # the main loop of the method
-        for current_offset in range(0, query_volume, batch_size):
-            if show_progress:
-                console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
-                                               status_message='Processing strings and updating specified graph')
+        progress_bar_message = 'Tokenizing, preprocessing, and updating "%s" literals' % target_property_uri
 
-            # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
-            ids_vs_target_object = self.retrieve_subjects_and_objects_of_property(target_property_uri, graph=uri_of_source_graph,
-                                                                                  desired_column_name_for_literal='targetLiteral',
-                                                                                  desired_column_name_for_identifier='wosArticleUri',
-                                                                                  limit=batch_size,
-                                                                                  offset=current_offset)
+        try:
+            # the main loop of the method.
+            # trange() is equivalent to range(), but is for visualizing progress via a progress bar in console
+            for current_offset in trange(0, query_overall_size, query_batch_size, desc=progress_bar_message, ncols=115):
+                # if show_progress:
+                #     console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
+                #                                    status_message='Processing strings and updating specified graph')
 
-            # Because the retrieved keywords are in a semicolon-separated list, they need to be tokenized:
-            ids_vs_target_object = Data_Frame(ids_vs_target_object)  # this is not 'pandas.DataFrame' class
-            ids_vs_target_object.tokenize_string_column(string_column_name='targetLiteral',
-                                                   id_column_name='wosArticleUri',
-                                                   delimiter_pattern_in_literal_cells=delimiter_pattern_in_literal_cells)
+                # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
+                ids_vs_target_objects = self.retrieve_subjects_and_objects_of_property(target_property_uri, graph=uri_of_source_graph,
+                                                                                       desired_column_name_for_literal='targetLiteral',
+                                                                                       desired_column_name_for_identifier='wosArticleUri',
+                                                                                       limit=query_batch_size,
+                                                                                       offset=current_offset)
 
-            # Tokenized keywords may contain items such as "Wolff's Law" and "(electrochemical)".
-            # They need to be cleaned from special characters:
-            if purify:
-                ids_vs_target_object.purify_column(target_column_name='targetLiteral')
+                # Because the retrieved keywords are in a semicolon-separated list, they need to be tokenized:
+                ids_vs_target_objects = Data_Frame(ids_vs_target_objects)  # this is not 'pandas.DataFrame' class
+                ids_vs_target_objects.tokenize_string_column(string_column_name='targetLiteral',
+                                                       id_column_name='wosArticleUri',
+                                                       delimiter_pattern_in_literal_cells=delimiter_pattern_in_literal_cells)
 
-            # Collapse the keywords onto article uris as lists
-            ids_vs_target_object = ids_vs_target_object.collapse_dataframe_on_column(values_column_name='targetLiteral',
-                                                                           identifier_column_name='wosArticleUri')
+                # Tokenized keywords may contain items such as "Wolff's Law" and "(electrochemical)".
+                # They need to be cleaned from special characters:
+                if purify_string_literals:
+                    ids_vs_target_objects.purify_column(target_column_name='targetLiteral')
 
-            if defragment_strings_using_list:
-                checklist = defragment_strings_using_list
+                # Collapse the keywords onto article uris as lists
+                ids_vs_target_objects = ids_vs_target_objects.collapse_dataframe_on_column(values_column_name='targetLiteral',
+                                                                               identifier_column_name='wosArticleUri')
 
-                ids_vs_target_object.combine_items_within_each_row_if_combination_exists_in_external_list(
-                                    target_column_name='targetLiteral',
-                                    external_list_to_compare_with=checklist,
-                                    fragmentation_signalling_character=fragmentation_signalling_character,
-                                    fragmentation_signalling_character_index=fragmentation_signalling_character_index)
+                if defragment_string_literals_using_list:
+                    checklist = defragment_string_literals_using_list
+
+                    ids_vs_target_objects.combine_items_within_each_row_if_combination_exists_in_external_list(
+                                        target_column_name='targetLiteral',
+                                        external_list_to_compare_with=checklist,
+                                        fragmentation_signalling_character=fragmentation_signalling_character,
+                                        fragmentation_signalling_character_index=fragmentation_signalling_character_index)
+
+                # Extract the string literals column
+                target_literal_column = ids_vs_target_objects.dataframe['targetLiteral']
+
+                # Convert lists on each cell of author keywords column to parameter strings (to be used in VALUES
+                # keyword of SPARQL)
+                parameterized_literals = Sparql_Parameter.Values_Parameter_Series()
+                parameterized_literals.import_and_convert_pandas_series(target_literal_column)
+
+                # Replace the string literals column of the dataframe with the parameterized version
+                ids_vs_target_objects.dataframe['targetLiteral'] = parameterized_literals.series
+                ids_vs_target_objects.dataframe
+
+                # Update the database
+                for index, each_row in ids_vs_target_objects.dataframe.iterrows():
+                    each_article_id = each_row.values[0]
+                    each_parameter_string = each_row.values[1]
+                    try:
+                        self.send_update_query(
+                            """
+                            INSERT {
+                                GRAPH %s {
+                                    %s %s ?keyword
+                                }
+                            }
+                            WHERE{
+                                VALUES ?keyword {%s}
+                            }
+                            """ % (uri_of_graph_to_write_the_output, each_article_id, new_property_uri, each_parameter_string)
+                        )
+                    except Exception as error_message:
+
+                        log_message="Error caught at offset {current_offset} while trying to send an update query to the server"\
+                            "to upload this preprocessed dataframe:\n "\
+                            "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'" \
+                                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                                        error_message=str(error_message))
+
+                        error_log.append(error_message)
+                        print(error_message)
+
+        except Exception as error_message:
+            log_message="Error caught at offset {current_offset} while trying to process this dataframe:\n " \
+            "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'"\
+                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                        error_message=str(error_message))
+
+            error_log.append(error_message)
+            print(error_message)
+
+        # Error logging
+        if error_log != []:
+            print('Operation completed.')
+            print('These %d errors were logged during the operation:') % len(error_log)
+            for each_item in error_log:
+                print(each_item, '\n')
+        else:
+            print('Operation completed without errors.')
 
 
-            # Extract the author keywords column
-            author_keywords_column = ids_vs_target_object.dataframe['targetLiteral']
+    def clean_heads_and_tails_of_string_literals_from_patterns(self, target_property_uri,
+                                            list_of_patterns_to_clean,
+                                            patterns_position,
+                                            new_property_uri='same as target',
+                                            uri_of_source_graph='wosGraph:',
+                                            uri_of_graph_to_write_the_output='kfirGraph:',
+                                            query_overall_size=0,
+                                            query_batch_size=100):
+        """
 
-            # Convert lists on each cell of author keywords column to parameter strings (to be used in VALUES
+        Args:
+            target_property_uri:
+            list_of_patterns_to_clean:
+            patterns_position:
+            new_property_uri:
+            uri_of_source_graph:
+            uri_of_graph_to_write_the_output:
+            query_overall_size:
+            query_batch_size:
+
+        Returns:
+
+        Examples:
+            >>> # INIT =================================================================================================
+            >>> # Import endpoint address from private file
+            >>> from preprocessor.Text_File import Text_File
+            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
+            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
+
+            >>> # Initiate instance
+            >>> eculture_query = WebOfScienceQuery()
+
+            >>> # Set query parameters and clear docTestsGraph
+            >>> eculture_query.set_endpoint(eculture_endpoint_url)\
+                              .send_update_query('CLEAR GRAPH docTestsGraph:')
+
+            >>> # Confirm that the doctest graph is empty
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+            >>> #=======================================================================================================
+
+
+            >>> # CLEAN TAILS FROM PATTERN =============================================================================
+            >>> eculture_query.send_update_query('''
+            ...     INSERT DATA {
+            ...            GRAPH docTestsGraph: {
+            ...                wosres:WOS_000080363400002 a wos:Article;
+            ...                                           wos:fragmented_WC "Computational Biology; Statistics & Probability",
+            ...                                                             "Computer Science, Interdisciplinary Applications; Mathematical &",
+            ...                                                             "Biochemical Research Methods; Biotechnology & Applied Microbiology;"
+            ...            }
+            ... }''')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
+                                        s                  p                                                                    o
+            0  wosres:WOS_000080363400002           rdf:type                                                          wos:Article
+            1  wosres:WOS_000080363400002  wos:fragmented_WC  Biochemical Research Methods; Biotechnology & Applied Microbiology;
+            2  wosres:WOS_000080363400002  wos:fragmented_WC                      Computational Biology; Statistics & Probability
+            3  wosres:WOS_000080363400002  wos:fragmented_WC     Computer Science, Interdisciplinary Applications; Mathematical &
+
+            >>> eculture_query.clean_heads_and_tails_of_string_literals_from_patterns(target_property_uri='wos:fragmented_WC',
+            ...                                                                       list_of_patterns_to_clean=[';'],
+            ...                                                                       patterns_position='tail',
+            ...                                                                       new_property_uri='kfir:hasCleanedWosCategory',
+            ...                                                                       uri_of_source_graph='docTestsGraph:',
+            ...                                                                       uri_of_graph_to_write_the_output='docTestsGraph:',
+            ...                                                                       query_overall_size=10,
+            ...                                                                       query_batch_size=10)
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
+
+        """
+        from retriever.sparql_tools import Sparql_Parameter
+        from preprocessor.dataframe_tools import Data_Frame
+        from tqdm import trange
+        from meta.consoleOutput import ConsoleOutput
+
+        error_log = []
+
+        # make sure that any graph prefixes used as parameter values are recognized
+        self._force_recognition_if_graph_prefix(uri_of_source_graph)
+        self._force_recognition_if_graph_prefix(uri_of_graph_to_write_the_output)
+
+        # if no new_property_uri is specified, use the uri of the target property
+        if new_property_uri == 'same as target':
+            new_property_uri = target_property_uri
+
+        # if query size is zero, assign maximum possible size to it
+        if query_overall_size == 0:
+            query_overall_size = self.count_number_of_instances_of_property(target_property_uri)
+
+        progress_bar_message = 'Removing semicolons from the end of "%s" literals' % target_property_uri
+
+        try:
+            # the main loop of the method.
+            # trange() is equivalent to range(), but is for visualizing progress via a progress bar in console
+            for current_offset in trange(0, query_overall_size, query_batch_size, desc=progress_bar_message, ncols=115):
+
+                # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
+                ids_vs_target_objects = self.retrieve_subjects_and_objects_of_property(target_property_uri,
+                                                                                       graph=uri_of_source_graph,
+                                                                                       desired_column_name_for_literal='targetLiteral',
+                                                                                       desired_column_name_for_identifier='wosArticleUri',
+                                                                                       limit=query_batch_size,
+                                                                                       offset=current_offset)
+                # TODO: This method is not seen by Python interpreter as a method of Data_Frame. It needs to be seen why, and then parameters should be written.
+                ids_vs_target_objects.clean_heads_and_tails_of_cells_in_column_from_patterns()
+
+            # Extract the string literals column
+            target_literal_column = ids_vs_target_objects.dataframe['targetLiteral']
+
+            # Convert lists on each cell of target literals column to parameter strings (to be used in VALUES
             # keyword of SPARQL)
-            parameterized_keywords = Sparql_Parameter.Values_Parameter_Series()
-            parameterized_keywords.import_and_convert_pandas_series(author_keywords_column)
+            parameterized_literals = Sparql_Parameter.Values_Parameter_Series()
+            parameterized_literals.import_and_convert_pandas_series(target_literal_column)
 
-            # Replace the author keywords column of the dataframe with the parameterized version
-            ids_vs_target_object.dataframe['targetLiteral'] = parameterized_keywords.series
-            ids_vs_target_object.dataframe
+            # Replace the string literals column of the dataframe with the parameterized version
+            ids_vs_target_objects.dataframe['targetLiteral'] = parameterized_literals.series
+            ids_vs_target_objects.dataframe
 
             # Update the database
-            for index, each_row in ids_vs_target_object.dataframe.iterrows():
+            for index, each_row in ids_vs_target_objects.dataframe.iterrows():
                 each_article_id = each_row.values[0]
                 each_parameter_string = each_row.values[1]
                 try:
@@ -1275,20 +1474,29 @@ class WebOfScienceQuery(Gastrodon_Query):
                         WHERE{
                             VALUES ?keyword {%s}
                         }
-                        """ % (uri_of_graph_to_write_the_output, each_article_id, new_property_uri, each_parameter_string)
+                        """ % (
+                        uri_of_graph_to_write_the_output, each_article_id, new_property_uri, each_parameter_string)
                     )
                 except Exception as error_message:
-                    error_log.append(str(error_message))
 
-        # Error logging
-        if error_log != []:
-            print('Operation completed.')
-            print('These %d errors were logged during the operation:') % len(error_log)
-            for each_item in error_log:
-                print(each_item, '\n')
-        else:
-            print('Operation completed without errors.')
+                    log_message = "Error caught at offset {current_offset} while trying to send an update query to the server" \
+                                  "to upload this preprocessed dataframe:\n " \
+                                  "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'" \
+                        .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                                error_message=str(error_message))
 
+                    error_log.append(error_message)
+                    print(error_message)
+
+
+        except Exception as error_message:
+            log_message="Error caught at offset {current_offset} while trying to process this dataframe:\n " \
+            "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'"\
+                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                        error_message=str(error_message))
+
+            error_log.append(error_message)
+            print(error_message)
 
     def retrieve_subjects_and_objects_of_property(self, property,
                                                   graph='wosGraph:',
