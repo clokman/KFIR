@@ -292,6 +292,140 @@ class Data_Frame(object):
         return self
 
 
+    def clean_heads_and_tails_of_cells_in_column_from_patterns(self, target_column_name, patterns_to_remove, location):
+        """
+        Cleans the specified strings in the column from specified characters at the heads, tails (or at both locations).
+
+        Args:
+            target_column_name(str): Column to be cleaned
+            patterns_to_remove(list): A list of strings containing patterns to remove.
+
+        Keyword Args:
+            head (patterns_to_remove): Cleans the beginning of the string from specified patterns
+            tail (patterns_to_remove): Cleans the end of the string
+            ends (patterns_to_remove): Cleans both the beginning and end of the string
+
+        Returns:
+            Data_Frame (updated self)
+
+        Examples:
+            >>> # INIT =================================================================================================
+            >>> # Create Data_Frame
+            >>> import pandas as pd
+            >>> my_dataframe = pd.DataFrame({
+            ...             'dirty_column':[';head issue','tail issue;',';both issues;',';complex situation; head',
+            ...             'complex situation; tail;', ';complex situation; both;'],
+            ...             'id_column': ['id 1', 'id 2', 'id 3', 'id 4', 'id5', 'id6'],
+            ...             'another_column': ['abc', 'def', 'mno', 'pqr', 'stu', 'xyz']})
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.dataframe
+              another_column               dirty_column id_column
+            0            abc                ;head issue      id 1
+            1            def                tail issue;      id 2
+            2            mno              ;both issues;      id 3
+            3            pqr   ;complex situation; head      id 4
+            4            stu   complex situation; tail;       id5
+            5            xyz  ;complex situation; both;       id6
+
+            # HEAD =====================================================================================================
+            >>> # Clean the heads of strings (without touching the same pattern elsewhere)
+            >>> my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('dirty_column', [';'], 'head')\
+                             .dataframe
+              another_column              dirty_column id_column
+            0            abc                head issue      id 1
+            1            def               tail issue;      id 2
+            2            mno              both issues;      id 3
+            3            pqr   complex situation; head      id 4
+            4            stu  complex situation; tail;       id5
+            5            xyz  complex situation; both;       id6
+
+            # TAIL =====================================================================================================
+            >>> # Clean the tails of strings (without touching the same pattern elsewhere)
+            >>> my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('dirty_column', [';'], 'tail')\
+                             .dataframe
+              another_column             dirty_column id_column
+            0            abc               head issue      id 1
+            1            def               tail issue      id 2
+            2            mno              both issues      id 3
+            3            pqr  complex situation; head      id 4
+            4            stu  complex situation; tail       id5
+            5            xyz  complex situation; both       id6
+
+            # BOTH =====================================================================================================
+            >>> # Recreate Data_Frame
+            >>> import pandas as pd
+            >>> my_dataframe = pd.DataFrame({
+            ...             'dirty_column':[';head issue','tail issue;',';both issues;',';complex situation; head',
+            ...             'complex situation; tail;', ';complex situation; both;'],
+            ...             'id_column': ['id 1', 'id 2', 'id 3', 'id 4', 'id5', 'id6'],
+            ...             'another_column': ['abc', 'def', 'mno', 'pqr', 'stu', 'xyz']})
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.dataframe
+              another_column               dirty_column id_column
+            0            abc                ;head issue      id 1
+            1            def                tail issue;      id 2
+            2            mno              ;both issues;      id 3
+            3            pqr   ;complex situation; head      id 4
+            4            stu   complex situation; tail;       id5
+            5            xyz  ;complex situation; both;       id6
+
+            >>> # Clean both the heads and tails of strings (without touching the same pattern elsewhere)
+            >>> # Note that when the target it 'both', removal proceeds ONLY if the pattern exists at both head and tail
+            >>> my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('dirty_column',
+            ...                                                                      patterns_to_remove=[';'],
+            ...                                                                      location='both')\
+                                                                                    .dataframe
+              another_column              dirty_column id_column
+            0            abc               ;head issue      id 1
+            1            def               tail issue;      id 2
+            2            mno               both issues      id 3
+            3            pqr  ;complex situation; head      id 4
+            4            stu  complex situation; tail;       id5
+            5            xyz   complex situation; both       id6
+
+            >>> # EXCEPTION: COLUMN MUST CONSIST OF STRINGS ============================================================
+            >>> # Create a column that is made of integers
+            >>> my_dataframe = pd.DataFrame({
+            ...      'integer_column':[1,
+            ...                      2,
+            ...                      3,
+            ...                      4
+            ...      ]
+            ... })
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.dataframe
+               integer_column
+            0               1
+            1               2
+            2               3
+            3               4
+
+            >>> # Fail to clean integer column from characters
+            >>> try:
+            ...     my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('integer_column', [';'], 'head')
+            ... except Exception as exception:  # catch exception
+            ...     print (exception)
+            The target column "integer_column" must be of dtype "object". It is currently of dtype "int64".
+            >>> #=======================================================================================================
+    """
+        from preprocessor.string_tools import String
+
+        target_column = self.dataframe[target_column_name]
+
+        # Target column must be made of strings
+        self._force_column_type(target_column_name=target_column_name, dtype='object')  # 'O' stands for 'object'
+                                                                    # a string columns is categorized as 'object'
+
+        # Clean each string in the column from the specified characters
+        for i, each_item in enumerate(target_column):
+            each_String = String(each_item)
+
+            each_String.clean_head_and_tail_from_patterns(patterns_to_remove=patterns_to_remove, location=location)
+            target_column.loc[i] = each_String.content
+
+        return self
+
+
     def collapse_dataframe_on_column(self, identifier_column_name, values_column_name):
         """
         Merges values of a column based on their corresponding ids in the identifier column. The collapsed column
