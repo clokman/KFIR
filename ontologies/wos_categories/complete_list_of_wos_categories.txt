@@ -1,6 +1,4 @@
-wosCategory; replacement; parent
-
-Acoustics 
+Acoustics
 Agricultural Economics & Policy
 Agricultural Engineering
 Agriculture, Dairy & Animal Science
