@@ -194,7 +194,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
     LOAD CSV WITH HEADERS FROM "file:///wos_csv_files/authorKeywords_vs_articles.csv" AS eachRow
     MATCH (article:Article), (authorKeyword:AuthorKeyword)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // wosArticleUri must be indexed 
-          authorKeyword.authorKeyword = eachRow.authorKeyword  // authorKeyword.authorKeyword must be indexed
+          authorKeyword.authorKeyword = eachRow.authorKeyword  // AuthorKeyword.authorKeyword must be indexed
     CREATE (article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword)
 ```
 <br>
@@ -279,10 +279,35 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 <br>
 
-#### 13. AUTHOR-TOPIC RELATIONSHIPS
+#### 13. WEB OF SCIENCE CATEGORIES
 
 
-##### 13.1. Connect authors with annotations
+##### 13.1. Import 'wosCategories'
+```cypher
+    LOAD CSV WITH HEADERS FROM "http://clokman.com/hosting/kfir/wos_csvs/WOS_CATEGORIES_v2.csv" AS eachRow
+    CREATE (n:WosCategory {wosCategory:eachRow.wosCategory})
+```
+
+
+##### 13.2. Index 'wosCategories'
+```cypher
+CREATE INDEX ON :WosCategory(wosCategory)
+```
+
+##### 13.3. Connect 'wosCategories' with articles
+```cypher
+    LOAD CSV WITH HEADERS FROM "http://clokman.com/hosting/kfir/wos_csvs/wos_categories_vs_articles_v2.csv" AS eachRow
+    MATCH (article:Article), (wosCategory:WosCategory)
+    WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // wosArticleUri must be indexed 
+    wosCategory.wosCategory = eachRow.wosCategory  // WosCategory.wosCategory must be indexed
+    CREATE (article)-[:HAS_WOS_CATEGORY]->(wosCategory)
+```
+<br>
+
+#### 14. AUTHOR-TOPIC RELATIONSHIPS
+
+
+##### 14.1. Connect authors with annotations
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation) WHERE NOT (author)-[:HAS_RESEARCHED]->(annotation) RETURN author, annotation",
@@ -293,7 +318,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 
 
-##### 13.2. Connect authors with keywords plus
+##### 14.2. Connect authors with keywords plus
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus) WHERE NOT (author)-[:HAS_RESEARCHED]->(keywordPlus) RETURN author, keywordPlus",
@@ -304,7 +329,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 
 
-##### 13.3. Connect authors with author keywords
+##### 14.3. Connect authors with author keywords
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword) WHERE NOT (author)-[:HAS_RESEARCHED]->(authorKeyword) RETURN author, authorKeyword",
@@ -315,7 +340,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 
 
-##### 13.4. Connect authors with subject categories
+##### 14.4. Connect authors with subject categories
 ```cypher
     CALL apoc.periodic.iterate(
         "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory) WHERE NOT (author)-[:HAS_RESEARCHED]->(subjectCategory) RETURN author, subjectCategory",
@@ -326,31 +351,31 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 ```
 <br>
 
-#### 14. JOURNAL-TOPIC RELATIONSHIPS
+#### 15. JOURNAL-TOPIC RELATIONSHIPS
 
 
-##### 14.1. Connect journals with annotations
+##### 15.1. Connect journals with annotations
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation)
     MERGE (journal)-[:IS_ABOUT]->(annotation)
 ```
 
 
-##### 14.2. Connect journals with keywords plus
+##### 15.2. Connect journals with keywords plus
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus)
     MERGE (journal)-[:IS_ABOUT]->(keywordPlus)
 ```
 
 
-##### 14.3. Connect journals with author keywords
+##### 15.3. Connect journals with author keywords
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword)
     MERGE (journal)-[:IS_ABOUT]->(authorKeyword)
 ```
 
 
-##### 14.4. Connect journals with subject categories
+##### 15.4. Connect journals with subject categories
 ```cypher
     MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory)
     MERGE (journal)-[:IS_ABOUT]->(subjectCategory)
