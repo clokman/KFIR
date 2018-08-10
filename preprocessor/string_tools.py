@@ -375,6 +375,15 @@ class String(str):
         Cleans head and tail of a String object from the specified patterns. This operation is simple, but it may not
         be efficient when used for parsing large datasets.
 
+        Notes:
+            The keyword argument for location 'both', proceeds ONLY if the pattern exists at both head and tail.
+            If the pattern exists only at the head or only at the tail, and the 'both' is specified as location,
+            then the method would not do anything. If this is not desired, see clean_head_and_tail_iteratively_from_characters
+            for an alternative behavior.
+
+        See Also:
+            string_tools.clean_head_and_tail_iteratively_from_characters()
+
         Args:
             patterns_to_remove(list): A list that lists the patterns to be cleaned from the begining and end of the
                 input string. For instance, if '||' and '--' should be cleaned, the parameter should take the value: ['||', '--']
@@ -448,6 +457,9 @@ class String(str):
         Cleans head and tail of a String object from the specified characters.This operation is simple, but it may not
         be efficient when this method is used for parsing large datasets.
 
+        See Also:
+            string_tools.clean_head_and_tail_from_patterns()
+
         Args:
             characters_to_remove(str): A string that lists the characters to be cleaned from the begining and end of the
                 input string. For instance, if ',' and ';' should be cleaned, the parameter should take the value ',;'
@@ -470,14 +482,30 @@ class String(str):
         >>> my_string.clean_head_and_tail_iteratively_from_characters('- ')
         'my string'
 
-        >>> # an empy line as input
+        >>> # an empty string as input
         >>> my_string = String('')
         >>> my_string.clean_head_and_tail_iteratively_from_characters('- ')
         ''
 
-        >>> # a one-character line as input
+        >>> # a string input that is exactly the same with the pattern to be removed
+        >>> my_string = String('-')
+        >>> my_string.clean_head_and_tail_iteratively_from_characters('-')
+        ''
+
+        >>> # a one-character string as input
         >>> my_string = String('a')
         >>> my_string.clean_head_and_tail_iteratively_from_characters('- ')
+        'a'
+
+        >>> # a string with spaces as input
+        >>> my_string_a = String('a ')
+        >>> my_string_b = String(' a')
+        >>> my_string_c = String(' a ')
+        >>> my_string_a.clean_head_and_tail_iteratively_from_characters(' ')
+        'a'
+        >>> my_string_b.clean_head_and_tail_iteratively_from_characters(' ')
+        'a'
+        >>> my_string_c.clean_head_and_tail_iteratively_from_characters(' ')
         'a'
 
         # >>> # a line with newline characters in the end
@@ -505,7 +533,7 @@ class String(str):
         target_index = []
 
         # set internal variables
-        # values should be in list format becase they will be iterated
+        # values should be in list format because they will be iterated
         if location == 'ends':  # both 'head' and 'tail'
             target_index = [0, -1]  # first and last character
             slice_positions = [slice(1, None), slice(None, -1)]  # equivalent of [1:] and [:-1]
@@ -518,9 +546,19 @@ class String(str):
         else:
             raise ValueError('Invalid keyword argument for "location" parameter: "%s"' % location)
 
+        entire_string_is_made_up_of_character_to_remove = False  # necessary for protection from index errors if the
+                                                                  # input string only consists of characters to remove
+                                                                  # (e.g., a string that is wrongly parsed as only ';')
         for each_target_index, each_slice_position_couple in zip(target_index, slice_positions):
             while string[each_target_index] in characters_to_remove:
-                string = string[each_slice_position_couple]
+                if string in characters_to_remove:
+                    entire_string_is_made_up_of_character_to_remove = True
+                    break
+                else:
+                    string = string[each_slice_position_couple]
+
+        if entire_string_is_made_up_of_character_to_remove:
+            string = ''
 
         self.content = string
         return self

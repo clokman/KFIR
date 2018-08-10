@@ -962,32 +962,40 @@ class WebOfScienceQuery(Gastrodon_Query):
     def tokenize_preprocess_and_update_string_literals(self,
                                                        target_property_uri,
                                                        new_property_uri='same as target',
+
                                                        uri_of_source_graph='wosGraph:',
                                                        uri_of_graph_to_write_the_output='kfirGraph:',
-                                                       query_overall_size=0,
-                                                       #query_overall_offset=0,
-                                                       query_batch_size=10,
-                                                       delimiter_pattern_in_literal_cells='; ',
+
+                                                       delimiter_pattern_in_literal_cells=';',
+
                                                        purify_string_literals=False,
+
                                                        defragment_string_literals_using_list=[],
                                                        fragmentation_signalling_character='&',
-                                                       fragmentation_signalling_character_index=-1,
-                                                       #show_progress=False
+
+                                                       query_overall_size=0,
+                                                       query_batch_size=10
     ):
         """
+        Retrieves the specified string data from the specified graph in batches, tokenized and preprocesses the
+        strings in the retrieved batches, and uploads —also in batches— the changed data to a new (or the same)
+        graph with a different (or the same) property name.
+
         Args:
             target_property_uri(str): The uri of the property that points to literals of interest
-            uri_of_source_graph(str):
+            new_property_uri(str): The uri that will be used as a new property. Replaces target_property_uri in the
+                data that will be outputted
+            uri_of_source_graph(str)
             uri_of_graph_to_write_the_output(str): Can be the same or different from the original graph.
-            new_property_uri(str):
-            delimiter_pattern_in_literal_cells(str):
-            query_size(int): Works as a global LIMIT keyword put on the query. '0' means maximum possible. The maximum
+            delimiter_pattern_in_literal_cells(str)
+            purify_string_literals(bool)
+            defragment_string_literals_using_list(list)
+            fragmentation_signalling_character(str)
+            query_overall_size(int): Works as a global LIMIT keyword put on the query. '0' means maximum possible. The maximum
                 possible value is automatically calculated.
-            batch_size(int): The number of retrieved results from the triple store to be processed per iteration
+            query_batch_size(int): The number of retrieved results from the triple store to be processed per iteration
                 (i.e., in each purification-update cycle). Works as a local LIMIT keyword for each iteration of the
                 loop.
-            new_property_uri(str): Used for renaming the target_property_uri in the new graph
-            show_progress(bool): Shows progress bar during operation
 
         Returns:
             nothing
@@ -1016,6 +1024,18 @@ class WebOfScienceQuery(Gastrodon_Query):
             Empty DataFrame
             Columns: [s, p, o]
             Index: []
+
+            >>> # Import the full list of Web of Science categories
+            >>> from preprocessor.string_tools import String
+            >>> list_of_wos_categories = []
+            >>>
+            >>> with open('..//ontologies//wos_categories//complete_list_of_wos_categories.txt') as wos_categories_file:
+            ...     for each_line in wos_categories_file:
+            ...         each_line = String(each_line)
+            ...         each_line = each_line.clean_from_newline_characters()
+            ...         list_of_wos_categories.append(each_line.content)
+            >>> print(list_of_wos_categories[145:150])
+            ['Mathematical & Computational Biology', 'Mathematics', 'Mathematics, Applied', 'Mathematics, Interdisciplinary Applications', 'Mechanics']
             >>> #=======================================================================================================
 
 
@@ -1184,18 +1204,6 @@ class WebOfScienceQuery(Gastrodon_Query):
             1  wosres:WOS_000080363400002  wos:fragmented_WC                   Computational Biology; Statistics & Probability
             2  wosres:WOS_000080363400002  wos:fragmented_WC  Computer Science, Interdisciplinary Applications; Mathematical &
 
-            >>> from preprocessor.string_tools import String
-            >>> list_of_wos_categories = []
-            >>>
-            >>> with open('..//ontologies//complete_list_of_wos_categories.txt') as wos_categories_file:
-            ...     for each_line in wos_categories_file:
-            ...         each_line = String(each_line)
-            ...         each_line = each_line.clean_from_newline_characters()
-            ...         list_of_wos_categories.append(each_line.content)
-            >>> print(list_of_wos_categories[145:150])
-            ['Mathematical & Computational Biology', 'Mathematics', 'Mathematics, Applied', 'Mathematics, Interdisciplinary Applications', 'Mechanics']
-
-
             >>> # Use the method to tokenize, defragment, and upload the results as new data
             >>> eculture_query.tokenize_preprocess_and_update_string_literals(
             ...                                                        target_property_uri='wos:fragmented_WC',
@@ -1218,12 +1226,107 @@ class WebOfScienceQuery(Gastrodon_Query):
             4  wosres:WOS_000080363400002      kfir:fixed_WC                                          Statistics & Probability
             5  wosres:WOS_000080363400002      kfir:fixed_WC                  Computer Science, Interdisciplinary Applications
             >>> #=======================================================================================================
+
+
+            >>> # DEAL WITH PROBLEMATIC DATA ===========================================================================
+            >>> # Clean doctest graph and confirm cleaning
+            >>> eculture_query.send_update_query('CLEAR GRAPH docTestsGraph:')
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
+            Empty DataFrame
+            Columns: [s, p, o]
+            Index: []
+
+            >>> # Add problematic data (i.e., delimiters and fragmentation_signalling_characters at string heads and
+            >>> # tails randomly)
+            >>> eculture_query.send_update_query('''
+            ...     INSERT DATA {
+            ...            GRAPH docTestsGraph: {
+            ...                wosres:WOS_000080363400002 a wos:Article;
+            ...                                           wos:hasBadLiteral "Computational Biology; Statistics & Probability",
+            ...                                                             "Computer Science, Interdisciplinary Applications; Mathematical &",
+            ...                                                             "Biochemical Research Methods; Biotechnology & Applied Microbiology;" .
+            ...                wosres:WOS_000070998900007 a wos:Article;
+            ...                                           wos:hasBadLiteral "DIC; Nomarski; interference; microscopy; CCD; image processing;",
+            ...                                                             "analysis; reconstruction; optical pathlength; phase; transparent; living" .
+            ...                wosres:WOS_000071178700002 a wos:Article;
+            ...                                           wos:hasBadLiteral "weight loss amenorrhea; hypogonadotropic hypogonadism",
+            ...                                                             "lactational amenorrhea; oral contraceptives; puberty; malnutrition;",
+            ...                                                             "twinning; twin research; Follicle Stimulating Hormone; lactation;" .
+            ...                wosres:WOS_000084951600005  a wos:Article;
+            ...                                           wos:hasBadLiteral "& Internal",
+            ...                                                             "Health Care Sciences & Services; Primary Health Care; Medicine, General".
+            ...            }
+            ... }''')
+            >>> eculture_query.send_select_query('SELECT ?s ?o {GRAPH docTestsGraph: {?s ?p ?o}}')
+                                         s                                                                         o
+            0   wosres:WOS_000070998900007                                                               wos:Article
+            1   wosres:WOS_000071178700002                                                               wos:Article
+            2   wosres:WOS_000080363400002                                                               wos:Article
+            3   wosres:WOS_000084951600005                                                               wos:Article
+            4   wosres:WOS_000070998900007           DIC; Nomarski; interference; microscopy; CCD; image processing;
+            5   wosres:WOS_000070998900007  analysis; reconstruction; optical pathlength; phase; transparent; living
+            6   wosres:WOS_000071178700002                     weight loss amenorrhea; hypogonadotropic hypogonadism
+            7   wosres:WOS_000071178700002       lactational amenorrhea; oral contraceptives; puberty; malnutrition;
+            8   wosres:WOS_000071178700002         twinning; twin research; Follicle Stimulating Hormone; lactation;
+            9   wosres:WOS_000080363400002       Biochemical Research Methods; Biotechnology & Applied Microbiology;
+            10  wosres:WOS_000080363400002                           Computational Biology; Statistics & Probability
+            11  wosres:WOS_000080363400002          Computer Science, Interdisciplinary Applications; Mathematical &
+            12  wosres:WOS_000084951600005                                                                & Internal
+            13  wosres:WOS_000084951600005   Health Care Sciences & Services; Primary Health Care; Medicine, General
+
+            >>> eculture_query.tokenize_preprocess_and_update_string_literals(target_property_uri='wos:hasBadLiteral',
+            ...                                                               new_property_uri='kfir:hasPreprocessedLiteral',
+            ...
+            ...                                                               uri_of_source_graph='docTestsGraph:',
+            ...                                                               uri_of_graph_to_write_the_output='docTestsGraph:',
+            ...
+            ...                                                               delimiter_pattern_in_literal_cells='; ',
+            ...
+            ...                                                               defragment_string_literals_using_list=list_of_wos_categories,
+            ...                                                               fragmentation_signalling_character='&',
+            ...
+            ...                                                               query_overall_size=20,
+            ...                                                               query_batch_size=20)
+            Operation completed without errors.
+
+            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?articleID kfir:hasPreprocessedLiteral ?preprocessedLiteral}}')
+                                 articleID                               preprocessedLiteral
+            0   wosres:WOS_000070998900007                                               CCD
+            1   wosres:WOS_000070998900007                                  image processing
+            2   wosres:WOS_000070998900007                                        microscopy
+            3   wosres:WOS_000071178700002                                      malnutrition
+            4   wosres:WOS_000071178700002                                         lactation
+            5   wosres:WOS_000071178700002                                           puberty
+            6   wosres:WOS_000071178700002                     hypogonadotropic hypogonadism
+            7   wosres:WOS_000071178700002                      Follicle Stimulating Hormone
+            8   wosres:WOS_000071178700002                            lactational amenorrhea
+            9   wosres:WOS_000084951600005                               Primary Health Care
+            10  wosres:WOS_000080363400002                      Biochemical Research Methods
+            11  wosres:WOS_000080363400002              Biotechnology & Applied Microbiology
+            12  wosres:WOS_000084951600005                   Health Care Sciences & Services
+            13  wosres:WOS_000080363400002              Mathematical & Computational Biology
+            14  wosres:WOS_000084951600005                      Medicine, General & Internal
+            15  wosres:WOS_000080363400002                          Statistics & Probability
+            16  wosres:WOS_000080363400002  Computer Science, Interdisciplinary Applications
+            17  wosres:WOS_000070998900007                                          analysis
+            18  wosres:WOS_000070998900007                                            living
+            19  wosres:WOS_000070998900007                                    reconstruction
+            20  wosres:WOS_000070998900007                                             phase
+            21  wosres:WOS_000070998900007                                      interference
+            22  wosres:WOS_000070998900007                                optical pathlength
+            23  wosres:WOS_000070998900007                                       transparent
+            24  wosres:WOS_000071178700002                                          twinning
+            25  wosres:WOS_000071178700002                                     twin research
+            26  wosres:WOS_000070998900007                                               DIC
+            27  wosres:WOS_000070998900007                                          Nomarski
+            28  wosres:WOS_000071178700002                               oral contraceptives
+            29  wosres:WOS_000071178700002                            weight loss amenorrhea
+
         """
+        # TODO: Both option shoul be removed from positions, and a parameter check should be implemented for head and tail keyword arguments.
         from retriever.sparql_tools import Sparql_Parameter
         from preprocessor.dataframe_tools import Data_Frame
         from tqdm import trange
-        from meta.consoleOutput import ConsoleOutput
-        # console = ConsoleOutput()
         error_log = []
 
         # make sure that any graph prefixes used as parameter values are recognized
@@ -1244,9 +1347,6 @@ class WebOfScienceQuery(Gastrodon_Query):
             # the main loop of the method.
             # trange() is equivalent to range(), but is for visualizing progress via a progress bar in console
             for current_offset in trange(0, query_overall_size, query_batch_size, desc=progress_bar_message, ncols=115):
-                # if show_progress:
-                #     console.print_current_progress(current_progress=current_offset, maximum_progress=query_volume,
-                #                                    status_message='Processing strings and updating specified graph')
 
                 # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
                 ids_vs_target_objects = self.retrieve_subjects_and_objects_of_property(target_property_uri, graph=uri_of_source_graph,
@@ -1254,6 +1354,12 @@ class WebOfScienceQuery(Gastrodon_Query):
                                                                                        desired_column_name_for_identifier='wosArticleUri',
                                                                                        limit=query_batch_size,
                                                                                        offset=current_offset)
+                # If this functionality is ever required, this block should be added with an if statement
+                # # Clean the string literals column from unwanted characters
+                # ids_vs_target_objects = Data_Frame(ids_vs_target_objects)  # this is not 'pandas.DataFrame' class
+                # ids_vs_target_objects.clean_heads_and_tails_of_cells_in_column_from_patterns(target_column_name='targetLiteral',
+                #                              patterns_to_remove=list_of_patterns_to_clean_from_literal_heads_and_tails,
+                #                              location=position_to_seek_patterns_to_clean)
 
                 # Because the retrieved keywords are in a semicolon-separated list, they need to be tokenized:
                 ids_vs_target_objects = Data_Frame(ids_vs_target_objects)  # this is not 'pandas.DataFrame' class
@@ -1266,7 +1372,7 @@ class WebOfScienceQuery(Gastrodon_Query):
                 if purify_string_literals:
                     ids_vs_target_objects.purify_column(target_column_name='targetLiteral')
 
-                # Collapse the keywords onto article uris as lists
+                # Collapse the string literals onto article uris as lists
                 ids_vs_target_objects = ids_vs_target_objects.collapse_dataframe_on_column(values_column_name='targetLiteral',
                                                                                identifier_column_name='wosArticleUri')
 
@@ -1276,8 +1382,7 @@ class WebOfScienceQuery(Gastrodon_Query):
                     ids_vs_target_objects.combine_items_within_each_row_if_combination_exists_in_external_list(
                                         target_column_name='targetLiteral',
                                         external_list_to_compare_with=checklist,
-                                        fragmentation_signalling_character=fragmentation_signalling_character,
-                                        fragmentation_signalling_character_index=fragmentation_signalling_character_index)
+                                        fragmentation_signalling_character=fragmentation_signalling_character)
 
                 # Extract the string literals column
                 target_literal_column = ids_vs_target_objects.dataframe['targetLiteral']
@@ -1289,7 +1394,6 @@ class WebOfScienceQuery(Gastrodon_Query):
 
                 # Replace the string literals column of the dataframe with the parameterized version
                 ids_vs_target_objects.dataframe['targetLiteral'] = parameterized_literals.series
-                ids_vs_target_objects.dataframe
 
                 # Update the database
                 for index, each_row in ids_vs_target_objects.dataframe.iterrows():
@@ -1310,193 +1414,33 @@ class WebOfScienceQuery(Gastrodon_Query):
                         )
                     except Exception as error_message:
 
-                        log_message="Error caught at offset {current_offset} while trying to send an update query to the server"\
+                        log_message="Error caught at offset {current_offset} while trying to send an update query to the server "\
                             "to upload this preprocessed dataframe:\n "\
                             "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'" \
-                                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects.dataframe,
                                         error_message=str(error_message))
 
-                        error_log.append(error_message)
-                        print(error_message)
+                        error_log.append(log_message)
+                        print('Error caught. So far, %d error(s) have been logged.' % len(error_log))
 
         except Exception as error_message:
             log_message="Error caught at offset {current_offset} while trying to process this dataframe:\n " \
             "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'"\
-                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
+                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects.dataframe,
                         error_message=str(error_message))
 
-            error_log.append(error_message)
-            print(error_message)
+            error_log.append(log_message)
+            print('Error caught. So far, %d error(s) have been logged.' % len(error_log))
 
         # Error logging
         if error_log != []:
             print('Operation completed.')
-            print('These %d errors were logged during the operation:') % len(error_log)
+            print('These %d errors were logged during the operation:' % len(error_log))
             for each_item in error_log:
                 print(each_item, '\n')
         else:
             print('Operation completed without errors.')
 
-
-    def clean_heads_and_tails_of_string_literals_from_patterns(self, target_property_uri,
-                                            list_of_patterns_to_clean,
-                                            patterns_position,
-                                            new_property_uri='same as target',
-                                            uri_of_source_graph='wosGraph:',
-                                            uri_of_graph_to_write_the_output='kfirGraph:',
-                                            query_overall_size=0,
-                                            query_batch_size=100):
-        """
-
-        Args:
-            target_property_uri:
-            list_of_patterns_to_clean:
-            patterns_position:
-            new_property_uri:
-            uri_of_source_graph:
-            uri_of_graph_to_write_the_output:
-            query_overall_size:
-            query_batch_size:
-
-        Returns:
-
-        Examples:
-            >>> # INIT =================================================================================================
-            >>> # Import endpoint address from private file
-            >>> from preprocessor.Text_File import Text_File
-            >>> eculture_endpoint_url_file = Text_File('..//private//eculture_virtuoso_endpoint_address')
-            >>> eculture_endpoint_url = eculture_endpoint_url_file.return_content()
-
-            >>> # Initiate instance
-            >>> eculture_query = WebOfScienceQuery()
-
-            >>> # Set query parameters and clear docTestsGraph
-            >>> eculture_query.set_endpoint(eculture_endpoint_url)\
-                              .send_update_query('CLEAR GRAPH docTestsGraph:')
-
-            >>> # Confirm that the doctest graph is empty
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}} LIMIT 2')
-            Empty DataFrame
-            Columns: [s, p, o]
-            Index: []
-            >>> #=======================================================================================================
-
-
-            >>> # CLEAN TAILS FROM PATTERN =============================================================================
-            >>> eculture_query.send_update_query('''
-            ...     INSERT DATA {
-            ...            GRAPH docTestsGraph: {
-            ...                wosres:WOS_000080363400002 a wos:Article;
-            ...                                           wos:fragmented_WC "Computational Biology; Statistics & Probability",
-            ...                                                             "Computer Science, Interdisciplinary Applications; Mathematical &",
-            ...                                                             "Biochemical Research Methods; Biotechnology & Applied Microbiology;"
-            ...            }
-            ... }''')
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
-                                        s                  p                                                                    o
-            0  wosres:WOS_000080363400002           rdf:type                                                          wos:Article
-            1  wosres:WOS_000080363400002  wos:fragmented_WC  Biochemical Research Methods; Biotechnology & Applied Microbiology;
-            2  wosres:WOS_000080363400002  wos:fragmented_WC                      Computational Biology; Statistics & Probability
-            3  wosres:WOS_000080363400002  wos:fragmented_WC     Computer Science, Interdisciplinary Applications; Mathematical &
-
-            >>> eculture_query.clean_heads_and_tails_of_string_literals_from_patterns(target_property_uri='wos:fragmented_WC',
-            ...                                                                       list_of_patterns_to_clean=[';'],
-            ...                                                                       patterns_position='tail',
-            ...                                                                       new_property_uri='kfir:hasCleanedWosCategory',
-            ...                                                                       uri_of_source_graph='docTestsGraph:',
-            ...                                                                       uri_of_graph_to_write_the_output='docTestsGraph:',
-            ...                                                                       query_overall_size=10,
-            ...                                                                       query_batch_size=10)
-
-            >>> eculture_query.send_select_query('SELECT * {GRAPH docTestsGraph: {?s ?p ?o}}')
-
-        """
-        from retriever.sparql_tools import Sparql_Parameter
-        from preprocessor.dataframe_tools import Data_Frame
-        from tqdm import trange
-        from meta.consoleOutput import ConsoleOutput
-
-        error_log = []
-
-        # make sure that any graph prefixes used as parameter values are recognized
-        self._force_recognition_if_graph_prefix(uri_of_source_graph)
-        self._force_recognition_if_graph_prefix(uri_of_graph_to_write_the_output)
-
-        # if no new_property_uri is specified, use the uri of the target property
-        if new_property_uri == 'same as target':
-            new_property_uri = target_property_uri
-
-        # if query size is zero, assign maximum possible size to it
-        if query_overall_size == 0:
-            query_overall_size = self.count_number_of_instances_of_property(target_property_uri)
-
-        progress_bar_message = 'Removing semicolons from the end of "%s" literals' % target_property_uri
-
-        try:
-            # the main loop of the method.
-            # trange() is equivalent to range(), but is for visualizing progress via a progress bar in console
-            for current_offset in trange(0, query_overall_size, query_batch_size, desc=progress_bar_message, ncols=115):
-
-                # Retrieve a subset of the dataset that contains the article ids and associated objects (e.g., keywords)
-                ids_vs_target_objects = self.retrieve_subjects_and_objects_of_property(target_property_uri,
-                                                                                       graph=uri_of_source_graph,
-                                                                                       desired_column_name_for_literal='targetLiteral',
-                                                                                       desired_column_name_for_identifier='wosArticleUri',
-                                                                                       limit=query_batch_size,
-                                                                                       offset=current_offset)
-                # TODO: This method is not seen by Python interpreter as a method of Data_Frame. It needs to be seen why, and then parameters should be written.
-                ids_vs_target_objects.clean_heads_and_tails_of_cells_in_column_from_patterns()
-
-            # Extract the string literals column
-            target_literal_column = ids_vs_target_objects.dataframe['targetLiteral']
-
-            # Convert lists on each cell of target literals column to parameter strings (to be used in VALUES
-            # keyword of SPARQL)
-            parameterized_literals = Sparql_Parameter.Values_Parameter_Series()
-            parameterized_literals.import_and_convert_pandas_series(target_literal_column)
-
-            # Replace the string literals column of the dataframe with the parameterized version
-            ids_vs_target_objects.dataframe['targetLiteral'] = parameterized_literals.series
-            ids_vs_target_objects.dataframe
-
-            # Update the database
-            for index, each_row in ids_vs_target_objects.dataframe.iterrows():
-                each_article_id = each_row.values[0]
-                each_parameter_string = each_row.values[1]
-                try:
-                    self.send_update_query(
-                        """
-                        INSERT {
-                            GRAPH %s {
-                                %s %s ?keyword
-                            }
-                        }
-                        WHERE{
-                            VALUES ?keyword {%s}
-                        }
-                        """ % (
-                        uri_of_graph_to_write_the_output, each_article_id, new_property_uri, each_parameter_string)
-                    )
-                except Exception as error_message:
-
-                    log_message = "Error caught at offset {current_offset} while trying to send an update query to the server" \
-                                  "to upload this preprocessed dataframe:\n " \
-                                  "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'" \
-                        .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
-                                error_message=str(error_message))
-
-                    error_log.append(error_message)
-                    print(error_message)
-
-
-        except Exception as error_message:
-            log_message="Error caught at offset {current_offset} while trying to process this dataframe:\n " \
-            "{ids_vs_target_objects}\n\n. The error message was: \n '{error_message}'"\
-                .format(current_offset=current_offset, ids_vs_target_objects=ids_vs_target_objects,
-                        error_message=str(error_message))
-
-            error_log.append(error_message)
-            print(error_message)
 
     def retrieve_subjects_and_objects_of_property(self, property,
                                                   graph='wosGraph:',

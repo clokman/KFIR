@@ -102,34 +102,88 @@ class List(list):
 
 
     def combine_items_if_their_combination_exists_in_external_list(self,
-                                                                   fragmentation_signalling_character,
-                                                                   fragmentation_signalling_character_index,
-                                                                   external_list_to_compare_with):
+                                                                   fragmentation_signalling_character_at_either_end,
+                                                                   external_list_to_compare_with,
+                                                                   leave_erroneous_characters_in_place=False):
         """"
+        Reconstructs fragments of of a string that is distributed to multiple elements by detecting the fragmentation
+        using the fragmentation_signalling_character parameter.
+
+        Args:
+            fragmentation_signalling_character_at_either_end (str): Character to be used for detecting fragmentation at
+                either end of the strings.
+            external_list_to_compare_with (list)
+            leave_erroneous_characters_in_place (bool): Includes in the output characters in the input dataset
+                such as '' and '&' (i.e., the fragmentation_signalling_character itself). See 'Notes' for more.
+                May cause errors if set to True.
+
+        Notes:
+            WARNING: This method may change the index positions of the original list due to reconstruction and
+                removing of erroneous characters.
+
+            Items that could cause errors, such as '' (causes index error) and '&' (the whole string is equal to the
+                fragmentation_signalling_character) is removed. Characters such as ';' is purposefully not removed;
+                such deeper cleaning functions is not in the scope of this method.
+
+        See Also:
+            dataframe_tools.combine_items_if_their_combination_exists_in_external_list()
+
+        Returns:
+            list_tools.List (as 'self')
 
         Examples:
-            >>> #=== INIT ==============================================================================================
+            >>> from pprint import pprint
+
+            >>> #===== INIT =============================================================================================
             >>> # Sample list of possible values:
-            >>> wos_categories_list = ['Mathematical & Computational Biology', 'Architecture', 'Statistics & Probability']
+            >>> wos_categories_list = ['Mathematical & Computational Biology', 'Architecture',
+            ...                        'Statistics & Probability', 'Medicine, General & Internal']
 
             >>> # List to be processed:
             >>> # Note that 'Mathematical &' and 'Computational Biology' are one item divided in two.
-            >>> my_list = ["Biochemical Research Methods", "Biotechnology & Applied Microbiology",
-            ...             "Computational Biology", "Statistics & Probability",
-            ...             "Computer Science", "Interdisciplinary Applications", "Mathematical &"]
+            >>> my_list = ["Biochemical Research Methods",
+            ...             "Biotechnology & Applied Microbiology",
+            ...             "Computational Biology",
+            ...             "Statistics & Probability",
+            ...             "Computer Science",
+            ...             "Interdisciplinary Applications",
+            ...             "Mathematical &",
+            ...             "& Internal",
+            ...             "Health Care Sciences & Services",
+            ...             "Primary Health Care",
+            ...             "Medicine, General",
+            ...             "",
+            ...             " ",
+            ...             "&",
+            ...             ";"
+            ... ]
             >>> #=======================================================================================================
 
-            >>> # === RECONSTRUCTION OF A SEPARATED ITEM ===============================================================
+
+            >>> #===== RECONSTRUCTION OF A SEPARATED ITEMS (AND PROCESSING OF PROBLEMATIC ITEMS) =======================
             >>> my_List = List(my_list)
-            >>> my_List.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
-                                                                            fragmentation_signalling_character_index=-1,\
+            >>> my_List.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character_at_either_end="&", \
                                                                             external_list_to_compare_with=wos_categories_list)
-            >>> my_List.content  # Note that 'Mathematical & Computational Biology' is a constructed item.
-            ['Biochemical Research Methods', 'Biotechnology & Applied Microbiology', 'Statistics & Probability', 'Computer Science', 'Interdisciplinary Applications', 'Mathematical & Computational Biology']
+            >>> pprint(my_List.content)  # Note that 'Mathematical & Computational Biology' and
+            ...                          # 'Medicine, General & Internal' are constructed items.
+            ['Biochemical Research Methods',
+             'Biotechnology & Applied Microbiology',
+             'Statistics & Probability',
+             'Computer Science',
+             'Interdisciplinary Applications',
+             'Health Care Sciences & Services',
+             'Primary Health Care',
+             ' ',
+             ';',
+             'Medicine, General & Internal',
+             'Mathematical & Computational Biology']
+            >>> # ';' character is purposefully not removed; such deeper cleaning functions is not in the scope of
+            >>> # this method. However, items that could cause errors, such as '' (causes index error) and '&' (the
+            >>> # whole string is equal to the fragmentation_signalling_character) is removed.
             >>> #=======================================================================================================
 
 
-            >>> # === COMPETING CANDIDATE TAILS ========================================================================
+            >>> #===== COMPETING CANDIDATE TAILS =======================================================================
             >>> # Init
             >>> wos_categories_list_2 = ['Mathematical & Computational Biology', 'Mathematical & Computational Chemistry']
             >>> my_list_2 = ["Biochemical Research Methods", "Biotechnology & Applied Microbiology",
@@ -137,8 +191,7 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical &"]
             >>> my_List_2 = List(my_list_2)
 
-            >>> my_List_2.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
-                                                                       fragmentation_signalling_character_index=-1,\
+            >>> my_List_2.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character_at_either_end="&", \
                                                                        external_list_to_compare_with=wos_categories_list_2)
             WARNING: Automatic string reconstruction for the root string 'Mathematical &' skipped due more than one candidate existing for the tail part. These were the candidates: (2 items):
             Mathematical & Computational Biology
@@ -150,7 +203,7 @@ class List(list):
             >>> #=======================================================================================================
 
 
-            >>> # === NO MATCH FOUND IN COMPARISON LIST ================================================================
+            >>> #===== NO MATCH FOUND IN COMPARISON LIST ===============================================================
             >>> # Init
             >>> wos_categories_list_3 = ['Geography', 'Physics']
             >>> my_list_3 = ["Biochemical Research Methods", "Biotechnology & Applied Microbiology",
@@ -158,8 +211,7 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical &"]
             >>> my_List_3 = List(my_list_3)
 
-            >>> my_List_3.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
-                                                                        fragmentation_signalling_character_index=-1,\
+            >>> my_List_3.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character_at_either_end="&", \
                                                                         external_list_to_compare_with=wos_categories_list_3)
 
             >>> # Note that no item is constructed in this scenario.
@@ -168,7 +220,7 @@ class List(list):
             >>> #=======================================================================================================
 
 
-            >>> # === NO SIGNALLING PATTERN FOUND IN TARGET LIST =======================================================
+            >>> #===== NO SIGNALLING PATTERN FOUND IN TARGET LIST ======================================================
             >>> # Init
             >>> wos_categories_list_4 = ['Geography', 'Physics']
             >>> my_list_4 = ["Biochemical Research Methods", "Biotechnology & Applied Microbiology",
@@ -176,63 +228,117 @@ class List(list):
             ...            "Computer Science", "Interdisciplinary Applications", "Mathematical"]
             >>> my_List_4 = List(my_list_4)
 
-            >>> my_List_4.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character="&", \
-                                                                         fragmentation_signalling_character_index=-1,\
+            >>> my_List_4.combine_items_if_their_combination_exists_in_external_list(fragmentation_signalling_character_at_either_end="&", \
                                                                          external_list_to_compare_with=wos_categories_list_4)
 
-            # Note that no item is constructed in this scenario.
+            >>> # Note that no item is constructed in this scenario.
             >>> my_List_4.content
             ['Biochemical Research Methods', 'Biotechnology & Applied Microbiology', 'Computational Biology', 'Statistics & Probability', 'Computational Chemistry', 'Computer Science', 'Interdisciplinary Applications', 'Mathematical']
             >>> #=======================================================================================================
+
         """
         from meta.consoleOutput import ConsoleOutput
+        from warnings import warn
+
         console = ConsoleOutput(log_file_path='log.txt')
 
         input_list = self.content
-        for i, each_item in enumerate(input_list):
+
+        for k, each_item in reversed(list(enumerate(input_list))):
+
+            item_is_likely_result_of_an_error = False  # and will likely cause an (hidden) error
+            if len(each_item) < 1:
+                item_is_likely_result_of_an_error = True
+            if each_item == fragmentation_signalling_character_at_either_end:
+                item_is_likely_result_of_an_error = True
+
+            if item_is_likely_result_of_an_error:
+                input_list.pop(k)
+
+        # main loop of the method
+        for i, each_item in reversed(list(enumerate(input_list))):  # reversing the list is necessary for using the .pop
+                                                                    # method while iterating over the list
+
+            item_is_first_section_of_a_defragmented_entity = False
+            item_is_second_section_of_a_defragmented_entity = False
+
+            if fragmentation_signalling_character_at_either_end == each_item[-1]:
+                item_is_first_section_of_a_defragmented_entity = True
+
+            if fragmentation_signalling_character_at_either_end == each_item[0]:
+                item_is_second_section_of_a_defragmented_entity = True
+
 
             # if an item ends with the fragmentation_signalling_character
-            if fragmentation_signalling_character == each_item[fragmentation_signalling_character_index]:
+            if item_is_first_section_of_a_defragmented_entity or item_is_second_section_of_a_defragmented_entity:
 
-                root_string = input_list.pop(i)
+                fragmented_string_part = input_list.pop(i)
 
-                indices_of_possible_tail_strings = []
-                possible_tail_strings = []
-                for i, each_remaining_item in enumerate(input_list):
+                indices_of_possible_counterparts = []
+                possible_counterparts = []
+                for j, each_remaining_item in enumerate(input_list):
 
-                    each_possible_combination = root_string + ' ' + each_remaining_item
+                    if item_is_first_section_of_a_defragmented_entity:
+                        each_possible_combination = fragmented_string_part + ' ' + each_remaining_item
+
+                    elif item_is_second_section_of_a_defragmented_entity:
+                        each_possible_combination = each_remaining_item + ' ' + fragmented_string_part
+
+                    else:
+                        warn('Item "{item}" skipped due to being detected as both (or neither) the first and '
+                                      'second parts of a fragmented string.'.format(item=fragmented_string_part))
+
 
                     if each_possible_combination in external_list_to_compare_with:
 
-                        indices_of_possible_tail_strings.append(i)
-                        possible_tail_strings.append(each_possible_combination)  # not functionally used; is for logging
+                        indices_of_possible_counterparts.append(j)
+                        possible_counterparts.append(each_possible_combination)  # not functionally used; is for logging
 
-                # if there is more than candidate for the tail part, put the head part back to the list, but log this
-                if len(indices_of_possible_tail_strings) > 1:
+                # if there is more than candidate for the tail part, put the popped part back to the list, and log this
+                if len(indices_of_possible_counterparts) > 1:
 
-                    input_list.append(root_string)
+                    # put the fragmented string back
+                    input_list.append(fragmented_string_part)
 
                     console.log_list_with_caption("WARNING: Automatic string reconstruction for the root string "
-                                                  "'{root_string}' skipped due more than one candidate existing for the "
+                                                  "'{fragmented_string_part}' skipped due more than one candidate existing for the "
                                                   "tail part. These were the candidates:"
-                                                  .format(root_string=root_string),
-                                                  input_list=possible_tail_strings
+                                                  .format(fragmented_string_part=fragmented_string_part),
+                                                  input_list=possible_counterparts
                     )
 
-                # if there is only one candidate for the tail part, combine the root and tail and add this version
+                # if there is only one candidate for the tail part, combine the both parts and add this version
                 # to the list
-                elif len(indices_of_possible_tail_strings) == 1:
+                elif len(indices_of_possible_counterparts) == 1:
 
-                    index_of_part_two = indices_of_possible_tail_strings[0]
-                    string_part_two = input_list.pop(index_of_part_two)
+                    index_of_other_part = indices_of_possible_counterparts[0]
+                    other_part = input_list.pop(index_of_other_part)
 
-                    combined_string = root_string + ' ' + string_part_two
-                    input_list.append(combined_string)
+                    if item_is_first_section_of_a_defragmented_entity:
+                        combined_string = fragmented_string_part + ' ' + other_part
 
-                # if no possible match within the comparison list is found, put the root string back to the list
+                    elif item_is_second_section_of_a_defragmented_entity:
+                        combined_string = other_part + ' ' + fragmented_string_part
+
+                    else:
+                        combined_string = ''  # no combination occurs
+
+                        # put both parts back
+                        input_list.append(fragmented_string_part)
+                        input_list.append(other_part)
+
+                        warn('Item "{item}" skipped due to being detected as both (or neither) the first and '
+                                      'second parts of a fragmented string.'.format(item=fragmented_string_part))
+
+                    if combined_string:
+                        input_list.append(combined_string)
+
+                # if no possible match within the comparison list is found, put the fragmented string back to the list
                 else:
-                    input_list.append(root_string)
+                    input_list.append(fragmented_string_part)
 
             # if no item ends with '&', do nothing
             else:
                 pass
+
+            self.content = input_list

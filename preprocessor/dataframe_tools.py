@@ -1,8 +1,8 @@
 """
 Methods for performing additional operations on pandas.DataFrames
 """
-
 class Data_Frame(object):
+
 
     def __init__(self, pandas_dataframe):
         """
@@ -49,6 +49,7 @@ class Data_Frame(object):
         self._index = {}  # for storing indexes created with indexing methods of this class
                           # (e.g., '_index_values_column_with_identifiers_column()')
 
+
     def tokenize_string_column(self, delimiter_pattern_in_literal_cells, string_column_name, id_column_name=None):
         """
         Tokenizes string literals by assigning one splitted part (e.g., keyword) per row. The input dataframe must have
@@ -65,7 +66,7 @@ class Data_Frame(object):
         Examples:
             >>> import pandas
 
-            >>> # TOKENIZING A SINGLE-COLUMN DATAFRAME =================================================================
+            >>> #===== TOKENIZING A SINGLE-COLUMN DATAFRAME ============================================================
             >>> # Make a single-column dataframe:
             >>> df = pandas.DataFrame({'the only column': ('a; b', 'c; d; e')})
             >>> my_Data_Frame = Data_Frame(df)
@@ -84,10 +85,8 @@ class Data_Frame(object):
             2               c
             3               d
             4               e
-            >>> #=======================================================================================================
 
-
-            >>> # TOKENIZING A TWO-COLUMN DATAFRAME ====================================================================
+            >>> #===== TOKENIZING A TWO-COLUMN DATAFRAME ===============================================================
             >>> # Create a simple dataframe
             >>> my_dataframe = pandas.DataFrame({
             ...      'literal_column':['literal one; literal two', 'literal three; literal four'],
@@ -105,10 +104,71 @@ class Data_Frame(object):
             1      id 1    literal two
             2      id 2  literal three
             3      id 2   literal four
-            >>> #=======================================================================================================
 
 
-            >>> # A REAL WORLD TWO-COLUMN EXAMPLE ======================================================================
+            >>> #===== TOKENIZING WITH REMOVAL OF SPACES BEFORE/AFTER TOKENS ===========================================
+            >>> # Unwanted spaces occur when a single character (e.g., ',') is provided as delimiter instead of ('; ').
+
+            >>> # Create a simple dataframe
+            >>> my_dataframe = pandas.DataFrame({
+            ...      'literal_column':['literal one ; literal two', 'literal three; literal four '],
+            ...      'id_column': ['id 1', 'id 2']
+            ... })
+
+            >>> # Tokenize and view the dataframe
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.tokenize_string_column(string_column_name='literal_column',
+            ...                                                    id_column_name='id_column',
+            ...                                                    delimiter_pattern_in_literal_cells=';')\
+               .dataframe
+              id_column literal_column
+            0      id 1    literal one
+            1      id 1    literal two
+            2      id 2  literal three
+            3      id 2   literal four
+
+
+            >>> #===== TOKENIZING IN CASES WHERE DELIMITERS ARE AT HEAD AND TAIL =======================================
+            >>> # Create a simple dataframe
+            >>> my_dataframe = pandas.DataFrame({
+            ...      'literal_column':['tail issue a; tail issue b;', ';head issue a; head issue b', ';both issues a; both issues b;', 'no issues a; no issues b'],
+            ...      'id_column': ['id 1', 'id 2', 'id 3', 'id 4']
+            ... })
+
+            >>> # Tokenize and view the dataframe
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.tokenize_string_column(string_column_name='literal_column',
+            ...                                                    id_column_name='id_column',
+            ...                                                    delimiter_pattern_in_literal_cells='; ')\
+               .dataframe
+              id_column literal_column
+            0      id 1   tail issue a
+            1      id 1   tail issue b
+            2      id 2   head issue a
+            3      id 2   head issue b
+            4      id 3  both issues a
+            5      id 3  both issues b
+            6      id 4    no issues a
+            7      id 4    no issues b
+
+            >>> #===== TOKENIZING IN CASES WHERE DELIMITER(S) ARE THE ENTIRE STRING=====================================
+            >>> # Create a simple dataframe
+            >>> my_dataframe = pandas.DataFrame({
+            ...      'literal_column':[';;;', ';;', ';', '; ;', 'non-problematic a; non-problematic b'],
+            ...      'id_column': ['id 1', 'id 2', 'id 3', 'id 4', 'id 5']
+            ... })
+
+            >>> # Tokenize and view the dataframe
+            >>> my_Data_Frame = Data_Frame(my_dataframe)
+            >>> my_Data_Frame.tokenize_string_column(string_column_name='literal_column',
+            ...                                                    id_column_name='id_column',
+            ...                                                    delimiter_pattern_in_literal_cells='; ')\
+               .dataframe
+              id_column     literal_column
+            0      id 5  non-problematic a
+            1      id 5  non-problematic b
+
+            >>> #===== A REAL WORLD TWO-COLUMN EXAMPLE =================================================================
             >>> # Create a dataframe
             >>> my_dataframe = pandas.DataFrame({'wosKeywords': ['Clinical Neurology; Orthopedics', 'Biology; Mathematical & Computational Biology', 'Physics, Nuclear', 'Plant Sciences'],
             ...                                  'articleId': ['wosres:WOS_000071013000007', 'wosres:WOS_000071018600001', 'wosres:WOS_000071021600006', 'wosres:WOS_000071040300005']})
@@ -132,10 +192,8 @@ class Data_Frame(object):
             3  wosres:WOS_000071018600001  Mathematical & Computational Biology
             4  wosres:WOS_000071021600006                      Physics, Nuclear
             5  wosres:WOS_000071040300005                        Plant Sciences
-            >>> #=======================================================================================================
 
-
-            >>> # EXCEPTION: DATAFRAME HAS TOO MANY COLUMNS ============================================================
+            >>> #===== ERROR: DATAFRAME HAS TOO MANY COLUMNS ===========================================================
             >>> # Create a simple dataframe
             >>> my_dataframe = pandas.DataFrame({
             ...      'literal_column':['literal one; literal two', 'literal three; literal four'],
@@ -155,10 +213,10 @@ class Data_Frame(object):
             ... except IndexError as exception:  # catch exception
             ...     print (exception)
             'tokenize_string_column' method can only take a Pandas.DataFrame with two columns. The current number of columns is 3.
-            >>> #=======================================================================================================
 
         """
         import pandas
+        from preprocessor.string_tools import String
 
         number_of_columns = self.dataframe.shape[1]
         if number_of_columns > 2:
@@ -171,7 +229,7 @@ class Data_Frame(object):
         if id_column_name:
             index_of_id_column = self.dataframe.columns.get_loc(id_column_name)
 
-        # tokenize literals at cell level
+        # tokenize literals at row level
         literal_column = self.dataframe[string_column_name]
         splitted_literal_column = literal_column.str.split(delimiter_pattern_in_literal_cells)
         # update the column
@@ -188,10 +246,21 @@ class Data_Frame(object):
             row_values = each_row.values
 
             for each_literal in row_values[index_of_literal_column]:
-                if id_column_name:
-                    output_dataframe.loc[len(output_dataframe)] = (row_values[index_of_id_column], each_literal)
+
+                # Clean from unwanted spaces at head and tail of tokens
+                each_literal = String(each_literal)
+                each_literal.clean_head_and_tail_iteratively_from_characters(' ')
+                each_literal.clean_head_and_tail_iteratively_from_characters(delimiter_pattern_in_literal_cells)
+                each_literal = str(each_literal)
+
+                if len(each_literal) > 0:  # do not allow empty rows to be part of the output dataframe
+
+                    if id_column_name:
+                        output_dataframe.loc[len(output_dataframe)] = (row_values[index_of_id_column], each_literal)
+                    else:
+                        output_dataframe.loc[len(output_dataframe)] = (each_literal)
                 else:
-                    output_dataframe.loc[len(output_dataframe)] = (each_literal)
+                    pass
 
         self.dataframe = output_dataframe
         return self
@@ -327,7 +396,7 @@ class Data_Frame(object):
             4            stu   complex situation; tail;       id5
             5            xyz  ;complex situation; both;       id6
 
-            # HEAD =====================================================================================================
+            # CLEAN HEAD ===============================================================================================
             >>> # Clean the heads of strings (without touching the same pattern elsewhere)
             >>> my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('dirty_column', [';'], 'head')\
                              .dataframe
@@ -339,7 +408,7 @@ class Data_Frame(object):
             4            stu  complex situation; tail;       id5
             5            xyz  complex situation; both;       id6
 
-            # TAIL =====================================================================================================
+            # CLEAN TAIL ===============================================================================================
             >>> # Clean the tails of strings (without touching the same pattern elsewhere)
             >>> my_Data_Frame.clean_heads_and_tails_of_cells_in_column_from_patterns('dirty_column', [';'], 'tail')\
                              .dataframe
@@ -351,7 +420,7 @@ class Data_Frame(object):
             4            stu  complex situation; tail       id5
             5            xyz  complex situation; both       id6
 
-            # BOTH =====================================================================================================
+            # CLEAN BOTH ===============================================================================================
             >>> # Recreate Data_Frame
             >>> import pandas as pd
             >>> my_dataframe = pd.DataFrame({
@@ -479,10 +548,18 @@ class Data_Frame(object):
     def combine_items_within_each_row_if_combination_exists_in_external_list(self,
                                                                              target_column_name,
                                                                              external_list_to_compare_with,
-                                                                             fragmentation_signalling_character,
-                                                                             fragmentation_signalling_character_index):
+                                                                             fragmentation_signalling_character):
         """
+        Reconstructs fragments of of a string that is distributed to multiple rows by detecting the fragmentation
+        using the fragmentation_signalling_character parameter.
 
+        Args:
+            target_column_name(str)
+            external_list_to_compare_with(list)
+            fragmentation_signalling_character(str): The character that indicates that the string is a fragment.
+
+        See Also:
+            list_tools.combine_items_if_their_combination_exists_in_external_list
 
         Examples:
             >>> import pandas
@@ -508,8 +585,7 @@ class Data_Frame(object):
             >>> my_Data_Frame.combine_items_within_each_row_if_combination_exists_in_external_list(
             ...                                   external_list_to_compare_with=external_list,
             ...                                   target_column_name='wos_categories',
-            ...                                   fragmentation_signalling_character='&',
-            ...                                   fragmentation_signalling_character_index=-1)\
+            ...                                   fragmentation_signalling_character='&')\
                              .dataframe
                 ids                                     wos_categories
             0  id 1  [Statistics & Probability, Mathematical & Comp...
@@ -532,8 +608,7 @@ class Data_Frame(object):
             each_List_with_reconstructed_items = List(each_row)
 
             each_List_with_reconstructed_items.combine_items_if_their_combination_exists_in_external_list(
-                fragmentation_signalling_character=fragmentation_signalling_character,
-                fragmentation_signalling_character_index=fragmentation_signalling_character_index,
+                fragmentation_signalling_character_at_either_end=fragmentation_signalling_character,
                 external_list_to_compare_with=external_list_to_compare_with
             )
 
