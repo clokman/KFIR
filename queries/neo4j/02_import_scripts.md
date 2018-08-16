@@ -291,7 +291,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 
 ##### 13.2. Index 'wosCategories'
 ```cypher
-CREATE INDEX ON :WosCategory(wosCategory)
+    CREATE INDEX ON :WosCategory(wosCategory)
 ```
 
 ##### 13.3. Connect 'wosCategories' with articles
@@ -301,6 +301,36 @@ CREATE INDEX ON :WosCategory(wosCategory)
     WHERE article.wosArticleUri = eachRow.wosArticleUri AND  // wosArticleUri must be indexed 
     wosCategory.wosCategory = eachRow.wosCategory  // WosCategory.wosCategory must be indexed
     CREATE (article)-[:HAS_WOS_CATEGORY]->(wosCategory)
+```
+
+
+##### 13.4. Reorganize 'wosCategories' hierarchically
+**Note**: The code above is indented for readability. When running this query in Neo4j, however, the line breaks must be 
+eliminated from each string parameter of apoc.periodic.iterate.
+```cypher
+    CALL apoc.periodic.iterate(
+        "
+            LOAD CSV WITH HEADERS FROM 'http://clokman.com/hosting/kfir/wos_csvs/hierarchical_list_of_wos_categories.csv' AS eachRow
+            MATCH (article:Article)-[:HAS_WOS_CATEGORY]->(wosCategory:WosCategory)
+            WHERE wosCategory.wosCategory = eachRow.originalWosCategory AND NOT eachRow.parentCategory = 'NA'  
+            RETURN eachRow, article, wosCategory
+        ",
+        "
+            SET wosCategory.wosCategory = eachRow.replacementCategory
+            MERGE (wosSupercategory:WosSupercategory {wosSupercategory: eachRow.parentCategory}) 
+            MERGE (wosCategory)-[:IS_SUBCATEGORY_OF]->(wosSupercategory)
+            MERGE (article)-[:HAS_WOS_SUPERCATEGORY]->(wosSupercategory)
+        ",
+        {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 13.5. Index 'wosSupercategories'
+```cypher
+    CREATE INDEX ON :WosSupercategory(wosSupercategory)
 ```
 <br>
 
@@ -349,6 +379,28 @@ CREATE INDEX ON :WosCategory(wosCategory)
     YIELD batches, total, timeTaken
     RETURN batches, total, timeTaken
 ```
+
+
+##### 14.5.1. Connect authors with WoS categories
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_WOS_CATEGORY]->(wosCategory:WosCategory) WHERE NOT (author)-[:HAS_RESEARCHED]->(wosCategory) RETURN author, wosCategory",
+        "MERGE (author)-[:HAS_RESEARCHED]->(wosCategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 14.5.2. Connect authors with WoS supercategories
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (author:Author)-[:HAS_INSTANCE]->(authorInstance:AuthorInstance)-[:IS_AUTHOR_OF]->(article:Article)-[:HAS_WOS_SUPERCATEGORY]->(wosSupercategory:WosSupercategory) WHERE NOT (author)-[:HAS_RESEARCHED]->(wosSupercategory) RETURN author, wosSupercategory",
+        "MERGE (author)-[:HAS_RESEARCHED]->(wosSupercategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
 <br>
 
 #### 15. JOURNAL-TOPIC RELATIONSHIPS
@@ -356,27 +408,65 @@ CREATE INDEX ON :WosCategory(wosCategory)
 
 ##### 15.1. Connect journals with annotations
 ```cypher
-    MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_ANNOTATION]->(annotation:Annotation)
-    MERGE (journal)-[:IS_ABOUT]->(annotation)
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_ANNOTATION]->(annotation:Annotation) WHERE NOT (journal)-[:IS_ABOUT]->(annotation) RETURN journal, annotation",
+        "MERGE (journal)-[:IS_ABOUT]->(annotation)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
 ```
 
 
 ##### 15.2. Connect journals with keywords plus
 ```cypher
-    MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus)
-    MERGE (journal)-[:IS_ABOUT]->(keywordPlus)
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus:KeywordPlus) WHERE NOT (journal)-[:IS_ABOUT]->(keywordPlus) RETURN journal, keywordPlus",
+        "MERGE (journal)-[:IS_ABOUT]->(keywordPlus)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
 ```
 
 
 ##### 15.3. Connect journals with author keywords
 ```cypher
-    MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword)
-    MERGE (journal)-[:IS_ABOUT]->(authorKeyword)
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword:AuthorKeyword) WHERE NOT (journal)-[:IS_ABOUT]->(authorKeyword) RETURN journal, authorKeyword",
+        "MERGE (journal)-[:IS_ABOUT]->(authorKeyword)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
 ```
 
 
 ##### 15.4. Connect journals with subject categories
 ```cypher
-    MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(article:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory)
-    MERGE (journal)-[:IS_ABOUT]->(subjectCategory)
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory:SubjectCategory) WHERE NOT (journal)-[:IS_ABOUT]->(subjectCategory) RETURN journal, subjectCategory",
+        "MERGE (journal)-[:IS_ABOUT]->(subjectCategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 15.5. Connect journals with WoS categories
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_WOS_CATEGORY]->(wosCategory:WosCategory) WHERE NOT (journal)-[:IS_ABOUT]->(wosCategory) RETURN journal, wosCategory",
+        "MERGE (journal)-[:IS_ABOUT]->(wosCategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
+```
+
+
+##### 15.6. Connect journals with WoS Supercategories
+```cypher
+    CALL apoc.periodic.iterate(
+        "MATCH (journal:Journal)<-[:IS_PUBLISHED_ON]-(:Article)-[:HAS_WOS_SUPERCATEGORY]->(wosSupercategory:WosSupercategory) WHERE NOT (journal)-[:IS_ABOUT]->(wosSupercategory) RETURN journal, wosSupercategory",
+        "MERGE (journal)-[:IS_ABOUT]->(wosSupercategory)", {batchSize:100}
+    )
+    YIELD batches, total, timeTaken
+    RETURN batches, total, timeTaken
 ```
