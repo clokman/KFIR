@@ -305,7 +305,7 @@ In the following query, 'pX' should be replaced with 'p1', 'p2' etc (for each pa
 
 
 ##### 13.4. Reorganize 'wosCategories' hierarchically
-**Note**: The code above is indented for readability. When running this query in Neo4j, however, the line breaks must be 
+**Note**: The query below is indented for readability. When running this query in Neo4j, however, the line breaks must be
 eliminated from each string parameter of apoc.periodic.iterate.
 ```cypher
     CALL apoc.periodic.iterate(
