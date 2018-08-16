@@ -84,3 +84,16 @@ LIMIT 300
     RETURN author, topic
     LIMIT 250
 ```
+<br>
+#### WoS categoeries and supercategories
+Return the WoS supercategory 'Literature'
+```cypher
+    MATCH (wc:WosCategory)--(ws:wosSupercategory {wosSupercategory: 'Literature'})
+    RETURN wc, ws LIMIT 10
+```
+
+Return some journals with their WoS supercategories
+```cypher
+    MATCH(journal:Journal)-[:IS_ABOUT]->(wosSupercategory:WosSupercategory)
+    RETURN journal, wosSupercategory LIMIT 100
+```
