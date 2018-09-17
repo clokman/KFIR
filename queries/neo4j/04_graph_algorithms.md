@@ -48,7 +48,10 @@ Create a weighted relationship by aggregating existing relationships:
 Note: The above example ignores the exising weight properties in the existing connections.
 
 
-## 1.1. Construct `KeywordPlus` graph
+## 1.1. Construct `KeywordPlus` graph(s)
+
+### 1.1.1. Weighted `KeywordPlus` graph
+
 Connect keywords plus nodes to each other using articles as intermediaries:
 
         CALL apoc.periodic.iterate(
@@ -60,7 +63,28 @@ Connect keywords plus nodes to each other using articles as intermediaries:
         RETURN batches, total, timeTaken
 
 
-## 1.2. Construct `AuthorKeyword` graph
+### 1.3.2. Unweighted `KeywordPlus` graph:
+
+Connect topics to each other using articles as intermediaries. Create one relationship per connection:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (keywordPlus1:KeywordPlus)<-[:HAS_KEYWORD_PLUS]-(:Article)-[:HAS_KEYWORD_PLUS]->(keywordPlus2:KeywordPlus) WHERE id(keywordPlus1) < id(keywordPlus2) RETURN keywordPlus1, keywordPlus2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (keywordPlus1)-[:CO_OCCURRED_WITH_UNWEIGHTED]->(keywordPlus2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Test if the unweighted relationships are correctly created:
+
+        MATCH (n:KeywordPlus {keywordPlus: 'X'})-[r1:HAS_KEYWORD_PLUS]-(a:Article)-[r2:HAS_KEYWORD_PLUS]-(n2:KeywordPlus {keywordPlus: 'Y'})
+        RETURN n, r1, a, r2, n2 LIMIT 100
+
+
+## 1.2. Construct `AuthorKeyword` graph(s)
+
+### 1.2.1. Weighted `AuthorKeyword` graph
 Connect author keywords to each other using articles as intermediaries:
 
         CALL apoc.periodic.iterate(
@@ -72,7 +96,29 @@ Connect author keywords to each other using articles as intermediaries:
         RETURN batches, total, timeTaken
 
 
-## 1.3. Construct `Annotation` graph
+### 1.2.2. Unweighted `AuthorKeyword` graph:
+
+Connect topics to each other using articles as intermediaries. Create one relationship per connection:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (authorKeyword1:AuthorKeyword)<-[:HAS_AUTHOR_KEYWORD]-(:Article)-[:HAS_AUTHOR_KEYWORD]->(authorKeyword2:AuthorKeyword) WHERE id(authorKeyword1) < id(authorKeyword2) RETURN authorKeyword1, authorKeyword2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (authorKeyword1)-[:CO_OCCURRED_WITH_UNWEIGHTED]->(authorKeyword2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Test if the unweighted relationships are correctly created:
+
+        MATCH (n:AuthorKeyword {authorKeyword: 'X'})-[r1:HAS_AUTHOR_KEYWORD]-(a:Article)-[r2:HAS_AUTHOR_KEYWORD]-(n2:AuthorKeyword {authorKeyword: 'Y'})
+        RETURN n, r1, a, r2, n2 LIMIT 100
+
+
+## 1.3. Construct `Annotation` graph(s)
+
+## 1.3.1. Weighted `Annotation` graph
+
 Connect annotations to each other using articles as intermediaries:
 
         CALL apoc.periodic.iterate(
@@ -84,7 +130,29 @@ Connect annotations to each other using articles as intermediaries:
         RETURN batches, total, timeTaken
 
 
-## 1.4. Construct `SubjectCategory` graph
+### 1.3.2. Unweighted `Annotation` graph:
+
+Connect topics to each other using articles as intermediaries. Create one relationship per connection:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (annotation1:Annotation)<-[:HAS_ANNOTATION]-(:Article)-[:HAS_ANNOTATION]->(annotation2:Annotation) WHERE id(annotation1) < id(annotation2) RETURN annotation1, annotation2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (annotation1)-[:CO_OCCURRED_WITH_UNWEIGHTED]->(annotation2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Test if the unweighted relationships are correctly created:
+
+        MATCH (n:Annotation {annotation: 'X'})-[r1:HAS_ANNOTATION]-(a:Article)-[r2:HAS_ANNOTATION]-(n2:Annotation {annotation: 'Y'})
+        RETURN n, r1, a, r2, n2 LIMIT 100
+
+
+## 1.4. Construct `SubjectCategory` graph(s)
+
+### 1.4.1. Weighted `SubjectCategory` graph:
+
 Connect ISI subject categories to each other using articles as intermediaries:
 
         CALL apoc.periodic.iterate(
@@ -96,7 +164,29 @@ Connect ISI subject categories to each other using articles as intermediaries:
         RETURN batches, total, timeTaken
 
 
-## 1.5. Construct `WosCategory` graph
+### 1.4.2. Unweighted `SubjectCategory` graph:
+
+Connect topics to each other using articles as intermediaries. Create one relationship per connection:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (subjectCategory1:SubjectCategory)<-[:HAS_SUBJECT_CATEGORY]-(:Article)-[:HAS_SUBJECT_CATEGORY]->(subjectCategory2:SubjectCategory) WHERE id(subjectCategory1) < id(subjectCategory2) RETURN subjectCategory1, subjectCategory2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (subjectCategory1)-[:CO_OCCURRED_WITH_UNWEIGHTED]->(subjectCategory2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Test if the unweighted relationships are correctly created:
+
+        MATCH (n:SubjectCategory {subjectCategory: 'Film, Radio & Television'})-[r1:HAS_SUBJECT_CATEGORY]-(a:Article)-[r2:HAS_SUBJECT_CATEGORY]-(n2:SubjectCategory {subjectCategory: 'Psychology'})
+        RETURN n, r1, a, r2, n2 LIMIT 100
+
+
+## 1.5. Construct `WosCategory` graph(s)
+
+### 1.5.1. Weighted `WosCategory` graph
+
 Connect Web of Science categories to each other using articles as intermediaries:
 
         CALL apoc.periodic.iterate(
@@ -107,6 +197,24 @@ Connect Web of Science categories to each other using articles as intermediaries
         YIELD batches, total, timeTaken
         RETURN batches, total, timeTaken
         
+
+## 1.5.2. Unweighted `WosCategory` graph
+Connect topics to each other using articles as intermediaries. Create one relationship per connection:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (wosCategory1:WosCategory)<-[:HAS_WOS_CATEGORY]-(:Article)-[:HAS_WOS_CATEGORY]->(wosCategory2:WosCategory) WHERE id(wosCategory1) < id(wosCategory2) RETURN wosCategory1, wosCategory2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (wosCategory1)-[:CO_OCCURRED_WITH_UNWEIGHTED]->(wosCategory2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Test if the unweighted relationships are correctly created:
+
+        MATCH(n:WosCategory {wosCategory: 'Work'})-[r1:HAS_WOS_CATEGORY]-(a:Article)-[r2:HAS_WOS_CATEGORY]-(n2:WosCategory {wosCategory: 'Planning & Development'})
+        RETURN n, r1, a, r2, n2 LIMIT 100
+
 
 # 2. MAPPING THE INNER-CONNECTEDNESS OF GRAPHS
 
@@ -347,7 +455,9 @@ The most frequent mainSetId (i.e., the main graph component) is '3'.
 
 # 3. BETWEENNESS CENTRALITY
 
-## 3.1. Calculate betweenness centralities in **keywords plus** graph:
+## 3.1. Betweenness centralities in **keywords plus** graph:
+
+### 3.1.1. Calculate betweenness centralities
 
 **Stream betweenness centrality scores for `KeywordPlus`**:
 
@@ -356,13 +466,52 @@ The most frequent mainSetId (i.e., the main graph component) is '3'.
         MATCH (keywordPlus:KeywordPlus) WHERE id(keywordPlus) = nodeId
         RETURN keywordPlus.keywordPlus AS keywordPlus, centrality AS betweennessCentrality
         ORDER BY centrality DESC
-
-**Write betweenness centrality scores for `KeywordPlus`** to nodes:
+        
+**Write betweenness centrality scores to `KeywordPlus`** nodes that connect via **`CO_OCCURRED_WITH`**:
 
         CALL algo.betweenness('KeywordPlusGraphMainComponentNode', 'CO_OCCURRED_WITH', {direction:'both', write:true, writeProperty:'keywordPlusGraphBetweennessCentrality'})
         YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
 
-## 3.2. Calculate betweenness centralities in **author keywords** graph:
+**Write betweenness centrality scores to `KeywordPlus`** nodes that connect via **`CO_OCCURRED_WITH_UNWEIGHTED`**:
+
+        CALL algo.betweenness('KeywordPlusGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedKeywordPlusGraphBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+
+### 3.1.2. Normalize betweenness centralities
+
+**Stream normalized** `unweightedKeywordPlusGraphBetweennessCentrality` scores:
+
+        MATCH(n:KeywordPlus)
+	WHERE EXISTS (n.unweightedKeywordPlusGraphBetweennessCentrality)
+	WITH COLLECT (n.unweightedKeywordPlusGraphBetweennessCentrality) as absoluteCentralities, max(n.unweightedKeywordPlusGraphBetweennessCentrality) as maxCentrality, min(n.unweightedKeywordPlusGraphBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+Get **minimum and maximum centralities**:
+
+        MATCH (n:KeywordPlus)
+	WHERE EXISTS (n.unweightedKeywordPlusGraphBetweennessCentrality)
+        UNWIND (n.unweightedKeywordPlusGraphBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | 576489938.8534923     |
+
+**Write normalized** `unweightedKeywordPlusGraphBetweennessCentrality` scores to nodes:
+
+        MATCH (n:KeywordPlus)
+	WHERE EXISTS (n.unweightedKeywordPlusGraphBetweennessCentrality)
+	SET n.normalizedUnweightedKeywordPlusGraphBetweennessCentrality = (n.unweightedKeywordPlusGraphBetweennessCentrality - 0) / (576489938.8534923 - 0)
+
+
+## 3.2. Betweenness centralities in **author keywords** graph:
+
+### 3.2.1. Calculate betweenness centralities
 
 **Stream betweenness centrality scores for `AuthorKeyword`**:
 
@@ -372,13 +521,51 @@ The most frequent mainSetId (i.e., the main graph component) is '3'.
         RETURN authorKeyword.authorKeyword AS authorKeyword, centrality AS betweennessCentrality
         ORDER BY centrality DESC
 
-**Write betweenness centrality scores for `AuthorKeyword`** to nodes:
+**Write betweenness centrality scores to `AuthorKeyword`** nodes that connect via **`CO_OCCURRED_WITH`**:
 
         CALL algo.betweenness('AuthorKeywordGraphMainComponentNode', 'CO_OCCURRED_WITH', {direction:'both', write:true, writeProperty:'authorKeywordGraphBetweennessCentrality'})
         YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
 
+**Write betweenness centrality scores to `AuthorKeyword`** nodes that connect via **`CO_OCCURRED_WITH_UNWEIGHTED`**:
 
-## 3.3. Calculate betweenness centralities in **annotation** graph:
+        CALL algo.betweenness('AuthorKeywordGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedAuthorKeywordGraphBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+
+### 3.2.2. Normalize betweenness centralities
+
+**Stream normalized** `unweightedAuthorKeywordGraphBetweennessCentrality` scores:
+
+        MATCH(n:AuthorKeyword)
+	WHERE EXISTS (n.unweightedAuthorKeywordGraphBetweennessCentrality)
+	WITH COLLECT (n.unweightedAuthorKeywordGraphBetweennessCentrality) as absoluteCentralities, max(n.unweightedAuthorKeywordGraphBetweennessCentrality) as maxCentrality, min(n.unweightedAuthorKeywordGraphBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+Get **minimum and maximum centralities**:
+
+        MATCH (n:AuthorKeyword)
+	WHERE EXISTS (n.unweightedAuthorKeywordGraphBetweennessCentrality)
+        UNWIND (n.unweightedAuthorKeywordGraphBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | 482046793.90087616     |
+
+**Write normalized** `unweightedAuthorKeywordGraphBetweennessCentrality` scores to nodes:
+
+        MATCH (n:AuthorKeyword)
+	WHERE EXISTS (n.unweightedAuthorKeywordGraphBetweennessCentrality)
+	SET n.normalizedUnweightedAuthorKeywordGraphBetweennessCentrality = (n.unweightedAuthorKeywordGraphBetweennessCentrality - 0) / (482046793.90087616 - 0)
+
+
+## 3.3. Betweenness centralities in **annotation** graph:
+
+### 3.3.1. Calculate betweenness centralities
 
 **Stream betweenness centrality scores for `Annotation`**:
 
@@ -388,14 +575,53 @@ The most frequent mainSetId (i.e., the main graph component) is '3'.
         RETURN annotation.annotation AS annotation, centrality AS betweennessCentrality
         ORDER BY centrality DESC
 
-**Write betweenness centrality scores for `Annotation`** to nodes:
+**Write betweenness centrality scores to `Annotation`** nodes that connect via **`CO_OCCURRED_WITH`**:
 
         CALL algo.betweenness('AnnotationGraphMainComponentNode', 'CO_OCCURRED_WITH', {direction:'both', write:true, writeProperty:'annotationGraphBetweennessCentrality'})
         YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
 
 This query took 2,1 hours to complete
 
-## 3.4. Calculate betweenness centralities in **subject categories** graph:
+**Write betweenness centrality scores to `Annotation`** nodes that connect via **`CO_OCCURRED_WITH_UNWEIGHTED`**:
+
+        CALL algo.betweenness('AnnotationGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedAnnotationGraphBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+
+### 3.3.2. Normalize betweenness centralities
+
+**Stream normalized** `unweightedAnnotationGraphBetweennessCentrality` scores:
+
+        MATCH(n:Annotation)
+	WHERE EXISTS (n.unweightedAnnotationGraphBetweennessCentrality)
+	WITH COLLECT (n.unweightedAnnotationGraphBetweennessCentrality) as absoluteCentralities, max(n.unweightedAnnotationGraphBetweennessCentrality) as maxCentrality, min(n.unweightedAnnotationGraphBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+Get **minimum and maximum centralities**:
+
+        MATCH (n:Annotation)
+	WHERE EXISTS (n.unweightedAnnotationGraphBetweennessCentrality)
+        UNWIND (n.unweightedAnnotationGraphBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | 274731992.4064494     |
+
+**Write normalized** `unweightedAnnotationGraphBetweennessCentrality` scores to nodes:
+
+        MATCH (n:Annotation)
+	WHERE EXISTS (n.unweightedAnnotationGraphBetweennessCentrality)
+	SET n.normalizedUnweightedAnnotationGraphBetweennessCentrality = (n.unweightedAnnotationGraphBetweennessCentrality - 0) / (274731992.4064494 - 0)        
+
+
+## 3.4. Betweenness centralities in **subject categories** graph:
+
+### 3.4.1. Calculate betweenness centralities
 
 **Stream betweenness centrality scores for `SubjectCategory`**:
 
@@ -405,13 +631,50 @@ This query took 2,1 hours to complete
         RETURN subjectCategory.subjectCategory AS subjectCategory, centrality AS betweennessCentrality
         ORDER BY centrality DESC
 
-**Write betweenness centrality scores for `SubjectCategory`** to nodes:
+**Write betweenness centrality scores to `SubjectCategory`** nodes that connect via **`CO_OCCURRED_WITH`**:
 
         CALL algo.betweenness('SubjectCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH', {direction:'both', write:true, writeProperty:'subjectCategoryGraphBetweennessCentrality'})
         YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
 
+**Write betweenness centrality scores to `SubjectCategory`** nodes that connect via **`CO_OCCURRED_WITH_UNWEIGHTED`**:
 
-## 3.5. Calculate betweenness centralities in **Web of Science categories** graph:
+        CALL algo.betweenness('SubjectCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedSubjectCategoryGraphBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+### 3.4.2. Normalize betweenness centralities
+
+**Stream normalized** `unweightedSubjectCategoryGraphBetweennessCentrality` scores:
+
+        MATCH(n:SubjectCategory)
+	WHERE EXISTS (n.unweightedSubjectCategoryGraphBetweennessCentrality)
+	WITH COLLECT (n.unweightedSubjectCategoryGraphBetweennessCentrality) as absoluteCentralities, max(n.unweightedSubjectCategoryGraphBetweennessCentrality) as maxCentrality, min(n.unweightedSubjectCategoryGraphBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+Get **minimum and maximum centralities**:
+
+        MATCH (n:SubjectCategory)
+	WHERE EXISTS (n.unweightedSubjectCategoryGraphBetweennessCentrality)
+        UNWIND (n.unweightedSubjectCategoryGraphBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | 1309.6523634772705     |
+
+**Write normalized** `unweightedSubjectCategoryGraphBetweennessCentrality` scores to nodes:
+
+        MATCH (n:SubjectCategory)
+	WHERE EXISTS (n.unweightedSubjectCategoryGraphBetweennessCentrality)
+	SET n.normalizedUnweightedSubjectCategoryGraphBetweennessCentrality = (n.unweightedSubjectCategoryGraphBetweennessCentrality - 0) / (1309.6523634772705 - 0)        
+
+
+## 3.5. Betweenness centralities in **Web of Science categories** graph:
+
+### 3.5.1. Calculate betweenness centralities
 
 **Stream betweenness centrality scores for `WosCategory`**:
 
@@ -421,10 +684,45 @@ This query took 2,1 hours to complete
         RETURN wosCategory.wosCategory AS wosCategory, centrality AS betweennessCentrality
         ORDER BY centrality DESC
 
-**Write betweenness centrality scores for `WosCategory`** to nodes:
+**Write betweenness centrality scores to `WosCategory`** nodes that connect via **`CO_OCCURRED_WITH`**:
 
         CALL algo.betweenness('WosCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH', {direction:'both', write:true, writeProperty:'wosCategoryGraphBetweennessCentrality'})
         YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+**Write betweenness centrality scores to `WosCategory`** nodes that connect via **`CO_OCCURRED_WITH_UNWEIGHTED`**:
+
+        CALL algo.betweenness('WosCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedWosCategoryGraphBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+### 3.5.2. Normalize betweenness centralities
+
+**Stream normalized** `unweightedWosCategoryGraphBetweennessCentrality` scores:
+
+        MATCH(n:WosCategory)
+	WHERE EXISTS (n.unweightedWosCategoryGraphBetweennessCentrality)
+	WITH COLLECT (n.unweightedWosCategoryGraphBetweennessCentrality) as absoluteCentralities, max(n.unweightedWosCategoryGraphBetweennessCentrality) as maxCentrality, min(n.unweightedWosCategoryGraphBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+Get **minimum and maximum centralities**:
+
+        MATCH (n:WosCategory)
+	WHERE EXISTS (n.unweightedWosCategoryGraphBetweennessCentrality)
+        UNWIND (n.unweightedWosCategoryGraphBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | 5099.378299140871     |
+
+**Write normalized** `unweightedWosCategoryGraphBetweennessCentrality` scores to nodes:
+
+        MATCH (n:WosCategory)
+	WHERE EXISTS (n.unweightedWosCategoryGraphBetweennessCentrality)
+	SET n.normalizedUnweightedWosCategoryGraphBetweennessCentrality = (n.unweightedWosCategoryGraphBetweennessCentrality - 0) / (5099.378299140871 - 0)        
 
 
 # 4. COMMUNITY DETECTION
@@ -450,19 +748,51 @@ This query took 2,1 hours to complete
 
 
 
+# 5 GRAPH VISUALIZATION
+
+## A. Gephi graph streaming
+https://secdiary.com/streaming-data-from-neo4j-to-gephi/
+
+
+### Solutions:
+Note: Current remote and local IPs can be viewed [here](https://www.whatismyip.com/)
+
+Remote ip address (does not work):
+
+    MATCH path = (:Person)-[:DIRECTED]->(:Movie)<-[:ACTED_IN]-(:Person)
+    CALL apoc.gephi.add('http://145.121.16.198:8080','workspace1',path,'weight',['born','name','title', 'released']) yield nodes
+    return *
+    
+    # returns error:
+    Neo.ClientError.Procedure.ProcedureCallFailed: Failed to invoke procedure `apoc.gephi.add`: Caused by: java.net.SocketTimeoutException: connect timed out
+
+Local ip address:
+
+    MATCH path = (:Person)-[:DIRECTED]->(:Movie)<-[:ACTED_IN]-(:Person)
+    CALL apoc.gephi.add('http://192.168.42.165:8080','workspace1',path,'weight',['born','name','title', 'released']) yield nodes
+    return *
+
+    
+`localhost:8080`:
+
+    MATCH path = (:Person)-[:DIRECTED]->(:Movie)<-[:ACTED_IN]-(:Person)
+    CALL apoc.gephi.add('http://localhost:8080','workspace1',path,'weight',['born','name','title', 'released']) yield nodes
+    return *
+    
+`null` for local
+
+    MATCH path = (:Person)-[:DIRECTED]->(:Movie)<-[:ACTED_IN]-(:Person)
+    CALL apoc.gephi.add(null,'workspace1',path,'weight',['born','name','title', 'released']) yield nodes
+    return *
 
 
 
+## B. Neovis
+https://medium.com/neo4j/graph-visualization-with-neo4j-using-neovis-js-a2ecaaa7c379
+https://github.com/neo4j-contrib/neovis.js
 
 
-
-
-
-
-
-
-
-
+<!-- 
 
 THE OLD CODE (Author clustering approach)
 ------------------------------------------------------------------------------------------
@@ -623,14 +953,4 @@ The query **above is the equivalent** of this query:
         )
         YIELD nodes, setCount;
 
-
-
-
-
-
-
-
-
-
-
-
+ -->
