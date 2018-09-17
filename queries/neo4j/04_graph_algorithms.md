@@ -791,6 +791,12 @@ Local ip address:
 https://medium.com/neo4j/graph-visualization-with-neo4j-using-neovis-js-a2ecaaa7c379
 https://github.com/neo4j-contrib/neovis.js
 
+# X - Demos for meeting
+
+        MATCH (n:WosCategory)
+        WHERE EXISTS (n.unweightedWosCategoryGraphBetweennessCentrality)
+        RETURN n.wosCategory, n.wosCategoryGraphBetweennessCentrality, n.unweightedWosCategoryGraphBetweennessCentrality , n.normalizedUnweightedWosCategoryGraphBetweennessCentrality
+        ORDER BY n.normalizedUnweightedWosCategoryGraphBetweennessCentrality
 
 <!-- 
 
