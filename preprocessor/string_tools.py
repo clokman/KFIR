@@ -12,6 +12,7 @@ class String(str):
         self.content = content
         self.split_to_list = []
 
+
     def __repr__(self):
         """
         >>> my_String = String('content')
