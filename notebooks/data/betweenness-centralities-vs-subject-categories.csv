@@ -1,0 +1,151 @@
+﻿subjectCategory,normalizedUnweightedBetweennessCentrality
+Engineering,1.0
+Environmental Sciences & Ecology,0.8155124159036464
+Psychology,0.5011889809218242
+"Public, Environmental & Occupational Health",0.49647770568238125
+Neurosciences & Neurology,0.44507209555096394
+Biochemistry & Molecular Biology,0.44018302532091713
+Chemistry,0.43666381690178874
+Computer Science,0.4061772505299275
+Education & Educational Research,0.29155100645248727
+Genetics & Heredity,0.24463199660025123
+Business & Economics,0.2341005795039114
+Social Sciences - Other Topics,0.19738464541030787
+Pharmacology & Pharmacy,0.19008238306970401
+Mathematics,0.18004626223739362
+Arts & Humanities - Other Topics,0.17932740450058357
+Materials Science,0.17344609655029977
+Science & Technology - Other Topics,0.16506666854771865
+Pediatrics,0.14857716522781025
+Biotechnology & Applied Microbiology,0.14155831390025256
+Life Sciences & Biomedicine - Other Topics,0.13159992424594508
+Immunology,0.12171295666867457
+Anthropology,0.11856841251614504
+Psychiatry,0.11029566835197172
+Sociology,0.10609345550720325
+Rehabilitation,0.09696250779978108
+"Radiology, Nuclear Medicine & Medical Imaging",0.09328558906915299
+Government & Law,0.09325983899240343
+Research & Experimental Medicine,0.09114202866862024
+General & Internal Medicine,0.09058415452737924
+Health Care Sciences & Services,0.08794788978855589
+Physics,0.08737374630475779
+Surgery,0.08245397929558572
+History,0.08214440154757648
+Cell Biology,0.08112535042731149
+Geology,0.07663463857403391
+Urban Studies,0.07615562493102565
+Agriculture,0.07497091061518467
+Linguistics,0.07222222079458841
+Oncology,0.07121057139446231
+Plant Sciences,0.060253243852508874
+History & Philosophy of Science,0.05613204235999179
+Toxicology,0.05592941366620813
+Pathology,0.05283837825867189
+Physiology,0.051650433326261756
+Microbiology,0.0514178732290385
+Nursing,0.04949782996402901
+Zoology,0.04927201031434196
+Nutrition & Dietetics,0.04585499777885767
+Biophysics,0.04150202121616913
+Biomedical Social Sciences,0.038929637407903665
+Philosophy,0.037522967772604984
+Orthopedics,0.03752072764224891
+Social Issues,0.035913439787901645
+Geography,0.035067774791233124
+Respiratory System,0.030362693177526448
+Obstetrics & Gynecology,0.030303217858204983
+Dermatology,0.029229966430524133
+Communication,0.027749864555279377
+Endocrinology & Metabolism,0.027674233903846795
+Public Administration,0.023825614554671123
+Cultural Studies,0.023070377854358084
+Infectious Diseases,0.0223203992899618
+Sport Sciences,0.021472150899176583
+Medical Informatics,0.01983793605035589
+Archaeology,0.018756301310525574
+Cardiovascular System & Cardiology,0.018654565697900395
+Veterinary Sciences,0.01860650456450169
+Spectroscopy,0.016439869916355335
+Women's Studies,0.015851040712363013
+Food Science & Technology,0.01564906557973843
+Behavioral Sciences,0.01562811967987734
+Art,0.014631086332125502
+Marine & Freshwater Biology,0.014213711164598445
+Information Science & Library Science,0.013146951008368475
+Physical Geography,0.012910107862072506
+Oceanography,0.012632071755478818
+Acoustics,0.011283335028947501
+"Dentistry, Oral Surgery & Medicine",0.010638507602019585
+Energy & Fuels,0.009814323536244398
+Hematology,0.009648342185855944
+Reproductive Biology,0.009318506983743327
+Mathematical & Computational Biology,0.008858060859141328
+Meteorology & Atmospheric Sciences,0.008240523022324803
+Religion,0.008048913462358179
+Mechanics,0.007917449597941318
+Geriatrics & Gerontology,0.007554082659574087
+Optics,0.00698496147729312
+Imaging Science & Photographic Technology,0.006639226579177861
+Instruments & Instrumentation,0.006603930133677712
+Area Studies,0.006184382651303717
+Developmental Biology,0.006160660793883281
+Medical Laboratory Technology,0.00613941280174716
+Anatomy & Morphology,0.005965852363949038
+Ethnic Studies,0.00586967377512499
+Water Resources,0.005659303411612561
+Microscopy,0.004721382308547801
+Family Studies,0.004263791903877687
+Gastroenterology & Hepatology,0.004185359250950956
+Transportation,0.004184659557006581
+Metallurgy & Metallurgical Engineering,0.004101424853757759
+Mycology,0.00382008184198892
+Audiology & Speech-Language Pathology,0.003811643597891621
+Evolutionary Biology,0.00378772629493865
+Urology & Nephrology,0.003497503752649952
+Asian Studies,0.0034420561000998904
+Transplantation,0.0033643043079520686
+Parasitology,0.003068842093621605
+Astronomy & Astrophysics,0.0029192285153408657
+Geochemistry & Geophysics,0.002782500876557505
+Fisheries,0.0027516928580838336
+Entomology,0.0024891744499492673
+Operations Research & Management Science,0.0023474061746248977
+Telecommunications,0.0021678800582221646
+Tropical Medicine,0.002034784629998986
+Integrative & Complementary Medicine,0.0018667574022062372
+Mathematical Methods In Social Sciences,0.0017730228236011631
+Literature,0.0016773887634688061
+Biodiversity & Conservation,0.0016194036200403654
+Nuclear Science & Technology,0.0015919682574130215
+Social Work,0.001587337517715173
+Legal Medicine,0.0014613677604983877
+Emergency Medicine,0.0014474333317000402
+Virology,0.0013872905534623094
+Criminology & Penology,0.0013449101447398212
+Demography,0.00127600103323769
+Medical Ethics,0.0012527262482945013
+Forestry,0.0012288672495609553
+Substance Abuse,0.0011953059695252565
+Automation & Control Systems,0.0010672040235258323
+Construction & Building Technology,0.001064349534182766
+Paleontology,0.0008469206414809911
+International Relations,0.0007199335324364646
+Remote Sensing,0.0006618307039523447
+Mineralogy,0.0005327172846272868
+"Film, Radio & Television",0.0005265311718542501
+Otorhinolaryngology,0.0004706095977088232
+Anesthesiology,0.0004087719654093538
+Music,0.0002157531639791274
+Electrochemistry,0.00015661580107878344
+Crystallography,0.00015166722632379588
+Allergy,0.00014632650548444904
+Ophthalmology,0.00007106668932490178
+Rheumatology,0.0
+Classics,0.0
+Polymer Science,0.0
+Thermodynamics,0.0
+Architecture,0.0
+Theater,0.0
+Robotics,0.0
+Mining & Mineral Processing,0.0
