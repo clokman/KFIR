@@ -618,7 +618,7 @@ This query returns:
 	WHERE EXISTS (n.unweightedAnnotationGraphBetweennessCentrality)
 	SET n.normalizedUnweightedAnnotationGraphBetweennessCentrality = (n.unweightedAnnotationGraphBetweennessCentrality - 0) / (274731992.4064494 - 0)        
 
-
+        
 ## 3.4. Betweenness centralities in **subject categories** graph:
 
 ### 3.4.1. Calculate betweenness centralities
@@ -742,13 +742,396 @@ This query returns:
 
 **Write** keywordPlus communities to nodes:
 
-        CALL algo.louvain('KeywordPlus', 'CO_OCCURRED_WITH', {write:true, writeProperty:'keywordPlusSubGraphCommunity'})
+        CALL algo.louvain('KeywordPlus', 'CO_OCCURRED_WITH_UNWEIGHTED', {write:true, writeProperty:'keywordPlusSubGraphCommunity'})
+        YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis;
+
+## 4.2. Detecting communities in AuthorKeyword graph
+## 4.3. Detecting communities in Annotation graph
+## 4.4. Detecting communities in SubjectCategory graph
+## 4.5. Detecting communities in WosCategory graph
+**Stream** wosCategory communities using:
+
+        CALL algo.louvain.stream('SubjectCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {})
+        YIELD nodeId, community
+
+        MATCH (subjectCategory:SubjectCategoryGraphMainComponentNode) WHERE id(subjectCategory) = nodeId
+
+        RETURN subjectCategory.subjectCategory AS subjectCategory, community
+        ORDER BY community
+
+
+**Write** subjectCategory communities to nodes:
+
+        CALL algo.louvain('SubjectCategoryGraphMainComponentNode', 'CO_OCCURRED_WITH_UNWEIGHTED', {write:true, writeProperty:'subjectCategorySubGraphCommunity'})
         YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis;
 
 
 
+# 5. REFACTORING
 
-# 5 GRAPH VISUALIZATION
+## 5.1. Rename properties from 'n.n' format to 'n.name'
+
+### 5.1.1. Rename `keywordPlus` property to `name`
+
+Change `n.keywordPlus` to `n.name`:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:KeywordPlus) RETURN n",
+                "SET n.name = n.keywordPlus REMOVE n.keywordPlus", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Drop the old index on `n.keywordPlus`:
+
+        DROP INDEX ON :KeywordPlus(keywordPlus)
+
+Create new index on `n.name`:
+
+        CREATE INDEX ON :KeywordPlus(name)
+
+
+### 5.1.2. Rename `authorKeyword` property to `name`
+
+Change `n.authorKeyword` to `n.name`:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:AuthorKeyword) RETURN n",
+                "SET n.name = n.authorKeyword REMOVE n.authorKeyword", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Drop the old index on `n.authorKeyword`:
+
+        DROP INDEX ON :AuthorKeyword(authorKeyword)
+
+Create new index on `n.name`:
+
+        CREATE INDEX ON :AuthorKeyword(name)
+
+
+### 5.1.3.  Rename `annotation` property to `name`
+
+Change `n.annotation` to `n.name`:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:Annotation) RETURN n",
+                "SET n.name = n.annotation REMOVE n.annotation", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Drop the old index on `n.annotation`:
+
+        DROP INDEX ON :Annotation(annotation)
+
+Create new index on `n.name`:
+
+        CREATE INDEX ON :Annotation(name)
+
+
+### 5.1.4.  Rename `subjectCategory` property to `name`
+
+Change `n.subjectCategory` to `n.name`:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:SubjectCategory) RETURN n",
+                "SET n.name = n.subjectCategory REMOVE n.subjectCategory", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Drop the old index on `n.subjectCategory`:
+
+        DROP INDEX ON :SubjectCategory(subjectCategory)
+
+Create new index on `n.name`:
+
+        CREATE INDEX ON :SubjectCategory(name)
+
+
+### 5.1.5.  Rename `wosCategory` property to `name`
+
+Change `n.wosCategory` to `n.name`:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:WosCategory) RETURN n",
+                "SET n.name = n.wosCategory REMOVE n.wosCategory", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+Drop the old index on `n.wosCategory`:
+
+        DROP INDEX ON :WosCategory(wosCategory)
+
+Create new index on `n.name`:
+
+        CREATE INDEX ON :WosCategory(name)
+
+
+# 6. CONSTRUCTING THE MULTI-LEVEL TOPIC GRAPH
+
+## 6.1. Refactoring: Add `:Topic` label to all topic categories
+
+### 6.1.1. Add `:Topic` to KeywordPlus
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:KeywordPlus) RETURN n",
+                "SET n:Topic",
+                {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+### 6.1.2. Add `:Topic` to AuthorKeyword
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:AuthorKeyword) RETURN n",
+                "SET n:Topic",
+                {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+### 6.1.3. Add `:Topic` to Annotation
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:Annotation) RETURN n",
+                "SET n:Topic",
+                {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+### 6.1.4. Add `:Topic` to SubjectCategory
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:SubjectCategory) RETURN n",
+                "SET n:Topic",
+                {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+### 6.1.5. Add `:Topic` to WosCategory
+
+        CALL apoc.periodic.iterate(
+                "MATCH (n:WosCategory) RETURN n",
+                "SET n:Topic",
+                {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+## 6.2. Construct the multilevel topic graph
+
+## 6.2.1. Construct the *weighted* multi-level graph
+
+Create a weighted connecion between all topics (this is the first time inter-topic-level connections are being made)
+
+        CALL apoc.periodic.iterate(
+                "MATCH (topic1:Topic)-[]-(topic2:Topic) WHERE id(topic1) < id(topic2) RETURN topic1, topic2, count(*) as times",
+                "MERGE (topic1)-[coOccurredWith:CO_OCCURRED_WITH_MULTILEVEL]->(topic2) ON CREATE SET coOccurredWith.times = times ON MATCH SET coOccurredWith.times = coOccurredWith.times + times",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+
+## 6.2.1. Construct the *unweighted* multi-level graph 
+
+Create one relationship per connection within and between topic levels:
+
+        CALL apoc.periodic.iterate(
+                "MATCH (topic1:Topic)-[]-(topic2:Topic) WHERE id(topic1) < id(topic2) RETURN topic1, topic2, count(*) as times",
+                "FOREACH (i IN RANGE(1, times) | CREATE (topic1)-[:CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED]->(topic2)) ",
+                {batchSize:1000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+## 6.3. Map the components of the multi-level graph
+
+**Stream `Topic` graph components**:
+
+        CALL algo.unionFind.stream('Topic', 'CO_OCCURRED_WITH', {})
+        YIELD nodeId, setId
+        WITH nodeId, setId
+        MATCH (topic:Topic) WHERE id(topic) = nodeId
+        RETURN topic.name AS topic, setId
+        ORDER BY setId
+
+
+**Write `Topic` graph components** to nodes:
+
+        CALL algo.unionFind('Topic', 'CO_OCCURRED_WITH', {write:true, partitionProperty:'topicSubGraphComponent'})
+        YIELD nodes, setCount, loadMillis, computeMillis, writeMillis
+
+
+Get the `mainSetId` of the **main component**:
+
+        MATCH (topic:Topic)
+        UNWIND topic.topicSubGraphComponent as topicSubGraphComponent
+        WITH topicSubGraphComponent, COUNT(topic) as count
+        ORDER BY (count) DESC
+        RETURN topicSubGraphComponent, count
+        // for extracting the most common setId, uncomment the two lines below (and comment out the RETURN statement above)
+        // WITH apoc.agg.first(topicSubGraphComponent) as mainSetId
+        // RETURN mainSetId
+
+
+| topicSubGraphComponent | count  |
+| ---------------------- | -----  |
+| 176206	         | 167354 |
+| 325613	         | 155796 |
+| 276625	         | 100153 |
+
+The most frequent setIds are `176206`,`325613`, and `276625`.
+
+
+**Write `TopicGraphMainComponentOneNode`, label** to nodes in the main component:
+
+        CALL apoc.periodic.iterate(
+          "MATCH (topic:Topic) WHERE topic.topicSubGraphComponent = 176206 RETURN topic",
+          "SET topic:TopicGraphMainComponentOneNode", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+**Write `TopicGraphMainComponentTwoNode`, label** to nodes in the main component:
+
+        CALL apoc.periodic.iterate(
+          "MATCH (topic:Topic) WHERE topic.topicSubGraphComponent = 325613 RETURN topic",
+          "SET topic:TopicGraphMainComponentTwoNode", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+**Write `TopicGraphMainComponentThreeNode`, label** to nodes in the main component:
+
+        CALL apoc.periodic.iterate(
+          "MATCH (topic:Topic) WHERE topic.topicSubGraphComponent = 276625 RETURN topic",
+          "SET topic:TopicGraphMainComponentThreeNode", {batchSize:10000, iterateList:true}
+        )
+        YIELD batches, total, timeTaken
+        RETURN batches, total, timeTaken
+
+## 6.4. Calculate betweenness centralities for the three main components of the multi-topic graph
+
+### 3.5.1. Calculate betweenness centralities
+
+**Write betweenness centrality scores to `Topic`** nodes in `TopicGraphMainComponentOneNode` that connect via **`CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED`**:
+
+        CALL algo.betweenness('TopicGraphMainComponentOneNode', 'CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedTopicGraphComponentOneBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+**Write betweenness centrality scores to `Topic`** nodes in `TopicGraphMainComponentTwoNode` that connect via **`CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED`**:
+
+        CALL algo.betweenness('TopicGraphMainComponentTwoNode', 'CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedTopicGraphComponentTwoBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+
+**Write betweenness centrality scores to `Topic`** nodes in `TopicGraphMainComponentThreeNode` that connect via **`CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED`**:
+
+        CALL algo.betweenness('TopicGraphMainComponentThreeNode', 'CO_OCCURRED_WITH_MULTILEVEL_UNWEIGHTED', {direction:'both', write:true, writeProperty:'unweightedTopicGraphComponentThreeBetweennessCentrality'})
+        YIELD nodes, minCentrality, maxCentrality, sumCentrality, loadMillis, computeMillis, writeMillis
+
+
+### TODO ###
+### 3.5.2. Normalize betweenness centralities
+
+#### 3.5.2.0. Preview the operation
+
+**Stream normalized** `unweightedTopicGraphComponentOneBetweennessCentrality` scores (for testing, only for Main Component One):
+
+        MATCH(n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentOneBetweennessCentrality)
+	WITH COLLECT (n.unweightedTopicGraphComponentOneBetweennessCentrality) as absoluteCentralities, max(n.unweightedTopicGraphComponentOneBetweennessCentrality) as maxCentrality, min(n.unweightedTopicGraphComponentOneBetweennessCentrality) as minCentrality
+	UNWIND absoluteCentralities AS eachAbsoluteCentrality
+	RETURN (eachAbsoluteCentrality - minCentrality) / (maxCentrality - minCentrality) AS normalizedBetweennessCentrality, eachAbsoluteCentrality AS absoluteBetweennessCentrality
+	ORDER BY normalizedBetweennessCentrality DESC
+
+
+#### 3.5.2.1. Normalize main component one betweenness centralities 
+
+Get **minimum and maximum centralities** for *main component one*:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentOneBetweennessCentrality)
+        UNWIND (n.unweightedTopicGraphComponentOneBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | XXXXXXXXXXXXXXX     |
+
+**Write normalized** `unweightedTopicGraphComponentOneBetweennessCentrality` scores to nodes:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentOneBetweennessCentrality)
+	SET n.normalizedUnweightedTopicGraphComponentOneBetweennessCentrality = (n.unweightedTopicGraphComponentOneBetweennessCentrality - 0) / (XXXXXXXXXXXXXXX - 0)        
+
+
+#### 3.5.2.2. Normalize main component two betweenness centralities
+
+Get **minimum and maximum centralities** for `*main component two*:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentTwoBetweennessCentrality)
+        UNWIND (n.unweightedTopicGraphComponentTwoBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | XXXXXXXXXXXXXXX     |
+
+**Write normalized** `unweightedTopicGraphComponentTwoBetweennessCentrality` scores to nodes:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentTwoBetweennessCentrality)
+	SET n.normalizedUnweightedTopicGraphComponentTwoBetweennessCentrality = (n.unweightedTopicGraphComponentTwoBetweennessCentrality - 0) / (XXXXXXXXXXXXXXX - 0)        
+
+
+#### 3.5.2.3. Normalize main component three betweenness centralities
+
+Get **minimum and maximum centralities** for *main component three*:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentThreeBetweennessCentrality)
+        UNWIND (n.unweightedTopicGraphComponentThreeBetweennessCentrality) as centralitiesList
+	RETURN min(centralitiesList), max(centralitiesList)
+
+This query returns:
+
+| min(centralitiesList) | max(centralitiesList) |
+|-----------------------|-----------------------|
+| 0.0                   | XXXXXXXXXXXXXXX     |
+
+**Write normalized** `unweightedTopicGraphComponentThreeBetweennessCentrality` scores to nodes:
+
+        MATCH (n:Topic)
+	WHERE EXISTS (n.unweightedTopicGraphComponentThreeBetweennessCentrality)
+	SET n.normalizedUnweightedTopicGraphComponentThreeBetweennessCentrality = (n.unweightedTopicGraphComponentThreeBetweennessCentrality - 0) / (XXXXXXXXXXXXXXX - 0)        
+
+
+
+
+
+# 7. GRAPH VISUALIZATION
 
 ## A. Gephi graph streaming
 https://secdiary.com/streaming-data-from-neo4j-to-gephi/
@@ -797,6 +1180,62 @@ https://github.com/neo4j-contrib/neovis.js
         WHERE EXISTS (n.unweightedWosCategoryGraphBetweennessCentrality)
         RETURN n.wosCategory, n.wosCategoryGraphBetweennessCentrality, n.unweightedWosCategoryGraphBetweennessCentrality , n.normalizedUnweightedWosCategoryGraphBetweennessCentrality
         ORDER BY n.normalizedUnweightedWosCategoryGraphBetweennessCentrality
+
+
+## 7.1. Stream `keywordPlus` graph to Gephi
+
+Stream to Gephi:
+
+        MATCH path = (:KeywordPlusGraphMainComponentNode)-[:CO_OCCURRED_WITH]->(:KeywordPlusGraphMainComponentNode)
+        CALL apoc.gephi.add('http://localhost:8080', 'workspace1', path, 'times', ['keywordPlus', 'normalizedUnweightedKeywordPlusGraphBetweennessCentrality']) yield nodes
+        RETURN *
+
+
+## 7.2. Stream `authorKeyword` graph to Gephi
+
+Stream to Gephi:
+
+        MATCH path = (:AuthorKeywordGraphMainComponentNode)-[:CO_OCCURRED_WITH]->(:AuthorKeywordGraphMainComponentNode)
+        CALL apoc.gephi.add('http://localhost:8080', 'workspace1', path, 'times', ['authorKeyword', 'normalizedUnweightedAuthorKeywordGraphBetweennessCentrality']) yield nodes
+        RETURN *
+
+
+## 7.3. Stream `annotation` graph to Gephi
+
+Stream to Gephi:
+
+        MATCH path = (:AnnotationGraphMainComponentNode)-[:CO_OCCURRED_WITH]->(:AnnotationGraphMainComponentNode)
+        CALL apoc.gephi.add('http://localhost:8080', 'workspace1', path, 'times', ['annotation', 'normalizedUnweightedAnnotationGraphBetweennessCentrality']) yield nodes
+        RETURN *    
+
+
+## 7.4. Stream `subjectCategory` graph to Gephi
+
+Stream to Gephi:
+
+        MATCH path = (:SubjectCategoryGraphMainComponentNode)-[:CO_OCCURRED_WITH]->(:SubjectCategoryGraphMainComponentNode)
+        CALL apoc.gephi.add('http://localhost:8080', 'workspace1', path, 'times', ['subjectCategory', 'normalizedUnweightedSubjectCategoryGraphBetweennessCentrality']) yield nodes
+        RETURN *
+
+
+## 7.5. Stream `wosCategory` graph to Gephi
+
+Stream to Gephi:
+
+        MATCH path = (:WosCategoryGraphMainComponentNode)-[:CO_OCCURRED_WITH]->(:WosCategoryGraphMainComponentNode)
+        CALL apoc.gephi.add('http://localhost:8080', 'workspace1', path, 'times', ['wosCategory', 'normalizedUnweightedWosCategoryGraphBetweennessCentrality']) yield nodes
+        RETURN *
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- 
 
